@@ -2,10 +2,19 @@
 #define INCLUDE_INSTRUCTIONS_H_
 
 #include <cstdint>
+#include <string>
 
 namespace mixal {
 
-enum class Instructions {
+class Instructions {
+ public:
+    enum Codes {
+        INVALID = -1,
+        NOP = 0,  // No operation
+        LDA = 8,
+    };
+
+    static Instructions::Codes getInstruction(const std::string& name);
 };
 
 struct InstructionWord {

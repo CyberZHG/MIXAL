@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 cpplint --linelength=120 --filter=-build/include_subdir,-legal/copyright include/*.h src/*.cpp tests/cpp/*.cpp && \
     (cd tests/cpp && \
-        rm -rf coverage && \
+        find . -name "*.gcda" -delete && \
         cmake . && \
         make all && \
         ./test && \

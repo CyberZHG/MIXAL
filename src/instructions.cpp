@@ -1,0 +1,27 @@
+#include "instructions.h"
+
+mixal::Instructions::Codes mixal::Instructions::getInstruction(const std::string& name) {
+    switch (std::toupper(name[0])) {
+    case 'L':
+        switch (std::toupper(name[1])) {
+        case 'D':
+            switch (std::toupper(name[2])) {
+            case 'A':
+                return Instructions::LDA;
+            }
+            break;
+        }
+        break;
+    case 'N':
+        switch (std::toupper(name[1])) {
+        case 'O':
+            switch (std::toupper(name[2])) {
+            case 'P':
+                return Instructions::NOP;
+            }
+            break;
+        }
+        break;
+    }
+    return Instructions::INVALID;
+}
