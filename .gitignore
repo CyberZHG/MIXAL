@@ -108,3 +108,14 @@ venv.bak/
 
 # IDE
 .idea
+.vscode
+
+# CMake
+CMakeFiles
+*.cmake
+CMakeCache.txt
+Makefile
+
+# Test
+tests/cpp/test
+tests/cpp/coverage

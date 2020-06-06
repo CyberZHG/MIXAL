@@ -1,0 +1,3 @@
+[submodule "deps/CppTesting"]
+	path = deps/CppTesting
+	url = https://github.com/CyberZHG/CppTesting.git
