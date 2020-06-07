@@ -35,6 +35,8 @@ class Parser {
         std::string address;
         InstructionWord word;
         std::string comment;
+
+        ParsedResult() : parsedType(EMPTY), location(), operation(), address(), word(), comment() {}
     };
 
     static ParsedResult parseLine(const std::string& line, bool hasLocation = true);
