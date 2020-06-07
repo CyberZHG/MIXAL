@@ -8,13 +8,13 @@ namespace mixal {
 
 class Instructions {
  public:
-    enum Codes {
+    enum Code {
         INVALID = -1,
         NOP = 0,  // No operation
         LDA = 8,
     };
 
-    static Instructions::Codes getInstruction(const std::string& name);
+    static Instructions::Code getInstructionCode(const std::string& name);
 };
 
 struct InstructionWord {
@@ -26,6 +26,8 @@ struct InstructionWord {
     uint8_t index : 6;
     uint8_t modification : 6;
     uint8_t operation : 6;
+
+    InstructionWord() : address(0), index(0), modification(5), operation() {}
 };
 
 };  // namespace mixal

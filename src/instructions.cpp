@@ -1,6 +1,6 @@
 #include "instructions.h"
 
-mixal::Instructions::Codes mixal::Instructions::getInstruction(const std::string& name) {
+mixal::Instructions::Code mixal::Instructions::getInstructionCode(const std::string& name) {
     switch (std::toupper(name[0])) {
     case 'L':
         switch (std::toupper(name[1])) {

@@ -10,14 +10,14 @@ __TEST_U(TestInstructions, test_word_length) {
 }
 
 __TEST_U(TestInstructions, test_get_invalid_instruction) {
-    __ASSERT_EQ(mixal::Instructions::Codes::INVALID, mixal::Instructions::getInstruction(""));
-    __ASSERT_EQ(mixal::Instructions::Codes::INVALID, mixal::Instructions::getInstruction("LD"));
-    __ASSERT_EQ(mixal::Instructions::Codes::INVALID, mixal::Instructions::getInstruction("LDP"));
+    __ASSERT_EQ(mixal::Instructions::Code::INVALID, mixal::Instructions::getInstructionCode(""));
+    __ASSERT_EQ(mixal::Instructions::Code::INVALID, mixal::Instructions::getInstructionCode("LD"));
+    __ASSERT_EQ(mixal::Instructions::Code::INVALID, mixal::Instructions::getInstructionCode("LDP"));
 }
 
 __TEST_U(TestInstructions, test_get_instructions) {
-    __ASSERT_EQ(mixal::Instructions::Codes::NOP, mixal::Instructions::getInstruction("NOP"));
-    __ASSERT_EQ(mixal::Instructions::Codes::LDA, mixal::Instructions::getInstruction("LDA"));
+    __ASSERT_EQ(mixal::Instructions::Code::NOP, mixal::Instructions::getInstructionCode("NOP"));
+    __ASSERT_EQ(mixal::Instructions::Code::LDA, mixal::Instructions::getInstructionCode("LDA"));
 }
 
 }  // namespace test
