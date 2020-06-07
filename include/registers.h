@@ -1,6 +1,9 @@
 #ifndef INCLUDE_REGISTERS_H_
 #define INCLUDE_REGISTERS_H_
 
+#include <cstdint>
+#include "memory.h"
+
 namespace mixal {
 
 enum class Registers {
@@ -10,7 +13,23 @@ enum class Registers {
     J,  // Jump address
 };
 
-class Register {
+using Register5 = ComputerWord;
+
+union Register2 {
+    struct {
+        int16_t word;
+    };
+    struct {
+        int16_t sign : 2;
+        int8_t byte1 : 6;
+        int8_t byte2 : 6;
+    };
+
+    Register2() : word() {}
+
+    inline void reset() {
+        word = 0;
+    }
 };
 
 };  // namespace mixal
