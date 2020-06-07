@@ -7,8 +7,5 @@ int main() {
     framework->runTests();
     framework->print();
     framework->finish();
-    if (framework->isTestFailed()) {
-        return -1;
-    }
-    return 0;
+    return framework->isTestFailed() ? -1 : 0;
 }

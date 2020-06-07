@@ -12,6 +12,7 @@ enum class ParseState {
     BEFORE_OP,
     OP,
     BEFORE_ADDRESS,
+    NUMERICAL_ADDRESS_NEGATIVE,
     NUMERICAL_ADDRESS,
     BEFORE_INDEX,
     INDEX,
@@ -25,6 +26,7 @@ enum class ParseState {
     END,
 };
 
+#ifdef __DEBUG__
 std::ostream& operator<<(std::ostream& os, ParseState c) {
     switch (c) {
     case ParseState::START: os << "START"; break;
@@ -32,6 +34,7 @@ std::ostream& operator<<(std::ostream& os, ParseState c) {
     case ParseState::BEFORE_OP: os << "BEFORE_OP"; break;
     case ParseState::OP: os << "OP"; break;
     case ParseState::BEFORE_ADDRESS: os << "BEFORE_ADDRESS"; break;
+    case ParseState::NUMERICAL_ADDRESS_NEGATIVE: os << "NUMERICAL_ADDRESS_NEGATIVE"; break;
     case ParseState::NUMERICAL_ADDRESS: os << "NUMERICAL_ADDRESS"; break;
     case ParseState::BEFORE_INDEX: os << "BEFORE_INDEX"; break;
     case ParseState::INDEX: os << "INDEX"; break;
@@ -46,6 +49,7 @@ std::ostream& operator<<(std::ostream& os, ParseState c) {
     }
     return os;
 }
+#endif  // __DEBUG__
 
 inline bool isDigit(char ch) {
     return ('0' <= ch && ch <= '9');
@@ -57,10 +61,15 @@ inline bool isAlpha(char ch) {
 
 int subStr2Decimal(const std::string& s, int start, int stop) {
     int decimal = 0;
+    bool negative = false;
+    if (s[start] == '-') {
+        negative = true;
+        ++start;
+    }
     for (int i = start; i < stop; ++i) {
         decimal = decimal * 10 + static_cast<int>(s[i] - '0');
     }
-    return decimal;
+    return negative ? -decimal : decimal;
 }
 
 Parser::ParsedResult Parser::parseLine(const std::string& line, bool hasLocation) {
@@ -69,7 +78,7 @@ Parser::ParsedResult Parser::parseLine(const std::string& line, bool hasLocation
     ParsedResult result;
     result.parsedType = ParsedType::INSTRUCTION;
     auto state = hasLocation ? ParseState::START : ParseState::BEFORE_OP;
-    int locatonStart = INIT_INDEX,
+    int locationStart = INIT_INDEX,
         operationStart = INIT_INDEX,
         addressStart = INIT_INDEX,
         indexStart = INIT_INDEX,
@@ -77,7 +86,6 @@ Parser::ParsedResult Parser::parseLine(const std::string& line, bool hasLocation
         commentStart = INIT_INDEX;
     for (int i = 0; i <= static_cast<int>(line.size()); ++i) {
         char ch = i < static_cast<int>(line.size()) ? line[i] : END_CHAR;
-        std::cout << i << " " << ch << " " << state << std::endl;
         switch (state) {
         case ParseState::START:
             if (ch == ' ') {
@@ -88,16 +96,22 @@ Parser::ParsedResult Parser::parseLine(const std::string& line, bool hasLocation
                 commentStart = i;
             } else {
                 state = ParseState::LOC;
-                locatonStart = i;
+                locationStart = i;
             }
             break;
         case ParseState::LOC:
+            if (ch == ' ') {
+                state = ParseState::BEFORE_OP;
+                result.location = line.substr(locationStart, i - locationStart);
+            } else if (!isAlpha(ch)) {
+                throw ParseError(i, "Unexpected character encountered while parsing location");
+            }
             break;
         case ParseState::BEFORE_OP:
             if (ch == ' ') {
                 continue;
             } else if (ch == END_CHAR) {
-                if (locatonStart != INIT_INDEX) {
+                if (locationStart != INIT_INDEX) {
                     throw ParseError(i, "No operation found after location");
                 }
                 state = ParseState::END;
@@ -110,12 +124,15 @@ Parser::ParsedResult Parser::parseLine(const std::string& line, bool hasLocation
             }
             break;
         case ParseState::OP:
-            if (ch == ' ') {
-                state = ParseState::BEFORE_ADDRESS;
+            if (ch == ' ' || ch == END_CHAR) {
+                if (ch == ' ') {
+                    state = ParseState::BEFORE_ADDRESS;
+                } else {
+                    state = ParseState::END;
+                }
                 result.operation = line.substr(operationStart, i - operationStart);
                 result.word.operation = static_cast<int>(Instructions::getInstructionCode(result.operation));
-            } else if (isAlpha(ch)) {
-            } else {
+            } else if (!isAlpha(ch)) {
                 throw ParseError(i, "Unexpected character encountered while parsing operation");
             }
             break;
@@ -123,12 +140,24 @@ Parser::ParsedResult Parser::parseLine(const std::string& line, bool hasLocation
             if (ch == ' ') {
                 continue;
             } else if (ch == END_CHAR) {
-                throw ParseError(i, "No address found after operation");
+                state = ParseState::END;
             } else if (isDigit(ch)) {
                 state = ParseState::NUMERICAL_ADDRESS;
                 addressStart = i;
+            } else if (ch == '-') {
+                state = ParseState::NUMERICAL_ADDRESS_NEGATIVE;
+                addressStart = i;
             } else {
                 throw ParseError(i, "Unexpected character encountered while finding address");
+            }
+            break;
+        case ParseState::NUMERICAL_ADDRESS_NEGATIVE:
+            if (ch == END_CHAR) {
+                throw ParseError(i, "No valid address found after operation");
+            } else if (isDigit(ch)) {
+                state = ParseState::NUMERICAL_ADDRESS;
+            } else {
+                throw ParseError(i, "Unexpected character encountered while parsing address");
             }
             break;
         case ParseState::NUMERICAL_ADDRESS:
@@ -146,9 +175,8 @@ Parser::ParsedResult Parser::parseLine(const std::string& line, bool hasLocation
                     result.address = line.substr(addressStart, i - addressStart);
                 }
                 result.word.address = subStr2Decimal(line, addressStart, i);
-            } else if (isDigit(ch)) {
-            } else {
-                throw ParseError(i, "Unexpected character encountered while parsing digital address");
+            } else if (!isDigit(ch)) {
+                throw ParseError(i, "Unexpected character encountered while parsing numeric address");
             }
             break;
         case ParseState::BEFORE_INDEX:
@@ -174,9 +202,8 @@ Parser::ParsedResult Parser::parseLine(const std::string& line, bool hasLocation
                     result.address = line.substr(addressStart, i - addressStart);
                 }
                 result.word.index = subStr2Decimal(line, indexStart, i);
-            } else if (isDigit(ch)) {
-            } else {
-                throw ParseError(i, "Unexpected character encountered while parsing digital address");
+            } else if (!isDigit(ch)) {
+                throw ParseError(i, "Unexpected character encountered while parsing index");
             }
             break;
         case ParseState::MOD_OPEN:
@@ -237,7 +264,7 @@ Parser::ParsedResult Parser::parseLine(const std::string& line, bool hasLocation
             }
             break;
         case ParseState::END:
-            break;
+            assert(false);
         }
     }
     assert(state == ParseState::END);
