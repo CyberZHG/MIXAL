@@ -35,4 +35,10 @@ void Register2::set(int index, int8_t val) {
     }
 }
 
+void Register2::set(int16_t sign, int8_t byte1, int8_t byte2) {
+    this->sign = sign;
+    this->byte1 = byte1;
+    this->byte2 = byte2;
+}
+
 };  // namespace mixal

@@ -123,6 +123,62 @@ mixal::Instructions::Code mixal::Instructions::getInstructionCode(const std::str
             break;
         }
         break;
+    case 'S':
+        switch (charAt(1)) {
+        case 'T':
+            switch (charAt(2)) {
+            case '1':
+                switch (charAt(3)) {
+                case '#':
+                    return Instructions::ST1;
+                }
+                break;
+            case '2':
+                switch (charAt(3)) {
+                case '#':
+                    return Instructions::ST2;
+                }
+                break;
+            case '3':
+                switch (charAt(3)) {
+                case '#':
+                    return Instructions::ST3;
+                }
+                break;
+            case '4':
+                switch (charAt(3)) {
+                case '#':
+                    return Instructions::ST4;
+                }
+                break;
+            case '5':
+                switch (charAt(3)) {
+                case '#':
+                    return Instructions::ST5;
+                }
+                break;
+            case '6':
+                switch (charAt(3)) {
+                case '#':
+                    return Instructions::ST6;
+                }
+                break;
+            case 'A':
+                switch (charAt(3)) {
+                case '#':
+                    return Instructions::STA;
+                }
+                break;
+            case 'X':
+                switch (charAt(3)) {
+                case '#':
+                    return Instructions::STX;
+                }
+                break;
+            }
+            break;
+        }
+        break;
     }
     return Instructions::INVALID;
 }

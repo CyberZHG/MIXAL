@@ -41,6 +41,7 @@ class Machine {
  private:
     int getIndexedAddress(const InstructionWord& instruction);
     void copyToRegister5(const InstructionWord& instruction, const ComputerWord& word, Register5* reg);
+    void copyFromRegister5(const InstructionWord& instruction, const Register5& reg, ComputerWord* word);
     void copyToRegister2(const InstructionWord& instruction, const ComputerWord& word, Register2* reg);
 
     void executeLDA(const InstructionWord& instruction);
@@ -49,6 +50,9 @@ class Machine {
     void executeLDAN(const InstructionWord& instruction);
     void executeLDiN(const InstructionWord& instruction);
     void executeLDXN(const InstructionWord& instruction);
+    void executeSTA(const InstructionWord& instruction);
+    void executeSTi(const InstructionWord& instruction);
+    void executeSTX(const InstructionWord& instruction);
 };
 
 };  // namespace mixal

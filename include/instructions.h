@@ -27,6 +27,14 @@ class Instructions {
         LD5N = 21,
         LD6N = 22,
         LDXN = 23,
+        STA = 24,
+        ST1 = 25,
+        ST2 = 26,
+        ST3 = 27,
+        ST4 = 28,
+        ST5 = 29,
+        ST6 = 30,
+        STX = 31,
     };
 
     static Instructions::Code getInstructionCode(const std::string& name);

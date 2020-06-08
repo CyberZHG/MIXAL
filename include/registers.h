@@ -36,6 +36,7 @@ union Register2 {
     int16_t value() const;
 
     void set(int index, int8_t val);
+    void set(int16_t sign, int8_t byte1, int8_t byte2);
 };
 
 };  // namespace mixal

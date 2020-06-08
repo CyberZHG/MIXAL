@@ -48,6 +48,20 @@ void Machine::executeSingle(const InstructionWord& instruction) {
     case Instructions::LDXN:
         executeLDXN(instruction);
         break;
+    case Instructions::STA:
+        executeSTA(instruction);
+        break;
+    case Instructions::ST1:
+    case Instructions::ST2:
+    case Instructions::ST3:
+    case Instructions::ST4:
+    case Instructions::ST5:
+    case Instructions::ST6:
+        executeSTi(instruction);
+        break;
+    case Instructions::STX:
+        executeSTX(instruction);
+        break;
     default:
         break;
     }
@@ -75,6 +89,18 @@ void Machine::copyToRegister5(const InstructionWord& instruction, const Computer
     }
 }
 
+void Machine::copyFromRegister5(const InstructionWord& instruction, const Register5& reg, ComputerWord* word) {
+    int start = instruction.modification / 8;
+    int stop = instruction.modification % 8;
+    if (start == 0) {
+        word->sign = reg.sign;
+        ++start;
+    }
+    for (int i = stop, j = 5; i >= start; --i, --j) {
+        word->set(i, reg[j]);
+    }
+}
+
 void Machine::copyToRegister2(const InstructionWord& instruction, const ComputerWord& word, Register2* reg) {
     int start = instruction.modification / 8;
     int stop = instruction.modification % 8;
@@ -90,7 +116,6 @@ void Machine::copyToRegister2(const InstructionWord& instruction, const Computer
 
 void Machine::executeLDA(const InstructionWord& instruction) {
     int address = getIndexedAddress(instruction);
-    rA.reset();
     copyToRegister5(instruction, memory[address], &rA);
 }
 
@@ -98,13 +123,11 @@ void Machine::executeLDi(const InstructionWord& instruction) {
     int address = getIndexedAddress(instruction);
     int registerIndex = instruction.operation - Instructions::LD1;
     auto& rIi = rI[registerIndex];
-    rIi.reset();
     copyToRegister2(instruction, memory[address], &rIi);
 }
 
 void Machine::executeLDX(const InstructionWord& instruction) {
     int address = getIndexedAddress(instruction);
-    rX.reset();
     copyToRegister5(instruction, memory[address], &rX);
 }
 
@@ -117,7 +140,6 @@ void Machine::executeLDiN(const InstructionWord& instruction) {
     int address = getIndexedAddress(instruction);
     int registerIndex = instruction.operation - Instructions::LD1N;
     auto& rIi = rI[registerIndex];
-    rIi.reset();
     copyToRegister2(instruction, memory[address], &rIi);
     rIi.sign = 1 - rIi.sign;
 }
@@ -127,5 +149,23 @@ void Machine::executeLDXN(const InstructionWord& instruction) {
     rX.sign = 1 - rX.sign;
 }
 
+void Machine::executeSTA(const InstructionWord& instruction) {
+    int address = getIndexedAddress(instruction);
+    copyFromRegister5(instruction, rA, &memory[address]);
+}
+
+void Machine::executeSTi(const InstructionWord& instruction) {
+    int address = getIndexedAddress(instruction);
+    int registerIndex = instruction.operation - Instructions::ST1;
+    auto& rIi = rI[registerIndex];
+    ComputerWord word;
+    word.set(rIi.sign, 0, 0, 0, rIi[1], rIi[2]);
+    copyFromRegister5(instruction, word, &memory[address]);
+}
+
+void Machine::executeSTX(const InstructionWord& instruction) {
+    int address = getIndexedAddress(instruction);
+    copyFromRegister5(instruction, rX, &memory[address]);
+}
 
 };  // namespace mixal

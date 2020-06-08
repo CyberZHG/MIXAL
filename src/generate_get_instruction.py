@@ -16,6 +16,14 @@ OPS = [
     'LD5N',
     'LD6N',
     'LDXN',
+    'STA',
+    'ST1',
+    'ST2',
+    'ST3',
+    'ST4',
+    'ST5',
+    'ST6',
+    'STX',
 ]
 
 
