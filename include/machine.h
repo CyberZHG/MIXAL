@@ -41,8 +41,10 @@ class Machine {
  private:
     int getIndexedAddress(const InstructionWord& instruction);
     void copyToRegister5(const InstructionWord& instruction, const ComputerWord& word, Register5* reg);
+    void copyToRegister2(const InstructionWord& instruction, const ComputerWord& word, Register2* reg);
 
     void executeLDA(const InstructionWord& instruction);
+    void executeLDi(const InstructionWord& instruction);
     void executeLDX(const InstructionWord& instruction);
 };
 

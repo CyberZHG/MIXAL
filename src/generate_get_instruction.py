@@ -1,6 +1,12 @@
 OPS = [
     'NOP',
     'LDA',
+    'LD1',
+    'LD2',
+    'LD3',
+    'LD4',
+    'LD5',
+    'LD6',
     'LDX',
 ]
 
@@ -8,28 +14,24 @@ OPS = [
 class Trie(object):
 
     def __init__(self):
-        self.head = [None] * 26
+        self.head = {}
 
     def add_word(self, word):
         head = self.head
         for ch in word:
-            ch = ord(ch) - ord('A')
-            if head[ch] is None:
-                head[ch] = [None] * 26
+            if ch not in head:
+                head[ch] = {}
             head = head[ch]
 
     def print_cases(self):
         def _print(head, indent, index, word):
-            if all(map(lambda x: x is None, head)):
+            if len(head) == 0:
                 print(' ' * indent + 'return Instructions::{};'.format(word))
                 return False
             print(' ' * indent + 'switch (std::toupper(name[{}])) {{'.format(index))
-            for i in range(len(head)):
-                if head[i] is None:
-                    continue
-                ch = chr(i + ord('A'))
+            for ch in sorted(head.keys()):
                 print(' ' * indent + 'case \'{}\':'.format(ch))
-                if _print(head[i], indent + 4, index + 1, word + ch):
+                if _print(head[ch], indent + 4, index + 1, word + ch):
                     print(' ' * (indent + 4) + 'break;')
             print(' ' * indent + '}')
             return True

@@ -107,7 +107,9 @@ __TEST_U(TestMachineLoad, test_lda_1_to_1) {
 
 __TEST_U(TestMachineLoad, test_lda_all_with_offset) {
     auto result = mixal::Parser::parseLine("LDA 2003,1", false);
-    machine.rI1().word = -3;
+    machine.rI1().sign = 1;
+    machine.rI1().set(1, 0);
+    machine.rI1().set(2, 3);
     initMemory2000();
     machine.executeSingle(result.word);
     __ASSERT_EQ(1, machine.rA.sign);
@@ -115,6 +117,60 @@ __TEST_U(TestMachineLoad, test_lda_all_with_offset) {
     __ASSERT_EQ(3, machine.rA[3]);
     __ASSERT_EQ(5, machine.rA[4]);
     __ASSERT_EQ(4, machine.rA[5]);
+}
+
+__TEST_U(TestMachineLoad, test_ld1) {
+    auto result = mixal::Parser::parseLine("LD1 2000(0:2)", false);
+    initMemory2000();
+    machine.executeSingle(result.word);
+    __ASSERT_EQ(1, machine.rI1().sign);
+    __ASSERT_EQ(80, machine.rI1().bytes12());
+    __ASSERT_EQ(-80, machine.rI1().value());
+}
+
+__TEST_U(TestMachineLoad, test_ld2) {
+    auto result = mixal::Parser::parseLine("LD2 2000(1:2)", false);
+    initMemory2000();
+    machine.executeSingle(result.word);
+    __ASSERT_EQ(0, machine.rI2().sign);
+    __ASSERT_EQ(80, machine.rI2().bytes12());
+    __ASSERT_EQ(80, machine.rI2().value());
+}
+
+__TEST_U(TestMachineLoad, test_ld3) {
+    auto result = mixal::Parser::parseLine("LD3 2000(3:4)", false);
+    initMemory2000();
+    machine.executeSingle(result.word);
+    __ASSERT_EQ(0, machine.rI3().sign);
+    __ASSERT_EQ(3, machine.rI3()[1]);
+    __ASSERT_EQ(5, machine.rI3()[2]);
+}
+
+__TEST_U(TestMachineLoad, test_ld4) {
+    auto result = mixal::Parser::parseLine("LD4 2000(4:5)", false);
+    initMemory2000();
+    machine.executeSingle(result.word);
+    __ASSERT_EQ(0, machine.rI4().sign);
+    __ASSERT_EQ(5, machine.rI4()[1]);
+    __ASSERT_EQ(4, machine.rI4()[2]);
+}
+
+__TEST_U(TestMachineLoad, test_ld5) {
+    auto result = mixal::Parser::parseLine("LD5 2000(4:4)", false);
+    initMemory2000();
+    machine.executeSingle(result.word);
+    __ASSERT_EQ(0, machine.rI5().sign);
+    __ASSERT_EQ(0, machine.rI5()[1]);
+    __ASSERT_EQ(5, machine.rI5()[2]);
+}
+
+__TEST_U(TestMachineLoad, test_ld6) {
+    auto result = mixal::Parser::parseLine("LD6 2000(0:0)", false);
+    initMemory2000();
+    machine.executeSingle(result.word);
+    __ASSERT_EQ(1, machine.rI6().sign);
+    __ASSERT_EQ(0, machine.rI6()[1]);
+    __ASSERT_EQ(0, machine.rI6()[2]);
 }
 
 __TEST_U(TestMachineLoad, test_ldx_all) {

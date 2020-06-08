@@ -30,6 +30,12 @@ union Register2 {
     inline void reset() {
         word = 0;
     }
+
+    int8_t operator[](int index) const;
+    int16_t bytes12() const;
+    int16_t value() const;
+
+    void set(int index, int8_t val);
 };
 
 };  // namespace mixal

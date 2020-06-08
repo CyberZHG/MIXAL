@@ -12,6 +12,12 @@ class Instructions {
         INVALID = -1,
         NOP = 0,  // No operation
         LDA = 8,
+        LD1 = 9,
+        LD2 = 10,
+        LD3 = 11,
+        LD4 = 12,
+        LD5 = 13,
+        LD6 = 14,
         LDX = 15,
     };
 
