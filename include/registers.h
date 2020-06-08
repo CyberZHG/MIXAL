@@ -27,9 +27,7 @@ union Register2 {
 
     Register2() : word() {}
 
-    inline void reset() {
-        word = 0;
-    }
+    inline void reset() { sign = byte1 = byte2 = 0; }
 
     int8_t operator[](int index) const;
     int16_t bytes12() const;

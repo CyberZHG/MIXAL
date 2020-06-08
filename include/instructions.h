@@ -35,6 +35,8 @@ class Instructions {
         ST5 = 29,
         ST6 = 30,
         STX = 31,
+        STJ = 32,
+        STZ = 33,
     };
 
     static Instructions::Code getInstructionCode(const std::string& name);

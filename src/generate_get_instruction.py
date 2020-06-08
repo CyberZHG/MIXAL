@@ -24,6 +24,8 @@ OPS = [
     'ST5',
     'ST6',
     'STX',
+    'STJ',
+    'STZ',
 ]
 
 

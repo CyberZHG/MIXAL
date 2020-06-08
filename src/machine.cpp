@@ -1,4 +1,3 @@
-#include <cstring>
 #include <iostream>
 #include "machine.h"
 
@@ -7,13 +6,15 @@ namespace mixal {
 void Machine::reset() {
     rA.reset();
     rX.reset();
-    for (int i = 0; i < 6; ++i) {
+    for (int i = 0; i < NUM_INDEX_REGISTER; ++i) {
         rI[i].reset();
     }
     rJ.reset();
     overflow = false;
     comparison = ComparisonIndicator::EQUAL;
-    memset(memory, 0, sizeof(memory));
+    for (int i = 0; i < NUM_MEMORY; ++i) {
+        memory[i].reset();
+    }
 }
 
 void Machine::executeSingle(const InstructionWord& instruction) {
@@ -61,6 +62,12 @@ void Machine::executeSingle(const InstructionWord& instruction) {
         break;
     case Instructions::STX:
         executeSTX(instruction);
+        break;
+    case Instructions::STJ:
+        executeSTJ(instruction);
+        break;
+    case Instructions::STZ:
+        executeSTZ(instruction);
         break;
     default:
         break;
@@ -166,6 +173,20 @@ void Machine::executeSTi(const InstructionWord& instruction) {
 void Machine::executeSTX(const InstructionWord& instruction) {
     int address = getIndexedAddress(instruction);
     copyFromRegister5(instruction, rX, &memory[address]);
+}
+
+void Machine::executeSTJ(const InstructionWord& instruction) {
+    int address = getIndexedAddress(instruction);
+    ComputerWord word;
+    word.set(0, 0, 0, 0, rJ[1], rJ[2]);
+    copyFromRegister5(instruction, word, &memory[address]);
+}
+
+void Machine::executeSTZ(const InstructionWord& instruction) {
+    int address = getIndexedAddress(instruction);
+    ComputerWord word;
+    word.set(0, 0, 0, 0, 0, 0);
+    copyFromRegister5(instruction, word, &memory[address]);
 }
 
 };  // namespace mixal

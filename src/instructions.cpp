@@ -169,10 +169,22 @@ mixal::Instructions::Code mixal::Instructions::getInstructionCode(const std::str
                     return Instructions::STA;
                 }
                 break;
+            case 'J':
+                switch (charAt(3)) {
+                case '#':
+                    return Instructions::STJ;
+                }
+                break;
             case 'X':
                 switch (charAt(3)) {
                 case '#':
                     return Instructions::STX;
+                }
+                break;
+            case 'Z':
+                switch (charAt(3)) {
+                case '#':
+                    return Instructions::STZ;
                 }
                 break;
             }

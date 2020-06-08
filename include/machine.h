@@ -10,13 +10,16 @@ namespace mixal {
 
 class Machine {
  public:
+    static const int NUM_INDEX_REGISTER = 6;
+    static const int NUM_MEMORY = 4000;
+
     Register5 rA, rX;
-    Register2 rI[6], rJ;
+    Register2 rI[NUM_INDEX_REGISTER], rJ;
 
     bool overflow;
     ComparisonIndicator comparison;
 
-    ComputerWord memory[4000];
+    ComputerWord memory[NUM_MEMORY];
 
     Machine() : rA(), rX(), rI(), rJ(), overflow(false), comparison(ComparisonIndicator::EQUAL), memory() {}
 
@@ -53,6 +56,8 @@ class Machine {
     void executeSTA(const InstructionWord& instruction);
     void executeSTi(const InstructionWord& instruction);
     void executeSTX(const InstructionWord& instruction);
+    void executeSTJ(const InstructionWord& instruction);
+    void executeSTZ(const InstructionWord& instruction);
 };
 
 };  // namespace mixal

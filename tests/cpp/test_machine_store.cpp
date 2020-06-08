@@ -172,4 +172,29 @@ __TEST_U(TestMachineStore, test_st6_all) {
     __ASSERT_EQ(7, machine.memory[2000][5]);
 }
 
+__TEST_U(TestMachineStore, test_stj_all) {
+    machine.rJ.set(true, 6, 7);
+    machine.memory[2000].set(true, 1, 2, 3, 4, 5);
+    auto result = mixal::Parser::parseLine("STJ 2000", false);
+    machine.executeSingle(result.word);
+    __ASSERT_EQ(0, machine.memory[2000].sign);
+    __ASSERT_EQ(0, machine.memory[2000][1]);
+    __ASSERT_EQ(0, machine.memory[2000][2]);
+    __ASSERT_EQ(0, machine.memory[2000][3]);
+    __ASSERT_EQ(6, machine.memory[2000][4]);
+    __ASSERT_EQ(7, machine.memory[2000][5]);
+}
+
+__TEST_U(TestMachineStore, test_stz_all) {
+    machine.memory[2000].set(true, 1, 2, 3, 4, 5);
+    auto result = mixal::Parser::parseLine("STZ 2000", false);
+    machine.executeSingle(result.word);
+    __ASSERT_EQ(0, machine.memory[2000].sign);
+    __ASSERT_EQ(0, machine.memory[2000][1]);
+    __ASSERT_EQ(0, machine.memory[2000][2]);
+    __ASSERT_EQ(0, machine.memory[2000][3]);
+    __ASSERT_EQ(0, machine.memory[2000][4]);
+    __ASSERT_EQ(0, machine.memory[2000][5]);
+}
+
 }  // namespace test
