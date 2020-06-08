@@ -174,7 +174,14 @@ Parser::ParsedResult Parser::parseLine(const std::string& line, bool hasLocation
                 if (ch == ' ' || ch == END_CHAR) {
                     result.address = line.substr(addressStart, i - addressStart);
                 }
-                result.word.address = subStr2Decimal(line, addressStart, i);
+                if (i - addressStart >= 6) {
+                    throw ParseError(i, "Numeric address cannot be represented with 2 bytes");
+                }
+                int address = subStr2Decimal(line, addressStart, i);
+                if (address >= 4096) {
+                    throw ParseError(i, "Numeric address cannot be represented with 2 bytes");
+                }
+                result.word.address = address;
             } else if (!isDigit(ch)) {
                 throw ParseError(i, "Unexpected character encountered while parsing numeric address");
             }
@@ -201,8 +208,12 @@ Parser::ParsedResult Parser::parseLine(const std::string& line, bool hasLocation
                 if (ch == ' ' || ch == END_CHAR) {
                     result.address = line.substr(addressStart, i - addressStart);
                 }
-                result.word.index = subStr2Decimal(line, indexStart, i);
-            } else if (!isDigit(ch)) {
+                int index = static_cast<int>(line[indexStart] - '0');
+                if (index >= 7) {
+                    throw ParseError(i, "Invalid register index");
+                }
+                result.word.index = index;
+            } else {
                 throw ParseError(i, "Unexpected character encountered while parsing index");
             }
             break;

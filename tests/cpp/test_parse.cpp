@@ -247,6 +247,14 @@ __TEST_U(TestParse, test_parse_line_invalid_address_with_multiple_negative_signs
     __ASSERT_THROW(mixal::Parser::parseLine("LDA --2000", false), mixal::ParseError);
 }
 
+__TEST_U(TestParse, test_parse_line_invalid_address_with_too_long) {
+    __ASSERT_THROW(mixal::Parser::parseLine("LDA -20000", false), mixal::ParseError);
+}
+
+__TEST_U(TestParse, test_parse_line_invalid_address_with_too_large) {
+    __ASSERT_THROW(mixal::Parser::parseLine("LDA 5000", false), mixal::ParseError);
+}
+
 __TEST_U(TestParse, test_parse_line_invalid_address_with_invalid_character) {
     __ASSERT_THROW(mixal::Parser::parseLine("LDA -200a", false), mixal::ParseError);
 }
@@ -257,6 +265,10 @@ __TEST_U(TestParse, test_parse_line_invalid_index_with_no_index) {
 
 __TEST_U(TestParse, test_parse_line_invalid_index_with_invalid_index) {
     __ASSERT_THROW(mixal::Parser::parseLine("LDA -2000,x", false), mixal::ParseError);
+}
+
+__TEST_U(TestParse, test_parse_line_invalid_index_with_invalid_register) {
+    __ASSERT_THROW(mixal::Parser::parseLine("LDA -2000,7", false), mixal::ParseError);
 }
 
 __TEST_U(TestParse, test_parse_line_invalid_mod_with_invalid_opening) {
