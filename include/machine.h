@@ -46,6 +46,9 @@ class Machine {
     void executeLDA(const InstructionWord& instruction);
     void executeLDi(const InstructionWord& instruction);
     void executeLDX(const InstructionWord& instruction);
+    void executeLDAN(const InstructionWord& instruction);
+    void executeLDiN(const InstructionWord& instruction);
+    void executeLDXN(const InstructionWord& instruction);
 };
 
 };  // namespace mixal

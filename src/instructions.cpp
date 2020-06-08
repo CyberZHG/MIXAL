@@ -1,37 +1,124 @@
 #include "instructions.h"
 
 mixal::Instructions::Code mixal::Instructions::getInstructionCode(const std::string& name) {
-    switch (std::toupper(name[0])) {
+    auto charAt = [&name] (size_t index) -> char {
+        return index < name.length() ? std::toupper(name[index]) : '#';
+    };
+    switch (charAt(0)) {
     case 'L':
-        switch (std::toupper(name[1])) {
+        switch (charAt(1)) {
         case 'D':
-            switch (std::toupper(name[2])) {
+            switch (charAt(2)) {
             case '1':
-                return Instructions::LD1;
+                switch (charAt(3)) {
+                case '#':
+                    return Instructions::LD1;
+                case 'N':
+                    switch (charAt(4)) {
+                    case '#':
+                        return Instructions::LD1N;
+                    }
+                    break;
+                }
+                break;
             case '2':
-                return Instructions::LD2;
+                switch (charAt(3)) {
+                case '#':
+                    return Instructions::LD2;
+                case 'N':
+                    switch (charAt(4)) {
+                    case '#':
+                        return Instructions::LD2N;
+                    }
+                    break;
+                }
+                break;
             case '3':
-                return Instructions::LD3;
+                switch (charAt(3)) {
+                case '#':
+                    return Instructions::LD3;
+                case 'N':
+                    switch (charAt(4)) {
+                    case '#':
+                        return Instructions::LD3N;
+                    }
+                    break;
+                }
+                break;
             case '4':
-                return Instructions::LD4;
+                switch (charAt(3)) {
+                case '#':
+                    return Instructions::LD4;
+                case 'N':
+                    switch (charAt(4)) {
+                    case '#':
+                        return Instructions::LD4N;
+                    }
+                    break;
+                }
+                break;
             case '5':
-                return Instructions::LD5;
+                switch (charAt(3)) {
+                case '#':
+                    return Instructions::LD5;
+                case 'N':
+                    switch (charAt(4)) {
+                    case '#':
+                        return Instructions::LD5N;
+                    }
+                    break;
+                }
+                break;
             case '6':
-                return Instructions::LD6;
+                switch (charAt(3)) {
+                case '#':
+                    return Instructions::LD6;
+                case 'N':
+                    switch (charAt(4)) {
+                    case '#':
+                        return Instructions::LD6N;
+                    }
+                    break;
+                }
+                break;
             case 'A':
-                return Instructions::LDA;
+                switch (charAt(3)) {
+                case '#':
+                    return Instructions::LDA;
+                case 'N':
+                    switch (charAt(4)) {
+                    case '#':
+                        return Instructions::LDAN;
+                    }
+                    break;
+                }
+                break;
             case 'X':
-                return Instructions::LDX;
+                switch (charAt(3)) {
+                case '#':
+                    return Instructions::LDX;
+                case 'N':
+                    switch (charAt(4)) {
+                    case '#':
+                        return Instructions::LDXN;
+                    }
+                    break;
+                }
+                break;
             }
             break;
         }
         break;
     case 'N':
-        switch (std::toupper(name[1])) {
+        switch (charAt(1)) {
         case 'O':
-            switch (std::toupper(name[2])) {
+            switch (charAt(2)) {
             case 'P':
-                return Instructions::NOP;
+                switch (charAt(3)) {
+                case '#':
+                    return Instructions::NOP;
+                }
+                break;
             }
             break;
         }

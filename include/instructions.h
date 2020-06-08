@@ -19,6 +19,14 @@ class Instructions {
         LD5 = 13,
         LD6 = 14,
         LDX = 15,
+        LDAN = 16,
+        LD1N = 17,
+        LD2N = 18,
+        LD3N = 19,
+        LD4N = 20,
+        LD5N = 21,
+        LD6N = 22,
+        LDXN = 23,
     };
 
     static Instructions::Code getInstructionCode(const std::string& name);

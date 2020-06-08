@@ -184,4 +184,40 @@ __TEST_U(TestMachineLoad, test_ldx_all) {
     __ASSERT_EQ(4, machine.rX[5]);
 }
 
+__TEST_U(TestMachineLoad, test_ldan) {
+    auto result = mixal::Parser::parseLine("LDAN 2000", false);
+    initMemory2000();
+    machine.executeSingle(result.word);
+    __ASSERT_EQ(0, machine.rA.sign);
+    __ASSERT_EQ(80, machine.rA.bytes12());
+    __ASSERT_EQ(3, machine.rA[3]);
+    __ASSERT_EQ(5, machine.rA[4]);
+    __ASSERT_EQ(4, machine.rA[5]);
+}
+
+__TEST_U(TestMachineLoad, test_ld6n) {
+    auto result = mixal::Parser::parseLine("LD6N 2000(0:0)", false);
+    initMemory2000();
+    machine.executeSingle(result.word);
+    __ASSERT_EQ(0, machine.rI6().sign);
+    __ASSERT_EQ(0, machine.rI6()[1]);
+    __ASSERT_EQ(0, machine.rI6()[2]);
+    machine.executeSingle(mixal::Parser::parseLine("LD5N 2000(0:0)", false).word);
+    machine.executeSingle(mixal::Parser::parseLine("LD4N 2000(0:0)", false).word);
+    machine.executeSingle(mixal::Parser::parseLine("LD3N 2000(0:0)", false).word);
+    machine.executeSingle(mixal::Parser::parseLine("LD2N 2000(0:0)", false).word);
+    machine.executeSingle(mixal::Parser::parseLine("LD1N 2000(0:0)", false).word);
+}
+
+__TEST_U(TestMachineLoad, test_ldxn) {
+    auto result = mixal::Parser::parseLine("LDXN 2000", false);
+    initMemory2000();
+    machine.executeSingle(result.word);
+    __ASSERT_EQ(0, machine.rX.sign);
+    __ASSERT_EQ(80, machine.rX.bytes12());
+    __ASSERT_EQ(3, machine.rX[3]);
+    __ASSERT_EQ(5, machine.rX[4]);
+    __ASSERT_EQ(4, machine.rX[5]);
+}
+
 }  // namespace test

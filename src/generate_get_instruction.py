@@ -8,6 +8,14 @@ OPS = [
     'LD5',
     'LD6',
     'LDX',
+    'LDAN',
+    'LD1N',
+    'LD2N',
+    'LD3N',
+    'LD4N',
+    'LD5N',
+    'LD6N',
+    'LDXN',
 ]
 
 
@@ -26,9 +34,9 @@ class Trie(object):
     def print_cases(self):
         def _print(head, indent, index, word):
             if len(head) == 0:
-                print(' ' * indent + 'return Instructions::{};'.format(word))
+                print(' ' * indent + 'return Instructions::{};'.format(word[:-1]))
                 return False
-            print(' ' * indent + 'switch (std::toupper(name[{}])) {{'.format(index))
+            print(' ' * indent + 'switch (charAt({})) {{'.format(index))
             for ch in sorted(head.keys()):
                 print(' ' * indent + 'case \'{}\':'.format(ch))
                 if _print(head[ch], indent + 4, index + 1, word + ch):
@@ -41,5 +49,5 @@ class Trie(object):
 if __name__ == '__main__':
     trie = Trie()
     for op in OPS:
-        trie.add_word(op)
+        trie.add_word(op + '#')
     trie.print_cases()
