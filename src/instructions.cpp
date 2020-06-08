@@ -8,6 +8,8 @@ mixal::Instructions::Code mixal::Instructions::getInstructionCode(const std::str
             switch (std::toupper(name[2])) {
             case 'A':
                 return Instructions::LDA;
+            case 'X':
+                return Instructions::LDX;
             }
             break;
         }

@@ -117,4 +117,15 @@ __TEST_U(TestMachineLoad, test_lda_all_with_offset) {
     __ASSERT_EQ(4, machine.rA[5]);
 }
 
+__TEST_U(TestMachineLoad, test_ldx_all) {
+    auto result = mixal::Parser::parseLine("LDX 2000", false);
+    initMemory2000();
+    machine.executeSingle(result.word);
+    __ASSERT_EQ(1, machine.rX.sign);
+    __ASSERT_EQ(80, machine.rX.bytes12());
+    __ASSERT_EQ(3, machine.rX[3]);
+    __ASSERT_EQ(5, machine.rX[4]);
+    __ASSERT_EQ(4, machine.rX[5]);
+}
+
 }  // namespace test

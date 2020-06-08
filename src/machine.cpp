@@ -23,9 +23,20 @@ void Machine::executeSingle(const InstructionWord& instruction) {
     case Instructions::LDA:
         executeLDA(instruction);
         break;
+    case Instructions::LDX:
+        executeLDX(instruction);
+        break;
     default:
         break;
     }
+}
+
+int Machine::getIndexedAddress(const InstructionWord& instruction) {
+    int offset = 0;
+    if (instruction.index != 0) {
+        offset = static_cast<int>(rI[instruction.index - 1].word);
+    }
+    return static_cast<int>(instruction.address) + offset;
 }
 
 void Machine::copyToRegister5(const InstructionWord& instruction, const ComputerWord& word, Register5* reg) {
@@ -42,12 +53,13 @@ void Machine::copyToRegister5(const InstructionWord& instruction, const Computer
 }
 
 void Machine::executeLDA(const InstructionWord& instruction) {
-    int offset = 0;
-    if (instruction.index != 0) {
-        offset = static_cast<int>(rI[instruction.index - 1].word);
-    }
-    int address = static_cast<int>(instruction.address) + offset;
+    int address = getIndexedAddress(instruction);
     copyToRegister5(instruction, memory[address], &rA);
+}
+
+void Machine::executeLDX(const InstructionWord& instruction) {
+    int address = getIndexedAddress(instruction);
+    copyToRegister5(instruction, memory[address], &rX);
 }
 
 };  // namespace mixal

@@ -1,6 +1,7 @@
 OPS = [
     'NOP',
     'LDA',
+    'LDX',
 ]
 
 

@@ -12,6 +12,7 @@ class Instructions {
         INVALID = -1,
         NOP = 0,  // No operation
         LDA = 8,
+        LDX = 15,
     };
 
     static Instructions::Code getInstructionCode(const std::string& name);
