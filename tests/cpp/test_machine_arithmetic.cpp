@@ -96,4 +96,109 @@ __TEST_U(TestMachineArithmetic, test_sub_packed) {
     __ASSERT_FALSE(machine.overflow);
 }
 
+__TEST_U(TestMachineArithmetic, test_mul_all) {
+    machine.rA.set(false, 1, 1, 1, 1, 1);
+    machine.memory[1000].set(false, 1, 1, 1, 1, 1);
+    auto result = mixal::Parser::parseLine("MUL 1000", false);
+    machine.executeSingle(result.word);
+    __ASSERT_EQ(0, machine.rA.sign);
+    __ASSERT_EQ(0, machine.rA[1]);
+    __ASSERT_EQ(1, machine.rA[2]);
+    __ASSERT_EQ(2, machine.rA[3]);
+    __ASSERT_EQ(3, machine.rA[4]);
+    __ASSERT_EQ(4, machine.rA[5]);
+    __ASSERT_EQ(0, machine.rX.sign);
+    __ASSERT_EQ(5, machine.rX[1]);
+    __ASSERT_EQ(4, machine.rX[2]);
+    __ASSERT_EQ(3, machine.rX[3]);
+    __ASSERT_EQ(2, machine.rX[4]);
+    __ASSERT_EQ(1, machine.rX[5]);
+}
+
+__TEST_U(TestMachineArithmetic, test_mul_one_byte) {
+    machine.rA.set(-112);
+    machine.memory[1000].set(true, 2, 3, 4, 5, 6);
+    auto result = mixal::Parser::parseLine("MUL 1000(1:1)", false);
+    machine.executeSingle(result.word);
+    __ASSERT_EQ(1, machine.rA.sign);
+    __ASSERT_EQ(0, machine.rA[1]);
+    __ASSERT_EQ(0, machine.rA[2]);
+    __ASSERT_EQ(0, machine.rA[3]);
+    __ASSERT_EQ(0, machine.rA[4]);
+    __ASSERT_EQ(0, machine.rA[5]);
+    __ASSERT_EQ(1, machine.rX.sign);
+    __ASSERT_EQ(-224, machine.rX.value());
+}
+
+__TEST_U(TestMachineArithmetic, test_mul_packed) {
+    machine.rA.set(true, 50, 0, 112 / 64, 112 % 64, 4);
+    machine.memory[1000].set(true, 2, 0, 0, 0, 0);
+    auto result = mixal::Parser::parseLine("MUL 1000", false);
+    machine.executeSingle(result.word);
+    __ASSERT_EQ(0, machine.rA.sign);
+    __ASSERT_EQ(100, machine.rA.bytes12());
+    __ASSERT_EQ(0, machine.rA[3]);
+    __ASSERT_EQ(224, machine.rA.bytes45());
+    __ASSERT_EQ(0, machine.rX.sign);
+    __ASSERT_EQ(8, machine.rX[1]);
+    __ASSERT_EQ(0, machine.rX[2]);
+    __ASSERT_EQ(0, machine.rX[3]);
+    __ASSERT_EQ(0, machine.rX[4]);
+    __ASSERT_EQ(0, machine.rX[5]);
+}
+
+__TEST_U(TestMachineArithmetic, test_div_all) {
+    machine.rA.set(0);
+    machine.rX.set(17);
+    machine.memory[1000].set(3);
+    auto result = mixal::Parser::parseLine("DIV 1000", false);
+    machine.executeSingle(result.word);
+    __ASSERT_EQ(0, machine.rA.sign);
+    __ASSERT_EQ(5, machine.rA.value());
+    __ASSERT_EQ(0, machine.rX.sign);
+    __ASSERT_EQ(2, machine.rX.value());
+    __ASSERT_FALSE(machine.overflow);
+}
+
+__TEST_U(TestMachineArithmetic, test_div_all_negative_rx) {
+    machine.rA.set(0);
+    machine.rX.set(-17);
+    machine.memory[1000].set(3);
+    auto result = mixal::Parser::parseLine("DIV 1000", false);
+    machine.executeSingle(result.word);
+    __ASSERT_EQ(0, machine.rA.sign);
+    __ASSERT_EQ(5, machine.rA.value());
+    __ASSERT_EQ(0, machine.rX.sign);
+    __ASSERT_EQ(2, machine.rX.value());
+    __ASSERT_FALSE(machine.overflow);
+}
+
+__TEST_U(TestMachineArithmetic, test_div_packed) {
+    machine.rA.set(true, 0, 0, 0, 0, 0);
+    machine.rX.set(false, 1235, 0, 3, 1);
+    machine.memory[1000].set(true, 0, 0, 0, 2, 0);
+    auto result = mixal::Parser::parseLine("DIV 1000", false);
+    machine.executeSingle(result.word);
+    __ASSERT_EQ(0, machine.rA.sign);
+    __ASSERT_EQ(0, machine.rA[1]);
+    __ASSERT_EQ(617, machine.rA.bytes23());
+    __ASSERT_EQ(1, machine.rX.sign);
+    __ASSERT_EQ(0, machine.rX[1]);
+    __ASSERT_EQ(0, machine.rX[2]);
+    __ASSERT_EQ(0, machine.rX[3]);
+    __ASSERT_EQ(1, machine.rX[5]);
+    __ASSERT_FALSE(machine.overflow);
+}
+
+__TEST_U(TestMachineArithmetic, test_div_overflow) {
+    machine.rA.set(true, 64, 0, 0, 0, 0);
+    machine.rX.set(false, 0, 0, 0, 0);
+    machine.memory[1000].set(false, 0, 0, 0, 0, 3);
+    auto result = mixal::Parser::parseLine("DIV 1000", false);
+    machine.executeSingle(result.word);
+    __ASSERT_EQ(-357913941, machine.rA.value());
+    __ASSERT_EQ(-1, machine.rX.value());
+    __ASSERT_TRUE(machine.overflow);
+}
+
 }  // namespace test

@@ -49,6 +49,8 @@ class Machine {
 
     void executeADD(const InstructionWord& instruction);
     void executeSUB(const InstructionWord& instruction);
+    void executeMUL(const InstructionWord& instruction);
+    void executeDIV(const InstructionWord& instruction);
     void executeLDA(const InstructionWord& instruction);
     void executeLDi(const InstructionWord& instruction);
     void executeLDX(const InstructionWord& instruction);
