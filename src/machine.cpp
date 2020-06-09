@@ -21,6 +21,14 @@ void Machine::executeSingle(const InstructionWord& instruction) {
     switch (instruction.operation) {
     case Instructions::NOP:
         break;
+    case Instructions::ADD:
+        executeADD(instruction);
+        break;
+    case Instructions::SUB:
+        executeSUB(instruction);
+        break;
+    case Instructions::MUL:
+    case Instructions::DIV:
     case Instructions::LDA:
         executeLDA(instruction);
         break;
@@ -119,6 +127,35 @@ void Machine::copyToRegister2(const InstructionWord& instruction, const Computer
     for (int i = stop, j = 2; i >= start && j > 0; --i, --j) {
         reg->set(j, word[i]);
     }
+}
+
+void Machine::executeADD(const InstructionWord& instruction) {
+    int32_t valueA = rA.value();
+    ComputerWord word;
+    int address = getIndexedAddress(instruction);
+    copyToRegister5(instruction, memory[address], &word);
+    int32_t valueM = word.value();
+    int32_t result = valueA + valueM;
+    if (abs(result) >= (1 << 30)) {
+        overflow = true;
+        result %= (1 << 30);
+    }
+    rA.set(result);
+}
+
+void Machine::executeSUB(const InstructionWord& instruction) {
+    int32_t valueA = rA.value();
+    ComputerWord word;
+    int address = getIndexedAddress(instruction);
+    copyToRegister5(instruction, memory[address], &word);
+    word.sign = !word.sign;
+    int32_t valueM = word.value();
+    int32_t result = valueA + valueM;
+    if (abs(result) >= (1 << 30)) {
+        overflow = true;
+        result %= (1 << 30);
+    }
+    rA.set(result);
 }
 
 void Machine::executeLDA(const InstructionWord& instruction) {

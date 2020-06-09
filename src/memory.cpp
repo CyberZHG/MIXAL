@@ -5,7 +5,7 @@
 
 namespace mixal {
 
-int8_t ComputerWord::operator[](int index) const {
+uint8_t ComputerWord::operator[](int index) const {
     if (index <= 0 || index > 5) {
         throw std::runtime_error("Invalid index for a word: " + std::to_string(index));
     }
@@ -18,19 +18,51 @@ int8_t ComputerWord::operator[](int index) const {
     }
 }
 
-int16_t ComputerWord::bytes12() const {
-    int16_t high = static_cast<int16_t>(static_cast<uint8_t>(byte1));
-    int16_t low = static_cast<int16_t>(static_cast<uint8_t>(byte2));
+uint16_t ComputerWord::bytes2(int index1, int index2) const {
+    int16_t high = static_cast<int16_t>(static_cast<uint8_t>((*this)[index1]));
+    int16_t low = static_cast<int16_t>(static_cast<uint8_t>((*this)[index2]));
     return high * 64 + low;
 }
 
-int16_t ComputerWord::bytes34() const {
-    int16_t high = static_cast<int16_t>(static_cast<uint8_t>(byte3));
-    int16_t low = static_cast<int16_t>(static_cast<uint8_t>(byte4));
-    return high * 64 + low;
+uint16_t ComputerWord::bytes12() const {
+    return bytes2(1, 2);
 }
 
-void ComputerWord::set(int index, int8_t val) {
+uint16_t ComputerWord::bytes23() const {
+    return bytes2(2, 3);
+}
+
+uint16_t ComputerWord::bytes34() const {
+    return bytes2(3, 4);
+}
+
+uint16_t ComputerWord::bytes45() const {
+    return bytes2(4, 5);
+}
+
+int32_t ComputerWord::value() const {
+    int32_t value = static_cast<int32_t>(byte1 << 24) |
+                    static_cast<int32_t>(byte2 << 18) |
+                    static_cast<int32_t>(byte3 << 12) |
+                    static_cast<int32_t>(byte4 << 6) |
+                    static_cast<int32_t>(byte5);
+    return sign ? -value : value;
+}
+
+void ComputerWord::set(int32_t value) {
+    if (value > 0) {
+        sign = 0;
+    } else if (value < 0) {
+        sign = 1;
+        value = -value;
+    }
+    for (int i = 5; i >= 1; --i) {
+        set(i, static_cast<uint8_t>(value & ((1 << 6) - 1)));
+        value >>= 6;
+    }
+}
+
+void ComputerWord::set(int index, uint8_t val) {
     if (index <= 0 || index > 5) {
         throw std::runtime_error("Invalid index for a word: " + std::to_string(index));
     }
@@ -43,7 +75,7 @@ void ComputerWord::set(int index, int8_t val) {
     }
 }
 
-void ComputerWord::set(bool negative, int8_t byte1, int8_t byte2, int8_t byte3, int8_t byte4, int8_t byte5) {
+void ComputerWord::set(bool negative, uint8_t byte1, uint8_t byte2, uint8_t byte3, uint8_t byte4, uint8_t byte5) {
     this->sign = static_cast<int>(negative);
     this->byte1 = byte1;
     this->byte2 = byte2;
@@ -52,10 +84,10 @@ void ComputerWord::set(bool negative, int8_t byte1, int8_t byte2, int8_t byte3, 
     this->byte5 = byte5;
 }
 
-void ComputerWord::set(bool negative, int16_t bytes12, int8_t byte3, int8_t byte4, int8_t byte5) {
+void ComputerWord::set(bool negative, uint16_t bytes12, uint8_t byte3, uint8_t byte4, uint8_t byte5) {
     this->sign = static_cast<int>(negative);
-    this->byte1 = static_cast<int8_t>(bytes12 / 64);
-    this->byte2 = static_cast<int8_t>(bytes12 % 64);
+    this->byte1 = static_cast<uint8_t>(bytes12 / 64);
+    this->byte2 = static_cast<uint8_t>(bytes12 % 64);
     this->byte3 = byte3;
     this->byte4 = byte4;
     this->byte5 = byte5;

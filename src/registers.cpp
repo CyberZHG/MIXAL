@@ -4,7 +4,7 @@
 
 namespace mixal {
 
-int8_t Register2::operator[](int index) const {
+uint8_t Register2::operator[](int index) const {
     if (index == 1) {
         return byte1;
     }
@@ -14,14 +14,14 @@ int8_t Register2::operator[](int index) const {
     throw std::runtime_error("Invalid index for a two bytes register: " + std::to_string(index));
 }
 
-int16_t Register2::bytes12() const {
+uint16_t Register2::bytes12() const {
     int16_t high = static_cast<int16_t>(static_cast<uint8_t>(byte1));
     int16_t low = static_cast<int16_t>(static_cast<uint8_t>(byte2));
     return high * 64 + low;
 }
 
 int16_t Register2::value() const {
-    auto val = bytes12();
+    int16_t val = static_cast<int16_t>(bytes12());
     return sign ? -val : val;
 }
 
@@ -35,8 +35,8 @@ void Register2::set(int index, int8_t val) {
     }
 }
 
-void Register2::set(int16_t sign, int8_t byte1, int8_t byte2) {
-    this->sign = sign;
+void Register2::set(bool negative, uint8_t byte1, uint8_t byte2) {
+    this->sign = negative;
     this->byte1 = byte1;
     this->byte2 = byte2;
 }

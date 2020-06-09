@@ -11,7 +11,11 @@ class Instructions {
     enum Code {
         INVALID = -1,
         NOP = 0,  // No operation
-        LDA = 8,
+        ADD = 1,
+        SUB = 2,
+        MUL = 3,
+        DIV = 4,
+        LDA = 8,  // Load
         LD1 = 9,
         LD2 = 10,
         LD3 = 11,
@@ -19,7 +23,7 @@ class Instructions {
         LD5 = 13,
         LD6 = 14,
         LDX = 15,
-        LDAN = 16,
+        LDAN = 16,  // Load negative
         LD1N = 17,
         LD2N = 18,
         LD3N = 19,
@@ -27,7 +31,7 @@ class Instructions {
         LD5N = 21,
         LD6N = 22,
         LDXN = 23,
-        STA = 24,
+        STA = 24,  // Store
         ST1 = 25,
         ST2 = 26,
         ST3 = 27,
@@ -36,7 +40,7 @@ class Instructions {
         ST6 = 30,
         STX = 31,
         STJ = 32,
-        STZ = 33,
+        STZ = 33,  // Store zero
     };
 
     static Instructions::Code getInstructionCode(const std::string& name);

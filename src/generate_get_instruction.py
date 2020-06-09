@@ -1,5 +1,9 @@
 OPS = [
     'NOP',
+    'ADD',
+    'SUB',
+    'MUL',
+    'DIV',
     'LDA',
     'LD1',
     'LD2',

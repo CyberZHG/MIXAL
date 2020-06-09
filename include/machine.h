@@ -47,6 +47,8 @@ class Machine {
     void copyFromRegister5(const InstructionWord& instruction, const Register5& reg, ComputerWord* word);
     void copyToRegister2(const InstructionWord& instruction, const ComputerWord& word, Register2* reg);
 
+    void executeADD(const InstructionWord& instruction);
+    void executeSUB(const InstructionWord& instruction);
     void executeLDA(const InstructionWord& instruction);
     void executeLDi(const InstructionWord& instruction);
     void executeLDX(const InstructionWord& instruction);

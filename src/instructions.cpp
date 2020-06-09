@@ -5,6 +5,34 @@ mixal::Instructions::Code mixal::Instructions::getInstructionCode(const std::str
         return index < name.length() ? std::toupper(name[index]) : '#';
     };
     switch (charAt(0)) {
+    case 'A':
+        switch (charAt(1)) {
+        case 'D':
+            switch (charAt(2)) {
+            case 'D':
+                switch (charAt(3)) {
+                case '#':
+                    return Instructions::ADD;
+                }
+                break;
+            }
+            break;
+        }
+        break;
+    case 'D':
+        switch (charAt(1)) {
+        case 'I':
+            switch (charAt(2)) {
+            case 'V':
+                switch (charAt(3)) {
+                case '#':
+                    return Instructions::DIV;
+                }
+                break;
+            }
+            break;
+        }
+        break;
     case 'L':
         switch (charAt(1)) {
         case 'D':
@@ -109,6 +137,20 @@ mixal::Instructions::Code mixal::Instructions::getInstructionCode(const std::str
             break;
         }
         break;
+    case 'M':
+        switch (charAt(1)) {
+        case 'U':
+            switch (charAt(2)) {
+            case 'L':
+                switch (charAt(3)) {
+                case '#':
+                    return Instructions::MUL;
+                }
+                break;
+            }
+            break;
+        }
+        break;
     case 'N':
         switch (charAt(1)) {
         case 'O':
@@ -185,6 +227,16 @@ mixal::Instructions::Code mixal::Instructions::getInstructionCode(const std::str
                 switch (charAt(3)) {
                 case '#':
                     return Instructions::STZ;
+                }
+                break;
+            }
+            break;
+        case 'U':
+            switch (charAt(2)) {
+            case 'B':
+                switch (charAt(3)) {
+                case '#':
+                    return Instructions::SUB;
                 }
                 break;
             }

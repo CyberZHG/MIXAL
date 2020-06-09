@@ -15,26 +15,24 @@ enum class Registers {
 
 using Register5 = ComputerWord;
 
-union Register2 {
-    struct {
-        int16_t word;
-    };
-    struct {
-        int16_t sign : 2;
-        int8_t byte1 : 6;
-        int8_t byte2 : 6;
-    };
+struct Register2 {
+    bool sign;
+    uint8_t byte1;
+    uint8_t byte2;
 
-    Register2() : word() {}
+    Register2() : sign(), byte1(), byte2() {}
 
-    inline void reset() { sign = byte1 = byte2 = 0; }
+    inline void reset() {
+        sign = false;
+        byte1 = byte2 = 0;
+    }
 
-    int8_t operator[](int index) const;
-    int16_t bytes12() const;
+    uint8_t operator[](int index) const;
+    uint16_t bytes12() const;
     int16_t value() const;
 
     void set(int index, int8_t val);
-    void set(int16_t sign, int8_t byte1, int8_t byte2);
+    void set(bool negative, uint8_t byte1, uint8_t byte2);
 };
 
 };  // namespace mixal

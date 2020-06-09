@@ -5,30 +5,33 @@
 
 namespace mixal {
 
-union ComputerWord {
-    struct {
-        int32_t word;
-    };
-    struct {
-        int16_t sign : 2;
-        int8_t byte1 : 6;
-        int8_t byte2 : 6;
-        int8_t byte3 : 6;
-        int8_t byte4 : 6;
-        int8_t byte5 : 6;
-    };
+struct ComputerWord {
+    bool sign;
+    uint8_t byte1;
+    uint8_t byte2;
+    uint8_t byte3;
+    uint8_t byte4;
+    uint8_t byte5;
 
-    ComputerWord() : word(0) {}
+    ComputerWord() : sign(), byte1(), byte2(), byte3(), byte4(), byte5() {}
 
-    inline void reset() { sign = byte1 = byte2 = byte3 = byte4 = byte5 = 0; }
+    inline void reset() {
+        sign = false;
+        byte1 = byte2 = byte3 = byte4 = byte5 = 0;
+    }
 
-    int8_t operator[](int index) const;
-    int16_t bytes12() const;
-    int16_t bytes34() const;
+    uint8_t operator[](int index) const;
+    uint16_t bytes2(int index1, int index2) const;
+    uint16_t bytes12() const;
+    uint16_t bytes23() const;
+    uint16_t bytes34() const;
+    uint16_t bytes45() const;
+    int32_t value() const;
 
-    void set(int index, int8_t val);
-    void set(bool negative, int8_t byte1, int8_t byte2, int8_t byte3, int8_t byte4, int8_t byte5);
-    void set(bool negative, int16_t bytes12, int8_t byte3, int8_t byte4, int8_t byte5);
+    void set(int32_t value);
+    void set(int index, uint8_t val);
+    void set(bool negative, uint8_t byte1, uint8_t byte2, uint8_t byte3, uint8_t byte4, uint8_t byte5);
+    void set(bool negative, uint16_t bytes12, uint8_t byte3, uint8_t byte4, uint8_t byte5);
 };
 
 };  // namespace mixal
