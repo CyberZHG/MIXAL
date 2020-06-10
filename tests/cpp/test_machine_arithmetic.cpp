@@ -96,6 +96,16 @@ __TEST_U(TestMachineArithmetic, test_sub_packed) {
     __ASSERT_FALSE(machine.overflow);
 }
 
+__TEST_U(TestMachineArithmetic, test_sub_overflow) {
+    machine.rA.set(true, 0, 0, 0, 0, 1);
+    machine.memory[1000].set(false, 63, 63, 63, 63, 63);
+    auto result = mixal::Parser::parseLine("SUB 1000", false);
+    machine.executeSingle(result.word);
+    __ASSERT_EQ(true, machine.rA.sign);
+    __ASSERT_EQ(0, machine.rA.value());
+    __ASSERT_TRUE(machine.overflow);
+}
+
 __TEST_U(TestMachineArithmetic, test_mul_all) {
     machine.rA.set(false, 1, 1, 1, 1, 1);
     machine.memory[1000].set(false, 1, 1, 1, 1, 1);
