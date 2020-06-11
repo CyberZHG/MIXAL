@@ -83,7 +83,8 @@ Parser::ParsedResult Parser::parseLine(const std::string& line, bool hasLocation
         addressStart = INIT_INDEX,
         indexStart = INIT_INDEX,
         modFirst = INIT_INDEX, modSecond = INIT_INDEX,
-        commentStart = INIT_INDEX;
+        commentStart = INIT_INDEX,
+        defaultField = INIT_INDEX;
     for (int i = 0; i <= static_cast<int>(line.size()); ++i) {
         char ch = i < static_cast<int>(line.size()) ? line[i] : END_CHAR;
         switch (state) {
@@ -132,6 +133,7 @@ Parser::ParsedResult Parser::parseLine(const std::string& line, bool hasLocation
                 }
                 result.operation = line.substr(operationStart, i - operationStart);
                 result.word.operation = static_cast<int>(Instructions::getInstructionCode(result.operation));
+                defaultField = Instructions::getDefaultField(result.operation);
             } else if (!isAlpha(ch)) {
                 throw ParseError(i, "Unexpected character encountered while parsing operation");
             }
@@ -237,6 +239,9 @@ Parser::ParsedResult Parser::parseLine(const std::string& line, bool hasLocation
                 state = ParseState::MOD_SECOND;
                 modSecond = static_cast<int>(ch - '0');
                 result.word.modification = modFirst * 8 + modSecond;
+                if (defaultField >= 0 && defaultField != result.word.modification) {
+                    throw ParseError(i, "Field value does not match the default value");
+                }
             } else {
                 throw ParseError(i, "Unexpected character encountered while parsing modification");
             }
@@ -277,6 +282,9 @@ Parser::ParsedResult Parser::parseLine(const std::string& line, bool hasLocation
         case ParseState::END:
             assert(false);
         }
+    }
+    if (defaultField >= 0) {
+        result.word.modification = static_cast<uint8_t>(defaultField);
     }
     assert(state == ParseState::END);
     return result;

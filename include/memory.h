@@ -14,6 +14,9 @@ struct ComputerWord {
     uint8_t byte5;
 
     ComputerWord() : sign(), byte1(), byte2(), byte3(), byte4(), byte5() {}
+    explicit ComputerWord(int32_t value) : sign(), byte1(), byte2(), byte3(), byte4(), byte5() { set(value); }
+    ComputerWord(bool _negative, uint8_t _byte1, uint8_t _byte2, uint8_t _byte3, uint8_t _byte4, uint8_t _byte5) :
+        sign(_negative), byte1(_byte1), byte2(_byte2), byte3(_byte3), byte4(_byte4), byte5(_byte5) {}
 
     inline void reset() {
         sign = false;

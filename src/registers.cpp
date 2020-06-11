@@ -25,6 +25,17 @@ int16_t Register2::value() const {
     return sign ? -val : val;
 }
 
+void Register2::set(int16_t value) {
+    if (value > 0) {
+        sign = 0;
+    } else if (value < 0) {
+        sign = 1;
+        value = -value;
+    }
+    byte1 = static_cast<uint8_t>(value / (1 << 6));
+    byte2 = static_cast<uint8_t>(value % (1 << 6));
+}
+
 void Register2::set(int index, int8_t val) {
     if (index == 1) {
         byte1 = val;

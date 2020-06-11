@@ -329,4 +329,9 @@ __TEST_U(TestParse, test_parse_line_invalid_line_without_address) {
     __ASSERT_THROW(mixal::Parser::parseLine("LOC", true), mixal::ParseError);
 }
 
+__TEST_U(TestParse, test_parse_line_invalid_field_value) {
+    __ASSERT_NO_THROW(mixal::Parser::parseLine("ENTA 0", false));
+    __ASSERT_THROW(mixal::Parser::parseLine("ENTA 0(1:3)", false), mixal::ParseError);
+}
+
 }  // namespace test

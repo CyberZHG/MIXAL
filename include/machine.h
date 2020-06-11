@@ -46,6 +46,7 @@ class Machine {
     void copyToRegister5(const InstructionWord& instruction, const ComputerWord& word, Register5* reg);
     void copyFromRegister5(const InstructionWord& instruction, const Register5& reg, ComputerWord* word);
     void copyToRegister2(const InstructionWord& instruction, const ComputerWord& word, Register2* reg);
+    int32_t checkRange(int32_t value);
 
     void executeADD(const InstructionWord& instruction);
     void executeSUB(const InstructionWord& instruction);
@@ -62,6 +63,10 @@ class Machine {
     void executeSTX(const InstructionWord& instruction);
     void executeSTJ(const InstructionWord& instruction);
     void executeSTZ(const InstructionWord& instruction);
+    void executeINCA(const InstructionWord& instruction);
+    void executeDECA(const InstructionWord& instruction);
+    void executeENTA(const InstructionWord& instruction);
+    void executeENNA(const InstructionWord& instruction);
 };
 
 };  // namespace mixal

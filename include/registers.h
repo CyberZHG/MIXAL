@@ -21,6 +21,8 @@ struct Register2 {
     uint8_t byte2;
 
     Register2() : sign(), byte1(), byte2() {}
+    explicit Register2(int16_t value) : sign(), byte1(), byte2() { set(value); }
+    Register2(bool _negative, uint8_t _byte1, uint8_t _byte2) : sign(_negative), byte1(_byte1), byte2(_byte2) {}
 
     inline void reset() {
         sign = false;
@@ -31,6 +33,7 @@ struct Register2 {
     uint16_t bytes12() const;
     int16_t value() const;
 
+    void set(int16_t value);
     void set(int index, int8_t val);
     void set(bool negative, uint8_t byte1, uint8_t byte2);
 };

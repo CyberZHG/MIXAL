@@ -81,6 +81,14 @@ void Machine::executeSingle(const InstructionWord& instruction) {
     case Instructions::STZ:
         executeSTZ(instruction);
         break;
+    case Instructions::INCA:
+        switch (instruction.modification) {
+        case 0: executeINCA(instruction); break;
+        case 1: executeDECA(instruction); break;
+        case 2: executeENTA(instruction); break;
+        case 3: executeENNA(instruction); break;
+        }
+        break;
     default:
         break;
     }
@@ -133,6 +141,14 @@ void Machine::copyToRegister2(const InstructionWord& instruction, const Computer
     }
 }
 
+int32_t Machine::checkRange(int32_t value) {
+    if (abs(value) >= (1 << 30)) {
+        overflow = true;
+        value %= (1 << 30);
+    }
+    return value;
+}
+
 void Machine::executeADD(const InstructionWord& instruction) {
     int32_t valueA = rA.value();
     ComputerWord word;
@@ -140,11 +156,7 @@ void Machine::executeADD(const InstructionWord& instruction) {
     copyToRegister5(instruction, memory[address], &word);
     int32_t valueM = word.value();
     int32_t result = valueA + valueM;
-    if (abs(result) >= (1 << 30)) {
-        overflow = true;
-        result %= (1 << 30);
-    }
-    rA.set(result);
+    rA.set(checkRange(result));
 }
 
 void Machine::executeSUB(const InstructionWord& instruction) {
@@ -155,11 +167,7 @@ void Machine::executeSUB(const InstructionWord& instruction) {
     word.sign = !word.sign;
     int32_t valueM = word.value();
     int32_t result = valueA + valueM;
-    if (abs(result) >= (1 << 30)) {
-        overflow = true;
-        result %= (1 << 30);
-    }
-    rA.set(result);
+    rA.set(checkRange(result));
 }
 
 void Machine::executeMUL(const InstructionWord& instruction) {
@@ -261,5 +269,28 @@ void Machine::executeSTZ(const InstructionWord& instruction) {
     word.set(0, 0, 0, 0, 0, 0);
     copyFromRegister5(instruction, word, &memory[address]);
 }
+
+void Machine::executeINCA(const InstructionWord& instruction) {
+    int32_t value = rA.value();
+    if (instruction.index == 0) {
+        value += instruction.address;
+    } else {
+        value += rI[instruction.index - 1].value();
+    }
+    rA.set(checkRange(value));
+}
+
+void Machine::executeDECA(const InstructionWord& instruction) {
+    rA.set(instruction.address);
+}
+
+void Machine::executeENTA(const InstructionWord& instruction) {
+    rA.set(instruction.address);
+}
+
+void Machine::executeENNA(const InstructionWord& instruction) {
+    rA.set(instruction.address);
+}
+
 
 };  // namespace mixal
