@@ -246,8 +246,7 @@ void Machine::executeSTi(const InstructionWord& instruction) {
     int address = getIndexedAddress(instruction);
     int registerIndex = instruction.operation - Instructions::ST1;
     auto& rIi = rI[registerIndex];
-    ComputerWord word;
-    word.set(rIi.sign, 0, 0, 0, rIi[1], rIi[2]);
+    ComputerWord word(rIi.sign, 0, 0, 0, rIi[1], rIi[2]);
     copyFromRegister5(instruction, word, &memory[address]);
 }
 
@@ -258,15 +257,13 @@ void Machine::executeSTX(const InstructionWord& instruction) {
 
 void Machine::executeSTJ(const InstructionWord& instruction) {
     int address = getIndexedAddress(instruction);
-    ComputerWord word;
-    word.set(0, 0, 0, 0, rJ[1], rJ[2]);
+    ComputerWord word(0, 0, 0, 0, rJ[1], rJ[2]);
     copyFromRegister5(instruction, word, &memory[address]);
 }
 
 void Machine::executeSTZ(const InstructionWord& instruction) {
     int address = getIndexedAddress(instruction);
-    ComputerWord word;
-    word.set(0, 0, 0, 0, 0, 0);
+    ComputerWord word(0, 0, 0, 0, 0, 0);
     copyFromRegister5(instruction, word, &memory[address]);
 }
 
@@ -281,7 +278,13 @@ void Machine::executeINCA(const InstructionWord& instruction) {
 }
 
 void Machine::executeDECA(const InstructionWord& instruction) {
-    rA.set(instruction.address);
+    int32_t value = rA.value();
+    if (instruction.index == 0) {
+        value -= instruction.address;
+    } else {
+        value -= rI[instruction.index - 1].value();
+    }
+    rA.set(checkRange(value));
 }
 
 void Machine::executeENTA(const InstructionWord& instruction) {
