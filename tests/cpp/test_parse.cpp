@@ -140,7 +140,7 @@ __TEST_U(TestParse, test_parse_line_basic_numeric_address_negative) {
     __ASSERT_EQ("LDA", result.operation);
     __ASSERT_EQ("-2000,4", result.address);
     __ASSERT_EQ("", result.comment);
-    __ASSERT_EQ(-2000, result.word.address);
+    __ASSERT_EQ(-2000, result.word.addressValue());
     __ASSERT_EQ(4, result.word.index);
     __ASSERT_EQ(5, result.word.modification);
     __ASSERT_EQ(8, result.word.operation);

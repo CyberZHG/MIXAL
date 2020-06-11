@@ -148,6 +148,7 @@ Parser::ParsedResult Parser::parseLine(const std::string& line, bool hasLocation
                 addressStart = i;
             } else if (ch == '-') {
                 state = ParseState::NUMERICAL_ADDRESS_NEGATIVE;
+                result.word.sign = true;
                 addressStart = i;
             } else {
                 throw ParseError(i, "Unexpected character encountered while finding address");
@@ -179,7 +180,7 @@ Parser::ParsedResult Parser::parseLine(const std::string& line, bool hasLocation
                 if (i - addressStart >= 6) {
                     throw ParseError(i, "Numeric address cannot be represented with 2 bytes");
                 }
-                int address = subStr2Decimal(line, addressStart, i);
+                int address = abs(subStr2Decimal(line, addressStart, i));
                 if (address >= 4096) {
                     throw ParseError(i, "Numeric address cannot be represented with 2 bytes");
                 }

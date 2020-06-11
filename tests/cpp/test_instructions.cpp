@@ -19,7 +19,7 @@ class TestInstructions : public UnitTest {
 };
 
 __TEST_U(TestInstructions, test_word_length) {
-    __ASSERT_EQ(6U, sizeof(mixal::InstructionWord));
+    __ASSERT_EQ(8U, sizeof(mixal::InstructionWord));
 }
 
 __TEST_U(TestInstructions, test_get_invalid_instruction) {

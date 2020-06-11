@@ -100,7 +100,7 @@ int Machine::getIndexedAddress(const InstructionWord& instruction) {
         auto& rIi = rI[instruction.index - 1];
         offset = static_cast<int>(rIi.value());
     }
-    return static_cast<int>(instruction.address) + offset;
+    return static_cast<int>(instruction.addressValue()) + offset;
 }
 
 void Machine::copyToRegister5(const InstructionWord& instruction, const ComputerWord& word, Register5* reg) {
@@ -269,30 +269,32 @@ void Machine::executeSTZ(const InstructionWord& instruction) {
 
 void Machine::executeINCA(const InstructionWord& instruction) {
     int32_t value = rA.value();
-    if (instruction.index == 0) {
-        value += instruction.address;
-    } else {
-        value += rI[instruction.index - 1].value();
-    }
+    int32_t address = getIndexedAddress(instruction);
+    value += address;
     rA.set(checkRange(value));
 }
 
 void Machine::executeDECA(const InstructionWord& instruction) {
     int32_t value = rA.value();
-    if (instruction.index == 0) {
-        value -= instruction.address;
-    } else {
-        value -= rI[instruction.index - 1].value();
-    }
+    int32_t address = getIndexedAddress(instruction);
+    value -= address;
     rA.set(checkRange(value));
 }
 
 void Machine::executeENTA(const InstructionWord& instruction) {
-    rA.set(instruction.address);
+    int32_t address = getIndexedAddress(instruction);
+    rA.set(checkRange(address));
+    if (address == 0) {
+        rA.sign = instruction.sign;
+    }
 }
 
 void Machine::executeENNA(const InstructionWord& instruction) {
-    rA.set(instruction.address);
+    int32_t address = getIndexedAddress(instruction);
+    rA.set(checkRange(address));
+    if (address == 0) {
+        rA.sign = !instruction.sign;
+    }
 }
 
 
