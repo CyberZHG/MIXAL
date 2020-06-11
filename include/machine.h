@@ -64,6 +64,10 @@ class Machine {
     void executeDEC(const InstructionWord& instruction, Register5* reg);
     void executeENT(const InstructionWord& instruction, Register5* reg);
     void executeENN(const InstructionWord& instruction, Register5* reg);
+    void executeINCi(const InstructionWord& instruction);
+    void executeDECi(const InstructionWord& instruction);
+    void executeENTi(const InstructionWord& instruction);
+    void executeENNi(const InstructionWord& instruction);
 };
 
 };  // namespace mixal

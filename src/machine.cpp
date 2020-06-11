@@ -89,6 +89,19 @@ void Machine::executeSingle(const InstructionWord& instruction) {
         case 3: executeENN(instruction, &rA); break;
         }
         break;
+    case Instructions::INC1:
+    case Instructions::INC2:
+    case Instructions::INC3:
+    case Instructions::INC4:
+    case Instructions::INC5:
+    case Instructions::INC6:
+        switch (instruction.modification) {
+        case 0: executeINCi(instruction); break;
+        case 1: executeDECi(instruction); break;
+        case 2: executeENTi(instruction); break;
+        case 3: executeENNi(instruction); break;
+        }
+        break;
     case Instructions::INCX:
         switch (instruction.modification) {
         case 0: executeINC(instruction, &rX); break;
@@ -285,9 +298,47 @@ void Machine::executeENT(const InstructionWord& instruction, Register5* reg) {
 
 void Machine::executeENN(const InstructionWord& instruction, Register5* reg) {
     int32_t address = getIndexedAddress(instruction);
-    reg->set(address);
+    reg->set(-address);
     if (address == 0) {
         reg->sign = !instruction.sign;
+    }
+}
+
+void Machine::executeINCi(const InstructionWord& instruction) {
+    int registerIndex = instruction.operation - Instructions::INC1;
+    auto& rIi = rI[registerIndex];
+    int16_t value = rIi.value();
+    int16_t address = getIndexedAddress(instruction);
+    value += address;
+    rIi.set(checkRange(value, 2));
+}
+
+void Machine::executeDECi(const InstructionWord& instruction) {
+    int registerIndex = instruction.operation - Instructions::INC1;
+    auto& rIi = rI[registerIndex];
+    int16_t value = rIi.value();
+    int16_t address = getIndexedAddress(instruction);
+    value -= address;
+    rIi.set(checkRange(value, 2));
+}
+
+void Machine::executeENTi(const InstructionWord& instruction) {
+    int registerIndex = instruction.operation - Instructions::INC1;
+    auto& rIi = rI[registerIndex];
+    int16_t address = getIndexedAddress(instruction);
+    rIi.set(checkRange(address, 2));
+    if (address == 0) {
+        rIi.sign = instruction.sign;
+    }
+}
+
+void Machine::executeENNi(const InstructionWord& instruction) {
+    int registerIndex = instruction.operation - Instructions::INC1;
+    auto& rIi = rI[registerIndex];
+    int16_t address = getIndexedAddress(instruction);
+    rIi.set(checkRange(-address, 2));
+    if (address == 0) {
+        rIi.sign = !instruction.sign;
     }
 }
 
