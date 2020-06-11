@@ -34,7 +34,7 @@ void Machine::executeSingle(const InstructionWord& instruction) {
         executeDIV(instruction);
         break;
     case Instructions::LDA:
-        executeLDA(instruction);
+        executeLD(instruction, &rA);
         break;
     case Instructions::LD1:
     case Instructions::LD2:
@@ -45,10 +45,10 @@ void Machine::executeSingle(const InstructionWord& instruction) {
         executeLDi(instruction);
         break;
     case Instructions::LDX:
-        executeLDX(instruction);
+        executeLD(instruction, &rX);
         break;
     case Instructions::LDAN:
-        executeLDAN(instruction);
+        executeLDN(instruction, &rA);
         break;
     case Instructions::LD1N:
     case Instructions::LD2N:
@@ -59,10 +59,10 @@ void Machine::executeSingle(const InstructionWord& instruction) {
         executeLDiN(instruction);
         break;
     case Instructions::LDXN:
-        executeLDXN(instruction);
+        executeLDN(instruction, &rX);
         break;
     case Instructions::STA:
-        executeSTA(instruction);
+        executeST(instruction, &rA);
         break;
     case Instructions::ST1:
     case Instructions::ST2:
@@ -73,7 +73,7 @@ void Machine::executeSingle(const InstructionWord& instruction) {
         executeSTi(instruction);
         break;
     case Instructions::STX:
-        executeSTX(instruction);
+        executeST(instruction, &rX);
         break;
     case Instructions::STJ:
         executeSTJ(instruction);
@@ -83,10 +83,18 @@ void Machine::executeSingle(const InstructionWord& instruction) {
         break;
     case Instructions::INCA:
         switch (instruction.modification) {
-        case 0: executeINCA(instruction); break;
-        case 1: executeDECA(instruction); break;
-        case 2: executeENTA(instruction); break;
-        case 3: executeENNA(instruction); break;
+        case 0: executeINC(instruction, &rA); break;
+        case 1: executeDEC(instruction, &rA); break;
+        case 2: executeENT(instruction, &rA); break;
+        case 3: executeENN(instruction, &rA); break;
+        }
+        break;
+    case Instructions::INCX:
+        switch (instruction.modification) {
+        case 0: executeINC(instruction, &rX); break;
+        case 1: executeDEC(instruction, &rX); break;
+        case 2: executeENT(instruction, &rX); break;
+        case 3: executeENN(instruction, &rX); break;
         }
         break;
     default:
@@ -141,10 +149,11 @@ void Machine::copyToRegister2(const InstructionWord& instruction, const Computer
     }
 }
 
-int32_t Machine::checkRange(int32_t value) {
-    if (abs(value) >= (1 << 30)) {
+int32_t Machine::checkRange(int32_t value, int bytes) {
+    int32_t range = 1 << (6 * bytes);
+    if (abs(value) >= range) {
         overflow = true;
-        value %= (1 << 30);
+        value %= range;
     }
     return value;
 }
@@ -202,9 +211,9 @@ void Machine::executeDIV(const InstructionWord& instruction) {
     rX.set(remainder);
 }
 
-void Machine::executeLDA(const InstructionWord& instruction) {
+void Machine::executeLD(const InstructionWord& instruction, Register5* reg) {
     int address = getIndexedAddress(instruction);
-    copyToRegister5(instruction, memory[address], &rA);
+    copyToRegister5(instruction, memory[address], reg);
 }
 
 void Machine::executeLDi(const InstructionWord& instruction) {
@@ -214,14 +223,9 @@ void Machine::executeLDi(const InstructionWord& instruction) {
     copyToRegister2(instruction, memory[address], &rIi);
 }
 
-void Machine::executeLDX(const InstructionWord& instruction) {
-    int address = getIndexedAddress(instruction);
-    copyToRegister5(instruction, memory[address], &rX);
-}
-
-void Machine::executeLDAN(const InstructionWord& instruction) {
-    executeLDA(instruction);
-    rA.sign = 1 - rA.sign;
+void Machine::executeLDN(const InstructionWord& instruction, Register5* reg) {
+    executeLD(instruction, reg);
+    reg->sign = !reg->sign;
 }
 
 void Machine::executeLDiN(const InstructionWord& instruction) {
@@ -232,14 +236,9 @@ void Machine::executeLDiN(const InstructionWord& instruction) {
     rIi.sign = 1 - rIi.sign;
 }
 
-void Machine::executeLDXN(const InstructionWord& instruction) {
-    executeLDX(instruction);
-    rX.sign = 1 - rX.sign;
-}
-
-void Machine::executeSTA(const InstructionWord& instruction) {
+void Machine::executeST(const InstructionWord& instruction, Register5* reg) {
     int address = getIndexedAddress(instruction);
-    copyFromRegister5(instruction, rA, &memory[address]);
+    copyFromRegister5(instruction, *reg, &memory[address]);
 }
 
 void Machine::executeSTi(const InstructionWord& instruction) {
@@ -248,11 +247,6 @@ void Machine::executeSTi(const InstructionWord& instruction) {
     auto& rIi = rI[registerIndex];
     ComputerWord word(rIi.sign, 0, 0, 0, rIi[1], rIi[2]);
     copyFromRegister5(instruction, word, &memory[address]);
-}
-
-void Machine::executeSTX(const InstructionWord& instruction) {
-    int address = getIndexedAddress(instruction);
-    copyFromRegister5(instruction, rX, &memory[address]);
 }
 
 void Machine::executeSTJ(const InstructionWord& instruction) {
@@ -267,35 +261,34 @@ void Machine::executeSTZ(const InstructionWord& instruction) {
     copyFromRegister5(instruction, word, &memory[address]);
 }
 
-void Machine::executeINCA(const InstructionWord& instruction) {
-    int32_t value = rA.value();
+void Machine::executeINC(const InstructionWord& instruction, Register5* reg) {
+    int32_t value = reg->value();
     int32_t address = getIndexedAddress(instruction);
     value += address;
-    rA.set(checkRange(value));
+    reg->set(checkRange(value));
 }
 
-void Machine::executeDECA(const InstructionWord& instruction) {
-    int32_t value = rA.value();
+void Machine::executeDEC(const InstructionWord& instruction, Register5* reg) {
+    int32_t value = reg->value();
     int32_t address = getIndexedAddress(instruction);
     value -= address;
-    rA.set(checkRange(value));
+    reg->set(checkRange(value));
 }
 
-void Machine::executeENTA(const InstructionWord& instruction) {
+void Machine::executeENT(const InstructionWord& instruction, Register5* reg) {
     int32_t address = getIndexedAddress(instruction);
-    rA.set(checkRange(address));
+    reg->set(address);
     if (address == 0) {
-        rA.sign = instruction.sign;
+        reg->sign = instruction.sign;
     }
 }
 
-void Machine::executeENNA(const InstructionWord& instruction) {
+void Machine::executeENN(const InstructionWord& instruction, Register5* reg) {
     int32_t address = getIndexedAddress(instruction);
-    rA.set(checkRange(address));
+    reg->set(address);
     if (address == 0) {
-        rA.sign = !instruction.sign;
+        reg->sign = !instruction.sign;
     }
 }
-
 
 };  // namespace mixal

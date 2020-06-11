@@ -46,27 +46,24 @@ class Machine {
     void copyToRegister5(const InstructionWord& instruction, const ComputerWord& word, Register5* reg);
     void copyFromRegister5(const InstructionWord& instruction, const Register5& reg, ComputerWord* word);
     void copyToRegister2(const InstructionWord& instruction, const ComputerWord& word, Register2* reg);
-    int32_t checkRange(int32_t value);
+    int32_t checkRange(int32_t value, int bytes = 5);
 
     void executeADD(const InstructionWord& instruction);
     void executeSUB(const InstructionWord& instruction);
     void executeMUL(const InstructionWord& instruction);
     void executeDIV(const InstructionWord& instruction);
-    void executeLDA(const InstructionWord& instruction);
+    void executeLD(const InstructionWord& instruction, Register5* reg);
     void executeLDi(const InstructionWord& instruction);
-    void executeLDX(const InstructionWord& instruction);
-    void executeLDAN(const InstructionWord& instruction);
+    void executeLDN(const InstructionWord& instruction, Register5* reg);
     void executeLDiN(const InstructionWord& instruction);
-    void executeLDXN(const InstructionWord& instruction);
-    void executeSTA(const InstructionWord& instruction);
+    void executeST(const InstructionWord& instruction, Register5* reg);
     void executeSTi(const InstructionWord& instruction);
-    void executeSTX(const InstructionWord& instruction);
     void executeSTJ(const InstructionWord& instruction);
     void executeSTZ(const InstructionWord& instruction);
-    void executeINCA(const InstructionWord& instruction);
-    void executeDECA(const InstructionWord& instruction);
-    void executeENTA(const InstructionWord& instruction);
-    void executeENNA(const InstructionWord& instruction);
+    void executeINC(const InstructionWord& instruction, Register5* reg);
+    void executeDEC(const InstructionWord& instruction, Register5* reg);
+    void executeENT(const InstructionWord& instruction, Register5* reg);
+    void executeENN(const InstructionWord& instruction, Register5* reg);
 };
 
 };  // namespace mixal
