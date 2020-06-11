@@ -110,6 +110,20 @@ void Machine::executeSingle(const InstructionWord& instruction) {
         case 3: executeENN(instruction, &rX); break;
         }
         break;
+    case Instructions::CMPA:
+        executeCMP(instruction, &rA);
+        break;
+    case Instructions::CMP1:
+    case Instructions::CMP2:
+    case Instructions::CMP3:
+    case Instructions::CMP4:
+    case Instructions::CMP5:
+    case Instructions::CMP6:
+        executeCMPi(instruction);
+        break;
+    case Instructions::CMPX:
+        executeCMP(instruction, &rX);
+        break;
     default:
         break;
     }
@@ -339,6 +353,38 @@ void Machine::executeENNi(const InstructionWord& instruction) {
     rIi.set(checkRange(-address, 2));
     if (address == 0) {
         rIi.sign = !instruction.sign;
+    }
+}
+
+void Machine::executeCMP(const InstructionWord& instruction, Register5* reg) {
+    ComputerWord a, b;
+    int32_t address = getIndexedAddress(instruction);
+    copyToRegister5(instruction, *reg, &a);
+    copyToRegister5(instruction, memory[address], &b);
+    int32_t aVal = a.value(), bVal = b.value();
+    if (aVal < bVal) {
+        comparison = ComparisonIndicator::LESS;
+    } else if (aVal > bVal) {
+        comparison = ComparisonIndicator::GREATER;
+    } else {
+        comparison = ComparisonIndicator::EQUAL;
+    }
+}
+
+void Machine::executeCMPi(const InstructionWord& instruction) {
+    int registerIndex = instruction.operation - Instructions::CMP1;
+    auto& rIi = rI[registerIndex];
+    ComputerWord t(rIi.sign, 0, 0, 0, rIi.byte1, rIi.byte2), a, b;
+    int32_t address = getIndexedAddress(instruction);
+    copyToRegister5(instruction, t, &a);
+    copyToRegister5(instruction, memory[address], &b);
+    int32_t aVal = a.value(), bVal = b.value();
+    if (aVal < bVal) {
+        comparison = ComparisonIndicator::LESS;
+    } else if (aVal > bVal) {
+        comparison = ComparisonIndicator::GREATER;
+    } else {
+        comparison = ComparisonIndicator::EQUAL;
     }
 }
 
