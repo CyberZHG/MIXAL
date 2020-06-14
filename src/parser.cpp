@@ -55,7 +55,7 @@ inline bool isDigit(char ch) {
     return ('0' <= ch && ch <= '9');
 }
 
-inline bool isAlpha(char ch) {
+inline bool iaAlnum(char ch) {
     return ('A' <= ch && ch <= 'Z') || isDigit(ch);
 }
 
@@ -104,7 +104,7 @@ Parser::ParsedResult Parser::parseLine(const std::string& line, bool hasLocation
             if (ch == ' ') {
                 state = ParseState::BEFORE_OP;
                 result.location = line.substr(locationStart, i - locationStart);
-            } else if (!isAlpha(ch)) {
+            } else if (!iaAlnum(ch)) {
                 throw ParseError(i, "Unexpected character encountered while parsing location");
             }
             break;
@@ -117,7 +117,7 @@ Parser::ParsedResult Parser::parseLine(const std::string& line, bool hasLocation
                 }
                 state = ParseState::END;
                 result.parsedType = ParsedType::EMPTY;
-            } else if (isAlpha(ch)) {
+            } else if (iaAlnum(ch)) {
                 state = ParseState::OP;
                 operationStart = i;
             } else {
@@ -134,7 +134,7 @@ Parser::ParsedResult Parser::parseLine(const std::string& line, bool hasLocation
                 result.operation = line.substr(operationStart, i - operationStart);
                 result.word.operation = static_cast<int>(Instructions::getInstructionCode(result.operation));
                 defaultField = Instructions::getDefaultField(result.operation);
-            } else if (!isAlpha(ch)) {
+            } else if (!iaAlnum(ch)) {
                 throw ParseError(i, "Unexpected character encountered while parsing operation");
             }
             break;

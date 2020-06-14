@@ -283,6 +283,16 @@ Instructions::Code Instructions::getInstructionCode(const std::string& name) {
                 break;
             }
             break;
+        case 'Q':
+            switch (charAt(2)) {
+            case 'U':
+                switch (charAt(3)) {
+                case '#':
+                    return Instructions::EQU;
+                }
+                break;
+            }
+            break;
         }
         break;
     case 'F':
@@ -1035,6 +1045,20 @@ Instructions::Code Instructions::getInstructionCode(const std::string& name) {
         break;
     case 'O':
         switch (charAt(1)) {
+        case 'R':
+            switch (charAt(2)) {
+            case 'I':
+                switch (charAt(3)) {
+                case 'G':
+                    switch (charAt(4)) {
+                    case '#':
+                        return Instructions::ORIG;
+                    }
+                    break;
+                }
+                break;
+            }
+            break;
         case 'U':
             switch (charAt(2)) {
             case 'T':

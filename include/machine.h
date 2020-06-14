@@ -1,6 +1,7 @@
 #ifndef INCLUDE_MACHINE_H_
 #define INCLUDE_MACHINE_H_
 
+#include <map>
 #include "registers.h"
 #include "flags.h"
 #include "memory.h"

@@ -19,8 +19,6 @@ void Machine::reset() {
 
 void Machine::executeSingle(const InstructionWord& instruction) {
     switch (instruction.operation) {
-    case Instructions::NOP:
-        break;
     case Instructions::ADD:
         executeADD(instruction);
         break;

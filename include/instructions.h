@@ -159,6 +159,8 @@ class Instructions {
         CMP5 = 61,  // compare I5
         CMP6 = 62,  // compare I6
         CMPX = 63,  // compare IX
+        EQU = 100,  // pseudo-operation: equivalent
+        ORIG = 101,  // pseudo-operation: originate
     };
 
     static Instructions::Code getInstructionCode(const std::string& name);
