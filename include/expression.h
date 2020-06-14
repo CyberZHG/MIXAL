@@ -45,6 +45,8 @@ struct Atomic {
         }
         return *this;
     }
+
+    friend std::ostream& operator<<(std::ostream& out, const Atomic& atomic);
 };
 
 struct AtomicValue {
@@ -71,17 +73,23 @@ enum class Operation {
     FIELD,
 };
 
+std::ostream& operator<<(std::ostream& out, Operation operation);
+
 class Expression {
  public:
-    Expression() : _evaluated(false), _result(), _depends(), _atomics(), _operations() {}
+    Expression() : _evaluated(false), _result(), _literalConstant(false),
+                   _depends(), _atomics(), _operations() {}
 
     static Expression getConstExpression(const AtomicValue& value);
+    static Expression getConstExpression(const std::string& symbol);
     static Expression getConstOffsetExpression(const std::string& symbol, int32_t offset);
     static bool isValidFirst(char ch);
     static bool isValidChar(char ch);
 
     inline bool evaluated() const { return _evaluated; }
     inline const AtomicValue& result() const { return _result; }
+
+    inline bool literalConstant() const { return _literalConstant; }
 
     inline const std::unordered_set<std::string> depends() const { return _depends; }
     inline const std::vector<Atomic> atomics() const { return _atomics; }
@@ -90,9 +98,13 @@ class Expression {
     void parse(const std::string& expression, const std::string& lineSymbol);
     bool evaluate(const std::unordered_map<std::string, AtomicValue>& constants);
 
+    friend std::ostream& operator<<(std::ostream& out, const Expression& expression);
+
  private:
     bool _evaluated;
     AtomicValue _result;
+
+    bool _literalConstant;
 
     std::unordered_set<std::string> _depends;
     std::vector<Atomic> _atomics;

@@ -5,6 +5,12 @@
 
 namespace mixal {
 
+bool ComputerWord::operator==(const ComputerWord& word) const {
+    return sign == word.sign && byte1 == word.byte1 &&
+           byte2 == word.byte2 && byte3 == word.byte3 &&
+           byte4 == word.byte4 && byte5 == word.byte5;
+}
+
 uint8_t ComputerWord::operator[](int index) const {
     if (index <= 0 || index > 5) {
         throw std::runtime_error("Invalid index for a word: " + std::to_string(index));

@@ -2,6 +2,7 @@
 #define INCLUDE_MACHINE_H_
 
 #include <map>
+#include <vector>
 #include <string>
 #include <unordered_map>
 #include "registers.h"
@@ -27,7 +28,7 @@ class Machine {
     ComputerWord memory[NUM_MEMORY];
 
     Machine() : rA(), rX(), rI(), rJ(), overflow(false), comparison(ComparisonIndicator::EQUAL), memory(),
-      _pesudoVarIndex(), _lineBase(), _lineOffset(), _constants() {}
+      _pesudoVarIndex(), _lineBase(), _lineOffset(), _constants(), _lineNumbers() {}
 
     inline Register2& rI1() { return rI[0]; }
     inline Register2& rI2() { return rI[1]; }
@@ -50,11 +51,14 @@ class Machine {
     void executeSingle(const InstructionWord& instruction);
     void executeSinglePesudo(ParsedResult* instruction);
 
+    void loadCodes(const std::vector<std::string>& codes);
+
  private:
     int32_t _pesudoVarIndex;
     std::string _lineBase;
     int32_t _lineOffset;
     std::unordered_map<std::string, AtomicValue> _constants;
+    std::vector<std::string> _lineNumbers;
 
     std::string getPesudoSymbolname();
 

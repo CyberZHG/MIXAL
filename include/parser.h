@@ -23,7 +23,8 @@ class Parser;
 class ParsedResult {
  public:
     ParsedType parsedType;
-    std::string location;
+    std::string rawLocation;
+    Expression location;
     std::string operation;
     std::string rawAddress;
     Expression address;
@@ -34,7 +35,9 @@ class ParsedResult {
     InstructionWord word;
     std::string comment;
 
-    ParsedResult() : parsedType(ParsedType::EMPTY), location(), operation(),
+    ParsedResult() : parsedType(ParsedType::EMPTY),
+        rawLocation(), location(),
+        operation(),
         rawAddress(), address(),
         rawIndex(), index(),
         rawField(), field(),
@@ -44,6 +47,7 @@ class ParsedResult {
     bool evaluated() const;
 
     friend Parser;
+    friend std::ostream& operator<<(std::ostream& out, const ParsedResult& result);
 
  private:
     bool evaluateAddress(const std::unordered_map<std::string, AtomicValue>& constants, int32_t index = 0);

@@ -2004,6 +2004,16 @@ int Instructions::getDefaultField(const std::string& name) {
                 break;
             }
             break;
+        case 'T':
+            switch (charAt(2)) {
+            case 'J':
+                switch (charAt(3)) {
+                case '#':
+                    return 2;
+                }
+                break;
+            }
+            break;
         }
         break;
     }

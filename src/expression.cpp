@@ -12,10 +12,18 @@ Expression Expression::getConstExpression(const AtomicValue& value) {
     return expr;
 }
 
+Expression Expression::getConstExpression(const std::string& symbol) {
+    auto expr = Expression();
+    expr._atomics.emplace_back(Atomic(AtomicType::SYMBOL, symbol));
+    expr._depends.insert(symbol);
+    return expr;
+}
+
 Expression Expression::getConstOffsetExpression(const std::string& symbol, int32_t offset) {
     auto expr = Expression();
     expr._atomics = {Atomic(AtomicType::SYMBOL, symbol), Atomic(AtomicType::INTEGER, offset)};
     expr._operations = {Operation::ADD};
+    expr._depends.insert(symbol);
     return expr;
 }
 
@@ -65,8 +73,15 @@ void Expression::parse(const std::string& expression, const std::string& lineSym
     _depends.clear();
     _atomics.clear();
     _operations.clear();
-    for (int i = 0; i <= static_cast<int>(expression.size()); ++i) {
-        char ch = i < static_cast<int>(expression.size()) ? expression[i] : END_CHAR;
+    int start = 0;
+    int exprLen = static_cast<int>(expression.size());
+    if (exprLen > 2 && expression[0] == '=' && expression[exprLen - 1] == '=') {
+        _literalConstant = true;
+        start = 1;
+        --exprLen;
+    }
+    for (int i = start; i <= exprLen; ++i) {
+        char ch = i < exprLen ? expression[i] : END_CHAR;
         switch (state) {
         case ParseState::START:
             if (ch == '+' || ch == '-' || ch == '*' || isalnum(ch)) {
@@ -228,6 +243,35 @@ bool Expression::evaluate(const std::unordered_map<std::string, AtomicValue>& co
     _evaluated = true;
     _result = first;
     return true;
+}
+
+std::ostream& operator<<(std::ostream& out, const Atomic& atomic) {
+    switch (atomic.type) {
+    case AtomicType::INTEGER: out << atomic.integer; break;
+    case AtomicType::SYMBOL: out << atomic.symbol; break;
+    case AtomicType::ASTERISK: out << atomic.symbol; break;
+    }
+    return out;
+}
+
+std::ostream& operator<<(std::ostream& out, Operation operation) {
+    switch (operation) {
+    case Operation::ADD: out << '+'; break;
+    case Operation::SUBTRACT: out << '-'; break;
+    case Operation::MULTIPLY: out << '*'; break;
+    case Operation::FLOOR_DIV: out << '/'; break;
+    case Operation::FIELD: out << ':'; break;
+    }
+    return out;
+}
+
+std::ostream& operator<<(std::ostream& out, const Expression& expression) {
+    out << expression._atomics[0];
+    for (size_t i = 0; i < expression._operations.size(); ++i) {
+        out << expression._operations[i];
+        out << expression._atomics[i + 1];
+    }
+    return out;
 }
 
 };  // namespace mixal

@@ -126,6 +126,37 @@ bool ParsedResult::evaluated() const {
     return true;
 }
 
+std::ostream& operator<<(std::ostream& out, const ParsedResult& result) {
+    if (result.location.evaluated()) {
+        out << result.location.result().value << '\t';
+    } else {
+        out << result.rawLocation << '\t';
+    }
+    out << result.operation << '\t';
+    if (!result.rawAddress.empty()) {
+        if (result.address.evaluated()) {
+            out << result.address.result().value;
+        } else {
+            out << result.address;
+        }
+    }
+    if (!result.rawIndex.empty()) {
+        if (result.index.evaluated()) {
+            out << ',' << result.index.result().value;
+        } else {
+            out << ',' << result.index;
+        }
+    }
+    if (!result.rawField.empty()) {
+        if (result.field.evaluated()) {
+            out << '(' << result.field.result().value << ')';
+        } else {
+            out << '(' << result.field << ')';
+        }
+    }
+    return out;
+}
+
 ParsedResult Parser::parseLine(const std::string& line, const std::string& lineSymbol, bool hasLocation) {
     const char END_CHAR = '#';
     const int INIT_INDEX = -1;
@@ -158,7 +189,7 @@ ParsedResult Parser::parseLine(const std::string& line, const std::string& lineS
         case ParseState::LOC:
             if (ch == ' ') {
                 state = ParseState::BEFORE_OP;
-                result.location = line.substr(locationStart, i - locationStart);
+                result.rawLocation = line.substr(locationStart, i - locationStart);
             } else if (!isalnum(ch)) {
                 throw ParseError(i, "Unexpected character encountered while parsing location");
             }

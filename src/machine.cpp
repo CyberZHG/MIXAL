@@ -1,5 +1,8 @@
 #include <iostream>
+#include <set>
+#include <sstream>
 #include "machine.h"
+#include "parser.h"
 
 namespace mixal {
 
@@ -19,6 +22,7 @@ void Machine::reset() {
     _lineBase = "";
     _lineOffset = 0;
     _constants.clear();
+    _lineNumbers.clear();
 }
 
 std::string Machine::getSingleLineSymbol() {
@@ -171,6 +175,98 @@ void Machine::executeSinglePesudo(ParsedResult* instruction) {
         break;
     default:
         break;
+    }
+}
+
+void Machine::loadCodes(const std::vector<std::string>& codes) {
+    this->reset();
+    // Parse and save all the results and intermediate expressions
+    std::vector<ParsedResult> results;
+    std::unordered_map<std::string, Expression> expressions;
+    std::string lineBase;
+    int32_t lineOffset = 0;
+    for (auto code : codes) {
+        auto lineSymbol = getPesudoSymbolname();
+        auto result = Parser::parseLine(code, lineSymbol, true);
+        if (result.parsedType == ParsedType::PSEUDO) {
+            switch (result.word.operation + Instructions::PSEUDO) {
+            case Instructions::EQU:
+                expressions[result.rawLocation] = result.address;
+                break;
+            case Instructions::ORIG:
+                lineBase = getPesudoSymbolname();
+                expressions[lineBase] = result.address;
+                lineOffset = 0;
+                break;
+            default:
+                break;
+            }
+        } else if (result.parsedType == ParsedType::INSTRUCTION) {
+            bool usedLineSymbol = !result.rawLocation.empty() ||
+                                (!result.rawAddress.empty() && result.address.depends().count(lineSymbol)) ||
+                                (!result.rawIndex.empty() && result.index.depends().count(lineSymbol)) ||
+                                (!result.rawField.empty() && result.field.depends().count(lineSymbol));
+            if (lineBase.empty()) {
+                expressions[lineSymbol] = Expression::getConstExpression(AtomicValue(lineOffset));
+            } else {
+                expressions[lineSymbol] = Expression::getConstOffsetExpression(lineBase, lineOffset);
+            }
+            if (!result.rawLocation.empty()) {
+                expressions[result.rawLocation] = Expression::getConstExpression(lineSymbol);
+            } else if (usedLineSymbol) {
+                result.rawLocation = lineSymbol;
+            }
+            result.location = expressions[lineSymbol];
+            ++lineOffset;
+            if (!result.rawAddress.empty()) {
+                expressions[getPesudoSymbolname()] = result.address;
+            }
+            if (!result.rawIndex.empty()) {
+                expressions[getPesudoSymbolname()] = result.index;
+            }
+            if (!result.rawField.empty()) {
+                expressions[getPesudoSymbolname()] = result.field;
+            }
+            results.emplace_back(result);
+        }
+    }
+    // Try to solve all the expressions
+    std::unordered_map<std::string, int> dependNums;
+    std::unordered_map<std::string, std::unordered_set<std::string>> solves;
+    std::unordered_map<std::string, AtomicValue> constants;
+    std::set<std::pair<int, std::string>> tasks;
+    for (auto& it : expressions) {
+        dependNums[it.first] = static_cast<int>(it.second.depends().size());
+        for (auto& depend : it.second.depends()) {
+            solves[depend].insert(it.first);
+        }
+        tasks.insert({dependNums[it.first], it.first});
+    }
+    while (!tasks.empty()) {
+        auto& symbol = tasks.begin()->second;
+        auto& expression = expressions[symbol];
+        if (tasks.begin()->first != 0 || !expression.evaluate(constants)) {
+            throw RuntimeError(0, "Unresolved symbol found while trying to calcuate: " +
+                                  tasks.begin()->second);
+        }
+        constants[symbol] = expression.result();
+        tasks.erase({0, symbol});
+        for (auto& solve : solves[symbol]) {
+            tasks.erase({dependNums[solve], solve});
+            tasks.insert({--dependNums[solve], solve});
+        }
+    }
+    // Load results to memory
+    for (auto& result : results) {
+        result.location.evaluate(constants);
+        if (!result.evaluated()) {
+            result.evaluate(constants);
+        }
+        memory[result.location.result().value].set(result.word.sign,
+                                                   result.word.address,
+                                                   result.word.index,
+                                                   result.word.field,
+                                                   result.word.operation);
     }
 }
 
@@ -443,7 +539,7 @@ void Machine::executeEQU(ParsedResult* instruction) {
             throw RuntimeError(_lineOffset, "Unresolved symbol found while parsing EQU: " + instruction->rawAddress);
         }
     }
-    _constants[instruction->location] = AtomicValue(instruction->address.result().value);
+    _constants[instruction->rawLocation] = AtomicValue(instruction->address.result().value);
 }
 
 void Machine::executeORIG(ParsedResult* instruction) {
@@ -452,9 +548,9 @@ void Machine::executeORIG(ParsedResult* instruction) {
             throw RuntimeError(_lineOffset, "Unresolved symbol found while parsing ORIG: " + instruction->rawAddress);
         }
     }
-    if (instruction->location.length() > 0) {
-        _constants[instruction->location] = AtomicValue(instruction->address.result().value);
-        _lineBase = instruction->location;
+    if (instruction->rawLocation.length() > 0) {
+        _constants[instruction->rawLocation] = AtomicValue(instruction->address.result().value);
+        _lineBase = instruction->rawLocation;
     } else {
         std::string symbol = getPesudoSymbolname();
         _constants[symbol] = AtomicValue(instruction->address.result().value);

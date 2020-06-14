@@ -23,6 +23,8 @@ struct ComputerWord {
         byte1 = byte2 = byte3 = byte4 = byte5 = 0;
     }
 
+    bool operator==(const ComputerWord& word) const;
+
     uint8_t operator[](int index) const;
     uint16_t bytes2(int index1, int index2) const;
     uint16_t bytes12() const;

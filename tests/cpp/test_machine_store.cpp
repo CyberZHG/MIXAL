@@ -178,11 +178,11 @@ __TEST_U(TestMachineStore, test_stj_all) {
     auto result = mixal::Parser::parseLine("STJ 2000", "", false);
     machine.executeSingle(result.word);
     __ASSERT_EQ(0, machine.memory[2000].sign);
-    __ASSERT_EQ(0, machine.memory[2000][1]);
-    __ASSERT_EQ(0, machine.memory[2000][2]);
-    __ASSERT_EQ(0, machine.memory[2000][3]);
-    __ASSERT_EQ(6, machine.memory[2000][4]);
-    __ASSERT_EQ(7, machine.memory[2000][5]);
+    __ASSERT_EQ(6, machine.memory[2000][1]);
+    __ASSERT_EQ(7, machine.memory[2000][2]);
+    __ASSERT_EQ(3, machine.memory[2000][3]);
+    __ASSERT_EQ(4, machine.memory[2000][4]);
+    __ASSERT_EQ(5, machine.memory[2000][5]);
 }
 
 __TEST_U(TestMachineStore, test_stz_all) {
