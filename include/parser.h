@@ -3,24 +3,12 @@
 
 #include <string>
 #include <stdexcept>
+#include <unordered_map>
 #include "instructions.h"
 #include "expression.h"
+#include "errors.h"
 
 namespace mixal {
-
-class ParseError : public std::exception {
- public:
-    explicit ParseError(int index, const std::string message) : _index(index), _message(message) {}
-
-    inline int index() const { return _index; }
-
-    const char* what() const noexcept override {
-        return _message.c_str();
-    }
- private:
-    int _index;
-    std::string _message;
-};
 
 enum class ParsedType {
     EMPTY,
@@ -29,7 +17,10 @@ enum class ParsedType {
 
 std::ostream& operator<<(std::ostream& os, ParsedType c);
 
-struct ParsedResult {
+class Parser;
+
+class ParsedResult {
+ public:
     ParsedType parsedType;
     std::string location;
     std::string operation;
@@ -47,6 +38,16 @@ struct ParsedResult {
         rawIndex(), index(),
         rawField(), field(),
         word(), comment() {}
+
+    bool evaluate(const std::unordered_map<std::string, AtomicValue>& constants);
+    bool evaluated() const;
+
+    friend Parser;
+
+ private:
+    bool evaluateAddress(const std::unordered_map<std::string, AtomicValue>& constants, int32_t index = 0);
+    bool evaluateIndex(const std::unordered_map<std::string, AtomicValue>& constants, int32_t index = 0);
+    bool evaluateField(const std::unordered_map<std::string, AtomicValue>& constants, int32_t index = 0);
 };
 
 class Parser {

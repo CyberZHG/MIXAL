@@ -54,6 +54,77 @@ std::ostream& operator<<(std::ostream& os, ParsedType c) {
     return os;
 }
 
+bool ParsedResult::evaluate(const std::unordered_map<std::string, AtomicValue>& constants) {
+    if (rawAddress.length() > 0 && !address.evaluated()) {
+        if (!evaluateAddress(constants)) {
+            return false;
+        }
+    }
+    if (rawIndex.length() > 0 && !index.evaluated()) {
+        if (!evaluateIndex(constants)) {
+            return false;
+        }
+    }
+    if (rawField.length() > 0 && !field.evaluated()) {
+        if (!evaluateField(constants)) {
+            return false;
+        }
+    }
+    return true;
+}
+
+bool ParsedResult::evaluateAddress(const std::unordered_map<std::string, AtomicValue>& constants, int32_t index) {
+    if (address.evaluate(constants)) {
+        int32_t value = address.result().value;
+        if (abs(value) >= 4096) {
+            throw ParseError(index, "Address can not be represented in 2 bytes");
+        }
+        word.sign = address.result().negative;
+        word.address = static_cast<uint16_t>(abs(value));
+    }
+    return address.evaluated();
+}
+
+bool ParsedResult::evaluateIndex(const std::unordered_map<std::string, AtomicValue>& constants, int32_t column) {
+    if (index.evaluate(constants)) {
+        int32_t value = index.result().value;
+        if (value < 0 || 6 < value) {
+            throw ParseError(column, "Invalid index value: " + std::to_string(word.index));
+        }
+        word.index = static_cast<uint8_t>(value);
+    }
+    return index.evaluated();
+}
+
+bool ParsedResult::evaluateField(const std::unordered_map<std::string, AtomicValue>& constants, int32_t index) {
+    int32_t defaultField = Instructions::getDefaultField(operation);
+    if (field.evaluate(constants)) {
+        int32_t value = field.result().value;
+        if (defaultField >= 0 && value != defaultField) {
+            throw ParseError(index, "The given field value does not match the default one: " +
+                                    std::to_string(value) + " != " + std::to_string(defaultField));
+        }
+        if (value < 0 || 64 <= value) {
+            throw ParseError(index, "Invalid field value: " + std::to_string(value));
+        }
+        word.field = static_cast<uint8_t>(value);
+    }
+    return field.evaluated();
+}
+
+bool ParsedResult::evaluated() const {
+    if (rawAddress.length() > 0 && !address.evaluated()) {
+        return false;
+    }
+    if (rawIndex.length() > 0 && !index.evaluated()) {
+        return false;
+    }
+    if (rawField.length() > 0 && !field.evaluated()) {
+        return false;
+    }
+    return true;
+}
+
 ParsedResult Parser::parseLine(const std::string& line, const std::string& lineSymbol, bool hasLocation) {
     const char END_CHAR = '#';
     const int INIT_INDEX = -1;
@@ -151,14 +222,7 @@ ParsedResult Parser::parseLine(const std::string& line, const std::string& lineS
                 } catch (const ExpressionError& e) {
                     throw ParseError(addressStart + e.index(), e.what());
                 }
-                if (result.address.evaluate(emptyDict)) {
-                    int32_t address = result.address.result().value;
-                    if (abs(address) >= 4096) {
-                        throw ParseError(i, "Address can not be represented in 2 bytes");
-                    }
-                    result.word.sign = result.address.result().negative;
-                    result.word.address = static_cast<uint16_t>(abs(address));;
-                }
+                result.evaluateAddress(emptyDict);
             } else if (!Expression::isValidChar(ch)) {
                 throw ParseError(i, "Unexpected character encountered while parsing address");
             }
@@ -188,13 +252,7 @@ ParsedResult Parser::parseLine(const std::string& line, const std::string& lineS
                 } catch (const ExpressionError& e) {
                     throw ParseError(addressStart + e.index(), e.what());
                 }
-                if (result.index.evaluate(emptyDict)) {
-                    int32_t index = result.index.result().value;
-                    if (index < 0 || 6 < index) {
-                        throw ParseError(i, "Invalid index value: " + std::to_string(result.word.index));
-                    }
-                    result.word.index = static_cast<uint8_t>(index);
-                }
+                result.evaluateIndex(emptyDict);
             } else if (!Expression::isValidChar(ch)) {
                 throw ParseError(i, "Unexpected character encountered while parsing index");
             }
@@ -216,17 +274,7 @@ ParsedResult Parser::parseLine(const std::string& line, const std::string& lineS
                 } catch (const ExpressionError& e) {
                     throw ParseError(addressStart + e.index(), e.what());
                 }
-                if (result.field.evaluate(emptyDict)) {
-                    int32_t field = result.field.result().value;
-                    if (defaultField >= 0 && field != defaultField) {
-                        throw ParseError(i, "The given field value does not match the default one: " +
-                                            std::to_string(field) + " != " + std::to_string(defaultField));
-                    }
-                    if (field < 0 || 64 <= field) {
-                        throw ParseError(i, "Invalid field value: " + std::to_string(field));
-                    }
-                    result.word.field = static_cast<uint8_t>(field);
-                }
+                result.evaluateField(emptyDict);
             } else if (!Expression::isValidChar(ch)) {
                 throw ParseError(i, "Unexpected character encountered while parsing index");
             }

@@ -5,22 +5,9 @@
 #include <vector>
 #include <unordered_map>
 #include <unordered_set>
+#include "errors.h"
 
 namespace mixal {
-
-class ExpressionError : public std::exception {
- public:
-    explicit ExpressionError(int index, const std::string message) : _index(index), _message(message) {}
-
-    inline int index() const { return _index; }
-
-    const char* what() const noexcept override {
-        return _message.c_str();
-    }
- private:
-    int _index;
-    std::string _message;
-};
 
 enum class AtomicType {
     INTEGER,
