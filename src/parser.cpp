@@ -50,6 +50,7 @@ std::ostream& operator<<(std::ostream& os, ParsedType c) {
     switch (c) {
     case ParsedType::EMPTY: os << "EMPTY"; break;
     case ParsedType::INSTRUCTION: os << "INSTRUCTION"; break;
+    case ParsedType::PSEUDO: os << "PSEUDO"; break;
     }
     return os;
 }
@@ -76,7 +77,7 @@ bool ParsedResult::evaluate(const std::unordered_map<std::string, AtomicValue>& 
 bool ParsedResult::evaluateAddress(const std::unordered_map<std::string, AtomicValue>& constants, int32_t index) {
     if (address.evaluate(constants)) {
         int32_t value = address.result().value;
-        if (abs(value) >= 4096) {
+        if (parsedType == ParsedType::INSTRUCTION && abs(value) >= 4096) {
             throw ParseError(index, "Address can not be represented in 2 bytes");
         }
         word.sign = address.result().negative;
@@ -186,8 +187,16 @@ ParsedResult Parser::parseLine(const std::string& line, const std::string& lineS
                     state = ParseState::END;
                 }
                 result.operation = line.substr(operationStart, i - operationStart);
-                result.word.operation = static_cast<int>(Instructions::getInstructionCode(result.operation));
-                defaultField = Instructions::getDefaultField(result.operation);
+                int32_t operation = static_cast<int>(Instructions::getInstructionCode(result.operation));
+                if (operation == Instructions::INVALID) {
+                    throw ParseError(i, "Unknown operation: " + result.operation);
+                } else if (operation <= Instructions::LAST) {
+                    result.word.operation = static_cast<uint8_t>(operation);
+                    defaultField = Instructions::getDefaultField(result.operation);
+                } else {
+                    result.parsedType = ParsedType::PSEUDO;
+                    result.word.operation = static_cast<uint8_t>(operation - Instructions::PSEUDO);
+                }
             } else if (!isalnum(ch)) {
                 throw ParseError(i, "Unexpected character encountered while parsing operation");
             }

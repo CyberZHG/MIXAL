@@ -47,6 +47,7 @@ class Machine {
 
     void executeSingle(ParsedResult* instruction);
     void executeSingle(const InstructionWord& instruction);
+    void executeSinglePesudo(ParsedResult* instruction);
 
  private:
     std::string _lineBase;
@@ -81,6 +82,8 @@ class Machine {
     void executeENNi(const InstructionWord& instruction);
     void executeCMP(const InstructionWord& instruction, Register5* reg);
     void executeCMPi(const InstructionWord& instruction);
+
+    void executeEQU(ParsedResult* instruction);
 };
 
 };  // namespace mixal

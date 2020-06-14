@@ -21,14 +21,17 @@ void Machine::reset() {
 }
 
 void Machine::executeSingle(ParsedResult* instruction) {
-    std::cout << "1 " << instruction->rawIndex << std::endl;
-    if (!instruction->evaluated()) {
-    std::cout << "2 " << instruction->rawIndex << std::endl;
-        if (!instruction->evaluate(_constants)) {
-            throw RuntimeError(_lineOffset, "Unresolved symbol found when trying to execute");
+    if (instruction->parsedType == ParsedType::INSTRUCTION) {
+        if (!instruction->evaluated()) {
+            if (!instruction->evaluate(_constants)) {
+                throw RuntimeError(_lineOffset, "Unresolved symbol found when trying to execute");
+            }
         }
+        executeSingle(instruction->word);
+        ++_lineOffset;
+    } else if (instruction->parsedType == ParsedType::PSEUDO) {
+        executeSinglePesudo(instruction);
     }
-    executeSingle(instruction->word);
 }
 
 void Machine::executeSingle(const InstructionWord& instruction) {
@@ -139,7 +142,18 @@ void Machine::executeSingle(const InstructionWord& instruction) {
     default:
         break;
     }
-    ++_lineOffset;
+}
+
+void Machine::executeSinglePesudo(ParsedResult* instruction) {
+    switch (instruction->word.operation + Instructions::PSEUDO) {
+    case Instructions::EQU:
+        executeEQU(instruction);
+        break;
+    case Instructions::ORIG:
+        break;
+    default:
+        break;
+    }
 }
 
 int Machine::getIndexedAddress(const InstructionWord& instruction) {
@@ -399,6 +413,15 @@ void Machine::executeCMPi(const InstructionWord& instruction) {
     } else {
         comparison = ComparisonIndicator::EQUAL;
     }
+}
+
+void Machine::executeEQU(ParsedResult* instruction) {
+    if (!instruction->address.evaluated()) {
+        if (!instruction->address.evaluate(_constants)) {
+            throw RuntimeError(_lineOffset, "Unresolved symbol found while parsing EQU: " + instruction->rawAddress);
+        }
+    }
+    _constants[instruction->location] = AtomicValue(instruction->address.result().value);
 }
 
 };  // namespace mixal

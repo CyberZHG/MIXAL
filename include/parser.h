@@ -13,6 +13,7 @@ namespace mixal {
 enum class ParsedType {
     EMPTY,
     INSTRUCTION,
+    PSEUDO,
 };
 
 std::ostream& operator<<(std::ostream& os, ParsedType c);

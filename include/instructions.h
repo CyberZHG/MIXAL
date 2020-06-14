@@ -159,6 +159,8 @@ class Instructions {
         CMP5 = 61,  // compare I5
         CMP6 = 62,  // compare I6
         CMPX = 63,  // compare IX
+        LAST = 63,  // last operation
+        PSEUDO = 100,  // pseudo-operation: begin index
         EQU = 100,  // pseudo-operation: equivalent
         ORIG = 101,  // pseudo-operation: originate
     };
