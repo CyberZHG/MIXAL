@@ -12,6 +12,14 @@ Expression Expression::getConstExpression(const AtomicValue& value) {
     return expr;
 }
 
+bool Expression::isValidFirst(char ch) {
+    return isalnum(ch) || ch == '+' || ch == '-' || ch == '*';
+}
+
+bool Expression::isValidChar(char ch) {
+    return isValidFirst(ch) || ch == '/' || ch == ':';
+}
+
 enum class ParseState {
     /**
      * EXPRESSION -> + EXPRESSION

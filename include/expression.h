@@ -12,7 +12,7 @@ class ExpressionError : public std::exception {
  public:
     explicit ExpressionError(int index, const std::string message) : _index(index), _message(message) {}
 
-    inline int index() { return _index; }
+    inline int index() const { return _index; }
 
     const char* what() const noexcept override {
         return _message.c_str();
@@ -89,6 +89,8 @@ class Expression {
     Expression() : _evaluated(false), _result(), _depends(), _atomics(), _operations() {}
 
     static Expression getConstExpression(const AtomicValue& value);
+    static bool isValidFirst(char ch);
+    static bool isValidChar(char ch);
 
     inline bool evaluated() const { return _evaluated; }
     inline const AtomicValue& result() const { return _result; }

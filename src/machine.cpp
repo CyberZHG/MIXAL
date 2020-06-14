@@ -80,7 +80,7 @@ void Machine::executeSingle(const InstructionWord& instruction) {
         executeSTZ(instruction);
         break;
     case Instructions::INCA:
-        switch (instruction.modification) {
+        switch (instruction.field) {
         case 0: executeINC(instruction, &rA); break;
         case 1: executeDEC(instruction, &rA); break;
         case 2: executeENT(instruction, &rA); break;
@@ -93,7 +93,7 @@ void Machine::executeSingle(const InstructionWord& instruction) {
     case Instructions::INC4:
     case Instructions::INC5:
     case Instructions::INC6:
-        switch (instruction.modification) {
+        switch (instruction.field) {
         case 0: executeINCi(instruction); break;
         case 1: executeDECi(instruction); break;
         case 2: executeENTi(instruction); break;
@@ -101,7 +101,7 @@ void Machine::executeSingle(const InstructionWord& instruction) {
         }
         break;
     case Instructions::INCX:
-        switch (instruction.modification) {
+        switch (instruction.field) {
         case 0: executeINC(instruction, &rX); break;
         case 1: executeDEC(instruction, &rX); break;
         case 2: executeENT(instruction, &rX); break;
@@ -137,8 +137,8 @@ int Machine::getIndexedAddress(const InstructionWord& instruction) {
 }
 
 void Machine::copyToRegister5(const InstructionWord& instruction, const ComputerWord& word, Register5* reg) {
-    int start = instruction.modification / 8;
-    int stop = instruction.modification % 8;
+    int start = instruction.field / 8;
+    int stop = instruction.field % 8;
     reg->reset();
     if (start == 0) {
         reg->sign = word.sign;
@@ -150,8 +150,8 @@ void Machine::copyToRegister5(const InstructionWord& instruction, const Computer
 }
 
 void Machine::copyFromRegister5(const InstructionWord& instruction, const Register5& reg, ComputerWord* word) {
-    int start = instruction.modification / 8;
-    int stop = instruction.modification % 8;
+    int start = instruction.field / 8;
+    int stop = instruction.field % 8;
     if (start == 0) {
         word->sign = reg.sign;
         ++start;
@@ -162,8 +162,8 @@ void Machine::copyFromRegister5(const InstructionWord& instruction, const Regist
 }
 
 void Machine::copyToRegister2(const InstructionWord& instruction, const ComputerWord& word, Register2* reg) {
-    int start = instruction.modification / 8;
-    int stop = instruction.modification % 8;
+    int start = instruction.field / 8;
+    int stop = instruction.field % 8;
     reg->reset();
     if (start == 0) {
         reg->sign = word.sign;
