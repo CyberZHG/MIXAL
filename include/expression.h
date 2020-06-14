@@ -76,6 +76,7 @@ class Expression {
     Expression() : _evaluated(false), _result(), _depends(), _atomics(), _operations() {}
 
     static Expression getConstExpression(const AtomicValue& value);
+    static Expression getConstOffsetExpression(const std::string& symbol, int32_t offset);
     static bool isValidFirst(char ch);
     static bool isValidChar(char ch);
 

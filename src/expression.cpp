@@ -12,6 +12,13 @@ Expression Expression::getConstExpression(const AtomicValue& value) {
     return expr;
 }
 
+Expression Expression::getConstOffsetExpression(const std::string& symbol, int32_t offset) {
+    auto expr = Expression();
+    expr._atomics = {Atomic(AtomicType::SYMBOL, symbol), Atomic(AtomicType::INTEGER, offset)};
+    expr._operations = {Operation::ADD};
+    return expr;
+}
+
 bool Expression::isValidFirst(char ch) {
     return isalnum(ch) || ch == '+' || ch == '-' || ch == '*';
 }

@@ -60,4 +60,51 @@ __TEST_U(TestMachinePesudo, test_equ_with_unknown_symbol) {
     __ASSERT_THROW(machine.executeSingle(&result), mixal::RuntimeError);
 }
 
+__TEST_U(TestMachinePesudo, test_orig) {
+    initMemory2000();
+    auto result = mixal::Parser::parseLine(" ORIG 3000", "", true);
+    machine.executeSingle(&result);
+    result = mixal::Parser::parseLine(" LDA *-1000", machine.getSingleLineSymbol(), true);
+    machine.executeSingle(&result);
+    __ASSERT_EQ(1, machine.rA.sign);
+    __ASSERT_EQ(80, machine.rA.bytes12());
+    __ASSERT_EQ(3, machine.rA[3]);
+    __ASSERT_EQ(5, machine.rA[4]);
+    __ASSERT_EQ(4, machine.rA[5]);
+}
+
+__TEST_U(TestMachinePesudo, test_orig_with_location) {
+    initMemory2000();
+    auto result = mixal::Parser::parseLine("LOC ORIG 3000", "", true);
+    machine.executeSingle(&result);
+    result = mixal::Parser::parseLine(" LDA *-1000", machine.getSingleLineSymbol(), true);
+    machine.executeSingle(&result);
+    __ASSERT_EQ(1, machine.rA.sign);
+    __ASSERT_EQ(80, machine.rA.bytes12());
+    __ASSERT_EQ(3, machine.rA[3]);
+    __ASSERT_EQ(5, machine.rA[4]);
+    __ASSERT_EQ(4, machine.rA[5]);
+}
+
+__TEST_U(TestMachinePesudo, test_orig_with_equ) {
+    initMemory2000();
+    auto result = mixal::Parser::parseLine("X EQU 1500", "", true);
+    machine.executeSingle(&result);
+    result = mixal::Parser::parseLine(" ORIG X+X", "", true);
+    machine.executeSingle(&result);
+    result = mixal::Parser::parseLine(" LDA *-1000", machine.getSingleLineSymbol(), true);
+    machine.executeSingle(&result);
+    __ASSERT_EQ(1, machine.rA.sign);
+    __ASSERT_EQ(80, machine.rA.bytes12());
+    __ASSERT_EQ(3, machine.rA[3]);
+    __ASSERT_EQ(5, machine.rA[4]);
+    __ASSERT_EQ(4, machine.rA[5]);
+}
+
+__TEST_U(TestMachinePesudo, test_orig_with_undefined_symbol) {
+    initMemory2000();
+    auto result = mixal::Parser::parseLine(" ORIG X+X", "", true);
+    __ASSERT_THROW(machine.executeSingle(&result), mixal::RuntimeError);
+}
+
 }  // namespace test

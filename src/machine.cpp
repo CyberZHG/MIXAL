@@ -15,9 +15,26 @@ void Machine::reset() {
     for (int i = 0; i < NUM_MEMORY; ++i) {
         memory[i].reset();
     }
+    _pesudoVarIndex = 0;
     _lineBase = "";
     _lineOffset = 0;
     _constants.clear();
+}
+
+std::string Machine::getSingleLineSymbol() {
+    int lineNum = _lineOffset;
+    if (_lineBase != "") {
+        auto it = _constants.find(_lineBase);
+        if (it == _constants.end()) {
+            throw RuntimeError(_lineOffset,
+                               "Unresolved symbol found when trying to find the current line number:" +
+                               _lineBase);
+        }
+        lineNum += it->second.value;
+    }
+    std::string symbolName = getPesudoSymbolname();
+    _constants[symbolName] = AtomicValue(lineNum);
+    return symbolName;
 }
 
 void Machine::executeSingle(ParsedResult* instruction) {
@@ -150,10 +167,15 @@ void Machine::executeSinglePesudo(ParsedResult* instruction) {
         executeEQU(instruction);
         break;
     case Instructions::ORIG:
+        executeORIG(instruction);
         break;
     default:
         break;
     }
+}
+
+std::string Machine::getPesudoSymbolname() {
+    return "#" + std::to_string(_pesudoVarIndex++);
 }
 
 int Machine::getIndexedAddress(const InstructionWord& instruction) {
@@ -422,6 +444,22 @@ void Machine::executeEQU(ParsedResult* instruction) {
         }
     }
     _constants[instruction->location] = AtomicValue(instruction->address.result().value);
+}
+
+void Machine::executeORIG(ParsedResult* instruction) {
+    if (!instruction->address.evaluated()) {
+        if (!instruction->address.evaluate(_constants)) {
+            throw RuntimeError(_lineOffset, "Unresolved symbol found while parsing ORIG: " + instruction->rawAddress);
+        }
+    }
+    if (instruction->location.length() > 0) {
+        _constants[instruction->location] = AtomicValue(instruction->address.result().value);
+        _lineBase = instruction->location;
+    } else {
+        std::string symbol = getPesudoSymbolname();
+        _constants[symbol] = AtomicValue(instruction->address.result().value);
+        _lineBase = symbol;
+    }
 }
 
 };  // namespace mixal

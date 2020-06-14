@@ -27,7 +27,7 @@ class Machine {
     ComputerWord memory[NUM_MEMORY];
 
     Machine() : rA(), rX(), rI(), rJ(), overflow(false), comparison(ComparisonIndicator::EQUAL), memory(),
-      _lineBase(), _lineOffset(), _constants() {}
+      _pesudoVarIndex(), _lineBase(), _lineOffset(), _constants() {}
 
     inline Register2& rI1() { return rI[0]; }
     inline Register2& rI2() { return rI[1]; }
@@ -45,14 +45,18 @@ class Machine {
 
     void reset();
 
+    std::string getSingleLineSymbol();
     void executeSingle(ParsedResult* instruction);
     void executeSingle(const InstructionWord& instruction);
     void executeSinglePesudo(ParsedResult* instruction);
 
  private:
+    int32_t _pesudoVarIndex;
     std::string _lineBase;
     int32_t _lineOffset;
     std::unordered_map<std::string, AtomicValue> _constants;
+
+    std::string getPesudoSymbolname();
 
     int getIndexedAddress(const InstructionWord& instruction);
     void copyToRegister5(const InstructionWord& instruction, const ComputerWord& word, Register5* reg);
@@ -84,6 +88,7 @@ class Machine {
     void executeCMPi(const InstructionWord& instruction);
 
     void executeEQU(ParsedResult* instruction);
+    void executeORIG(ParsedResult* instruction);
 };
 
 };  // namespace mixal
