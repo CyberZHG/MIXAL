@@ -65,6 +65,7 @@ OPS = [
     'CMPX',
     'EQU',
     'ORIG',
+    'CON',
 ]
 
 

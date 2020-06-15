@@ -28,11 +28,11 @@ Expression Expression::getConstOffsetExpression(const std::string& symbol, int32
 }
 
 bool Expression::isValidFirst(char ch) {
-    return isalnum(ch) || ch == '+' || ch == '-' || ch == '*';
+    return isalnum(ch) || ch == '+' || ch == '-' || ch == '*' || ch == '=';
 }
 
 bool Expression::isValidChar(char ch) {
-    return isValidFirst(ch) || ch == '/' || ch == ':';
+    return isValidFirst(ch) || ch == '/' || ch == ':' || ch == '=';
 }
 
 enum class ParseState {

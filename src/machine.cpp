@@ -19,29 +19,23 @@ void Machine::reset() {
         memory[i].reset();
     }
     _pesudoVarIndex = 0;
-    _lineBase = "";
     _lineOffset = 0;
     _constants.clear();
     _lineNumbers.clear();
 }
 
 std::string Machine::getSingleLineSymbol() {
-    int lineNum = _lineOffset;
-    if (_lineBase != "") {
-        auto it = _constants.find(_lineBase);
-        if (it == _constants.end()) {
-            throw RuntimeError(_lineOffset,
-                               "Unresolved symbol found when trying to find the current line number:" +
-                               _lineBase);
-        }
-        lineNum += it->second.value;
-    }
     std::string symbolName = getPesudoSymbolname();
-    _constants[symbolName] = AtomicValue(lineNum);
+    _constants[symbolName] = AtomicValue(_lineOffset);
     return symbolName;
 }
 
 void Machine::executeSingle(ParsedResult* instruction) {
+    if (instruction->address.literalConstant() ||
+        instruction->index.literalConstant() ||
+        instruction->field.literalConstant()) {
+        throw RuntimeError(_lineOffset, "Literal constant cannot be used in single execution");
+    }
     if (instruction->parsedType == ParsedType::INSTRUCTION) {
         if (!instruction->evaluated()) {
             if (!instruction->evaluate(_constants)) {
@@ -172,6 +166,9 @@ void Machine::executeSinglePesudo(ParsedResult* instruction) {
         break;
     case Instructions::ORIG:
         executeORIG(instruction);
+        break;
+    case Instructions::CON:
+        executeCON(instruction);
         break;
     default:
         break;
@@ -549,14 +546,26 @@ void Machine::executeORIG(ParsedResult* instruction) {
             throw RuntimeError(_lineOffset, "Unresolved symbol found while parsing ORIG: " + instruction->rawAddress);
         }
     }
+    _lineOffset = instruction->address.result().value;
     if (instruction->rawLocation.length() > 0) {
         _constants[instruction->rawLocation] = AtomicValue(instruction->address.result().value);
-        _lineBase = instruction->rawLocation;
     } else {
         std::string symbol = getPesudoSymbolname();
         _constants[symbol] = AtomicValue(instruction->address.result().value);
-        _lineBase = symbol;
     }
+}
+
+void Machine::executeCON(ParsedResult* instruction) {
+    if (!instruction->address.evaluated()) {
+        if (!instruction->address.evaluate(_constants)) {
+            throw RuntimeError(_lineOffset, "Unresolved symbol found while parsing CON: " + instruction->rawAddress);
+        }
+    }
+    memory[_lineOffset].set(instruction->address.result().value);
+    if (!instruction->rawLocation.empty()) {
+        _constants[instruction->rawLocation] = AtomicValue(_lineOffset);
+    }
+    ++_lineOffset;
 }
 
 };  // namespace mixal

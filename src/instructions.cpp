@@ -101,6 +101,16 @@ Instructions::Code Instructions::getInstructionCode(const std::string& name) {
                 break;
             }
             break;
+        case 'O':
+            switch (charAt(2)) {
+            case 'N':
+                switch (charAt(3)) {
+                case '#':
+                    return Instructions::CON;
+                }
+                break;
+            }
+            break;
         }
         break;
     case 'D':

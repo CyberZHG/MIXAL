@@ -28,7 +28,7 @@ class Machine {
     ComputerWord memory[NUM_MEMORY];
 
     Machine() : rA(), rX(), rI(), rJ(), overflow(false), comparison(ComparisonIndicator::EQUAL), memory(),
-      _pesudoVarIndex(), _lineBase(), _lineOffset(), _constants(), _lineNumbers() {}
+      _pesudoVarIndex(), _lineOffset(), _constants(), _lineNumbers() {}
 
     inline Register2& rI1() { return rI[0]; }
     inline Register2& rI2() { return rI[1]; }
@@ -55,7 +55,6 @@ class Machine {
 
  private:
     int32_t _pesudoVarIndex;
-    std::string _lineBase;
     int32_t _lineOffset;
     std::unordered_map<std::string, AtomicValue> _constants;
     std::vector<std::string> _lineNumbers;
@@ -93,6 +92,7 @@ class Machine {
 
     void executeEQU(ParsedResult* instruction);
     void executeORIG(ParsedResult* instruction);
+    void executeCON(ParsedResult* instruction);
 };
 
 };  // namespace mixal

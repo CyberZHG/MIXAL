@@ -107,4 +107,36 @@ __TEST_U(TestMachinePesudo, test_orig_with_undefined_symbol) {
     __ASSERT_THROW(machine.executeSingle(&result), mixal::RuntimeError);
 }
 
+__TEST_U(TestMachinePesudo, test_con_load) {
+    auto result = mixal::Parser::parseLine(" ORIG 2000", "", true);
+    machine.executeSingle(&result);
+    result = mixal::Parser::parseLine("LOC CON 20*30*50", "", true);
+    machine.executeSingle(&result);
+    result = mixal::Parser::parseLine(" LDA LOC", "", true);
+    machine.executeSingle(&result);
+    __ASSERT_EQ(30000, machine.rA.value());
+}
+
+__TEST_U(TestMachinePesudo, test_con_load_relative) {
+    auto result = mixal::Parser::parseLine(" ORIG 2000", "", true);
+    machine.executeSingle(&result);
+    result = mixal::Parser::parseLine(" CON 20*30*50", "", true);
+    machine.executeSingle(&result);
+    result = mixal::Parser::parseLine(" LDA *-1", machine.getSingleLineSymbol(), true);
+    machine.executeSingle(&result);
+    __ASSERT_EQ(30000, machine.rA.value());
+}
+
+__TEST_U(TestMachinePesudo, test_con_with_unknown_symbol) {
+    auto result = mixal::Parser::parseLine(" ORIG 2000", "", true);
+    machine.executeSingle(&result);
+    result = mixal::Parser::parseLine(" CON A", "", true);
+    __ASSERT_THROW(machine.executeSingle(&result), mixal::RuntimeError);
+}
+
+__TEST_U(TestMachinePesudo, test_con_with_literal_constant) {
+    auto result = mixal::Parser::parseLine(" LDA =123=", "", true);
+    __ASSERT_THROW(machine.executeSingle(&result), mixal::RuntimeError);
+}
+
 }  // namespace test
