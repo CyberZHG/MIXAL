@@ -17,6 +17,8 @@ struct ComputerWord {
     explicit ComputerWord(int32_t value) : sign(), byte1(), byte2(), byte3(), byte4(), byte5() { set(value); }
     ComputerWord(bool _negative, uint8_t _byte1, uint8_t _byte2, uint8_t _byte3, uint8_t _byte4, uint8_t _byte5) :
         sign(_negative), byte1(_byte1), byte2(_byte2), byte3(_byte3), byte4(_byte4), byte5(_byte5) {}
+    ComputerWord(bool _negative, uint16_t bytes12, uint8_t _byte3, uint8_t _byte4, uint8_t _byte5) :
+        sign(_negative), byte1(bytes12 / 64), byte2(bytes12 % 64), byte3(_byte3), byte4(_byte4), byte5(_byte5) {}
 
     inline void reset() {
         sign = false;
@@ -24,6 +26,7 @@ struct ComputerWord {
     }
 
     bool operator==(const ComputerWord& word) const;
+    friend std::ostream& operator<<(std::ostream& out, const ComputerWord& word);
 
     uint8_t operator[](int index) const;
     uint16_t bytes2(int index1, int index2) const;

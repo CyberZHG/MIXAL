@@ -56,61 +56,58 @@ std::ostream& operator<<(std::ostream& os, ParsedType c) {
 }
 
 bool ParsedResult::evaluate(const std::unordered_map<std::string, AtomicValue>& constants) {
-    if (rawAddress.length() > 0 && !address.evaluated()) {
-        if (!evaluateAddress(constants)) {
-            return false;
-        }
+    if (rawAddress.length() > 0 && !evaluateAddress(constants)) {
+        return false;
     }
-    if (rawIndex.length() > 0 && !index.evaluated()) {
-        if (!evaluateIndex(constants)) {
-            return false;
-        }
+    if (rawIndex.length() > 0 && !evaluateIndex(constants)) {
+        return false;
     }
-    if (rawField.length() > 0 && !field.evaluated()) {
-        if (!evaluateField(constants)) {
-            return false;
-        }
+    if (rawField.length() > 0 && !evaluateField(constants)) {
+        return false;
     }
     return true;
 }
 
 bool ParsedResult::evaluateAddress(const std::unordered_map<std::string, AtomicValue>& constants, int32_t index) {
-    if (address.evaluate(constants)) {
-        int32_t value = address.result().value;
-        if (parsedType == ParsedType::INSTRUCTION && abs(value) >= 4096) {
-            throw ParseError(index, "Address can not be represented in 2 bytes");
-        }
-        word.sign = address.result().negative;
-        word.address = static_cast<uint16_t>(abs(value));
+    if (!address.evaluated() && !address.evaluate(constants)) {
+        return false;
     }
-    return address.evaluated();
+    int32_t value = address.result().value;
+    if (parsedType == ParsedType::INSTRUCTION && abs(value) >= 4096) {
+        throw ParseError(index, "Address can not be represented in 2 bytes");
+    }
+    word.sign = address.result().negative;
+    word.address = static_cast<uint16_t>(abs(value));
+    return true;
 }
 
 bool ParsedResult::evaluateIndex(const std::unordered_map<std::string, AtomicValue>& constants, int32_t column) {
-    if (index.evaluate(constants)) {
-        int32_t value = index.result().value;
-        if (value < 0 || 6 < value) {
-            throw ParseError(column, "Invalid index value: " + std::to_string(word.index));
-        }
-        word.index = static_cast<uint8_t>(value);
+    if (!index.evaluated() && !index.evaluate(constants)) {
+        return false;
     }
-    return index.evaluated();
+    int32_t value = index.result().value;
+    if (value < 0 || 6 < value) {
+        throw ParseError(column, "Invalid index value: " + std::to_string(word.index));
+    }
+    word.index = static_cast<uint8_t>(value);
+    return true;
 }
 
 bool ParsedResult::evaluateField(const std::unordered_map<std::string, AtomicValue>& constants, int32_t index) {
-    int32_t defaultField = Instructions::getDefaultField(operation);
-    if (field.evaluate(constants)) {
-        int32_t value = field.result().value;
-        if (defaultField >= 0 && value != defaultField) {
-            throw ParseError(index, "The given field value does not match the default one: " +
-                                    std::to_string(value) + " != " + std::to_string(defaultField));
-        }
-        if (value < 0 || 64 <= value) {
-            throw ParseError(index, "Invalid field value: " + std::to_string(value));
-        }
-        word.field = static_cast<uint8_t>(value);
+    if (!field.evaluated() && !field.evaluate(constants)) {
+        return false;
     }
-    return field.evaluated();
+    int32_t value = field.result().value;
+    int32_t defaultField = Instructions::getDefaultField(operation);
+    if (defaultField >= 0 && value != defaultField) {
+        throw ParseError(index, "The given field value does not match the default one: " +
+                                std::to_string(value) + " != " + std::to_string(defaultField));
+    }
+    if (value < 0 || 64 <= value) {
+        throw ParseError(index, "Invalid field value: " + std::to_string(value));
+    }
+    word.field = static_cast<uint8_t>(value);
+    return true;
 }
 
 bool ParsedResult::evaluated() const {

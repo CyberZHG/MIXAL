@@ -11,6 +11,14 @@ bool ComputerWord::operator==(const ComputerWord& word) const {
            byte4 == word.byte4 && byte5 == word.byte5;
 }
 
+std::ostream& operator<<(std::ostream& out, const ComputerWord& word) {
+    out << (word.sign ? '-' : '+');
+    for (int i = 1; i <= 5; ++i) {
+        out << ' ' << static_cast<int>(word[i]);
+    }
+    return out;
+}
+
 uint8_t ComputerWord::operator[](int index) const {
     if (index <= 0 || index > 5) {
         throw std::runtime_error("Invalid index for a word: " + std::to_string(index));
