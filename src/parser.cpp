@@ -74,7 +74,7 @@ bool ParsedResult::evaluateAddress(const std::unordered_map<std::string, AtomicV
     }
     int32_t value = address.result().value;
     if (parsedType == ParsedType::INSTRUCTION && abs(value) >= 4096) {
-        throw ParseError(index, "Address can not be represented in 2 bytes");
+        throw ParseError(index, "Address can not be represented in 2 bytes" + std::to_string(value));
     }
     word.sign = address.result().negative;
     word.address = static_cast<uint16_t>(abs(value));
@@ -87,7 +87,7 @@ bool ParsedResult::evaluateIndex(const std::unordered_map<std::string, AtomicVal
     }
     int32_t value = index.result().value;
     if (value < 0 || 6 < value) {
-        throw ParseError(column, "Invalid index value: " + std::to_string(word.index));
+        throw ParseError(column, "Invalid index value: " + std::to_string(value));
     }
     word.index = static_cast<uint8_t>(value);
     return true;

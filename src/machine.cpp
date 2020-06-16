@@ -1,5 +1,6 @@
 #include <iostream>
 #include <set>
+#include <tuple>
 #include <sstream>
 #include "machine.h"
 #include "parser.h"
@@ -180,6 +181,7 @@ void Machine::loadCodes(const std::vector<std::string>& codes) {
     // Parse and save all the results and intermediate expressions
     std::vector<ParsedResult> results(codes.size());
     std::unordered_map<std::string, Expression*> expressions;
+    std::vector<std::tuple<std::string, Expression, Expression>> constants;
     std::string lineBase;
     int32_t lineOffset = 0;
     for (size_t codeIndex = 0; codeIndex < codes.size(); ++codeIndex) {
@@ -196,6 +198,18 @@ void Machine::loadCodes(const std::vector<std::string>& codes) {
                 lineBase = getPesudoSymbolname();
                 expressions[lineBase] = &result.address;
                 lineOffset = 0;
+                break;
+            case Instructions::CON:
+                if (lineBase.empty()) {
+                    constants.push_back({lineSymbol,
+                                         Expression::getConstExpression(AtomicValue(lineOffset)),
+                                         result.address});
+                } else {
+                    constants.push_back({lineSymbol,
+                                         Expression::getConstOffsetExpression(lineBase, lineOffset),
+                                         result.address});
+                }
+                ++lineOffset;
                 break;
             default:
                 break;
@@ -217,21 +231,36 @@ void Machine::loadCodes(const std::vector<std::string>& codes) {
             }
             expressions[lineSymbol] = &result.location;
             ++lineOffset;
-            if (!result.rawAddress.empty()) {
-                expressions[getPesudoSymbolname()] = &result.address;
-            }
-            if (!result.rawIndex.empty()) {
-                expressions[getPesudoSymbolname()] = &result.index;
-            }
-            if (!result.rawField.empty()) {
-                expressions[getPesudoSymbolname()] = &result.field;
-            }
         }
+    }
+    // Add expressions and literal constants
+    for (auto& result : results) {
+        if (!result.rawAddress.empty()) {
+            if (result.address.literalConstant()) {
+                auto lineSymbol = getPesudoSymbolname();
+                constants.push_back({lineSymbol,
+                                    Expression::getConstOffsetExpression(lineBase, lineOffset++),
+                                    result.address});
+                result.address = Expression::getConstExpression(lineSymbol);
+            }
+            expressions[getPesudoSymbolname()] = &result.address;
+        }
+        if (!result.rawIndex.empty()) {
+            expressions[getPesudoSymbolname()] = &result.index;
+        }
+        if (!result.rawField.empty()) {
+            expressions[getPesudoSymbolname()] = &result.field;
+        }
+    }
+    // Add collected constants to expressions
+    for (auto& it : constants) {
+        expressions[std::get<0>(it)] = &std::get<1>(it);
+        expressions[getPesudoSymbolname()] = &std::get<2>(it);
     }
     // Try to solve all the expressions
     std::unordered_map<std::string, int> dependNums;
     std::unordered_map<std::string, std::unordered_set<std::string>> solves;
-    std::unordered_map<std::string, AtomicValue> constants;
+    std::unordered_map<std::string, AtomicValue> evaluated;
     std::set<std::pair<int, std::string>> tasks;
     for (auto& it : expressions) {
         dependNums[it.first] = static_cast<int>(it.second->depends().size());
@@ -243,11 +272,11 @@ void Machine::loadCodes(const std::vector<std::string>& codes) {
     while (!tasks.empty()) {
         auto& symbol = tasks.begin()->second;
         auto& expression = expressions[symbol];
-        if (tasks.begin()->first != 0 || !expression->evaluate(constants)) {
+        if (tasks.begin()->first != 0 || !expression->evaluate(evaluated)) {
             throw RuntimeError(0, "Unresolved symbol found while trying to calcuate: " +
                                   tasks.begin()->second);
         }
-        constants[symbol] = expression->result();
+        evaluated[symbol] = expression->result();
         tasks.erase({0, symbol});
         for (auto& solve : solves[symbol]) {
             tasks.erase({dependNums[solve], solve});
@@ -255,10 +284,16 @@ void Machine::loadCodes(const std::vector<std::string>& codes) {
         }
         solves[symbol].clear();
     }
+    // Load constants to memory
+    for (auto& it : constants) {
+        std::cout << std::get<1>(it).result().value << " " << std::get<2>(it).result().value << std::endl;
+        memory[std::get<1>(it).result().value].set(std::get<2>(it).result().value);
+    }
+    std::cout << "END??" << std::endl;
     // Load results to memory
     for (auto& result : results) {
         if (result.parsedType == ParsedType::INSTRUCTION) {
-            result.evaluate(constants);
+            result.evaluate(evaluated);
             memory[result.location.result().value].set(result.word.sign,
                                                        result.word.address,
                                                        result.word.index,
@@ -266,6 +301,7 @@ void Machine::loadCodes(const std::vector<std::string>& codes) {
                                                        result.word.operation);
         }
     }
+    std::cout << "END" << std::endl;
 }
 
 std::string Machine::getPesudoSymbolname() {

@@ -16,7 +16,7 @@ class TestMachineLoadCodes : public UnitTest {
     }
 };
 
-__TEST_U(TestMachineLoadCodes, test_unsolved_address) {
+__TEST_U(TestMachineLoadCodes, test_load_sample) {
     std::vector<std::string> codes = {
         "X       EQU  1000",
         "        ORIG 3000",
@@ -42,6 +42,27 @@ __TEST_U(TestMachineLoadCodes, test_unsolved_address) {
     __ASSERT_EQ(mixal::ComputerWord(false,    1, 0, 1, 51), machine.memory[3007]);
     __ASSERT_EQ(mixal::ComputerWord(false, 3003, 0, 2, 43), machine.memory[3008]);
     __ASSERT_EQ(mixal::ComputerWord(false, 3009, 0, 0, 39), machine.memory[3009]);
+}
+
+__TEST_U(TestMachineLoadCodes, test_load_constant) {
+    std::vector<std::string> codes = {
+        " CON  100000",
+        " ORIG 3000",
+        " CON  1000000",
+    };
+    machine.loadCodes(codes);
+    __ASSERT_EQ(100000, machine.memory[0].value());
+    __ASSERT_EQ(1000000, machine.memory[3000].value());
+}
+
+__TEST_U(TestMachineLoadCodes, test_load_literal_constant) {
+    std::vector<std::string> codes = {
+        " ORIG 3000",
+        " LDA  =10-23=,0+0(2+3)",
+    };
+    machine.loadCodes(codes);
+    __ASSERT_EQ(mixal::ComputerWord(false, 3001, 0, 5, 8), machine.memory[3000]);
+    __ASSERT_EQ(-13, machine.memory[3001].value());
 }
 
 }  // namespace test
