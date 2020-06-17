@@ -14,6 +14,8 @@
 
 namespace mixal {
 
+using InstructionWord = ComputerWord;
+
 class Machine {
  public:
     static const int NUM_INDEX_REGISTER = 6;
@@ -47,6 +49,7 @@ class Machine {
     void reset();
 
     std::string getSingleLineSymbol();
+    void executeSingle();
     void executeSingle(ParsedResult* instruction);
     void executeSingle(const InstructionWord& instruction);
     void executeSinglePesudo(ParsedResult* instruction);

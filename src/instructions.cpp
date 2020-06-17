@@ -2,14 +2,6 @@
 
 namespace mixal {
 
-int16_t InstructionWord::addressValue() const {
-    int16_t value = static_cast<int16_t>(address);
-    if (sign) {
-        value = -value;
-    }
-    return value;
-}
-
 Instructions::Code Instructions::getInstructionCode(const std::string& name) {
     auto charAt = [&name] (size_t index) -> char {
         return index < name.length() ? std::toupper(name[index]) : '#';

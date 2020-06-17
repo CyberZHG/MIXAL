@@ -5,6 +5,8 @@
 
 namespace mixal {
 
+class Instructions;
+
 struct ComputerWord {
     bool sign;
     uint8_t byte1;
@@ -35,6 +37,18 @@ struct ComputerWord {
     uint16_t bytes34() const;
     uint16_t bytes45() const;
     int32_t value() const;
+
+    int16_t addressValue() const;
+    inline uint32_t address() const { return bytes12(); }
+    inline uint8_t index() const { return byte3; }
+    inline uint8_t field() const { return byte4; }
+    inline uint8_t operation() const { return byte5; }
+
+    void setAddress(int16_t address);
+    void setAddress(bool negative, uint16_t address);
+    inline void setIndex(uint8_t index) { byte3 = index; }
+    inline void setField(uint8_t field) { byte4 = field; }
+    inline void setOperation(uint8_t operation) { byte5 = operation; }
 
     void set(int32_t value);
     void set(int index, uint8_t val);

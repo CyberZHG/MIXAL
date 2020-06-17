@@ -8,7 +8,7 @@ class TestParse : public UnitTest {};
 
 __TEST_U(TestParse, test_parse_line_basic_numeric_address_all_1) {
     auto result = mixal::Parser::parseLine("LDA 2000,2(0:3)", "", false);
-    __ASSERT_EQ(mixal::Instructions::Code::LDA, result.word.operation);
+    __ASSERT_EQ(mixal::Instructions::Code::LDA, result.word.operation());
     __ASSERT_EQ(mixal::ParsedType::INSTRUCTION, result.parsedType);
     __ASSERT_EQ("", result.rawLocation);
     __ASSERT_EQ("LDA", result.operation);
@@ -16,15 +16,15 @@ __TEST_U(TestParse, test_parse_line_basic_numeric_address_all_1) {
     __ASSERT_EQ("2", result.rawIndex);
     __ASSERT_EQ("0:3", result.rawField);
     __ASSERT_EQ("", result.comment);
-    __ASSERT_EQ(2000, result.word.address);
-    __ASSERT_EQ(2, result.word.index);
-    __ASSERT_EQ(3, result.word.field);
-    __ASSERT_EQ(8, result.word.operation);
+    __ASSERT_EQ(2000, result.word.addressValue());
+    __ASSERT_EQ(2, result.word.index());
+    __ASSERT_EQ(3, result.word.field());
+    __ASSERT_EQ(8, result.word.operation());
 }
 
 __TEST_U(TestParse, test_parse_line_basic_numeric_address_all_1_with_indent) {
     auto result = mixal::Parser::parseLine("  LDA   2000,2(0:3)  ", "", true);
-    __ASSERT_EQ(mixal::Instructions::Code::LDA, result.word.operation);
+    __ASSERT_EQ(mixal::Instructions::Code::LDA, result.word.operation());
     __ASSERT_EQ(mixal::ParsedType::INSTRUCTION, result.parsedType);
     __ASSERT_EQ("", result.rawLocation);
     __ASSERT_EQ("LDA", result.operation);
@@ -32,15 +32,15 @@ __TEST_U(TestParse, test_parse_line_basic_numeric_address_all_1_with_indent) {
     __ASSERT_EQ("2", result.rawIndex);
     __ASSERT_EQ("0:3", result.rawField);
     __ASSERT_EQ("", result.comment);
-    __ASSERT_EQ(2000, result.word.address);
-    __ASSERT_EQ(2, result.word.index);
-    __ASSERT_EQ(3, result.word.field);
-    __ASSERT_EQ(8, result.word.operation);
+    __ASSERT_EQ(2000, result.word.addressValue());
+    __ASSERT_EQ(2, result.word.index());
+    __ASSERT_EQ(3, result.word.field());
+    __ASSERT_EQ(8, result.word.operation());
 }
 
 __TEST_U(TestParse, test_parse_line_basic_numeric_address_all_2) {
     auto result = mixal::Parser::parseLine("LDA 2000,2(1:3)", "", false);
-    __ASSERT_EQ(mixal::Instructions::Code::LDA, result.word.operation);
+    __ASSERT_EQ(mixal::Instructions::Code::LDA, result.word.operation());
     __ASSERT_EQ(mixal::ParsedType::INSTRUCTION, result.parsedType);
     __ASSERT_EQ("", result.rawLocation);
     __ASSERT_EQ("LDA", result.operation);
@@ -48,15 +48,15 @@ __TEST_U(TestParse, test_parse_line_basic_numeric_address_all_2) {
     __ASSERT_EQ("2", result.rawIndex);
     __ASSERT_EQ("1:3", result.rawField);
     __ASSERT_EQ("", result.comment);
-    __ASSERT_EQ(2000, result.word.address);
-    __ASSERT_EQ(2, result.word.index);
-    __ASSERT_EQ(11, result.word.field);
-    __ASSERT_EQ(8, result.word.operation);
+    __ASSERT_EQ(2000, result.word.addressValue());
+    __ASSERT_EQ(2, result.word.index());
+    __ASSERT_EQ(11, result.word.field());
+    __ASSERT_EQ(8, result.word.operation());
 }
 
 __TEST_U(TestParse, test_parse_line_basic_numeric_address_no_index) {
     auto result = mixal::Parser::parseLine("LDA 2000(1:3)", "", false);
-    __ASSERT_EQ(mixal::Instructions::Code::LDA, result.word.operation);
+    __ASSERT_EQ(mixal::Instructions::Code::LDA, result.word.operation());
     __ASSERT_EQ(mixal::ParsedType::INSTRUCTION, result.parsedType);
     __ASSERT_EQ("", result.rawLocation);
     __ASSERT_EQ("LDA", result.operation);
@@ -64,15 +64,15 @@ __TEST_U(TestParse, test_parse_line_basic_numeric_address_no_index) {
     __ASSERT_EQ("", result.rawIndex);
     __ASSERT_EQ("1:3", result.rawField);
     __ASSERT_EQ("", result.comment);
-    __ASSERT_EQ(2000, result.word.address);
-    __ASSERT_EQ(0, result.word.index);
-    __ASSERT_EQ(11, result.word.field);
-    __ASSERT_EQ(8, result.word.operation);
+    __ASSERT_EQ(2000, result.word.addressValue());
+    __ASSERT_EQ(0, result.word.index());
+    __ASSERT_EQ(11, result.word.field());
+    __ASSERT_EQ(8, result.word.operation());
 }
 
 __TEST_U(TestParse, test_parse_line_basic_numeric_address_no_index_with_indent) {
     auto result = mixal::Parser::parseLine("  LDA 2000(1:3)  ", "", true);
-    __ASSERT_EQ(mixal::Instructions::Code::LDA, result.word.operation);
+    __ASSERT_EQ(mixal::Instructions::Code::LDA, result.word.operation());
     __ASSERT_EQ(mixal::ParsedType::INSTRUCTION, result.parsedType);
     __ASSERT_EQ("", result.rawLocation);
     __ASSERT_EQ("LDA", result.operation);
@@ -80,15 +80,15 @@ __TEST_U(TestParse, test_parse_line_basic_numeric_address_no_index_with_indent) 
     __ASSERT_EQ("", result.rawIndex);
     __ASSERT_EQ("1:3", result.rawField);
     __ASSERT_EQ("", result.comment);
-    __ASSERT_EQ(2000, result.word.address);
-    __ASSERT_EQ(0, result.word.index);
-    __ASSERT_EQ(11, result.word.field);
-    __ASSERT_EQ(8, result.word.operation);
+    __ASSERT_EQ(2000, result.word.addressValue());
+    __ASSERT_EQ(0, result.word.index());
+    __ASSERT_EQ(11, result.word.field());
+    __ASSERT_EQ(8, result.word.operation());
 }
 
 __TEST_U(TestParse, test_parse_line_basic_numeric_address_only_address) {
     auto result = mixal::Parser::parseLine("LDA 2000", "", false);
-    __ASSERT_EQ(mixal::Instructions::Code::LDA, result.word.operation);
+    __ASSERT_EQ(mixal::Instructions::Code::LDA, result.word.operation());
     __ASSERT_EQ(mixal::ParsedType::INSTRUCTION, result.parsedType);
     __ASSERT_EQ("", result.rawLocation);
     __ASSERT_EQ("LDA", result.operation);
@@ -96,15 +96,15 @@ __TEST_U(TestParse, test_parse_line_basic_numeric_address_only_address) {
     __ASSERT_EQ("", result.rawIndex);
     __ASSERT_EQ("", result.rawField);
     __ASSERT_EQ("", result.comment);
-    __ASSERT_EQ(2000, result.word.address);
-    __ASSERT_EQ(0, result.word.index);
-    __ASSERT_EQ(5, result.word.field);
-    __ASSERT_EQ(8, result.word.operation);
+    __ASSERT_EQ(2000, result.word.addressValue());
+    __ASSERT_EQ(0, result.word.index());
+    __ASSERT_EQ(5, result.word.field());
+    __ASSERT_EQ(8, result.word.operation());
 }
 
 __TEST_U(TestParse, test_parse_line_basic_numeric_address_only_address_with_indent) {
     auto result = mixal::Parser::parseLine("  LDA 2000  ", "", true);
-    __ASSERT_EQ(mixal::Instructions::Code::LDA, result.word.operation);
+    __ASSERT_EQ(mixal::Instructions::Code::LDA, result.word.operation());
     __ASSERT_EQ(mixal::ParsedType::INSTRUCTION, result.parsedType);
     __ASSERT_EQ("", result.rawLocation);
     __ASSERT_EQ("LDA", result.operation);
@@ -112,15 +112,15 @@ __TEST_U(TestParse, test_parse_line_basic_numeric_address_only_address_with_inde
     __ASSERT_EQ("", result.rawIndex);
     __ASSERT_EQ("", result.rawField);
     __ASSERT_EQ("", result.comment);
-    __ASSERT_EQ(2000, result.word.address);
-    __ASSERT_EQ(0, result.word.index);
-    __ASSERT_EQ(5, result.word.field);
-    __ASSERT_EQ(8, result.word.operation);
+    __ASSERT_EQ(2000, result.word.addressValue());
+    __ASSERT_EQ(0, result.word.index());
+    __ASSERT_EQ(5, result.word.field());
+    __ASSERT_EQ(8, result.word.operation());
 }
 
 __TEST_U(TestParse, test_parse_line_basic_numeric_address_no_mod) {
     auto result = mixal::Parser::parseLine("LDA 2000,4", "", false);
-    __ASSERT_EQ(mixal::Instructions::Code::LDA, result.word.operation);
+    __ASSERT_EQ(mixal::Instructions::Code::LDA, result.word.operation());
     __ASSERT_EQ(mixal::ParsedType::INSTRUCTION, result.parsedType);
     __ASSERT_EQ("", result.rawLocation);
     __ASSERT_EQ("LDA", result.operation);
@@ -128,15 +128,15 @@ __TEST_U(TestParse, test_parse_line_basic_numeric_address_no_mod) {
     __ASSERT_EQ("4", result.rawIndex);
     __ASSERT_EQ("", result.rawField);
     __ASSERT_EQ("", result.comment);
-    __ASSERT_EQ(2000, result.word.address);
-    __ASSERT_EQ(4, result.word.index);
-    __ASSERT_EQ(5, result.word.field);
-    __ASSERT_EQ(8, result.word.operation);
+    __ASSERT_EQ(2000, result.word.addressValue());
+    __ASSERT_EQ(4, result.word.index());
+    __ASSERT_EQ(5, result.word.field());
+    __ASSERT_EQ(8, result.word.operation());
 }
 
 __TEST_U(TestParse, test_parse_line_basic_numeric_address_no_mod_with_indent) {
     auto result = mixal::Parser::parseLine("  LDA 2000,4  ", "", false);
-    __ASSERT_EQ(mixal::Instructions::Code::LDA, result.word.operation);
+    __ASSERT_EQ(mixal::Instructions::Code::LDA, result.word.operation());
     __ASSERT_EQ(mixal::ParsedType::INSTRUCTION, result.parsedType);
     __ASSERT_EQ("", result.rawLocation);
     __ASSERT_EQ("LDA", result.operation);
@@ -144,15 +144,15 @@ __TEST_U(TestParse, test_parse_line_basic_numeric_address_no_mod_with_indent) {
     __ASSERT_EQ("4", result.rawIndex);
     __ASSERT_EQ("", result.rawField);
     __ASSERT_EQ("", result.comment);
-    __ASSERT_EQ(2000, result.word.address);
-    __ASSERT_EQ(4, result.word.index);
-    __ASSERT_EQ(5, result.word.field);
-    __ASSERT_EQ(8, result.word.operation);
+    __ASSERT_EQ(2000, result.word.addressValue());
+    __ASSERT_EQ(4, result.word.index());
+    __ASSERT_EQ(5, result.word.field());
+    __ASSERT_EQ(8, result.word.operation());
 }
 
 __TEST_U(TestParse, test_parse_line_basic_numeric_address_negative) {
     auto result = mixal::Parser::parseLine("LDA -2000,4", "", false);
-    __ASSERT_EQ(mixal::Instructions::Code::LDA, result.word.operation);
+    __ASSERT_EQ(mixal::Instructions::Code::LDA, result.word.operation());
     __ASSERT_EQ(mixal::ParsedType::INSTRUCTION, result.parsedType);
     __ASSERT_EQ("", result.rawLocation);
     __ASSERT_EQ("LDA", result.operation);
@@ -161,14 +161,14 @@ __TEST_U(TestParse, test_parse_line_basic_numeric_address_negative) {
     __ASSERT_EQ("", result.rawField);
     __ASSERT_EQ("", result.comment);
     __ASSERT_EQ(-2000, result.word.addressValue());
-    __ASSERT_EQ(4, result.word.index);
-    __ASSERT_EQ(5, result.word.field);
-    __ASSERT_EQ(8, result.word.operation);
+    __ASSERT_EQ(4, result.word.index());
+    __ASSERT_EQ(5, result.word.field());
+    __ASSERT_EQ(8, result.word.operation());
 }
 
 __TEST_U(TestParse, test_parse_line_with_expressions) {
     auto result = mixal::Parser::parseLine("LDA -2000+400*2,-1+2(-1:3+6)", "", false);
-    __ASSERT_EQ(mixal::Instructions::Code::LDA, result.word.operation);
+    __ASSERT_EQ(mixal::Instructions::Code::LDA, result.word.operation());
     __ASSERT_EQ(mixal::ParsedType::INSTRUCTION, result.parsedType);
     __ASSERT_EQ("", result.rawLocation);
     __ASSERT_EQ("LDA", result.operation);
@@ -177,14 +177,14 @@ __TEST_U(TestParse, test_parse_line_with_expressions) {
     __ASSERT_EQ("-1:3+6", result.rawField);
     __ASSERT_EQ("", result.comment);
     __ASSERT_EQ(-3200, result.word.addressValue());
-    __ASSERT_EQ(1, result.word.index);
-    __ASSERT_EQ(1, result.word.field);
-    __ASSERT_EQ(8, result.word.operation);
+    __ASSERT_EQ(1, result.word.index());
+    __ASSERT_EQ(1, result.word.field());
+    __ASSERT_EQ(8, result.word.operation());
 }
 
 __TEST_U(TestParse, test_parse_line_only_op) {
     auto result = mixal::Parser::parseLine("NOP", "", false);
-    __ASSERT_EQ(mixal::Instructions::Code::NOP, result.word.operation);
+    __ASSERT_EQ(mixal::Instructions::Code::NOP, result.word.operation());
     __ASSERT_EQ(mixal::ParsedType::INSTRUCTION, result.parsedType);
     __ASSERT_EQ("", result.rawLocation);
     __ASSERT_EQ("NOP", result.operation);
@@ -192,15 +192,15 @@ __TEST_U(TestParse, test_parse_line_only_op) {
     __ASSERT_EQ("", result.rawIndex);
     __ASSERT_EQ("", result.rawField);
     __ASSERT_EQ("", result.comment);
-    __ASSERT_EQ(0, result.word.address);
-    __ASSERT_EQ(0, result.word.index);
-    __ASSERT_EQ(5, result.word.field);
-    __ASSERT_EQ(0, result.word.operation);
+    __ASSERT_EQ(0, result.word.addressValue());
+    __ASSERT_EQ(0, result.word.index());
+    __ASSERT_EQ(5, result.word.field());
+    __ASSERT_EQ(0, result.word.operation());
 }
 
 __TEST_U(TestParse, test_parse_line_only_op_with_indent) {
     auto result = mixal::Parser::parseLine("  NOP  ", "", true);
-    __ASSERT_EQ(mixal::Instructions::Code::NOP, result.word.operation);
+    __ASSERT_EQ(mixal::Instructions::Code::NOP, result.word.operation());
     __ASSERT_EQ(mixal::ParsedType::INSTRUCTION, result.parsedType);
     __ASSERT_EQ("", result.rawLocation);
     __ASSERT_EQ("NOP", result.operation);
@@ -208,10 +208,10 @@ __TEST_U(TestParse, test_parse_line_only_op_with_indent) {
     __ASSERT_EQ("", result.rawIndex);
     __ASSERT_EQ("", result.rawField);
     __ASSERT_EQ("", result.comment);
-    __ASSERT_EQ(0, result.word.address);
-    __ASSERT_EQ(0, result.word.index);
-    __ASSERT_EQ(5, result.word.field);
-    __ASSERT_EQ(0, result.word.operation);
+    __ASSERT_EQ(0, result.word.addressValue());
+    __ASSERT_EQ(0, result.word.index());
+    __ASSERT_EQ(5, result.word.field());
+    __ASSERT_EQ(0, result.word.operation());
 }
 
 __TEST_U(TestParse, test_parse_line_empty) {
@@ -223,10 +223,10 @@ __TEST_U(TestParse, test_parse_line_empty) {
     __ASSERT_EQ("", result.rawIndex);
     __ASSERT_EQ("", result.rawField);
     __ASSERT_EQ("", result.comment);
-    __ASSERT_EQ(0, result.word.address);
-    __ASSERT_EQ(0, result.word.index);
-    __ASSERT_EQ(5, result.word.field);
-    __ASSERT_EQ(0, result.word.operation);
+    __ASSERT_EQ(0, result.word.addressValue());
+    __ASSERT_EQ(0, result.word.index());
+    __ASSERT_EQ(5, result.word.field());
+    __ASSERT_EQ(0, result.word.operation());
 }
 
 __TEST_U(TestParse, test_parse_line_empty_with_indent) {
@@ -238,10 +238,10 @@ __TEST_U(TestParse, test_parse_line_empty_with_indent) {
     __ASSERT_EQ("", result.rawIndex);
     __ASSERT_EQ("", result.rawField);
     __ASSERT_EQ("", result.comment);
-    __ASSERT_EQ(0, result.word.address);
-    __ASSERT_EQ(0, result.word.index);
-    __ASSERT_EQ(5, result.word.field);
-    __ASSERT_EQ(0, result.word.operation);
+    __ASSERT_EQ(0, result.word.addressValue());
+    __ASSERT_EQ(0, result.word.index());
+    __ASSERT_EQ(5, result.word.field());
+    __ASSERT_EQ(0, result.word.operation());
 }
 
 __TEST_U(TestParse, test_parse_line_single_line_comment) {

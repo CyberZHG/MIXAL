@@ -31,6 +31,10 @@ std::string Machine::getSingleLineSymbol() {
     return symbolName;
 }
 
+void Machine::executeSingle() {
+    executeSingle(memory[_lineOffset]);
+}
+
 void Machine::executeSingle(ParsedResult* instruction) {
     if (instruction->address.literalConstant() ||
         instruction->index.literalConstant() ||
@@ -51,7 +55,7 @@ void Machine::executeSingle(ParsedResult* instruction) {
 }
 
 void Machine::executeSingle(const InstructionWord& instruction) {
-    switch (instruction.operation) {
+    switch (instruction.operation()) {
     case Instructions::ADD:
         executeADD(instruction);
         break;
@@ -113,7 +117,7 @@ void Machine::executeSingle(const InstructionWord& instruction) {
         executeSTZ(instruction);
         break;
     case Instructions::INCA:
-        switch (instruction.field) {
+        switch (instruction.field()) {
         case 0: executeINC(instruction, &rA); break;
         case 1: executeDEC(instruction, &rA); break;
         case 2: executeENT(instruction, &rA); break;
@@ -126,7 +130,7 @@ void Machine::executeSingle(const InstructionWord& instruction) {
     case Instructions::INC4:
     case Instructions::INC5:
     case Instructions::INC6:
-        switch (instruction.field) {
+        switch (instruction.field()) {
         case 0: executeINCi(instruction); break;
         case 1: executeDECi(instruction); break;
         case 2: executeENTi(instruction); break;
@@ -134,7 +138,7 @@ void Machine::executeSingle(const InstructionWord& instruction) {
         }
         break;
     case Instructions::INCX:
-        switch (instruction.field) {
+        switch (instruction.field()) {
         case 0: executeINC(instruction, &rX); break;
         case 1: executeDEC(instruction, &rX); break;
         case 2: executeENT(instruction, &rX); break;
@@ -161,7 +165,7 @@ void Machine::executeSingle(const InstructionWord& instruction) {
 }
 
 void Machine::executeSinglePesudo(ParsedResult* instruction) {
-    switch (instruction->word.operation + Instructions::PSEUDO) {
+    switch (instruction->word.operation() + Instructions::PSEUDO) {
     case Instructions::EQU:
         executeEQU(instruction);
         break;
@@ -190,7 +194,7 @@ void Machine::loadCodes(const std::vector<std::string>& codes) {
         auto lineSymbol = getPesudoSymbolname();
         result = Parser::parseLine(code, lineSymbol, true);
         if (result.parsedType == ParsedType::PSEUDO) {
-            switch (result.word.operation + Instructions::PSEUDO) {
+            switch (result.word.operation() + Instructions::PSEUDO) {
             case Instructions::EQU:
                 expressions[result.rawLocation] = &result.address;
                 break;
@@ -314,15 +318,22 @@ void Machine::loadCodes(const std::vector<std::string>& codes) {
         memory[std::get<1>(it).result().value].set(std::get<2>(it).result().value);
     }
     // Load results to memory
+    _lineOffset = -1;
     for (auto& result : results) {
         if (result.parsedType == ParsedType::INSTRUCTION) {
             result.evaluate(evaluated);
+            if (_lineOffset == -1) {
+                _lineOffset = result.location.result().value;
+            }
             memory[result.location.result().value].set(result.word.sign,
-                                                       result.word.address,
-                                                       result.word.index,
-                                                       result.word.field,
-                                                       result.word.operation);
+                                                       result.word.address(),
+                                                       result.word.index(),
+                                                       result.word.field(),
+                                                       result.word.operation());
         }
+    }
+    if (_lineOffset == -1) {
+        _lineOffset = 0;
     }
 }
 
@@ -332,16 +343,16 @@ std::string Machine::getPesudoSymbolname() {
 
 int Machine::getIndexedAddress(const InstructionWord& instruction) {
     int offset = 0;
-    if (instruction.index != 0) {
-        auto& rIi = rI[instruction.index - 1];
+    if (instruction.index() != 0) {
+        auto& rIi = rI[instruction.index() - 1];
         offset = static_cast<int>(rIi.value());
     }
     return static_cast<int>(instruction.addressValue()) + offset;
 }
 
 void Machine::copyToRegister5(const InstructionWord& instruction, const ComputerWord& word, Register5* reg) {
-    int start = instruction.field / 8;
-    int stop = instruction.field % 8;
+    int start = instruction.field() / 8;
+    int stop = instruction.field() % 8;
     reg->reset();
     if (start == 0) {
         reg->sign = word.sign;
@@ -353,8 +364,8 @@ void Machine::copyToRegister5(const InstructionWord& instruction, const Computer
 }
 
 void Machine::copyFromRegister5(const InstructionWord& instruction, const Register5& reg, ComputerWord* word) {
-    int start = instruction.field / 8;
-    int stop = instruction.field % 8;
+    int start = instruction.field() / 8;
+    int stop = instruction.field() % 8;
     if (start == 0) {
         word->sign = reg.sign;
         ++start;
@@ -365,8 +376,8 @@ void Machine::copyFromRegister5(const InstructionWord& instruction, const Regist
 }
 
 void Machine::copyToRegister2(const InstructionWord& instruction, const ComputerWord& word, Register2* reg) {
-    int start = instruction.field / 8;
-    int stop = instruction.field % 8;
+    int start = instruction.field() / 8;
+    int stop = instruction.field() % 8;
     reg->reset();
     if (start == 0) {
         reg->sign = word.sign;
@@ -446,7 +457,7 @@ void Machine::executeLD(const InstructionWord& instruction, Register5* reg) {
 
 void Machine::executeLDi(const InstructionWord& instruction) {
     int address = getIndexedAddress(instruction);
-    int registerIndex = instruction.operation - Instructions::LD1;
+    int registerIndex = instruction.operation() - Instructions::LD1;
     auto& rIi = rI[registerIndex];
     copyToRegister2(instruction, memory[address], &rIi);
 }
@@ -458,7 +469,7 @@ void Machine::executeLDN(const InstructionWord& instruction, Register5* reg) {
 
 void Machine::executeLDiN(const InstructionWord& instruction) {
     int address = getIndexedAddress(instruction);
-    int registerIndex = instruction.operation - Instructions::LD1N;
+    int registerIndex = instruction.operation() - Instructions::LD1N;
     auto& rIi = rI[registerIndex];
     copyToRegister2(instruction, memory[address], &rIi);
     rIi.sign = 1 - rIi.sign;
@@ -471,7 +482,7 @@ void Machine::executeST(const InstructionWord& instruction, Register5* reg) {
 
 void Machine::executeSTi(const InstructionWord& instruction) {
     int address = getIndexedAddress(instruction);
-    int registerIndex = instruction.operation - Instructions::ST1;
+    int registerIndex = instruction.operation() - Instructions::ST1;
     auto& rIi = rI[registerIndex];
     ComputerWord word(rIi.sign, 0, 0, 0, rIi[1], rIi[2]);
     copyFromRegister5(instruction, word, &memory[address]);
@@ -520,7 +531,7 @@ void Machine::executeENN(const InstructionWord& instruction, Register5* reg) {
 }
 
 void Machine::executeINCi(const InstructionWord& instruction) {
-    int registerIndex = instruction.operation - Instructions::INC1;
+    int registerIndex = instruction.operation() - Instructions::INC1;
     auto& rIi = rI[registerIndex];
     int16_t value = rIi.value();
     int16_t address = getIndexedAddress(instruction);
@@ -529,7 +540,7 @@ void Machine::executeINCi(const InstructionWord& instruction) {
 }
 
 void Machine::executeDECi(const InstructionWord& instruction) {
-    int registerIndex = instruction.operation - Instructions::INC1;
+    int registerIndex = instruction.operation() - Instructions::INC1;
     auto& rIi = rI[registerIndex];
     int16_t value = rIi.value();
     int16_t address = getIndexedAddress(instruction);
@@ -538,7 +549,7 @@ void Machine::executeDECi(const InstructionWord& instruction) {
 }
 
 void Machine::executeENTi(const InstructionWord& instruction) {
-    int registerIndex = instruction.operation - Instructions::INC1;
+    int registerIndex = instruction.operation() - Instructions::INC1;
     auto& rIi = rI[registerIndex];
     int16_t address = getIndexedAddress(instruction);
     rIi.set(checkRange(address, 2));
@@ -548,7 +559,7 @@ void Machine::executeENTi(const InstructionWord& instruction) {
 }
 
 void Machine::executeENNi(const InstructionWord& instruction) {
-    int registerIndex = instruction.operation - Instructions::INC1;
+    int registerIndex = instruction.operation() - Instructions::INC1;
     auto& rIi = rI[registerIndex];
     int16_t address = getIndexedAddress(instruction);
     rIi.set(checkRange(-address, 2));
@@ -573,7 +584,7 @@ void Machine::executeCMP(const InstructionWord& instruction, Register5* reg) {
 }
 
 void Machine::executeCMPi(const InstructionWord& instruction) {
-    int registerIndex = instruction.operation - Instructions::CMP1;
+    int registerIndex = instruction.operation() - Instructions::CMP1;
     auto& rIi = rI[registerIndex];
     ComputerWord t(rIi.sign, 0, 0, 0, rIi.byte1, rIi.byte2), a, b;
     int32_t address = getIndexedAddress(instruction);

@@ -63,6 +63,30 @@ int32_t ComputerWord::value() const {
     return sign ? -value : value;
 }
 
+int16_t ComputerWord::addressValue() const {
+    int16_t value = static_cast<int16_t>(this->bytes12());
+    if (sign) {
+        value = -value;
+    }
+    return value;
+}
+
+void ComputerWord::setAddress(int16_t address) {
+    sign = false;
+    if (address < 0) {
+        sign = true;
+        address = -address;
+    }
+    byte1 = static_cast<uint8_t>(address / 64);
+    byte2 = static_cast<uint8_t>(address % 64);
+}
+
+void ComputerWord::setAddress(bool negative, uint16_t address) {
+    sign = negative;
+    byte1 = static_cast<uint8_t>(address / 64);
+    byte2 = static_cast<uint8_t>(address % 64);
+}
+
 void ComputerWord::set(int32_t value) {
     if (value > 0) {
         sign = 0;

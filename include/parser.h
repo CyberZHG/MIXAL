@@ -6,6 +6,7 @@
 #include <unordered_map>
 #include "instructions.h"
 #include "expression.h"
+#include "memory.h"
 #include "errors.h"
 
 namespace mixal {
@@ -32,7 +33,7 @@ class ParsedResult {
     Expression index;
     std::string rawField;
     Expression field;
-    InstructionWord word;
+    ComputerWord word;
     std::string comment;
 
     ParsedResult() : parsedType(ParsedType::EMPTY),

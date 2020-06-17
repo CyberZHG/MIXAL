@@ -170,22 +170,6 @@ class Instructions {
     static int getDefaultField(const std::string& name);
 };
 
-struct InstructionWord {
-    /** Computer words used for instructions.
-     * | 0 | 1 | 2 | 3 | 4 | 5 |
-     * | +   A   A | I | F | C |
-     */
-    bool sign;
-    uint16_t address : 14;
-    uint8_t index : 6;
-    uint8_t field : 6;
-    uint8_t operation : 6;
-
-    InstructionWord() : sign(0), address(0), index(0), field(5), operation() {}
-
-    int16_t addressValue() const;
-};
-
 };  // namespace mixal
 
 

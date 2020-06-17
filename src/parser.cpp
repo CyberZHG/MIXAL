@@ -76,8 +76,7 @@ bool ParsedResult::evaluateAddress(const std::unordered_map<std::string, AtomicV
     if (parsedType == ParsedType::INSTRUCTION && abs(value) >= 4096) {
         throw ParseError(index, "Address can not be represented in 2 bytes" + std::to_string(value));
     }
-    word.sign = address.result().negative;
-    word.address = static_cast<uint16_t>(abs(value));
+    word.setAddress(address.result().negative, static_cast<uint16_t>(abs(value)));
     return true;
 }
 
@@ -89,7 +88,7 @@ bool ParsedResult::evaluateIndex(const std::unordered_map<std::string, AtomicVal
     if (value < 0 || 6 < value) {
         throw ParseError(column, "Invalid index value: " + std::to_string(value));
     }
-    word.index = static_cast<uint8_t>(value);
+    word.setIndex(static_cast<uint8_t>(value));
     return true;
 }
 
@@ -106,7 +105,7 @@ bool ParsedResult::evaluateField(const std::unordered_map<std::string, AtomicVal
     if (value < 0 || 64 <= value) {
         throw ParseError(index, "Invalid field value: " + std::to_string(value));
     }
-    word.field = static_cast<uint8_t>(value);
+    word.setField(static_cast<uint8_t>(value));
     return true;
 }
 
@@ -158,6 +157,7 @@ ParsedResult Parser::parseLine(const std::string& line, const std::string& lineS
     const char END_CHAR = '#';
     const int INIT_INDEX = -1;
     ParsedResult result;
+    result.word.setField(5);
     result.parsedType = ParsedType::INSTRUCTION;
     auto state = hasLocation ? ParseState::START : ParseState::BEFORE_OP;
     int locationStart = INIT_INDEX,
@@ -219,11 +219,11 @@ ParsedResult Parser::parseLine(const std::string& line, const std::string& lineS
                 if (operation == Instructions::INVALID) {
                     throw ParseError(i, "Unknown operation: " + result.operation);
                 } else if (operation <= Instructions::LAST) {
-                    result.word.operation = static_cast<uint8_t>(operation);
+                    result.word.setOperation(static_cast<uint8_t>(operation));
                     defaultField = Instructions::getDefaultField(result.operation);
                 } else {
                     result.parsedType = ParsedType::PSEUDO;
-                    result.word.operation = static_cast<uint8_t>(operation - Instructions::PSEUDO);
+                    result.word.setOperation(static_cast<uint8_t>(operation - Instructions::PSEUDO));
                 }
             } else if (!isalnum(ch)) {
                 throw ParseError(i, "Unexpected character encountered while parsing operation");
@@ -346,7 +346,7 @@ ParsedResult Parser::parseLine(const std::string& line, const std::string& lineS
         }
     }
     if (defaultField >= 0) {
-        result.word.field = defaultField;
+        result.word.setField(defaultField);
     }
     assert(state == ParseState::END);
     return result;
