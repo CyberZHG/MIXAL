@@ -245,13 +245,17 @@ bool Expression::evaluate(const std::unordered_map<std::string, AtomicValue>& co
     return true;
 }
 
-std::ostream& operator<<(std::ostream& out, const Atomic& atomic) {
-    switch (atomic.type) {
-    case AtomicType::INTEGER: out << atomic.integer; break;
-    case AtomicType::SYMBOL: out << atomic.symbol; break;
-    case AtomicType::ASTERISK: out << atomic.symbol; break;
+void Expression::replaceSymbol(const std::unordered_map<std::string, std::string>& mapping) {
+    for (auto& atomic : _atomics) {
+        if (atomic.type == AtomicType::SYMBOL) {
+            auto it = mapping.find(atomic.symbol);
+            if (it != mapping.end()) {
+                atomic.replaceSymbol(it->second);
+                _depends.erase(it->first);
+                _depends.insert(it->second);
+            }
+        }
     }
-    return out;
 }
 
 std::ostream& operator<<(std::ostream& out, Operation operation) {

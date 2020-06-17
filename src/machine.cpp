@@ -225,13 +225,38 @@ void Machine::loadCodes(const std::vector<std::string>& codes) {
                 result.location = Expression::getConstOffsetExpression(lineBase, lineOffset);
             }
             if (!result.rawLocation.empty()) {
-                expressions[result.rawLocation] = &result.location;
+                if (!(Atomic::isLocalSymbol(result.rawLocation) && result.rawLocation[1] == 'H')) {
+                    expressions[result.rawLocation] = &result.location;
+                }
             } else if (usedLineSymbol) {
                 result.rawLocation = lineSymbol;
             }
             expressions[lineSymbol] = &result.location;
             ++lineOffset;
         }
+    }
+    // Replace local symbols
+    std::unordered_map<std::string, std::string> localSymbolMapping;
+    for (auto& result : results) {
+        if (!result.rawLocation.empty() && Atomic::isLocalSymbol(result.rawLocation) && result.rawLocation[1] == 'H') {
+            auto lineSymbol = getPesudoSymbolname();
+            result.rawLocation[1] = 'B';
+            localSymbolMapping[result.rawLocation] = lineSymbol;
+            result.rawLocation[1] = 'H';
+            expressions[lineSymbol] = &result.location;
+        }
+        result.address.replaceSymbol(localSymbolMapping);
+    }
+    for (int i = static_cast<int>(results.size()) - 1; i >= 0; --i) {
+        auto& result = results[i];
+        if (!result.rawLocation.empty() && Atomic::isLocalSymbol(result.rawLocation) && result.rawLocation[1] == 'H') {
+            auto lineSymbol = getPesudoSymbolname();
+            result.rawLocation[1] = 'F';
+            localSymbolMapping[result.rawLocation] = lineSymbol;
+            result.rawLocation[1] = 'H';
+            expressions[lineSymbol] = &result.location;
+        }
+        result.address.replaceSymbol(localSymbolMapping);
     }
     // Add expressions and literal constants
     for (auto& result : results) {
@@ -286,10 +311,8 @@ void Machine::loadCodes(const std::vector<std::string>& codes) {
     }
     // Load constants to memory
     for (auto& it : constants) {
-        std::cout << std::get<1>(it).result().value << " " << std::get<2>(it).result().value << std::endl;
         memory[std::get<1>(it).result().value].set(std::get<2>(it).result().value);
     }
-    std::cout << "END??" << std::endl;
     // Load results to memory
     for (auto& result : results) {
         if (result.parsedType == ParsedType::INSTRUCTION) {
@@ -301,7 +324,6 @@ void Machine::loadCodes(const std::vector<std::string>& codes) {
                                                        result.word.operation);
         }
     }
-    std::cout << "END" << std::endl;
 }
 
 std::string Machine::getPesudoSymbolname() {

@@ -35,18 +35,13 @@ struct Atomic {
             symbol = atomic.symbol;
         }
     }
-    Atomic& operator=(const Atomic& atomic) {
-        type = atomic.type;
-        negative = atomic.negative;
-        if (type == AtomicType::INTEGER) {
-            integer = atomic.integer;
-        } else {
-            symbol = atomic.symbol;
-        }
-        return *this;
-    }
 
+    Atomic& operator=(const Atomic& atomic);
     friend std::ostream& operator<<(std::ostream& out, const Atomic& atomic);
+
+    static bool isLocalSymbol(const std::string& symbol);
+    bool isLocalSymbol() const;
+    void replaceSymbol(const std::string& symbol);
 };
 
 struct AtomicValue {
@@ -99,6 +94,8 @@ class Expression {
     bool evaluate(const std::unordered_map<std::string, AtomicValue>& constants);
 
     friend std::ostream& operator<<(std::ostream& out, const Expression& expression);
+
+    void replaceSymbol(const std::unordered_map<std::string, std::string>& mapping);
 
  private:
     bool _evaluated;
