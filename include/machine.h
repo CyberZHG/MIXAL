@@ -50,6 +50,7 @@ class Machine {
 
     std::string getSingleLineSymbol();
     void executeSingle();
+    void executeUntilSelfLoop();
     void executeSingle(ParsedResult* instruction);
     void executeSingle(const InstructionWord& instruction);
     void executeSinglePesudo(ParsedResult* instruction);
@@ -74,6 +75,7 @@ class Machine {
     void executeSUB(const InstructionWord& instruction);
     void executeMUL(const InstructionWord& instruction);
     void executeDIV(const InstructionWord& instruction);
+
     void executeLD(const InstructionWord& instruction, Register5* reg);
     void executeLDi(const InstructionWord& instruction);
     void executeLDN(const InstructionWord& instruction, Register5* reg);
@@ -82,6 +84,9 @@ class Machine {
     void executeSTi(const InstructionWord& instruction);
     void executeSTJ(const InstructionWord& instruction);
     void executeSTZ(const InstructionWord& instruction);
+
+    void executeJMP(const InstructionWord& instruction);
+
     void executeINC(const InstructionWord& instruction, Register5* reg);
     void executeDEC(const InstructionWord& instruction, Register5* reg);
     void executeENT(const InstructionWord& instruction, Register5* reg);
@@ -90,6 +95,7 @@ class Machine {
     void executeDECi(const InstructionWord& instruction);
     void executeENTi(const InstructionWord& instruction);
     void executeENNi(const InstructionWord& instruction);
+
     void executeCMP(const InstructionWord& instruction, Register5* reg);
     void executeCMPi(const InstructionWord& instruction);
 

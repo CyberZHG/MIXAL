@@ -35,6 +35,17 @@ void Machine::executeSingle() {
     executeSingle(memory[_lineOffset]);
 }
 
+void Machine::executeUntilSelfLoop() {
+    int32_t lastOffset = _lineOffset;
+    while (true) {
+        executeSingle(memory[_lineOffset]);
+        if (lastOffset == _lineOffset) {
+            break;
+        }
+        lastOffset = _lineOffset;
+    }
+}
+
 void Machine::executeSingle(ParsedResult* instruction) {
     if (instruction->address.literalConstant() ||
         instruction->index.literalConstant() ||
@@ -48,7 +59,6 @@ void Machine::executeSingle(ParsedResult* instruction) {
             }
         }
         executeSingle(instruction->word);
-        ++_lineOffset;
     } else if (instruction->parsedType == ParsedType::PSEUDO) {
         executeSinglePesudo(instruction);
     }
@@ -116,6 +126,11 @@ void Machine::executeSingle(const InstructionWord& instruction) {
     case Instructions::STZ:
         executeSTZ(instruction);
         break;
+    case Instructions::JMP:
+        switch (instruction.field()) {
+        case 0: executeJMP(instruction); break;
+        }
+        break;
     case Instructions::INCA:
         switch (instruction.field()) {
         case 0: executeINC(instruction, &rA); break;
@@ -162,6 +177,7 @@ void Machine::executeSingle(const InstructionWord& instruction) {
     default:
         break;
     }
+    ++_lineOffset;
 }
 
 void Machine::executeSinglePesudo(ParsedResult* instruction) {
@@ -498,6 +514,12 @@ void Machine::executeSTZ(const InstructionWord& instruction) {
     int address = getIndexedAddress(instruction);
     ComputerWord word(0, 0, 0, 0, 0, 0);
     copyFromRegister5(instruction, word, &memory[address]);
+}
+
+void Machine::executeJMP(const InstructionWord& instruction) {
+    int32_t address = getIndexedAddress(instruction);
+    rJ.set(_lineOffset + 1);
+    _lineOffset = address - 1;
 }
 
 void Machine::executeINC(const InstructionWord& instruction, Register5* reg) {
