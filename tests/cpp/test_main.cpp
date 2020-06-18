@@ -4,6 +4,7 @@ using test::Framework;
 
 int main() {
     Framework* framework = Framework::getInstance();
+    framework->hidePassed();
     framework->runTests();
     framework->print();
     framework->finish();

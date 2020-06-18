@@ -130,6 +130,8 @@ void Machine::executeSingle(const InstructionWord& instruction) {
         switch (instruction.field()) {
         case 0: executeJMP(instruction); break;
         case 1: executeJSJ(instruction); break;
+        case 2: executeJOV(instruction); break;
+        case 3: executeJNOV(instruction); break;
         }
         break;
     case Instructions::INCA:
