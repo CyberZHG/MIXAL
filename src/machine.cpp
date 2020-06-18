@@ -132,6 +132,12 @@ void Machine::executeSingle(const InstructionWord& instruction) {
         case 1: executeJSJ(instruction); break;
         case 2: executeJOV(instruction); break;
         case 3: executeJNOV(instruction); break;
+        case 4: executeJL(instruction); break;
+        case 5: executeJE(instruction); break;
+        case 6: executeJG(instruction); break;
+        case 7: executeJGE(instruction); break;
+        case 8: executeJNE(instruction); break;
+        case 9: executeJLE(instruction); break;
         }
         break;
     case Instructions::INCA:

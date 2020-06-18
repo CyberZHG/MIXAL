@@ -33,4 +33,53 @@ void Machine::executeJNOV(const InstructionWord& instruction) {
     }
 }
 
+void Machine::executeJL(const InstructionWord& instruction) {
+    if (comparison == ComparisonIndicator::LESS) {
+        int32_t address = getIndexedAddress(instruction);
+        rJ.set(_lineOffset + 1);
+        _lineOffset = address - 1;
+    }
+}
+
+void Machine::executeJE(const InstructionWord& instruction) {
+    if (comparison == ComparisonIndicator::EQUAL) {
+        int32_t address = getIndexedAddress(instruction);
+        rJ.set(_lineOffset + 1);
+        _lineOffset = address - 1;
+    }
+}
+
+void Machine::executeJG(const InstructionWord& instruction) {
+    if (comparison == ComparisonIndicator::GREATER) {
+        int32_t address = getIndexedAddress(instruction);
+        rJ.set(_lineOffset + 1);
+        _lineOffset = address - 1;
+    }
+}
+
+void Machine::executeJGE(const InstructionWord& instruction) {
+    if (comparison != ComparisonIndicator::LESS) {
+        int32_t address = getIndexedAddress(instruction);
+        rJ.set(_lineOffset + 1);
+        _lineOffset = address - 1;
+    }
+}
+
+void Machine::executeJNE(const InstructionWord& instruction) {
+    if (comparison != ComparisonIndicator::EQUAL) {
+        int32_t address = getIndexedAddress(instruction);
+        rJ.set(_lineOffset + 1);
+        _lineOffset = address - 1;
+    }
+}
+
+void Machine::executeJLE(const InstructionWord& instruction) {
+    if (comparison != ComparisonIndicator::GREATER) {
+        int32_t address = getIndexedAddress(instruction);
+        rJ.set(_lineOffset + 1);
+        _lineOffset = address - 1;
+    }
+}
+
+
 };  // namespace mixal

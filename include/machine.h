@@ -89,6 +89,12 @@ class Machine {
     void executeJSJ(const InstructionWord& instruction);
     void executeJOV(const InstructionWord& instruction);
     void executeJNOV(const InstructionWord& instruction);
+    void executeJL(const InstructionWord& instruction);
+    void executeJE(const InstructionWord& instruction);
+    void executeJG(const InstructionWord& instruction);
+    void executeJGE(const InstructionWord& instruction);
+    void executeJNE(const InstructionWord& instruction);
+    void executeJLE(const InstructionWord& instruction);
 
     void executeINC(const InstructionWord& instruction, Register5* reg);
     void executeDEC(const InstructionWord& instruction, Register5* reg);
