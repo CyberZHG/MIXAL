@@ -140,6 +140,41 @@ void Machine::executeSingle(const InstructionWord& instruction) {
         case 9: executeJLE(instruction); break;
         }
         break;
+    case Instructions::JAN:
+        switch (instruction.field()) {
+        case 0: executeJN(instruction, &rA); break;
+        case 1: executeJZ(instruction, &rA); break;
+        case 2: executeJP(instruction, &rA); break;
+        case 3: executeJNN(instruction, &rA); break;
+        case 4: executeJNZ(instruction, &rA); break;
+        case 5: executeJNP(instruction, &rA); break;
+        }
+        break;
+    case Instructions::J1N:
+    case Instructions::J2N:
+    case Instructions::J3N:
+    case Instructions::J4N:
+    case Instructions::J5N:
+    case Instructions::J6N:
+        switch (instruction.field()) {
+        case 0: executeJiN(instruction); break;
+        case 1: executeJiZ(instruction); break;
+        case 2: executeJiP(instruction); break;
+        case 3: executeJiNN(instruction); break;
+        case 4: executeJiNZ(instruction); break;
+        case 5: executeJiNP(instruction); break;
+        }
+        break;
+    case Instructions::JXN:
+        switch (instruction.field()) {
+        case 0: executeJN(instruction, &rX); break;
+        case 1: executeJZ(instruction, &rX); break;
+        case 2: executeJP(instruction, &rX); break;
+        case 3: executeJNN(instruction, &rX); break;
+        case 4: executeJNZ(instruction, &rX); break;
+        case 5: executeJNP(instruction, &rX); break;
+        }
+        break;
     case Instructions::INCA:
         switch (instruction.field()) {
         case 0: executeINC(instruction, &rA); break;
@@ -336,7 +371,6 @@ void Machine::loadCodes(const std::vector<std::string>& codes) {
             tasks.erase({dependNums[solve], solve});
             tasks.insert({--dependNums[solve], solve});
         }
-        solves[symbol].clear();
     }
     // Load constants to memory
     for (auto& it : constants) {
