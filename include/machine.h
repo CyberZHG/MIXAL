@@ -71,6 +71,9 @@ class Machine {
     void copyToRegister2(const InstructionWord& instruction, const ComputerWord& word, Register2* reg);
     int32_t checkRange(int32_t value, int bytes = 5);
 
+    uint8_t getAX(int index) const;
+    void setAX(int index, uint8_t value);
+
     void executeADD(const InstructionWord& instruction);
     void executeSUB(const InstructionWord& instruction);
     void executeMUL(const InstructionWord& instruction);
@@ -78,6 +81,8 @@ class Machine {
 
     void executeSLA(const InstructionWord& instruction);
     void executeSRA(const InstructionWord& instruction);
+    void executeSLAX(const InstructionWord& instruction);
+    void executeSRAX(const InstructionWord& instruction);
 
     void executeLD(const InstructionWord& instruction, Register5* reg);
     void executeLDi(const InstructionWord& instruction);

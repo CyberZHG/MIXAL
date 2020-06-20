@@ -82,6 +82,8 @@ void Machine::executeSingle(const InstructionWord& instruction) {
         switch (instruction.field()) {
         case 0: executeSLA(instruction); break;
         case 1: executeSRA(instruction); break;
+        case 2: executeSLAX(instruction); break;
+        case 3: executeSRAX(instruction); break;
         }
         break;
     case Instructions::LDA:
@@ -460,6 +462,24 @@ int32_t Machine::checkRange(int32_t value, int bytes) {
         value %= range;
     }
     return value;
+}
+
+uint8_t Machine::getAX(int index) const {
+    if (index <= 0 || index > 10) {
+        throw std::runtime_error("Invalid index for AX: " + std::to_string(index));
+    }
+    return index <= 5 ? rA[index] : rX[index - 5];
+}
+
+void Machine::setAX(int index, uint8_t value) {
+    if (index <= 0 || index > 10) {
+        throw std::runtime_error("Invalid index for AX: " + std::to_string(index));
+    }
+    if (index <= 5) {
+        rA[index] = value;
+    } else {
+        rX[index - 5] = value;
+    }
 }
 
 };  // namespace mixal
