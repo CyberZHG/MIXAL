@@ -1,6 +1,24 @@
 MIXAL
 =====
 
+![C++ Tests](https://github.com/CyberZHG/MIXAL/workflows/C++%20Tests/badge.svg)
+![Python Tests](https://github.com/CyberZHG/MIXAL/workflows/Python%20Tests/badge.svg)
+[![Version](https://img.shields.io/pypi/v/mixal.svg)](https://pypi.org/project/mixal/)
+![Downloads](https://img.shields.io/pypi/dm/mixal.svg)
+![License](https://img.shields.io/pypi/l/keras-bert.svg)
+
+## Install
+
+```bash
+pip install mixal
+```
+
+For MacOS users, you may need to use:
+
+```bash
+MACOSX_DEPLOYMENT_TARGET=10.9 pip install mixal
+```
+
 ## Sample
 
 A sample code that finds the maximum value:
