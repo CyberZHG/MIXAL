@@ -93,4 +93,14 @@ void Machine::executeSRC(const InstructionWord& instruction) {
     }
 }
 
+void Machine::executeMOVE(const InstructionWord& instruction) {
+    int32_t originAddress = getIndexedAddress(instruction);
+    int32_t targetAddress = rI1().value();
+    uint8_t amount = instruction.field();
+    for (uint8_t i = 0; i < amount; ++i) {
+        memory[targetAddress + i] = memory[originAddress + i];
+    }
+    rI1().set(targetAddress + amount);
+}
+
 };  // namespace mixal

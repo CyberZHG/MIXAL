@@ -88,6 +88,9 @@ void Machine::executeSingle(const InstructionWord& instruction) {
         case 5: executeSRC(instruction); break;
         }
         break;
+    case Instructions::MOVE:
+        executeMOVE(instruction);
+        break;
     case Instructions::LDA:
         executeLD(instruction, &rA);
         break;

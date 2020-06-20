@@ -262,4 +262,46 @@ __TEST_U(TestMachineMISC, test_src_9) {
     __ASSERT_EQ(mixal::ComputerWord(true, 7, 8, 9, 10, 1), machine.rX);
 }
 
+__TEST_U(TestMachineMISC, test_move_safe) {
+    machine.rI1().set(999);
+    machine.memory[1000].set(1);
+    machine.memory[1001].set(12);
+    machine.memory[1002].set(123);
+    auto result = mixal::Parser::parseLine("MOVE 1000(3)", "", false);
+    machine.executeSingle(&result);
+    __ASSERT_EQ(1, machine.memory[999].value());
+    __ASSERT_EQ(12, machine.memory[1000].value());
+    __ASSERT_EQ(123, machine.memory[1001].value());
+    __ASSERT_EQ(123, machine.memory[1002].value());
+}
+
+__TEST_U(TestMachineMISC, test_move_unsafe) {
+    machine.rI1().set(1001);
+    machine.memory[1000].set(1);
+    machine.memory[1001].set(12);
+    auto result = mixal::Parser::parseLine("MOVE 1000(3)", "", false);
+    machine.executeSingle(&result);
+    __ASSERT_EQ(1, machine.memory[1000].value());
+    __ASSERT_EQ(1, machine.memory[1001].value());
+    __ASSERT_EQ(1, machine.memory[1002].value());
+    __ASSERT_EQ(1, machine.memory[1003].value());
+}
+
+__TEST_U(TestMachineMISC, test_move_stacked) {
+    machine.rI1().set(999);
+    machine.memory[1000].set(1);
+    machine.memory[1001].set(12);
+    machine.memory[1002].set(123);
+    auto result = mixal::Parser::parseLine("MOVE 1000(1)", "", false);
+    machine.executeSingle(&result);
+    result = mixal::Parser::parseLine("MOVE 1001(1)", "", false);
+    machine.executeSingle(&result);
+    result = mixal::Parser::parseLine("MOVE 1002(1)", "", false);
+    machine.executeSingle(&result);
+    __ASSERT_EQ(1, machine.memory[999].value());
+    __ASSERT_EQ(12, machine.memory[1000].value());
+    __ASSERT_EQ(123, machine.memory[1001].value());
+    __ASSERT_EQ(123, machine.memory[1002].value());
+}
+
 }  // namespace test
