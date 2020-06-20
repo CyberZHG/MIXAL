@@ -80,6 +80,9 @@ class Machine {
     void executeMUL(const InstructionWord& instruction);
     void executeDIV(const InstructionWord& instruction);
 
+    void executeNUM();
+    void executeCHAR();
+
     void executeSLA(const InstructionWord& instruction);
     void executeSRA(const InstructionWord& instruction);
     void executeSLAX(const InstructionWord& instruction);

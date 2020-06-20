@@ -48,7 +48,8 @@ void Machine::executeUntilSelfLoop() {
 
 void Machine::executeUntilHalt() {
     while (true) {
-        if (memory[_lineOffset].operation() == Instructions::HLT) {
+        if (memory[_lineOffset].operation() == Instructions::HLT &&
+            memory[_lineOffset].field() == 2) {
             ++_lineOffset;
             break;
         }
@@ -87,6 +88,12 @@ void Machine::executeSingle(const InstructionWord& instruction) {
         break;
     case Instructions::DIV:
         executeDIV(instruction);
+        break;
+    case Instructions::HLT:
+        switch (instruction.field()) {
+        case 0: executeNUM(); break;
+        case 1: executeCHAR(); break;
+        }
         break;
     case Instructions::SLA:
         switch (instruction.field()) {
