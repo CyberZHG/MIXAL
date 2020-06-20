@@ -44,6 +44,32 @@ __TEST_U(TestMachineLoadCodes, test_load_sample) {
     __ASSERT_EQ(mixal::ComputerWord(false, 3009, 0, 0, 39), machine.memory[3009]);
 }
 
+__TEST_U(TestMachineLoadCodes, test_run_sample) {
+    std::vector<std::string> codes = {
+        "X       EQU  1000",
+        "        ORIG 3000",
+        "MAXIMUM STJ  EXIT",
+        "INIT    ENT3 0,1",
+        "        JMP  CHANGEM",
+        "LOOP    CMPA X,3",
+        "        JGE  *+3",
+        "CHANGEM ENT2 0,3",
+        "        LDA  X,3",
+        "        DEC3 1",
+        "        J3P  LOOP",
+        "EXIT    JMP  *",
+    };
+    machine.loadCodes(codes);
+    machine.rI1().set(5);
+    machine.rJ.set(3009);
+    machine.memory[1000].set(123);
+    machine.memory[1001].set(456);
+    machine.memory[1002].set(789);
+    machine.memory[1003].set(654);
+    machine.executeUntilSelfLoop();
+    __ASSERT_EQ(789, machine.rA.value());
+}
+
 __TEST_U(TestMachineLoadCodes, test_load_constant) {
     std::vector<std::string> codes = {
         " CON  100000",

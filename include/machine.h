@@ -51,6 +51,9 @@ class Machine {
     inline const Register2& rI5() const { return rI[4]; }
     inline const Register2& rI6() const { return rI[5]; }
 
+    const ComputerWord& memoryAt(int16_t index) const;
+    ComputerWord& memoryAt(int16_t index);
+
     void reset();
 
     std::string getSingleLineSymbol();

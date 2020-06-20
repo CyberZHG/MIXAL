@@ -23,6 +23,14 @@ std::shared_ptr<IODevice> Machine::getDevice(int32_t index) {
     return devices[index];
 }
 
+const ComputerWord& Machine::memoryAt(int16_t index) const {
+    return memory[index];
+}
+
+ComputerWord& Machine::memoryAt(int16_t index) {
+    return memory[index];
+}
+
 void Machine::reset() {
     rA.reset();
     rX.reset();
