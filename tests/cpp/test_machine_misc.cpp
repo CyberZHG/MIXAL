@@ -304,4 +304,17 @@ __TEST_U(TestMachineMISC, test_move_stacked) {
     __ASSERT_EQ(123, machine.memory[1002].value());
 }
 
+__TEST_U(TestMachineMISC, test_hlt) {
+    machine.loadCodes({
+        "     ORIG 3000",
+        "     HLT",
+        "     LDA  =23=",
+        "     HLT",
+    });
+    machine.executeUntilHalt();
+    __ASSERT_EQ(0, machine.rA.value());
+    machine.executeUntilHalt();
+    __ASSERT_EQ(23, machine.rA.value());
+}
+
 }  // namespace test

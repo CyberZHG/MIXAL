@@ -51,6 +51,7 @@ class Machine {
     std::string getSingleLineSymbol();
     void executeSingle();
     void executeUntilSelfLoop();
+    void executeUntilHalt();
     void executeSingle(ParsedResult* instruction);
     void executeSingle(const InstructionWord& instruction);
     void executeSinglePesudo(ParsedResult* instruction);

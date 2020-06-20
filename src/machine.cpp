@@ -46,6 +46,16 @@ void Machine::executeUntilSelfLoop() {
     }
 }
 
+void Machine::executeUntilHalt() {
+    while (true) {
+        if (memory[_lineOffset].operation() == Instructions::HLT) {
+            ++_lineOffset;
+            break;
+        }
+        executeSingle(memory[_lineOffset]);
+    }
+}
+
 void Machine::executeSingle(ParsedResult* instruction) {
     if (instruction->address.literalConstant() ||
         instruction->index.literalConstant() ||
