@@ -83,6 +83,8 @@ class Machine {
     void executeSRA(const InstructionWord& instruction);
     void executeSLAX(const InstructionWord& instruction);
     void executeSRAX(const InstructionWord& instruction);
+    void executeSLC(const InstructionWord& instruction);
+    void executeSRC(const InstructionWord& instruction);
 
     void executeLD(const InstructionWord& instruction, Register5* reg);
     void executeLDi(const InstructionWord& instruction);
