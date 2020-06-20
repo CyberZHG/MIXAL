@@ -1,5 +1,6 @@
 import os
 import codecs
+import platform
 from setuptools import setup, find_packages, Extension
 
 current_path = os.path.abspath(os.path.dirname(__file__))
@@ -20,11 +21,14 @@ for name in os.listdir('src'):
     if name.endswith('.cpp') or name.endswith('.cxx'):
         sources.append(os.path.join('src', name))
 
+extra_compile_args = ['-std=c++11']
+if platform.system() == 'Darwin':
+    extra_compile_args.append('-stdlib=libc++')
 ext_module = Extension(
     '_mixal',
     sources=sources,
     include_dirs=['include'],
-    extra_compile_args=['-std=c++11', '-stdlib=libc++'],
+    extra_compile_args=extra_compile_args,
 )
 
 setup(
