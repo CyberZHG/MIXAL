@@ -4,12 +4,14 @@
 #include <map>
 #include <vector>
 #include <string>
+#include <memory>
 #include <unordered_map>
 #include "registers.h"
 #include "flags.h"
 #include "memory.h"
 #include "parser.h"
 #include "instructions.h"
+#include "io.h"
 #include "errors.h"
 
 namespace mixal {
@@ -20,6 +22,7 @@ class Machine {
  public:
     static const int NUM_INDEX_REGISTER = 6;
     static const int NUM_MEMORY = 4000;
+    static const int NUM_DEVICE = 16;
 
     Register5 rA, rX;
     Register2 rI[NUM_INDEX_REGISTER], rJ;
@@ -28,9 +31,11 @@ class Machine {
     ComparisonIndicator comparison;
 
     ComputerWord memory[NUM_MEMORY];
+    std::shared_ptr<IODevice> devices[16];
 
     Machine() : rA(), rX(), rI(), rJ(), overflow(false), comparison(ComparisonIndicator::EQUAL), memory(),
-      _pesudoVarIndex(), _lineOffset(), _constants(), _lineNumbers() {}
+      devices(),
+      _pesudoVarIndex(), _lineOffset(), _elapsed(), _constants(), _lineNumbers() {}
 
     inline Register2& rI1() { return rI[0]; }
     inline Register2& rI2() { return rI[1]; }
@@ -61,10 +66,12 @@ class Machine {
  private:
     int32_t _pesudoVarIndex;
     int32_t _lineOffset;
+    int32_t _elapsed;
     std::unordered_map<std::string, AtomicValue> _constants;
     std::vector<std::string> _lineNumbers;
 
     std::string getPesudoSymbolname();
+    std::shared_ptr<IODevice> getDevice(int32_t index);
 
     int getIndexedAddress(const InstructionWord& instruction);
     void copyToRegister5(const InstructionWord& instruction, const ComputerWord& word, Register5* reg);
@@ -99,6 +106,12 @@ class Machine {
     void executeSTi(const InstructionWord& instruction);
     void executeSTJ(const InstructionWord& instruction);
     void executeSTZ(const InstructionWord& instruction);
+
+    void executeJBUS(const InstructionWord& instruction);
+    void executeIOC(const InstructionWord& instruction);
+    void executeIN(const InstructionWord& instruction);
+    void executeOUT(const InstructionWord& instruction);
+    void executeJRED(const InstructionWord& instruction);
 
     void executeJMP(const InstructionWord& instruction);
     void executeJSJ(const InstructionWord& instruction);

@@ -7,6 +7,22 @@
 
 namespace mixal {
 
+std::shared_ptr<IODevice> Machine::getDevice(int32_t index) {
+    if (devices[index] == nullptr) {
+        switch (index) {
+        case 0: case 1: case 2: case 3:
+        case 4: case 5: case 6: case 7:
+            devices[index] = std::unique_ptr<IODevice>(new IODeviceTape());
+            break;
+        case 8: case 9: case 10: case 11:
+        case 12: case 13: case 14: case 15:
+            devices[index] = std::unique_ptr<IODevice>(new IODeviceDisk());
+            break;
+        }
+    }
+    return devices[index];
+}
+
 void Machine::reset() {
     rA.reset();
     rX.reset();
@@ -19,8 +35,12 @@ void Machine::reset() {
     for (int i = 0; i < NUM_MEMORY; ++i) {
         memory[i].reset();
     }
+    for (size_t i = 0; i < NUM_DEVICE; ++i) {
+        devices[i] = nullptr;
+    }
     _pesudoVarIndex = 0;
     _lineOffset = 0;
+    _elapsed = 0;
     _constants.clear();
     _lineNumbers.clear();
 }
@@ -156,6 +176,21 @@ void Machine::executeSingle(const InstructionWord& instruction) {
     case Instructions::STZ:
         executeSTZ(instruction);
         break;
+    case Instructions::JBUS:
+        executeJBUS(instruction);
+        break;
+    case Instructions::IOC:
+        executeIOC(instruction);
+        break;
+    case Instructions::IN:
+        executeIN(instruction);
+        break;
+    case Instructions::OUT:
+        executeOUT(instruction);
+        break;
+    case Instructions::JRED:
+        executeJRED(instruction);
+        break;
     case Instructions::JMP:
         switch (instruction.field()) {
         case 0: executeJMP(instruction); break;
@@ -252,6 +287,7 @@ void Machine::executeSingle(const InstructionWord& instruction) {
         break;
     }
     ++_lineOffset;
+    ++_elapsed;
 }
 
 void Machine::executeSinglePesudo(ParsedResult* instruction) {
