@@ -76,6 +76,9 @@ class Machine {
     void executeMUL(const InstructionWord& instruction);
     void executeDIV(const InstructionWord& instruction);
 
+    void executeSLA(const InstructionWord& instruction);
+    void executeSRA(const InstructionWord& instruction);
+
     void executeLD(const InstructionWord& instruction, Register5* reg);
     void executeLDi(const InstructionWord& instruction);
     void executeLDN(const InstructionWord& instruction, Register5* reg);

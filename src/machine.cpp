@@ -78,6 +78,12 @@ void Machine::executeSingle(const InstructionWord& instruction) {
     case Instructions::DIV:
         executeDIV(instruction);
         break;
+    case Instructions::SLA:
+        switch (instruction.field()) {
+        case 0: executeSLA(instruction); break;
+        case 1: executeSRA(instruction); break;
+        }
+        break;
     case Instructions::LDA:
         executeLD(instruction, &rA);
         break;

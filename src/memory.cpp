@@ -32,6 +32,19 @@ uint8_t ComputerWord::operator[](int index) const {
     }
 }
 
+uint8_t& ComputerWord::operator[](int index) {
+    if (index <= 0 || index > 5) {
+        throw std::runtime_error("Invalid index for a word: " + std::to_string(index));
+    }
+    switch (index) {
+    case 1: return byte1;
+    case 2: return byte2;
+    case 3: return byte3;
+    case 4: return byte4;
+    default: return byte5;
+    }
+}
+
 uint16_t ComputerWord::bytes2(int index1, int index2) const {
     int16_t high = static_cast<int16_t>(static_cast<uint8_t>((*this)[index1]));
     int16_t low = static_cast<int16_t>(static_cast<uint8_t>((*this)[index2]));

@@ -31,6 +31,7 @@ struct ComputerWord {
     friend std::ostream& operator<<(std::ostream& out, const ComputerWord& word);
 
     uint8_t operator[](int index) const;
+    uint8_t& operator[](int index);
     uint16_t bytes2(int index1, int index2) const;
     uint16_t bytes12() const;
     uint16_t bytes23() const;
