@@ -211,7 +211,7 @@ __TEST_U(TestMachineAddressTransfer, test_inc3_overflow) {
     auto result = mixal::Parser::parseLine("INC3 100", "", false);
     machine.executeSingle(result.word);
     __ASSERT_EQ(4, machine.rI3().value());
-    __ASSERT_TRUE(machine.overflow);
+    __ASSERT_FALSE(machine.overflow);
 }
 
 __TEST_U(TestMachineAddressTransfer, test_dec4) {
@@ -236,7 +236,7 @@ __TEST_U(TestMachineAddressTransfer, test_dec6_overflow) {
     auto result = mixal::Parser::parseLine("DEC6 100", "", false);
     machine.executeSingle(result.word);
     __ASSERT_EQ(-4, machine.rI6().value());
-    __ASSERT_TRUE(machine.overflow);
+    __ASSERT_FALSE(machine.overflow);
 }
 
 __TEST_U(TestMachineAddressTransfer, test_ent1) {
@@ -273,7 +273,7 @@ __TEST_U(TestMachineAddressTransfer, test_ent5_with_index_and_overflow) {
     machine.executeSingle(result.word);
     __ASSERT_EQ(false, machine.rI5().sign);
     __ASSERT_EQ(4, machine.rI5().value());
-    __ASSERT_TRUE(machine.overflow);
+    __ASSERT_FALSE(machine.overflow);
 }
 
 __TEST_U(TestMachineAddressTransfer, test_enn4_with_index) {
@@ -293,7 +293,7 @@ __TEST_U(TestMachineAddressTransfer, test_enn6_with_index_and_overflow) {
     machine.executeSingle(result.word);
     __ASSERT_EQ(true, machine.rI6().sign);
     __ASSERT_EQ(-4, machine.rI6().value());
-    __ASSERT_TRUE(machine.overflow);
+    __ASSERT_FALSE(machine.overflow);
 }
 
 }  // namespace test

@@ -524,7 +524,9 @@ void Machine::copyToRegister2(const InstructionWord& instruction, const Computer
 int32_t Machine::checkRange(int32_t value, int bytes) {
     int32_t range = 1 << (6 * bytes);
     if (abs(value) >= range) {
-        overflow = true;
+        if (bytes == 5) {
+            overflow = true;
+        }
         value %= range;
     }
     return value;
