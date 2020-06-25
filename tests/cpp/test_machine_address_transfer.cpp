@@ -214,6 +214,13 @@ __TEST_U(TestMachineAddressTransfer, test_inc3_overflow) {
     __ASSERT_FALSE(machine.overflow);
 }
 
+__TEST_U(TestMachineAddressTransfer, test_inc3_double) {
+    machine.rI3().set(-256);
+    auto result = mixal::Parser::parseLine("INC3 0,3", "", false);
+    machine.executeSingle(result.word);
+    __ASSERT_EQ(-512, machine.rI3().value());
+}
+
 __TEST_U(TestMachineAddressTransfer, test_dec4) {
     machine.rI4().set(-12);
     auto result = mixal::Parser::parseLine("DEC4 -47", "", false);

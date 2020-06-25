@@ -29,6 +29,8 @@ import mixal
 
 machine = mixal.Machine()
 
+end_point = 3500
+
 machine.loadCodes([
     'X       EQU  1000',
     '        ORIG 3000',
@@ -42,15 +44,18 @@ machine.loadCodes([
     '        DEC3 1',
     '        J3P  LOOP',
     'EXIT    JMP  *',
+    '        ORIG {}'.format(end_point),
+    '        HLT',
 ])
 
-n, max_val = 100, 0
-machine.rI1().set(n)
-machine.rJ.set(3009)
-for i in range(1000, 1000 + n):
+num_numbers, max_val = 100, 0
+machine.rI1().set(num_numbers)
+machine.rJ.set(end_point)
+for i in range(1000, 1000 + num_numbers):
     val = random.randint(0, 100000)
     machine.memoryAt(i).set(val)
     max_val = max(max_val, val)
-machine.executeUntilSelfLoop()
-print(machine.rA.value())
+machine.executeUntilHalt()
+print('Expected:', max_val)
+print('Actual:', machine.rA.value())
 ```

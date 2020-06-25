@@ -22,13 +22,16 @@ class TestSample(TestCase):
             '        DEC3 1',
             '        J3P  LOOP',
             'EXIT    JMP  *',
+            '        ORIG 3500',
+            '        HLT',
         ])
+
         n, max_val = 100, 0
         self.machine.rI1().set(n)
-        self.machine.rJ.set(3009)
+        self.machine.rJ.set(3500)
         for i in range(1000, 1000 + n):
             val = random.randint(0, 100000)
             self.machine.memoryAt(i).set(val)
             max_val = max(max_val, val)
-        self.machine.executeUntilSelfLoop()
+        self.machine.executeUntilHalt()
         self.assertEqual(max_val, self.machine.rA.value())
