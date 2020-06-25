@@ -1,0 +1,16 @@
+        ORIG    3000
+        STZ     0
+        J2NP    EXIT
+        LD1     =1=
+        LDA     =63=
+        STA     MOVE(4:4)
+        ST2     TEMP
+        LDA     TEMP
+LOOP    CMPA    =63=
+        JGE     MOVE
+        STA     MOVE(4:4)
+MOVE    MOVE    0(63)
+        SUB     MOVE(4:4)
+        JAP     LOOP
+EXIT    HLT
+TEMP    NOP

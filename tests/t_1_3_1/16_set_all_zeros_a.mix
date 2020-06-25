@@ -1,0 +1,6 @@
+        ORIG    3000
+        STZ     0
+        LD1     =1=
+        MOVE    0(49)
+        MOVE    0(50)
+        HLT
