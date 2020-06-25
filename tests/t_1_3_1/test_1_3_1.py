@@ -79,3 +79,11 @@ class TestSample(TestCase):
         self.load_codes('18_number_one')
         self.machine.executeUntilHalt()
         self.assertEqual(42, self.machine.elapsed())
+
+    def test_20_set_all_halt(self):
+        self.load_codes('20_set_all_halt')
+        self.machine.executeUntilHalt()
+        for i in range(4000):
+            self.assertEqual(133, self.machine.memoryAt(i).value())
+        print('Exit:', self.machine.line())
+        print('Cost:', self.machine.elapsed())

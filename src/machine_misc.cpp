@@ -98,7 +98,15 @@ void Machine::executeMOVE(const InstructionWord& instruction) {
     int32_t targetAddress = rI1().value();
     uint8_t amount = instruction.field();
     for (uint8_t i = 0; i < amount; ++i) {
-        memory[targetAddress + i] = memory[originAddress + i];
+        int32_t target = targetAddress + i;
+        int32_t origin = originAddress + i;
+        if (target < 0 || target >= NUM_MEMORY) {
+            continue;
+        }
+        if (origin < 0 || origin >= NUM_MEMORY) {
+            continue;
+        }
+        memory[target] = memory[origin];
     }
     rI1().set(targetAddress + amount);
 }

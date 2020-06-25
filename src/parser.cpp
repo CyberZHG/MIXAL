@@ -105,6 +105,9 @@ bool ParsedResult::evaluateField(const std::unordered_map<std::string, AtomicVal
     if (value < 0 || 64 <= value) {
         throw ParseError(index, "Invalid field value: " + std::to_string(value));
     }
+    if (word.operation() == Instructions::MOVE && rawField.empty()) {
+        value = 1;
+    }
     word.setField(static_cast<uint8_t>(value));
     return true;
 }

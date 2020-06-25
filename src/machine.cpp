@@ -66,6 +66,9 @@ void Machine::executeSingle() {
 void Machine::executeUntilSelfLoop() {
     int32_t lastOffset = _lineOffset;
     while (true) {
+        if (_lineOffset < 0 || NUM_MEMORY <= _lineOffset) {
+            throw RuntimeError(_lineOffset, "Invalid code line: " + std::to_string(_lineOffset));
+        }
         executeSingle(memory[_lineOffset]);
         if (lastOffset == _lineOffset) {
             break;
@@ -76,6 +79,9 @@ void Machine::executeUntilSelfLoop() {
 
 void Machine::executeUntilHalt() {
     while (true) {
+        if (_lineOffset < 0 || NUM_MEMORY <= _lineOffset) {
+            throw RuntimeError(_lineOffset, "Invalid code line: " + std::to_string(_lineOffset));
+        }
         if (memory[_lineOffset].operation() == Instructions::HLT &&
             memory[_lineOffset].field() == 2) {
             ++_lineOffset;

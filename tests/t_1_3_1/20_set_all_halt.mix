@@ -1,0 +1,8 @@
+        ORIG    4000-20
+        LDA     HALT
+        STA     0
+        ENT1    1
+LOOP    MOVE    -1,1(63)
+        INC2    63
+        JMP     LOOP
+HALT    HLT
