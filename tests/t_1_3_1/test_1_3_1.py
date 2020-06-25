@@ -74,3 +74,8 @@ class TestSample(TestCase):
         for i in range(n + 1, 3000):
             self.assertLess(0, self.machine.memoryAt(i).value(), i)
         print('Cost:', self.machine.elapsed())
+
+    def test_18_number_one(self):
+        self.load_codes('18_number_one')
+        self.machine.executeUntilHalt()
+        self.assertEqual(42, self.machine.elapsed())

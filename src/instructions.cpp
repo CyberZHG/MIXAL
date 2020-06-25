@@ -2023,19 +2023,80 @@ int Instructions::getDefaultField(const std::string& name) {
 }
 
 int Instructions::getCost(Instructions::Code code, uint8_t field) {
-    if (code == Instructions::MOVE) {
-        return 1 + field * 2;
+    switch (code) {
+    case Instructions::NOP: return 1;
+    case Instructions::ADD: return 2;
+    case Instructions::SUB: return 2;
+    case Instructions::MUL: return 10;
+    case Instructions::DIV: return 12;
+    case Instructions::NUM: return 10;
+    case Instructions::SLA: return 2;
+    case Instructions::MOVE: return 1 + field * 2;
+
+    case Instructions::LDA: return 2;
+    case Instructions::LD1: return 2;
+    case Instructions::LD2: return 2;
+    case Instructions::LD3: return 2;
+    case Instructions::LD4: return 2;
+    case Instructions::LD5: return 2;
+    case Instructions::LD6: return 2;
+    case Instructions::LDX: return 2;
+
+    case Instructions::LDAN: return 2;
+    case Instructions::LD1N: return 2;
+    case Instructions::LD2N: return 2;
+    case Instructions::LD3N: return 2;
+    case Instructions::LD4N: return 2;
+    case Instructions::LD5N: return 2;
+    case Instructions::LD6N: return 2;
+    case Instructions::LDXN: return 2;
+
+    case Instructions::STA: return 2;
+    case Instructions::ST1: return 2;
+    case Instructions::ST2: return 2;
+    case Instructions::ST3: return 2;
+    case Instructions::ST4: return 2;
+    case Instructions::ST5: return 2;
+    case Instructions::ST6: return 2;
+    case Instructions::STX: return 2;
+
+    case Instructions::STJ: return 2;
+    case Instructions::STZ: return 2;
+    case Instructions::JBUS: return 1;
+    case Instructions::IOC: return 1;
+    case Instructions::IN: return 1;
+    case Instructions::OUT: return 1;
+    case Instructions::JRED: return 1;
+    case Instructions::JMP: return 1;
+
+    case Instructions::JAN: return 1;
+    case Instructions::J1N: return 1;
+    case Instructions::J2N: return 1;
+    case Instructions::J3N: return 1;
+    case Instructions::J4N: return 1;
+    case Instructions::J5N: return 1;
+    case Instructions::J6N: return 1;
+    case Instructions::JXN: return 1;
+
+    case Instructions::INCA: return 1;
+    case Instructions::INC1: return 1;
+    case Instructions::INC2: return 1;
+    case Instructions::INC3: return 1;
+    case Instructions::INC4: return 1;
+    case Instructions::INC5: return 1;
+    case Instructions::INC6: return 1;
+    case Instructions::INCX: return 1;
+
+    case Instructions::CMPA: return 2;
+    case Instructions::CMP1: return 2;
+    case Instructions::CMP2: return 2;
+    case Instructions::CMP3: return 2;
+    case Instructions::CMP4: return 2;
+    case Instructions::CMP5: return 2;
+    case Instructions::CMP6: return 2;
+    case Instructions::CMPX: return 2;
+    default: return 0;
     }
-    if (Instructions::LDA <= code && code <= Instructions::STZ) {
-        return 2;
-    }
-    if (code == Instructions::MUL || code == Instructions::NUM || code == Instructions::CHAR) {
-        return 10;
-    }
-    if (code == Instructions::DIV) {
-        return 12;
-    }
-    return 1;
 }
 
 };  // namespace mixal
