@@ -29,9 +29,11 @@ class TestSample(TestCase):
         n, max_val = 100, 0
         self.machine.rI1().set(n)
         self.machine.rJ.set(3500)
-        for i in range(1000, 1000 + n):
+        values = []
+        for i in range(1001, 1001 + n):
             val = random.randint(0, 100000)
             self.machine.memoryAt(i).set(val)
             max_val = max(max_val, val)
+            values.append(val)
         self.machine.executeUntilHalt()
-        self.assertEqual(max_val, self.machine.rA.value())
+        self.assertEqual(max_val, self.machine.rA.value(), str(values))

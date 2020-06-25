@@ -482,6 +482,12 @@ class Machine(object):
     def reset(self):
         return _mixal.Machine_reset(self)
 
+    def line(self):
+        return _mixal.Machine_line(self)
+
+    def elapsed(self):
+        return _mixal.Machine_elapsed(self)
+
     def getSingleLineSymbol(self):
         return _mixal.Machine_getSingleLineSymbol(self)
 

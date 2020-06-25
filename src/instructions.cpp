@@ -2022,4 +2022,20 @@ int Instructions::getDefaultField(const std::string& name) {
     return -1;
 }
 
+int Instructions::getCost(Instructions::Code code, uint8_t field) {
+    if (code == Instructions::MOVE) {
+        return 1 + field * 2;
+    }
+    if (Instructions::LDA <= code && code <= Instructions::STZ) {
+        return 2;
+    }
+    if (code == Instructions::MUL || code == Instructions::NUM || code == Instructions::CHAR) {
+        return 10;
+    }
+    if (code == Instructions::DIV) {
+        return 12;
+    }
+    return 1;
+}
+
 };  // namespace mixal

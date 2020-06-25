@@ -168,6 +168,7 @@ class Instructions {
 
     static Instructions::Code getInstructionCode(const std::string& name);
     static int getDefaultField(const std::string& name);
+    static int getCost(Instructions::Code code, uint8_t field = 0);
 };
 
 };  // namespace mixal

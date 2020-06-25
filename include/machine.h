@@ -55,6 +55,8 @@ class Machine {
     ComputerWord& memoryAt(int16_t index);
 
     void reset();
+    inline int line() const { return _lineOffset; }
+    inline int elapsed() const { return _elapsed; }
 
     std::string getSingleLineSymbol();
     void executeSingle();

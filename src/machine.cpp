@@ -295,7 +295,8 @@ void Machine::executeSingle(const InstructionWord& instruction) {
         break;
     }
     ++_lineOffset;
-    ++_elapsed;
+    _elapsed += Instructions::getCost(static_cast<Instructions::Code>(instruction.operation()),
+                                      instruction.field());
 }
 
 void Machine::executeSinglePesudo(ParsedResult* instruction) {

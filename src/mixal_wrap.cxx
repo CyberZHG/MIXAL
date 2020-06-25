@@ -12849,6 +12849,52 @@ fail:
 }
 
 
+SWIGINTERN PyObject *_wrap_Machine_line(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  mixal::Machine *arg1 = (mixal::Machine *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject *swig_obj[1] ;
+  int result;
+  
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_mixal__Machine, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Machine_line" "', argument " "1"" of type '" "mixal::Machine const *""'"); 
+  }
+  arg1 = reinterpret_cast< mixal::Machine * >(argp1);
+  result = (int)((mixal::Machine const *)arg1)->line();
+  resultobj = SWIG_From_int(static_cast< int >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Machine_elapsed(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  mixal::Machine *arg1 = (mixal::Machine *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject *swig_obj[1] ;
+  int result;
+  
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_mixal__Machine, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Machine_elapsed" "', argument " "1"" of type '" "mixal::Machine const *""'"); 
+  }
+  arg1 = reinterpret_cast< mixal::Machine * >(argp1);
+  result = (int)((mixal::Machine const *)arg1)->elapsed();
+  resultobj = SWIG_From_int(static_cast< int >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
 SWIGINTERN PyObject *_wrap_Machine_getSingleLineSymbol(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   mixal::Machine *arg1 = (mixal::Machine *) 0 ;
@@ -13311,6 +13357,8 @@ static PyMethodDef SwigMethods[] = {
 	 { "Machine_rI6", _wrap_Machine_rI6, METH_VARARGS, NULL},
 	 { "Machine_memoryAt", _wrap_Machine_memoryAt, METH_VARARGS, NULL},
 	 { "Machine_reset", _wrap_Machine_reset, METH_O, NULL},
+	 { "Machine_line", _wrap_Machine_line, METH_O, NULL},
+	 { "Machine_elapsed", _wrap_Machine_elapsed, METH_O, NULL},
 	 { "Machine_getSingleLineSymbol", _wrap_Machine_getSingleLineSymbol, METH_O, NULL},
 	 { "Machine_executeUntilSelfLoop", _wrap_Machine_executeUntilSelfLoop, METH_O, NULL},
 	 { "Machine_executeUntilHalt", _wrap_Machine_executeUntilHalt, METH_O, NULL},
