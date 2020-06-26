@@ -194,7 +194,7 @@ __TEST_U(TestParse, test_parse_line_only_op) {
     __ASSERT_EQ("", result.comment);
     __ASSERT_EQ(0, result.word.addressValue());
     __ASSERT_EQ(0, result.word.index());
-    __ASSERT_EQ(5, result.word.field());
+    __ASSERT_EQ(0, result.word.field());
     __ASSERT_EQ(0, result.word.operation());
 }
 
@@ -210,7 +210,7 @@ __TEST_U(TestParse, test_parse_line_only_op_with_indent) {
     __ASSERT_EQ("", result.comment);
     __ASSERT_EQ(0, result.word.addressValue());
     __ASSERT_EQ(0, result.word.index());
-    __ASSERT_EQ(5, result.word.field());
+    __ASSERT_EQ(0, result.word.field());
     __ASSERT_EQ(0, result.word.operation());
 }
 
@@ -225,7 +225,7 @@ __TEST_U(TestParse, test_parse_line_empty) {
     __ASSERT_EQ("", result.comment);
     __ASSERT_EQ(0, result.word.addressValue());
     __ASSERT_EQ(0, result.word.index());
-    __ASSERT_EQ(5, result.word.field());
+    __ASSERT_EQ(0, result.word.field());
     __ASSERT_EQ(0, result.word.operation());
 }
 
@@ -240,7 +240,7 @@ __TEST_U(TestParse, test_parse_line_empty_with_indent) {
     __ASSERT_EQ("", result.comment);
     __ASSERT_EQ(0, result.word.addressValue());
     __ASSERT_EQ(0, result.word.index());
-    __ASSERT_EQ(5, result.word.field());
+    __ASSERT_EQ(0, result.word.field());
     __ASSERT_EQ(0, result.word.operation());
 }
 

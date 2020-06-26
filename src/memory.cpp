@@ -19,6 +19,19 @@ std::ostream& operator<<(std::ostream& out, const ComputerWord& word) {
     return out;
 }
 
+std::string ComputerWord::getBytesString() const {
+    std::string result;
+    result += sign ? '-' : '+';
+    for (int i = 1; i <= 5; ++i) {
+        result += ' ';
+        if ((*this)[i] < 10) {
+            result += ' ';
+        }
+        result += std::to_string(static_cast<int>((*this)[i]));
+    }
+    return result;
+}
+
 uint8_t ComputerWord::operator[](int index) const {
     if (index <= 0 || index > 5) {
         throw std::runtime_error("Invalid index for a word: " + std::to_string(index));

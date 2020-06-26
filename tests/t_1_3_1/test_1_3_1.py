@@ -101,3 +101,11 @@ class TestSample(TestCase):
             for i in range(3000):
                 self.assertEqual(randoms[i], self.machine.memoryAt(i).value(), (target, i))
         print('Cost:', self.machine.elapsed())
+
+    def test_22_x_13_official(self):
+        for x in range(-4, 5):
+            self.load_codes('22_x_13_official')
+            self.machine.memoryAt(2000).set(x)
+            self.machine.executeUntilHalt()
+            self.assertEqual(x ** 13, self.machine.rA.value(), x)
+        print('Cost:', self.machine.elapsed())

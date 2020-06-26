@@ -1,0 +1,16 @@
+        ORIG    3000
+        LDA     2000
+        MUL     2000(1:5)
+        STX     X(1:1)
+        SRC     1
+        MUL     X
+        STA     Y
+        ADD     2000
+        MUL     Y(1:5)
+        STX     Y
+        MUL     Y(1:5)
+        SLAX    1
+        HLT
+        ORIG    3500
+X       NOP
+Y       NOP

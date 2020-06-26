@@ -2,6 +2,7 @@
 #define INCLUDE_MEMORY_H_
 
 #include <cstdint>
+#include <string>
 
 namespace mixal {
 
@@ -29,6 +30,7 @@ struct ComputerWord {
 
     bool operator==(const ComputerWord& word) const;
     friend std::ostream& operator<<(std::ostream& out, const ComputerWord& word);
+    std::string getBytesString() const;
 
     uint8_t operator[](int index) const;
     uint8_t& operator[](int index);

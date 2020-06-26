@@ -353,6 +353,9 @@ class ComputerWord(object):
     def __eq__(self, word):
         return _mixal.ComputerWord___eq__(self, word)
 
+    def getBytesString(self):
+        return _mixal.ComputerWord_getBytesString(self)
+
     def bytes2(self, index1, index2):
         return _mixal.ComputerWord_bytes2(self, index1, index2)
 

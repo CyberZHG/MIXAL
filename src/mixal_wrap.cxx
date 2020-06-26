@@ -10273,6 +10273,29 @@ fail:
 }
 
 
+SWIGINTERN PyObject *_wrap_ComputerWord_getBytesString(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  mixal::ComputerWord *arg1 = (mixal::ComputerWord *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject *swig_obj[1] ;
+  std::string result;
+  
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_mixal__ComputerWord, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "ComputerWord_getBytesString" "', argument " "1"" of type '" "mixal::ComputerWord const *""'"); 
+  }
+  arg1 = reinterpret_cast< mixal::ComputerWord * >(argp1);
+  result = ((mixal::ComputerWord const *)arg1)->getBytesString();
+  resultobj = SWIG_From_std_string(static_cast< std::string >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
 SWIGINTERN PyObject *_wrap_ComputerWord_bytes2(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   mixal::ComputerWord *arg1 = (mixal::ComputerWord *) 0 ;
@@ -13391,6 +13414,7 @@ static PyMethodDef SwigMethods[] = {
 	 { "new_ComputerWord", _wrap_new_ComputerWord, METH_VARARGS, NULL},
 	 { "ComputerWord_reset", _wrap_ComputerWord_reset, METH_O, NULL},
 	 { "ComputerWord___eq__", _wrap_ComputerWord___eq__, METH_VARARGS, NULL},
+	 { "ComputerWord_getBytesString", _wrap_ComputerWord_getBytesString, METH_O, NULL},
 	 { "ComputerWord_bytes2", _wrap_ComputerWord_bytes2, METH_VARARGS, NULL},
 	 { "ComputerWord_bytes12", _wrap_ComputerWord_bytes12, METH_O, NULL},
 	 { "ComputerWord_bytes23", _wrap_ComputerWord_bytes23, METH_O, NULL},
