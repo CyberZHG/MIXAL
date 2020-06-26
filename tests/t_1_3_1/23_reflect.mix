@@ -1,0 +1,9 @@
+        ORIG    3000
+        ENT1    4
+LOOP    LDA     200
+        SRA     0,1
+        SRAX    1
+        DEC1    1
+        J1NN    LOOP
+        SLAX    5
+EXIT    HLT

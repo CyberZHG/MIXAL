@@ -12,11 +12,26 @@ std::shared_ptr<IODevice> Machine::getDevice(int32_t index) {
         switch (index) {
         case 0: case 1: case 2: case 3:
         case 4: case 5: case 6: case 7:
-            devices[index] = std::unique_ptr<IODevice>(new IODeviceTape());
+            devices[index] = std::shared_ptr<IODevice>(new IODeviceTape());
             break;
         case 8: case 9: case 10: case 11:
         case 12: case 13: case 14: case 15:
-            devices[index] = std::unique_ptr<IODevice>(new IODeviceDisk());
+            devices[index] = std::shared_ptr<IODevice>(new IODeviceDisk());
+            break;
+        case 16:
+            devices[index] = std::shared_ptr<IODevice>(new IODeviceCardReader());
+            break;
+        case 17:
+            devices[index] = std::shared_ptr<IODevice>(new IODeviceCardPunch());
+            break;
+        case 18:
+            devices[index] = std::shared_ptr<IODevice>(new IODeviceLinePrinter());
+            break;
+        case 19:
+            devices[index] = std::shared_ptr<IODevice>(new IODeviceTypewriter());
+            break;
+        case 20:
+            devices[index] = std::shared_ptr<IODevice>(new IODevicePaperTape());
             break;
         }
     }

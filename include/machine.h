@@ -22,7 +22,7 @@ class Machine {
  public:
     static const int NUM_INDEX_REGISTER = 6;
     static const int NUM_MEMORY = 4000;
-    static const int NUM_DEVICE = 16;
+    static const int NUM_DEVICE = 20;
 
     Register5 rA, rX;
     Register2 rI[NUM_INDEX_REGISTER], rJ;
@@ -31,10 +31,10 @@ class Machine {
     ComparisonIndicator comparison;
 
     ComputerWord memory[NUM_MEMORY];
-    std::shared_ptr<IODevice> devices[16];
+    std::vector<std::shared_ptr<IODevice>> devices;
 
     Machine() : rA(), rX(), rI(), rJ(), overflow(false), comparison(ComparisonIndicator::EQUAL), memory(),
-      devices(),
+      devices(NUM_DEVICE, nullptr),
       _pesudoVarIndex(), _lineOffset(), _elapsed(), _constants(), _lineNumbers() {}
 
     inline Register2& rI1() { return rI[0]; }
@@ -53,6 +53,8 @@ class Machine {
 
     const ComputerWord& memoryAt(int16_t index) const;
     ComputerWord& memoryAt(int16_t index);
+
+    std::shared_ptr<IODevice> getDevice(int32_t index);
 
     void reset();
     inline int line() const { return _lineOffset; }
@@ -76,7 +78,6 @@ class Machine {
     std::vector<std::string> _lineNumbers;
 
     std::string getPesudoSymbolname();
-    std::shared_ptr<IODevice> getDevice(int32_t index);
 
     int getIndexedAddress(const InstructionWord& instruction);
     void copyToRegister5(const InstructionWord& instruction, const ComputerWord& word, Register5* reg);

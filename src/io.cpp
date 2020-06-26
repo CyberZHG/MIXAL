@@ -6,15 +6,6 @@
 
 namespace mixal {
 
-uint16_t CHAR_CODES[] = {
-    ' ', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I',
-    0xb4, 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R',
-    0x2da, 0x2dd, 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z',
-    '0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
-    '.', ',', '(', ')', '+', '-', '*', '/', '=', '$',
-    '<', '>', '@', ';', ':', 0x201a
-};
-
 bool IODevice::ready(int32_t timestamp) {
     int32_t elapsed = std::max(0, timestamp - _timestamp);
     _timestamp = timestamp;
@@ -86,6 +77,20 @@ void IODeviceTape::doWrite() {
 
 void IODeviceDisk::control(int32_t operation) {
     _locator = operation;
+}
+
+void IODeviceSeqReader::doRead() {
+    IODeviceStorage::doRead();
+    _locator += _blockSize;
+}
+
+void IODeviceSeqWriter::doWrite() {
+    IODeviceStorage::doWrite();
+    _locator += _blockSize;
+}
+
+void IODeviceLinePrinter::control(int32_t) {
+    _locator += (_pageSize - _locator / _blockSize % _pageSize) * _blockSize;
 }
 
 };  // namespace mixal

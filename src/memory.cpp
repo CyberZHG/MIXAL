@@ -5,6 +5,15 @@
 
 namespace mixal {
 
+uint16_t CHAR_CODES[] = {
+    ' ', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I',
+    0xb4, 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R',
+    0x2da, 0x2dd, 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z',
+    '0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
+    '.', ',', '(', ')', '+', '-', '*', '/', '=', '$',
+    '<', '>', '@', ';', ':', 0x201a
+};
+
 bool ComputerWord::operator==(const ComputerWord& word) const {
     return sign == word.sign && byte1 == word.byte1 &&
            byte2 == word.byte2 && byte3 == word.byte3 &&
@@ -113,6 +122,23 @@ void ComputerWord::setAddress(bool negative, uint16_t address) {
     byte2 = static_cast<uint8_t>(address % 64);
 }
 
+std::string ComputerWord::getCharacters() const {
+    std::string chars;
+    for (int i = 1; i <= 5; ++i) {
+        if (getAt(i) < CHAR_CODES_NUM) {
+            uint16_t code = CHAR_CODES[getAt(i)];
+            if (code < 127) {
+                chars += static_cast<char>(code);
+            } else {
+                chars += ' ';
+            }
+        } else {
+            chars += ' ';
+        }
+    }
+    return chars;
+}
+
 void ComputerWord::set(int32_t value) {
     if (value > 0) {
         sign = 0;
@@ -123,6 +149,20 @@ void ComputerWord::set(int32_t value) {
     for (int i = 5; i >= 1; --i) {
         set(i, static_cast<uint8_t>(value & ((1 << 6) - 1)));
         value >>= 6;
+    }
+}
+
+void ComputerWord::set(const std::string& chars) {
+    if (chars.length() != 5) {
+        throw std::runtime_error("Invalid length of characters for a word: " + chars);
+    }
+    for (int i = 0; i < 5; ++i) {
+        (*this)[i + 1] = 0;
+        for (int j = 0; j < CHAR_CODES_NUM; ++j) {
+            if (static_cast<uint16_t>(chars[i]) == CHAR_CODES[j]) {
+                (*this)[i + 1] = j;
+            }
+        }
     }
 }
 

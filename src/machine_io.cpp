@@ -24,11 +24,17 @@ void Machine::executeIOC(const InstructionWord& instruction) {
 
 void Machine::executeIN(const InstructionWord& instruction) {
     auto device = getDevice(instruction.field());
+    if (!device->allowRead()) {
+        throw RuntimeError(_lineOffset, "Device does not support read: " + std::to_string(instruction.field()));
+    }
     device->read(memory, instruction.addressValue());
 }
 
 void Machine::executeOUT(const InstructionWord& instruction) {
     auto device = getDevice(instruction.field());
+    if (!device->allowWrite()) {
+        throw RuntimeError(_lineOffset, "Device does not support write: " + std::to_string(instruction.field()));
+    }
     device->write(memory, instruction.addressValue());
 }
 

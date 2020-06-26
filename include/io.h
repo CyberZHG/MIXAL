@@ -7,8 +7,6 @@
 
 namespace mixal {
 
-extern uint16_t CHAR_CODES[];
-
 enum class IODeviceType {
     TAPE,          // 100 words
     DISK,          // 100 words
@@ -38,9 +36,11 @@ class IODevice {
     inline bool allowWrite() const { return _allowWrite; }
 
     virtual bool ready(int32_t elapsed);
-    virtual void control(int32_t operation) = 0;
+    virtual void control(int32_t) {}
     virtual void read(ComputerWord* memory, int32_t address) = 0;
     virtual void write(const ComputerWord* memory, int32_t address) = 0;
+
+    virtual ComputerWord& wordAt(int32_t index) = 0;
 
  protected:
     IODeviceType _type;
@@ -65,6 +65,8 @@ class IODeviceStorage : public IODevice {
     bool ready(int32_t elapsed) override;
     void read(ComputerWord* memory, int32_t address) override;
     void write(const ComputerWord* memory, int32_t address) override;
+
+    inline ComputerWord& wordAt(int32_t index) override { return _storage[index]; }
  protected:
     IODeviceStatus _status;
     int32_t _address, _locator;
@@ -98,7 +100,75 @@ class IODeviceDisk : public IODeviceStorage {
     void control(int32_t operation) final;
 };
 
-};  // namespace mixal
+class IODeviceSeqReader : public IODeviceStorage {
+ public:
+    explicit IODeviceSeqReader(int32_t storageSize = 4096) : IODeviceStorage(storageSize) {
+        _allowWrite = false;
+    }
 
+ private:
+    void doRead() override;
+};
+
+class IODeviceSeqWriter : public IODeviceStorage {
+ public:
+    explicit IODeviceSeqWriter(int32_t storageSize = 4096) : IODeviceStorage(storageSize) {
+        _allowRead = false;
+    }
+
+ private:
+    void doWrite() override;
+};
+
+class IODeviceCardReader : public IODeviceSeqReader {
+ public:
+    explicit IODeviceCardReader(int32_t storageSize = 4096) : IODeviceSeqReader(storageSize) {
+        _type = IODeviceType::CARD_READER;
+        _blockSize = 16;
+        _readyRate = 0.2;
+    }
+};
+
+class IODeviceCardPunch : public IODeviceSeqWriter {
+ public:
+    explicit IODeviceCardPunch(int32_t storageSize = 4096) : IODeviceSeqWriter(storageSize) {
+        _type = IODeviceType::CARD_PUNCH;
+        _blockSize = 16;
+        _readyRate = 0.1;
+    }
+};
+
+class IODeviceLinePrinter : public IODeviceSeqWriter {
+ public:
+    explicit IODeviceLinePrinter(int32_t storageSize = 4096, int32_t pageSize = 20) :
+        IODeviceSeqWriter(storageSize), _pageSize(pageSize) {
+        _type = IODeviceType::LINE_PRINTER;
+        _blockSize = 24;
+        _readyRate = 0.2;
+    }
+    void control(int32_t operation) final;
+ private:
+    int32_t _pageSize;
+};
+
+class IODeviceTypewriter : public IODeviceSeqReader {
+ public:
+    explicit IODeviceTypewriter(int32_t storageSize = 4096) : IODeviceSeqReader(storageSize) {
+        _type = IODeviceType::TYPEWRITER;
+        _blockSize = 14;
+        _readyRate = 0.2;
+    }
+};
+
+class IODevicePaperTape : public IODeviceSeqReader {
+ public:
+    explicit IODevicePaperTape(int32_t storageSize = 4096) : IODeviceSeqReader(storageSize) {
+        _type = IODeviceType::PAPER_TAPE;
+        _blockSize = 14;
+        _readyRate = 0.2;
+    }
+};
+
+};  // namespace mixal
 
 #endif  // INCLUDE_IO_H_

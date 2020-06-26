@@ -401,12 +401,20 @@ class ComputerWord(object):
     def setOperation(self, operation):
         return _mixal.ComputerWord_setOperation(self, operation)
 
+    def getAt(self, index):
+        return _mixal.ComputerWord_getAt(self, index)
+
+    def getCharacters(self):
+        return _mixal.ComputerWord_getCharacters(self)
+
     def set(self, *args):
         return _mixal.ComputerWord_set(self, *args)
     __swig_destroy__ = _mixal.delete_ComputerWord
 
 # Register ComputerWord in _mixal:
 _mixal.ComputerWord_swigregister(ComputerWord)
+cvar = _mixal.cvar
+CHAR_CODES_NUM = cvar.CHAR_CODES_NUM
 
 Registers_A = _mixal.Registers_A
 Registers_X = _mixal.Registers_X
@@ -481,6 +489,9 @@ class Machine(object):
 
     def memoryAt(self, *args):
         return _mixal.Machine_memoryAt(self, *args)
+
+    def getDevice(self, index):
+        return _mixal.Machine_getDevice(self, index)
 
     def reset(self):
         return _mixal.Machine_reset(self)

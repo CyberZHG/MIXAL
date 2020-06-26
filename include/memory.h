@@ -8,6 +8,9 @@ namespace mixal {
 
 class Instructions;
 
+extern uint16_t CHAR_CODES[];
+const int32_t CHAR_CODES_NUM = 55;
+
 struct ComputerWord {
     bool sign;
     uint8_t byte1;
@@ -53,7 +56,10 @@ struct ComputerWord {
     inline void setField(uint8_t field) { byte4 = field; }
     inline void setOperation(uint8_t operation) { byte5 = operation; }
 
+    uint8_t getAt(int32_t index) const { return (*this)[index]; }
+    std::string getCharacters() const;
     void set(int32_t value);
+    void set(const std::string& chars);
     void set(int index, uint8_t val);
     void set(bool negative, uint8_t byte1, uint8_t byte2, uint8_t byte3, uint8_t byte4, uint8_t byte5);
     void set(bool negative, uint16_t bytes12, uint8_t byte3, uint8_t byte4, uint8_t byte5);

@@ -71,4 +71,17 @@ __TEST_U(TestMachineIO, test_io_disk) {
     __ASSERT_EQ(1002, machine.memory[2002].value());
 }
 
+__TEST_U(TestMachineIO, test_io_chars) {
+    machine.loadCodes({
+        "     ORIG 3000",
+        "     IN   100(16)",
+        "LIN  JBUS LIN(16)",
+        "     OUT  100(17)",
+        "LOUT JBUS LOUT(17)",
+    });
+    machine.getDevice(16)->wordAt(0).set("PRIME");
+    machine.executeUntilHalt();
+    __ASSERT_EQ("PRIME", machine.getDevice(17)->wordAt(0).getCharacters());
+}
+
 }  // namespace test

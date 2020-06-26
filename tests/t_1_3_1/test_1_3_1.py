@@ -109,3 +109,10 @@ class TestSample(TestCase):
             self.machine.executeUntilHalt()
             self.assertEqual(x ** 13, self.machine.rA.value(), x)
         print('Cost:', self.machine.elapsed())
+
+    def test_23_reflect(self):
+        self.load_codes('23_reflect')
+        self.machine.memoryAt(200).set(False, 1, 22, 33, 44, 5)
+        self.machine.executeUntilHalt()
+        self.assertEqual('+  5 44 33 22  1', self.machine.rA.getBytesString())
+        print('Cost:', self.machine.elapsed())

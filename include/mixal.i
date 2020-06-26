@@ -10,6 +10,18 @@ using namespace mixal;
 %include <std_vector.i>
 %include <std_string.i>
 
+%typemap(typecheck) uint8_t {
+$1 = PyLong_Check($input);
+}
+
+%typemap(in) uint8_t {
+$1 = static_cast<uint8_t>(PyLong_AsLong($input));
+}
+
+%typemap(out) uint8_t {
+$result = PyLong_FromLong(static_cast<long>($1));
+}
+
 %typemap(typecheck) int16_t {
 $1 = PyLong_Check($input);
 }
