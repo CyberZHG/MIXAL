@@ -321,16 +321,16 @@ void Machine::executeSinglePesudo(ParsedResult* instruction) {
     }
 }
 
-void Machine::loadCodes(const std::vector<std::string>& codes) {
+void Machine::loadCodes(const std::vector<std::string>& codes, bool addHalt) {
     this->reset();
     // Parse and save all the results and intermediate expressions
-    std::vector<ParsedResult> results(codes.size());
+    std::vector<ParsedResult> results(codes.size() + addHalt);
     std::unordered_map<std::string, Expression*> expressions;
     std::vector<std::tuple<std::string, Expression, Expression>> constants;
     std::string lineBase;
     int32_t lineOffset = 0;
-    for (size_t codeIndex = 0; codeIndex < codes.size(); ++codeIndex) {
-        auto code = codes[codeIndex];
+    for (size_t codeIndex = 0; codeIndex < codes.size() + addHalt; ++codeIndex) {
+        auto code = codeIndex == codes.size() ? " HLT" : codes[codeIndex];
         auto& result = results[codeIndex];
         auto lineSymbol = getPesudoSymbolname();
         result = Parser::parseLine(code, lineSymbol, true);

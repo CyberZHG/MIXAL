@@ -86,7 +86,7 @@ __TEST_U(TestMachineLoadCodes, test_load_literal_constant) {
         " ORIG 3000",
         " LDA  =10-23=,0+0(2+3)",
     };
-    machine.loadCodes(codes);
+    machine.loadCodes(codes, false);
     __ASSERT_EQ(mixal::ComputerWord(false, 3001, 0, 5, 8), machine.memory[3000]);
     __ASSERT_EQ(-13, machine.memory[3001].value());
 }

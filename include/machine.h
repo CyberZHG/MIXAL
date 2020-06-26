@@ -66,7 +66,7 @@ class Machine {
     void executeSingle(const InstructionWord& instruction);
     void executeSinglePesudo(ParsedResult* instruction);
 
-    void loadCodes(const std::vector<std::string>& codes);
+    void loadCodes(const std::vector<std::string>& codes, bool addHalt = true);
 
  private:
     int32_t _pesudoVarIndex;

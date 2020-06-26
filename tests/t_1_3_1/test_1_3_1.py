@@ -87,3 +87,17 @@ class TestSample(TestCase):
             self.assertEqual(133, self.machine.memoryAt(i).value())
         print('Exit:', self.machine.line())
         print('Cost:', self.machine.elapsed())
+
+    def test_21_set_rj(self):
+        for _ in range(10):
+            target = random.randint(1, 3000)
+            randoms = [random.randint(0, 4096) for _ in range(3000)]
+            self.load_codes('21_set_rj')
+            self.machine.rI4().set(target)
+            for i in range(3000):
+                self.machine.memoryAt(i).set(randoms[i])
+            self.machine.executeUntilHalt()
+            self.assertEqual(target, self.machine.rJ.value())
+            for i in range(3000):
+                self.assertEqual(randoms[i], self.machine.memoryAt(i).value(), (target, i))
+        print('Cost:', self.machine.elapsed())

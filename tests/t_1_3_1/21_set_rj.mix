@@ -1,0 +1,7 @@
+        ORIG    3000
+        LDA     -1,4
+        LDX     JUMP
+        STX     -1,4
+        JMP     -1,4
+JUMP    JMP     EXIT
+EXIT    STA     -1,4

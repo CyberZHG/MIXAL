@@ -2,4 +2,3 @@
         STZ     0,2
         DEC2    1
         J2NN    *-2
-        HLT

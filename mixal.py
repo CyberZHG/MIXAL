@@ -503,8 +503,8 @@ class Machine(object):
     def executeSinglePesudo(self, instruction):
         return _mixal.Machine_executeSinglePesudo(self, instruction)
 
-    def loadCodes(self, codes):
-        return _mixal.Machine_loadCodes(self, codes)
+    def loadCodes(self, codes, addHalt=True):
+        return _mixal.Machine_loadCodes(self, codes, addHalt)
     __swig_destroy__ = _mixal.delete_Machine
 
 # Register Machine in _mixal:

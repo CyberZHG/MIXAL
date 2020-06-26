@@ -1,7 +1,10 @@
-        ORIG    4000-20
+        ORIG    4000-63
+X       EQU     4000/63*63
+OFFSET  EQU     4000-X-1
         LDA     HALT
         STA     0
         ENT1    1
+        MOVE    -1,1(OFFSET)
 LOOP    MOVE    -1,1(63)
         INC2    63
         JMP     LOOP
