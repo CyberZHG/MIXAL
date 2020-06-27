@@ -151,4 +151,52 @@ __TEST_U(TestMachinePesudo, test_alf) {
     __ASSERT_EQ("PRIME", machine.getDevice(17)->wordAt(0).getCharacters());
 }
 
+__TEST_U(TestMachinePesudo, test_alf_short) {
+    machine.loadCodes({
+        "     ORIG 3000",
+        "     OUT  VAL(17)",
+        "LOOP JBUS LOOP(17)",
+        "     HLT",
+        "VAL  ALF  PRIM",
+    });
+    machine.executeUntilHalt();
+    __ASSERT_EQ("PRIM ", machine.getDevice(17)->wordAt(0).getCharacters());
+}
+
+__TEST_U(TestMachinePesudo, test_alf_none) {
+    machine.loadCodes({
+        "     ORIG 3000",
+        "     OUT  VAL(17)",
+        "LOOP JBUS LOOP(17)",
+        "     HLT",
+        "VAL  ALF",
+    });
+    machine.executeUntilHalt();
+    __ASSERT_EQ("     ", machine.getDevice(17)->wordAt(0).getCharacters());
+}
+
+__TEST_U(TestMachinePesudo, test_alf_long) {
+    machine.loadCodes({
+        "     ORIG 3000",
+        "     OUT  VAL(17)",
+        "LOOP JBUS LOOP(17)",
+        "     HLT",
+        "VAL  ALF  PRIME with comments",
+    });
+    machine.executeUntilHalt();
+    __ASSERT_EQ("PRIME", machine.getDevice(17)->wordAt(0).getCharacters());
+}
+
+__TEST_U(TestMachinePesudo, test_end) {
+    machine.loadCodes({
+        "       ORIG 3000",
+        "       ENTA 1000",
+        "START  ADD  =100=",
+        "EXIT   END  START",
+    });
+    __ASSERT_EQ(3001, machine.line());
+    machine.executeUntilHalt();
+    __ASSERT_EQ(100, machine.rA.value());
+}
+
 }  // namespace test

@@ -230,9 +230,13 @@ ParsedResult Parser::parseLine(const std::string& line, const std::string& lineS
                         for (int shift = 0; shift < 5 && i < static_cast<int>(line.size()); ++shift) {
                             result.rawAddress[shift] = line[++i];
                         }
-                        result.word.set(result.rawAddress);
-                        result.address = Expression::getConstExpression(AtomicValue(result.word.value()));
-                        state = ParseState::BEFORE_COMMENT;
+                        int32_t charsValue = ComputerWord(result.rawAddress).value();
+                        result.address = Expression::getConstExpression(AtomicValue(charsValue));
+                        if (i < static_cast<int>(line.size())) {
+                            state = ParseState::BEFORE_COMMENT;
+                        } else {
+                            state = ParseState::END;
+                        }
                     }
                 }
             } else if (!isalnum(ch)) {
