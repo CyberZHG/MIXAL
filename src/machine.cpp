@@ -339,15 +339,15 @@ void Machine::executeSinglePesudo(ParsedResult* instruction) {
 void Machine::loadCodes(const std::vector<std::string>& codes, bool addHalt) {
     this->reset();
     // Parse and save all the results and intermediate expressions
-    std::vector<ParsedResult> results(codes.size() + addHalt);
+    std::vector<ParsedResult> results(codes.size());
     std::unordered_map<std::string, AtomicValue> evaluated;
     std::unordered_map<std::string, Expression*> expressions;
     std::vector<std::tuple<std::string, Expression, Expression>> constants;  // (name, address, value)
     std::string lineBase = getPesudoSymbolname();
     evaluated[lineBase] = AtomicValue(0);
     int32_t lineOffset = 0;
-    for (size_t codeIndex = 0; codeIndex < codes.size() + addHalt; ++codeIndex) {
-        auto code = codeIndex == codes.size() ? " HLT" : codes[codeIndex];
+    for (size_t codeIndex = 0; codeIndex < codes.size(); ++codeIndex) {
+        auto code = codes[codeIndex];
         auto& result = results[codeIndex];
         auto lineSymbol = getPesudoSymbolname();
         result = Parser::parseLine(code, lineSymbol, true);
@@ -419,6 +419,14 @@ void Machine::loadCodes(const std::vector<std::string>& codes, bool addHalt) {
             expressions[lineSymbol] = &result.location;
         }
         result.address.replaceSymbol(localSymbolMapping);
+    }
+    // Add halt
+    if (addHalt) {
+        auto lineSymbol = getPesudoSymbolname();
+        auto haltCommand = Parser::parseLine("HLT", lineSymbol, false);
+        constants.push_back({lineSymbol,
+                             Expression::getConstOffsetExpression(lineBase, lineOffset++),
+                             Expression::getConstExpression(AtomicValue(haltCommand.word.value()))});
     }
     // Add expressions and literal constants
     for (auto& result : results) {
