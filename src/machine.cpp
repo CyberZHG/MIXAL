@@ -340,9 +340,11 @@ void Machine::loadCodes(const std::vector<std::string>& codes, bool addHalt) {
     this->reset();
     // Parse and save all the results and intermediate expressions
     std::vector<ParsedResult> results(codes.size() + addHalt);
+    std::unordered_map<std::string, AtomicValue> evaluated;
     std::unordered_map<std::string, Expression*> expressions;
-    std::vector<std::tuple<std::string, Expression, Expression>> constants;
-    std::string lineBase;
+    std::vector<std::tuple<std::string, Expression, Expression>> constants;  // (name, address, value)
+    std::string lineBase = getPesudoSymbolname();
+    evaluated[lineBase] = AtomicValue(0);
     int32_t lineOffset = 0;
     for (size_t codeIndex = 0; codeIndex < codes.size() + addHalt; ++codeIndex) {
         auto code = codeIndex == codes.size() ? " HLT" : codes[codeIndex];
@@ -370,15 +372,9 @@ void Machine::loadCodes(const std::vector<std::string>& codes, bool addHalt) {
                 if (!result.rawLocation.empty()) {
                     lineSymbol = result.rawLocation;
                 }
-                if (lineBase.empty()) {
-                    constants.push_back({lineSymbol,
-                                         Expression::getConstExpression(AtomicValue(lineOffset)),
-                                         result.address});
-                } else {
-                    constants.push_back({lineSymbol,
-                                         Expression::getConstOffsetExpression(lineBase, lineOffset),
-                                         result.address});
-                }
+                constants.push_back({lineSymbol,
+                                     Expression::getConstOffsetExpression(lineBase, lineOffset),
+                                     result.address});
                 ++lineOffset;
                 break;
             default:
@@ -389,11 +385,7 @@ void Machine::loadCodes(const std::vector<std::string>& codes, bool addHalt) {
                                 (!result.rawAddress.empty() && result.address.depends().count(lineSymbol)) ||
                                 (!result.rawIndex.empty() && result.index.depends().count(lineSymbol)) ||
                                 (!result.rawField.empty() && result.field.depends().count(lineSymbol));
-            if (lineBase.empty()) {
-                result.location = Expression::getConstExpression(AtomicValue(lineOffset));
-            } else {
-                result.location = Expression::getConstOffsetExpression(lineBase, lineOffset);
-            }
+            result.location = Expression::getConstOffsetExpression(lineBase, lineOffset);
             if (!result.rawLocation.empty()) {
                 if (!(Atomic::isLocalSymbol(result.rawLocation) && result.rawLocation[1] == 'H')) {
                     expressions[result.rawLocation] = &result.location;
@@ -455,12 +447,14 @@ void Machine::loadCodes(const std::vector<std::string>& codes, bool addHalt) {
     // Try to solve all the expressions
     std::unordered_map<std::string, int> dependNums;
     std::unordered_map<std::string, std::unordered_set<std::string>> solves;
-    std::unordered_map<std::string, AtomicValue> evaluated;
     std::set<std::pair<int, std::string>> tasks;
     for (auto& it : expressions) {
         dependNums[it.first] = static_cast<int>(it.second->depends().size());
         for (auto& depend : it.second->depends()) {
             solves[depend].insert(it.first);
+            if (evaluated.find(depend) != evaluated.end()) {
+                --dependNums[it.first];
+            }
         }
         tasks.insert({dependNums[it.first], it.first});
     }
