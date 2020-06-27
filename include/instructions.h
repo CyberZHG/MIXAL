@@ -164,6 +164,8 @@ class Instructions {
         EQU = 100,   // pseudo-operation: equivalent
         ORIG = 101,  // pseudo-operation: originate
         CON = 102,   // pseudo-operation: constant
+        ALF = 103,   // pseudo-operation: alphabeta
+        END = 104,   // pseudo-operation: end
     };
 
     static Instructions::Code getInstructionCode(const std::string& name);

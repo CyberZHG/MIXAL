@@ -19,6 +19,16 @@ Instructions::Code Instructions::getInstructionCode(const std::string& name) {
                 break;
             }
             break;
+        case 'L':
+            switch (charAt(2)) {
+            case 'F':
+                switch (charAt(3)) {
+                case '#':
+                    return Instructions::ALF;
+                }
+                break;
+            }
+            break;
         }
         break;
     case 'C':
@@ -179,6 +189,12 @@ Instructions::Code Instructions::getInstructionCode(const std::string& name) {
         switch (charAt(1)) {
         case 'N':
             switch (charAt(2)) {
+            case 'D':
+                switch (charAt(3)) {
+                case '#':
+                    return Instructions::END;
+                }
+                break;
             case 'N':
                 switch (charAt(3)) {
                 case '1':

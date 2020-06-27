@@ -2,7 +2,7 @@
 python -m cpplint --linelength=120 --filter=-build/include_subdir,-legal/copyright,-readability/fn_size,-runtime/threadsafe_fn include/*.h src/*.cpp tests/cpp/*.cpp && \
     (cd tests/cpp && \
         find . -name "*.gcda" -delete && \
-        cmake . && \
+        cmake -DCMAKE_BUILD_TYPE=Debug . && \
         make all && \
         ./test && \
         mkdir -p coverage && \

@@ -224,6 +224,16 @@ ParsedResult Parser::parseLine(const std::string& line, const std::string& lineS
                 } else {
                     result.parsedType = ParsedType::PSEUDO;
                     result.word.setOperation(static_cast<uint8_t>(operation - Instructions::PSEUDO));
+                    if (operation == Instructions::ALF) {
+                        result.rawAddress = "     ";
+                        ++i;
+                        for (int shift = 0; shift < 5 && i < static_cast<int>(line.size()); ++shift) {
+                            result.rawAddress[shift] = line[++i];
+                        }
+                        result.word.set(result.rawAddress);
+                        result.address = Expression::getConstExpression(AtomicValue(result.word.value()));
+                        state = ParseState::BEFORE_COMMENT;
+                    }
                 }
             } else if (!isalnum(ch)) {
                 throw ParseError(i, "Unexpected character encountered while parsing operation");
@@ -342,7 +352,7 @@ ParsedResult Parser::parseLine(const std::string& line, const std::string& lineS
             }
             break;
         case ParseState::END:
-            assert(false);
+            break;
         }
     }
     if (result.rawField.empty()) {

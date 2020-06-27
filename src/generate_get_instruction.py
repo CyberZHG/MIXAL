@@ -63,9 +63,7 @@ OPS = [
     'CMP5',
     'CMP6',
     'CMPX',
-    'EQU',
-    'ORIG',
-    'CON',
+    'EQU', 'ORIG', 'CON', 'ALF', 'END',
 ]
 
 

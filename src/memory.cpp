@@ -156,11 +156,13 @@ void ComputerWord::set(const std::string& chars) {
     if (chars.length() != 5) {
         throw std::runtime_error("Invalid length of characters for a word: " + chars);
     }
+    this->sign = false;
     for (int i = 0; i < 5; ++i) {
         (*this)[i + 1] = 0;
         for (int j = 0; j < CHAR_CODES_NUM; ++j) {
             if (static_cast<uint16_t>(chars[i]) == CHAR_CODES[j]) {
                 (*this)[i + 1] = j;
+                break;
             }
         }
     }

@@ -9,7 +9,7 @@ namespace mixal {
 class Instructions;
 
 extern uint16_t CHAR_CODES[];
-const int32_t CHAR_CODES_NUM = 55;
+const int32_t CHAR_CODES_NUM = 56;
 
 struct ComputerWord {
     bool sign;

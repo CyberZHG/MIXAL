@@ -139,4 +139,16 @@ __TEST_U(TestMachinePesudo, test_con_with_literal_constant) {
     __ASSERT_THROW(machine.executeSingle(&result), mixal::RuntimeError);
 }
 
+__TEST_U(TestMachinePesudo, test_alf) {
+    machine.loadCodes({
+        "     ORIG 3000",
+        "     OUT  VAL(17)",
+        "LOOP JBUS LOOP(17)",
+        "     HLT",
+        "VAL  ALF  PRIME",
+    });
+    machine.executeUntilHalt();
+    __ASSERT_EQ("PRIME", machine.getDevice(17)->wordAt(0).getCharacters());
+}
+
 }  // namespace test

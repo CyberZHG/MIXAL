@@ -350,7 +350,13 @@ void Machine::loadCodes(const std::vector<std::string>& codes, bool addHalt) {
         auto lineSymbol = getPesudoSymbolname();
         result = Parser::parseLine(code, lineSymbol, true);
         if (result.parsedType == ParsedType::PSEUDO) {
-            switch (result.word.operation() + Instructions::PSEUDO) {
+            int32_t operation = result.word.operation() + Instructions::PSEUDO;
+            if (result.operation == "ALF") {
+                operation = Instructions::ALF;
+            } else if (result.operation == "END") {
+                operation = Instructions::END;
+            }
+            switch (operation) {
             case Instructions::EQU:
                 expressions[result.rawLocation] = &result.address;
                 break;
@@ -360,6 +366,10 @@ void Machine::loadCodes(const std::vector<std::string>& codes, bool addHalt) {
                 lineOffset = 0;
                 break;
             case Instructions::CON:
+            case Instructions::ALF:
+                if (!result.rawLocation.empty()) {
+                    lineSymbol = result.rawLocation;
+                }
                 if (lineBase.empty()) {
                     constants.push_back({lineSymbol,
                                          Expression::getConstExpression(AtomicValue(lineOffset)),

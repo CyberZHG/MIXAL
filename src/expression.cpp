@@ -189,6 +189,9 @@ void Expression::parse(const std::string& expression, const std::string& lineSym
 }
 
 bool Expression::evaluate(const std::unordered_map<std::string, AtomicValue>& constants) {
+    if (_atomics.size() == 0) {
+        return false;
+    }
     auto evalAtomic = [&constants](const Atomic& atomic, AtomicValue* result) -> bool {
         if (atomic.type == AtomicType::INTEGER) {
             result->negative = atomic.negative;
@@ -270,7 +273,9 @@ std::ostream& operator<<(std::ostream& out, Operation operation) {
 }
 
 std::ostream& operator<<(std::ostream& out, const Expression& expression) {
-    out << expression._atomics[0];
+    if (expression._atomics.size() > 0) {
+        out << expression._atomics[0];
+    }
     for (size_t i = 0; i < expression._operations.size(); ++i) {
         out << expression._operations[i];
         out << expression._atomics[i + 1];
