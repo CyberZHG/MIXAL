@@ -209,13 +209,17 @@ ParsedResult Parser::parseLine(const std::string& line, const std::string& lineS
             break;
         case ParseState::OP:
             if (ch == ' ' || ch == END_CHAR) {
+                result.operation = line.substr(operationStart, i - operationStart);
+                int32_t operation = static_cast<int>(Instructions::getInstructionCode(result.operation));
                 if (ch == ' ') {
-                    state = ParseState::BEFORE_ADDRESS;
+                    if (Instructions::hasArguments(static_cast<Instructions::Code>(operation))) {
+                        state = ParseState::BEFORE_ADDRESS;
+                    } else {
+                        state = ParseState::BEFORE_COMMENT;
+                    }
                 } else {
                     state = ParseState::END;
                 }
-                result.operation = line.substr(operationStart, i - operationStart);
-                int32_t operation = static_cast<int>(Instructions::getInstructionCode(result.operation));
                 if (operation == Instructions::INVALID) {
                     throw ParseError(i, "Unknown operation: " + result.operation);
                 } else if (operation <= Instructions::LAST) {

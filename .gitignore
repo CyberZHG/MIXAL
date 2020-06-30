@@ -119,3 +119,4 @@ Makefile
 # Test
 tests/cpp/test
 tests/cpp/coverage
+tests/cpp/sep/test_*

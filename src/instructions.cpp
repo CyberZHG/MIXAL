@@ -2,6 +2,10 @@
 
 namespace mixal {
 
+bool Instructions::hasArguments(Instructions::Code code) {
+    return !(code == Instructions::NOP || code == Instructions::HLT);
+}
+
 Instructions::Code Instructions::getInstructionCode(const std::string& name) {
     auto charAt = [&name] (size_t index) -> char {
         return index < name.length() ? std::toupper(name[index]) : '#';

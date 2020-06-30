@@ -144,9 +144,10 @@ class IODeviceLinePrinter : public IODeviceSeqWriter {
         IODeviceSeqWriter(storageSize), _pageSize(pageSize) {
         _type = IODeviceType::LINE_PRINTER;
         _blockSize = 24;
-        _readyRate = 0.2;
+        _readyRate = 1.0;
     }
     void control(int32_t operation) final;
+    inline int32_t pageSize() const { return _pageSize; }
  private:
     int32_t _pageSize;
 };

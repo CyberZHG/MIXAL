@@ -9925,6 +9925,34 @@ fail:
 
 SWIGINTERN PyObject *_wrap_new_ComputerWord__SWIG_2(PyObject *SWIGUNUSEDPARM(self), Py_ssize_t nobjs, PyObject **swig_obj) {
   PyObject *resultobj = 0;
+  std::string *arg1 = 0 ;
+  int res1 = SWIG_OLDOBJ ;
+  mixal::ComputerWord *result = 0 ;
+  
+  if ((nobjs < 1) || (nobjs > 1)) SWIG_fail;
+  {
+    std::string *ptr = (std::string *)0;
+    res1 = SWIG_AsPtr_std_string(swig_obj[0], &ptr);
+    if (!SWIG_IsOK(res1)) {
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "new_ComputerWord" "', argument " "1"" of type '" "std::string const &""'"); 
+    }
+    if (!ptr) {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "new_ComputerWord" "', argument " "1"" of type '" "std::string const &""'"); 
+    }
+    arg1 = ptr;
+  }
+  result = (mixal::ComputerWord *)new mixal::ComputerWord((std::string const &)*arg1);
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_mixal__ComputerWord, SWIG_POINTER_NEW |  0 );
+  if (SWIG_IsNewObj(res1)) delete arg1;
+  return resultobj;
+fail:
+  if (SWIG_IsNewObj(res1)) delete arg1;
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_new_ComputerWord__SWIG_3(PyObject *SWIGUNUSEDPARM(self), Py_ssize_t nobjs, PyObject **swig_obj) {
+  PyObject *resultobj = 0;
   bool arg1 ;
   uint8_t arg2 ;
   uint8_t arg3 ;
@@ -9964,7 +9992,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_new_ComputerWord__SWIG_3(PyObject *SWIGUNUSEDPARM(self), Py_ssize_t nobjs, PyObject **swig_obj) {
+SWIGINTERN PyObject *_wrap_new_ComputerWord__SWIG_4(PyObject *SWIGUNUSEDPARM(self), Py_ssize_t nobjs, PyObject **swig_obj) {
   PyObject *resultobj = 0;
   bool arg1 ;
   uint16_t arg2 ;
@@ -10026,6 +10054,14 @@ SWIGINTERN PyObject *_wrap_new_ComputerWord(PyObject *self, PyObject *args) {
   }
   if (argc == 1) {
     int _v;
+    int res = SWIG_AsPtr_std_string(argv[0], (std::string**)(0));
+    _v = SWIG_CheckState(res);
+    if (_v) {
+      return _wrap_new_ComputerWord__SWIG_2(self, argc, argv);
+    }
+  }
+  if (argc == 1) {
+    int _v;
     {
       _v = PyLong_Check(argv[0]);
     }
@@ -10055,7 +10091,7 @@ SWIGINTERN PyObject *_wrap_new_ComputerWord(PyObject *self, PyObject *args) {
               _v = PyLong_Check(argv[4]);
             }
             if (_v) {
-              return _wrap_new_ComputerWord__SWIG_3(self, argc, argv);
+              return _wrap_new_ComputerWord__SWIG_4(self, argc, argv);
             }
           }
         }
@@ -10089,7 +10125,7 @@ SWIGINTERN PyObject *_wrap_new_ComputerWord(PyObject *self, PyObject *args) {
                 _v = PyLong_Check(argv[5]);
               }
               if (_v) {
-                return _wrap_new_ComputerWord__SWIG_2(self, argc, argv);
+                return _wrap_new_ComputerWord__SWIG_3(self, argc, argv);
               }
             }
           }
@@ -10103,6 +10139,7 @@ fail:
     "  Possible C/C++ prototypes are:\n"
     "    mixal::ComputerWord::ComputerWord()\n"
     "    mixal::ComputerWord::ComputerWord(int32_t)\n"
+    "    mixal::ComputerWord::ComputerWord(std::string const &)\n"
     "    mixal::ComputerWord::ComputerWord(bool,uint8_t,uint8_t,uint8_t,uint8_t,uint8_t)\n"
     "    mixal::ComputerWord::ComputerWord(bool,uint16_t,uint8_t,uint8_t,uint8_t)\n");
   return 0;

@@ -168,6 +168,7 @@ class Instructions {
         END = 104,   // pseudo-operation: end
     };
 
+    static bool hasArguments(Instructions::Code code);
     static Instructions::Code getInstructionCode(const std::string& name);
     static int getDefaultField(const std::string& name);
     static int getCost(Instructions::Code code, uint8_t field = 0);

@@ -1,0 +1,20 @@
+project(Test)
+
+cmake_minimum_required(VERSION 3.13)
+
+file (GLOB SOURCES "../../../include/*.h" "../../../src/*.cpp")
+
+set (CMAKE_CXX_FLAGS "-Wall -Wextra -Weffc++ -Werror -g -std=c++11")
+
+file (GLOB DEPS "../../../deps/*")
+file (GLOB TESTS "../test_*.cpp")
+foreach(file ${TESTS})
+    get_filename_component(name ${file} NAME_WE)
+    add_executable(${name} ${SOURCES} ${file} "../main.cpp")
+    target_include_directories(${name} PRIVATE "../../../include")
+    foreach(subdir ${DEPS})
+        file (GLOB dep_sources "${subdir}/include/*.cpp" "${subdir}/src/*.cpp")
+        target_sources(${name} PRIVATE "${dep_sources}")
+        target_include_directories(${name} PRIVATE "${subdir}/include")
+    endforeach()
+endforeach()

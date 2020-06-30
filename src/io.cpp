@@ -33,12 +33,18 @@ void IODeviceStorage::read(ComputerWord* memory, int32_t address) {
     for (int i = 0; i < _blockSize; ++i) {
         _buffer[i] = _storage[_locator + i];
     }
+    if (_readyRate >= 1.0) {
+        doRead();
+    }
 }
 
 void IODeviceStorage::write(const ComputerWord* memory, int32_t address) {
     _status = IODeviceStatus::BUSY_WRITE;
     for (int i = 0; i < _blockSize; ++i) {
         _buffer[i] = memory[address + i];
+    }
+    if (_readyRate >= 1.0) {
+        doWrite();
     }
 }
 

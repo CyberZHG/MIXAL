@@ -18,7 +18,8 @@ void Machine::executeIOC(const InstructionWord& instruction) {
     if (device->type() == IODeviceType::DISK) {
         device->control(rX.value());
     } else {
-        device->control(instruction.addressValue());
+        int32_t address = getIndexedAddress(instruction);
+        device->control(address);
     }
 }
 
@@ -27,7 +28,8 @@ void Machine::executeIN(const InstructionWord& instruction) {
     if (!device->allowRead()) {
         throw RuntimeError(_lineOffset, "Device does not support read: " + std::to_string(instruction.field()));
     }
-    device->read(memory, instruction.addressValue());
+    int32_t address = getIndexedAddress(instruction);
+    device->read(memory, address);
 }
 
 void Machine::executeOUT(const InstructionWord& instruction) {
@@ -35,7 +37,8 @@ void Machine::executeOUT(const InstructionWord& instruction) {
     if (!device->allowWrite()) {
         throw RuntimeError(_lineOffset, "Device does not support write: " + std::to_string(instruction.field()));
     }
-    device->write(memory, instruction.addressValue());
+    int32_t address = getIndexedAddress(instruction);
+    device->write(memory, address);
 }
 
 void Machine::executeJRED(const InstructionWord& instruction) {
