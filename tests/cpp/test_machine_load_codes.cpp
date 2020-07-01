@@ -176,7 +176,52 @@ __TEST_U(TestMachineLoadCodes, test_load_codes_prime) {
         "        CON  BUF0+10",
         "        END  START             End of routine.",
     };
-    machine.loadCodes(codes);
+    machine.loadCodes(codes, false);
+    __ASSERT_EQ(mixal::ComputerWord(false,    0, 0, 18, 35), machine.memory[3000]);
+    __ASSERT_EQ(mixal::ComputerWord(false, 2050, 0,  5,  9), machine.memory[3001]);
+    __ASSERT_EQ(mixal::ComputerWord(false, 2051, 0,  5, 10), machine.memory[3002]);
+    __ASSERT_EQ(mixal::ComputerWord(false,    1, 0,  0, 49), machine.memory[3003]);
+    __ASSERT_EQ(mixal::ComputerWord(false,  499, 1,  5, 26), machine.memory[3004]);
+    __ASSERT_EQ(mixal::ComputerWord(false, 3016, 0,  1, 41), machine.memory[3005]);
+    __ASSERT_EQ(mixal::ComputerWord(false,    2, 0,  0, 50), machine.memory[3006]);
+    __ASSERT_EQ(mixal::ComputerWord(false,    2, 0,  2, 51), machine.memory[3007]);
+    __ASSERT_EQ(mixal::ComputerWord(false,    0, 0,  2, 48), machine.memory[3008]);
+    __ASSERT_EQ(mixal::ComputerWord(false,    0, 2,  2, 55), machine.memory[3009]);
+
+    __ASSERT_EQ(mixal::ComputerWord(true,     1, 3,  5,  4), machine.memory[3010]);
+    __ASSERT_EQ(mixal::ComputerWord(false, 3006, 0,  1, 47), machine.memory[3011]);
+    __ASSERT_EQ(mixal::ComputerWord(true,     1, 3,  5, 56), machine.memory[3012]);
+    __ASSERT_EQ(mixal::ComputerWord(false,    1, 0,  0, 51), machine.memory[3013]);
+    __ASSERT_EQ(mixal::ComputerWord(false, 3008, 0,  6, 39), machine.memory[3014]);
+    __ASSERT_EQ(mixal::ComputerWord(false, 3003, 0,  0, 39), machine.memory[3015]);
+    __ASSERT_EQ(mixal::ComputerWord(false, 1995, 0, 18, 37), machine.memory[3016]);
+    __ASSERT_EQ(mixal::ComputerWord(false, 2035, 0,  2, 52), machine.memory[3017]);
+    __ASSERT_EQ(mixal::ComputerWord(true,    50, 0,  2, 53), machine.memory[3018]);
+    __ASSERT_EQ(mixal::ComputerWord(false,  501, 0,  0, 53), machine.memory[3019]);
+
+    __ASSERT_EQ(mixal::ComputerWord(true,     1, 5,  5,  8), machine.memory[3020]);
+    __ASSERT_EQ(mixal::ComputerWord(false,    0, 0,  1,  5), machine.memory[3021]);
+    __ASSERT_EQ(mixal::ComputerWord(false,    0, 4, 12, 31), machine.memory[3022]);
+    __ASSERT_EQ(mixal::ComputerWord(false,    1, 0,  1, 52), machine.memory[3023]);
+    __ASSERT_EQ(mixal::ComputerWord(false,   50, 0,  1, 53), machine.memory[3024]);
+    __ASSERT_EQ(mixal::ComputerWord(false, 3020, 0,  2, 45), machine.memory[3025]);
+    __ASSERT_EQ(mixal::ComputerWord(false,    0, 4, 18, 37), machine.memory[3026]);
+    __ASSERT_EQ(mixal::ComputerWord(false,   24, 4,  5, 12), machine.memory[3027]);
+    __ASSERT_EQ(mixal::ComputerWord(false, 3019, 0,  0, 45), machine.memory[3028]);
+    __ASSERT_EQ(mixal::ComputerWord(false,    0, 0,  2,  5), machine.memory[3029]);
+
+    __ASSERT_EQ(2, machine.memory[0].value());
+    __ASSERT_EQ(2035, machine.memory[2024].value());
+    __ASSERT_EQ(2010, machine.memory[2049].value());
+    __ASSERT_EQ(-499, machine.memory[2050].value());
+    __ASSERT_EQ(3, machine.memory[2051].value());
+
+    __ASSERT_EQ(mixal::ComputerWord(false,  6,  9, 19, 22, 23), machine.memory[1995]);
+    __ASSERT_EQ(mixal::ComputerWord(false,  0,  6,  9, 25,  5), machine.memory[1996]);
+    __ASSERT_EQ(mixal::ComputerWord(false,  0,  8, 24, 15,  4), machine.memory[1997]);
+    __ASSERT_EQ(mixal::ComputerWord(false, 19,  5,  4,  0, 17), machine.memory[1998]);
+    __ASSERT_EQ(mixal::ComputerWord(false, 19,  9, 14,  5, 22), machine.memory[1999]);
+
     machine.executeUntilHalt();
     auto linePrinter = std::dynamic_pointer_cast<mixal::IODeviceLinePrinter>(machine.getDevice(18));
     int32_t blockSize = linePrinter->blockSize();
