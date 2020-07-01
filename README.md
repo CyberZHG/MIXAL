@@ -1,8 +1,7 @@
 MIXAL
 =====
 
-![C++ Tests](https://github.com/CyberZHG/MIXAL/workflows/C++%20Tests/badge.svg)
-![Python Tests](https://github.com/CyberZHG/MIXAL/workflows/Python%20Tests/badge.svg)
+![Tests](https://github.com/CyberZHG/MIXAL/workflows/Tests/badge.svg)
 [![Version](https://img.shields.io/pypi/v/mixal.svg)](https://pypi.org/project/mixal/)
 ![Downloads](https://img.shields.io/pypi/dm/mixal.svg)
 ![License](https://img.shields.io/pypi/l/keras-bert.svg)

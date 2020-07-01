@@ -1,4 +1,4 @@
-name: Python Tests
+name: Unit Tests
 
 on:
   push:
@@ -7,7 +7,19 @@ on:
     branches: [ master ]
 
 jobs:
-  test:
+  cpp:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: sync
+      run: git submodule update --init --recursive
+    - name: install/apt
+      run: sudo apt install -y cmake lcov
+    - name: install/pip
+      run: python -m pip install --upgrade pip && python -m pip install cpplint mixal
+    - name: test
+      run: ./test_cpp.sh
+  python:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
