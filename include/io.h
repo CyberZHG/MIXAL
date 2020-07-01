@@ -3,6 +3,7 @@
 
 #include <cstdint>
 #include <vector>
+#include <string>
 #include "memory.h"
 
 namespace mixal {
@@ -144,10 +145,12 @@ class IODeviceLinePrinter : public IODeviceSeqWriter {
         IODeviceSeqWriter(storageSize), _pageSize(pageSize) {
         _type = IODeviceType::LINE_PRINTER;
         _blockSize = 24;
-        _readyRate = 1.0;
+        _readyRate = 0.1;
     }
     void control(int32_t operation) final;
     inline int32_t pageSize() const { return _pageSize; }
+    int32_t pageOffsetAt(int32_t index) const;
+    std::string line(int32_t pageNum, int32_t lineNum) const;
  private:
     int32_t _pageSize;
 };

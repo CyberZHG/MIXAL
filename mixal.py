@@ -456,7 +456,7 @@ class Machine(object):
     __repr__ = _swig_repr
     NUM_INDEX_REGISTER = _mixal.Machine_NUM_INDEX_REGISTER
     NUM_MEMORY = _mixal.Machine_NUM_MEMORY
-    NUM_DEVICE = _mixal.Machine_NUM_DEVICE
+    NUM_IO_DEVICE = _mixal.Machine_NUM_IO_DEVICE
     rA = property(_mixal.Machine_rA_get, _mixal.Machine_rA_set)
     rX = property(_mixal.Machine_rX_get, _mixal.Machine_rX_set)
     rI1 = property(_mixal.Machine_rI1_get, _mixal.Machine_rI1_set)
@@ -482,6 +482,12 @@ class Machine(object):
 
     def getDevice(self, index):
         return _mixal.Machine_getDevice(self, index)
+
+    def waitDevice(self, device):
+        return _mixal.Machine_waitDevice(self, device)
+
+    def waitDevices(self):
+        return _mixal.Machine_waitDevices(self)
 
     def reset(self):
         return _mixal.Machine_reset(self)

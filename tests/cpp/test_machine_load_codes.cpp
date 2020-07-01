@@ -1,6 +1,5 @@
 #include <iostream>
 #include <memory>
-#include <sstream>
 #include "test.h"
 #include "machine.h"
 #include "parser.h"
@@ -224,15 +223,9 @@ __TEST_U(TestMachineLoadCodes, test_load_codes_prime) {
 
     machine.executeUntilHalt();
     auto linePrinter = std::dynamic_pointer_cast<mixal::IODeviceLinePrinter>(machine.getDevice(18));
-    int32_t blockSize = linePrinter->blockSize();
-    int32_t pageStart = blockSize * linePrinter->pageSize();
     std::vector<std::string> outputs;
-    for (int i = 0; i < 51 * blockSize; i += blockSize) {
-        std::ostringstream out;
-        for (int j = 0; j < 11; ++j) {
-            out << linePrinter->wordAt(pageStart + i + j).getCharacters();
-        }
-        outputs.push_back(out.str());
+    for (int i = 0; i < 51; ++i) {
+        outputs.push_back(linePrinter->line(1, i).substr(0, 55));
     }
     std::vector<std::string> expects {
         "FIRST FIVE HUNDRED PRIMES                              ",

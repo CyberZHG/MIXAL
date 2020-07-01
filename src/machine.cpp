@@ -9,39 +9,8 @@ namespace mixal {
 
 Machine::Machine() : rA(), rX(), rI1(), rI2(), rI3(), rI4(), rI5(), rI6(), rJ(),
       overflow(false), comparison(ComparisonIndicator::EQUAL), memory(),
-      devices(NUM_DEVICE, nullptr),
+      devices(NUM_IO_DEVICE, nullptr),
       _pesudoVarIndex(), _lineOffset(), _elapsed(), _constants(), _lineNumbers() {}
-
-std::shared_ptr<IODevice> Machine::getDevice(int32_t index) {
-    if (devices[index] == nullptr) {
-        switch (index) {
-        case 0: case 1: case 2: case 3:
-        case 4: case 5: case 6: case 7:
-            devices[index] = std::shared_ptr<IODevice>(new IODeviceTape());
-            break;
-        case 8: case 9: case 10: case 11:
-        case 12: case 13: case 14: case 15:
-            devices[index] = std::shared_ptr<IODevice>(new IODeviceDisk());
-            break;
-        case 16:
-            devices[index] = std::shared_ptr<IODevice>(new IODeviceCardReader());
-            break;
-        case 17:
-            devices[index] = std::shared_ptr<IODevice>(new IODeviceCardPunch());
-            break;
-        case 18:
-            devices[index] = std::shared_ptr<IODevice>(new IODeviceLinePrinter());
-            break;
-        case 19:
-            devices[index] = std::shared_ptr<IODevice>(new IODeviceTypewriter());
-            break;
-        case 20:
-            devices[index] = std::shared_ptr<IODevice>(new IODevicePaperTape());
-            break;
-        }
-    }
-    return devices[index];
-}
 
 Register2& Machine::rI(int index) {
     switch (index) {
@@ -75,7 +44,7 @@ void Machine::reset() {
     for (int i = 0; i < NUM_MEMORY; ++i) {
         memory[i].reset();
     }
-    for (size_t i = 0; i < NUM_DEVICE; ++i) {
+    for (size_t i = 0; i < NUM_IO_DEVICE; ++i) {
         devices[i] = nullptr;
     }
     _pesudoVarIndex = 0;
@@ -107,6 +76,7 @@ void Machine::executeUntilSelfLoop() {
         }
         lastOffset = _lineOffset;
     }
+    waitDevices();
 }
 
 void Machine::executeUntilHalt() {
@@ -121,6 +91,7 @@ void Machine::executeUntilHalt() {
         }
         executeSingle(memory[_lineOffset]);
     }
+    waitDevices();
 }
 
 void Machine::executeSingle(ParsedResult* instruction) {

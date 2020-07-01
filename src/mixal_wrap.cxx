@@ -12521,6 +12521,65 @@ fail:
 }
 
 
+SWIGINTERN PyObject *_wrap_Machine_waitDevice(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  mixal::Machine *arg1 = (mixal::Machine *) 0 ;
+  std::shared_ptr< IODevice > arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 ;
+  int res2 = 0 ;
+  PyObject *swig_obj[2] ;
+  
+  if (!SWIG_Python_UnpackTuple(args, "Machine_waitDevice", 2, 2, swig_obj)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_mixal__Machine, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Machine_waitDevice" "', argument " "1"" of type '" "mixal::Machine *""'"); 
+  }
+  arg1 = reinterpret_cast< mixal::Machine * >(argp1);
+  {
+    res2 = SWIG_ConvertPtr(swig_obj[1], &argp2, SWIGTYPE_p_std__shared_ptrT_IODevice_t,  0  | 0);
+    if (!SWIG_IsOK(res2)) {
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Machine_waitDevice" "', argument " "2"" of type '" "std::shared_ptr< IODevice >""'"); 
+    }  
+    if (!argp2) {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "Machine_waitDevice" "', argument " "2"" of type '" "std::shared_ptr< IODevice >""'");
+    } else {
+      std::shared_ptr< IODevice > * temp = reinterpret_cast< std::shared_ptr< IODevice > * >(argp2);
+      arg2 = *temp;
+      if (SWIG_IsNewObj(res2)) delete temp;
+    }
+  }
+  (arg1)->waitDevice(arg2);
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Machine_waitDevices(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  mixal::Machine *arg1 = (mixal::Machine *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject *swig_obj[1] ;
+  
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_mixal__Machine, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Machine_waitDevices" "', argument " "1"" of type '" "mixal::Machine *""'"); 
+  }
+  arg1 = reinterpret_cast< mixal::Machine * >(argp1);
+  (arg1)->waitDevices();
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
 SWIGINTERN PyObject *_wrap_Machine_reset(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   mixal::Machine *arg1 = (mixal::Machine *) 0 ;
@@ -13151,6 +13210,8 @@ static PyMethodDef SwigMethods[] = {
 	 { "Machine_rI", _wrap_Machine_rI, METH_VARARGS, NULL},
 	 { "Machine_memoryAt", _wrap_Machine_memoryAt, METH_VARARGS, NULL},
 	 { "Machine_getDevice", _wrap_Machine_getDevice, METH_VARARGS, NULL},
+	 { "Machine_waitDevice", _wrap_Machine_waitDevice, METH_VARARGS, NULL},
+	 { "Machine_waitDevices", _wrap_Machine_waitDevices, METH_O, NULL},
 	 { "Machine_reset", _wrap_Machine_reset, METH_O, NULL},
 	 { "Machine_line", _wrap_Machine_line, METH_O, NULL},
 	 { "Machine_elapsed", _wrap_Machine_elapsed, METH_O, NULL},
@@ -14034,7 +14095,7 @@ SWIG_init(void) {
   SWIG_Python_SetConstant(d, "Registers_J",SWIG_From_int(static_cast< int >(mixal::Registers::J)));
   SWIG_Python_SetConstant(d, "Machine_NUM_INDEX_REGISTER",SWIG_From_int(static_cast< int >(mixal::Machine::NUM_INDEX_REGISTER)));
   SWIG_Python_SetConstant(d, "Machine_NUM_MEMORY",SWIG_From_int(static_cast< int >(mixal::Machine::NUM_MEMORY)));
-  SWIG_Python_SetConstant(d, "Machine_NUM_DEVICE",SWIG_From_int(static_cast< int >(mixal::Machine::NUM_DEVICE)));
+  SWIG_Python_SetConstant(d, "Machine_NUM_IO_DEVICE",SWIG_From_int(static_cast< int >(mixal::Machine::NUM_IO_DEVICE)));
 #if PY_VERSION_HEX >= 0x03000000
   return m;
 #else

@@ -2,6 +2,7 @@
 #include <cstdlib>
 #include <cmath>
 #include <algorithm>
+#include <sstream>
 #include "io.h"
 
 namespace mixal {
@@ -97,6 +98,19 @@ void IODeviceSeqWriter::doWrite() {
 
 void IODeviceLinePrinter::control(int32_t) {
     _locator += (_pageSize - _locator / _blockSize % _pageSize) * _blockSize;
+}
+
+int32_t IODeviceLinePrinter::pageOffsetAt(int32_t index) const {
+    return index * _pageSize * _blockSize;
+}
+
+std::string IODeviceLinePrinter::line(int32_t pageNum, int32_t lineNum) const {
+    int32_t offset = pageOffsetAt(pageNum) + lineNum * _blockSize;
+    std::ostringstream out;
+    for (int i = 0; i < _blockSize; ++i) {
+        out << _storage[offset + i].getCharacters();
+    }
+    return out.str();
 }
 
 };  // namespace mixal

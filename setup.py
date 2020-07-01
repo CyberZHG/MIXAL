@@ -33,7 +33,7 @@ ext_module = Extension(
 
 setup(
     name='mixal',
-    version='1.148.1',
+    version='1.157.0',
     ext_modules=[ext_module],
     packages=find_packages(),
     url='https://github.com/CyberZHG/MIXAL',

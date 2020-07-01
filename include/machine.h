@@ -22,7 +22,7 @@ class Machine {
  public:
     static const int NUM_INDEX_REGISTER = 6;
     static const int NUM_MEMORY = 4000;
-    static const int NUM_DEVICE = 20;
+    static const int NUM_IO_DEVICE = 20;
 
     Register5 rA, rX;
     Register2 rI1, rI2, rI3, rI4, rI5, rI6, rJ;
@@ -39,6 +39,8 @@ class Machine {
     const ComputerWord& memoryAt(int16_t index) const;
     ComputerWord& memoryAt(int16_t index);
     std::shared_ptr<IODevice> getDevice(int32_t index);
+    void waitDevice(std::shared_ptr<IODevice> device);
+    void waitDevices();
 
     void reset();
     inline int line() const { return _lineOffset; }
