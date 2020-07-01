@@ -35,7 +35,7 @@ class TestSample(TestCase):
                 n = random.randint(0, 3000)
             for i in range(3000):
                 self.machine.memoryAt(i).set(random.randint(1, 100))
-            self.machine.rI2().set(n)
+            self.machine.rI2.set(n)
             self.machine.executeUntilHalt()
             for i in range(n + 1):
                 self.assertEqual(0, self.machine.memoryAt(i).value(), i)
@@ -54,7 +54,7 @@ class TestSample(TestCase):
                 n = random.randint(0, 3000)
             for i in range(3000):
                 self.machine.memoryAt(i).set(random.randint(1, 100))
-            self.machine.rI2().set(n)
+            self.machine.rI2.set(n)
             self.machine.executeUntilHalt()
             for i in range(n + 1):
                 self.assertEqual(0, self.machine.memoryAt(i).value(), i)
@@ -67,7 +67,7 @@ class TestSample(TestCase):
         n = 2999
         for i in range(3000):
             self.machine.memoryAt(i).set(random.randint(1, 100))
-        self.machine.rI2().set(n)
+        self.machine.rI2.set(n)
         self.machine.executeUntilHalt()
         for i in range(n + 1):
             self.assertEqual(0, self.machine.memoryAt(i).value(), i)
@@ -93,7 +93,7 @@ class TestSample(TestCase):
             target = random.randint(1, 3000)
             randoms = [random.randint(0, 4096) for _ in range(3000)]
             self.load_codes('21_set_rj')
-            self.machine.rI4().set(target)
+            self.machine.rI4.set(target)
             for i in range(3000):
                 self.machine.memoryAt(i).set(randoms[i])
             self.machine.executeUntilHalt()

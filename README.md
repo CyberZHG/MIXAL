@@ -49,7 +49,7 @@ machine.loadCodes([
 ])
 
 num_numbers, max_val = 100, 0
-machine.rI1().set(num_numbers)
+machine.rI1.set(num_numbers)
 machine.rJ.set(end_point)
 for i in range(1001, 1001 + num_numbers):
     val = random.randint(0, 100000)

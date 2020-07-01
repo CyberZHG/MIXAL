@@ -62,7 +62,7 @@ __TEST_U(TestMachineLoadCodes, test_run_sample) {
         "EXIT    JMP  *",
     };
     machine.loadCodes(codes);
-    machine.rI1().set(5);
+    machine.rI1.set(5);
     machine.rJ.set(3009);
     machine.memory[1000].set(123);
     machine.memory[1001].set(456);

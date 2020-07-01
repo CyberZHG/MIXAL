@@ -29,7 +29,7 @@ __TEST_U(TestMachineComparison, test_cmpa) {
 
 __TEST_U(TestMachineComparison, test_cmpx) {
     machine.rA.set(0);
-    machine.rI6().set(-1);
+    machine.rI6.set(-1);
     machine.memory[1000].set(-12345);
     auto result = mixal::Parser::parseLine("CMPX 1000,6", "", false);
     machine.executeSingle(result.word);
@@ -40,7 +40,7 @@ __TEST_U(TestMachineComparison, test_cmpx) {
 }
 
 __TEST_U(TestMachineComparison, test_cmpi) {
-    machine.rI6().set(false, 6, 5);
+    machine.rI6.set(false, 6, 5);
     machine.memory[1000].set(true, 1, 2, 3, 4, 5);
     auto result = mixal::Parser::parseLine("CMP6 1000(1:2)", "", false);
     machine.executeSingle(result.word);

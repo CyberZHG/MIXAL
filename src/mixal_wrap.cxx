@@ -11769,35 +11769,28 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_Machine_rI_set(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+SWIGINTERN PyObject *_wrap_Machine_rI1_set(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   mixal::Machine *arg1 = (mixal::Machine *) 0 ;
-  mixal::Register2 *arg2 ;
+  mixal::Register2 *arg2 = (mixal::Register2 *) 0 ;
   void *argp1 = 0 ;
   int res1 = 0 ;
   void *argp2 = 0 ;
   int res2 = 0 ;
   PyObject *swig_obj[2] ;
   
-  if (!SWIG_Python_UnpackTuple(args, "Machine_rI_set", 2, 2, swig_obj)) SWIG_fail;
+  if (!SWIG_Python_UnpackTuple(args, "Machine_rI1_set", 2, 2, swig_obj)) SWIG_fail;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_mixal__Machine, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Machine_rI_set" "', argument " "1"" of type '" "mixal::Machine *""'"); 
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Machine_rI1_set" "', argument " "1"" of type '" "mixal::Machine *""'"); 
   }
   arg1 = reinterpret_cast< mixal::Machine * >(argp1);
   res2 = SWIG_ConvertPtr(swig_obj[1], &argp2,SWIGTYPE_p_mixal__Register2, 0 |  0 );
   if (!SWIG_IsOK(res2)) {
-    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Machine_rI_set" "', argument " "2"" of type '" "mixal::Register2 [mixal::Machine::NUM_INDEX_REGISTER]""'"); 
-  } 
-  arg2 = reinterpret_cast< mixal::Register2 * >(argp2);
-  {
-    if (arg2) {
-      size_t ii = 0;
-      for (; ii < (size_t)mixal::Machine::NUM_INDEX_REGISTER; ++ii) *(mixal::Register2 *)&arg1->rI[ii] = *((mixal::Register2 *)arg2 + ii);
-    } else {
-      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in variable '""rI""' of type '""mixal::Register2 [mixal::Machine::NUM_INDEX_REGISTER]""'");
-    }
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Machine_rI1_set" "', argument " "2"" of type '" "mixal::Register2 *""'"); 
   }
+  arg2 = reinterpret_cast< mixal::Register2 * >(argp2);
+  if (arg1) (arg1)->rI1 = *arg2;
   resultobj = SWIG_Py_Void();
   return resultobj;
 fail:
@@ -11805,7 +11798,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_Machine_rI_get(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+SWIGINTERN PyObject *_wrap_Machine_rI1_get(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   mixal::Machine *arg1 = (mixal::Machine *) 0 ;
   void *argp1 = 0 ;
@@ -11817,10 +11810,270 @@ SWIGINTERN PyObject *_wrap_Machine_rI_get(PyObject *SWIGUNUSEDPARM(self), PyObje
   swig_obj[0] = args;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_mixal__Machine, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Machine_rI_get" "', argument " "1"" of type '" "mixal::Machine *""'"); 
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Machine_rI1_get" "', argument " "1"" of type '" "mixal::Machine *""'"); 
   }
   arg1 = reinterpret_cast< mixal::Machine * >(argp1);
-  result = (mixal::Register2 *)(mixal::Register2 *) ((arg1)->rI);
+  result = (mixal::Register2 *)& ((arg1)->rI1);
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_mixal__Register2, 0 |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Machine_rI2_set(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  mixal::Machine *arg1 = (mixal::Machine *) 0 ;
+  mixal::Register2 *arg2 = (mixal::Register2 *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  PyObject *swig_obj[2] ;
+  
+  if (!SWIG_Python_UnpackTuple(args, "Machine_rI2_set", 2, 2, swig_obj)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_mixal__Machine, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Machine_rI2_set" "', argument " "1"" of type '" "mixal::Machine *""'"); 
+  }
+  arg1 = reinterpret_cast< mixal::Machine * >(argp1);
+  res2 = SWIG_ConvertPtr(swig_obj[1], &argp2,SWIGTYPE_p_mixal__Register2, 0 |  0 );
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Machine_rI2_set" "', argument " "2"" of type '" "mixal::Register2 *""'"); 
+  }
+  arg2 = reinterpret_cast< mixal::Register2 * >(argp2);
+  if (arg1) (arg1)->rI2 = *arg2;
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Machine_rI2_get(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  mixal::Machine *arg1 = (mixal::Machine *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject *swig_obj[1] ;
+  mixal::Register2 *result = 0 ;
+  
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_mixal__Machine, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Machine_rI2_get" "', argument " "1"" of type '" "mixal::Machine *""'"); 
+  }
+  arg1 = reinterpret_cast< mixal::Machine * >(argp1);
+  result = (mixal::Register2 *)& ((arg1)->rI2);
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_mixal__Register2, 0 |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Machine_rI3_set(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  mixal::Machine *arg1 = (mixal::Machine *) 0 ;
+  mixal::Register2 *arg2 = (mixal::Register2 *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  PyObject *swig_obj[2] ;
+  
+  if (!SWIG_Python_UnpackTuple(args, "Machine_rI3_set", 2, 2, swig_obj)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_mixal__Machine, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Machine_rI3_set" "', argument " "1"" of type '" "mixal::Machine *""'"); 
+  }
+  arg1 = reinterpret_cast< mixal::Machine * >(argp1);
+  res2 = SWIG_ConvertPtr(swig_obj[1], &argp2,SWIGTYPE_p_mixal__Register2, 0 |  0 );
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Machine_rI3_set" "', argument " "2"" of type '" "mixal::Register2 *""'"); 
+  }
+  arg2 = reinterpret_cast< mixal::Register2 * >(argp2);
+  if (arg1) (arg1)->rI3 = *arg2;
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Machine_rI3_get(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  mixal::Machine *arg1 = (mixal::Machine *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject *swig_obj[1] ;
+  mixal::Register2 *result = 0 ;
+  
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_mixal__Machine, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Machine_rI3_get" "', argument " "1"" of type '" "mixal::Machine *""'"); 
+  }
+  arg1 = reinterpret_cast< mixal::Machine * >(argp1);
+  result = (mixal::Register2 *)& ((arg1)->rI3);
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_mixal__Register2, 0 |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Machine_rI4_set(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  mixal::Machine *arg1 = (mixal::Machine *) 0 ;
+  mixal::Register2 *arg2 = (mixal::Register2 *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  PyObject *swig_obj[2] ;
+  
+  if (!SWIG_Python_UnpackTuple(args, "Machine_rI4_set", 2, 2, swig_obj)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_mixal__Machine, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Machine_rI4_set" "', argument " "1"" of type '" "mixal::Machine *""'"); 
+  }
+  arg1 = reinterpret_cast< mixal::Machine * >(argp1);
+  res2 = SWIG_ConvertPtr(swig_obj[1], &argp2,SWIGTYPE_p_mixal__Register2, 0 |  0 );
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Machine_rI4_set" "', argument " "2"" of type '" "mixal::Register2 *""'"); 
+  }
+  arg2 = reinterpret_cast< mixal::Register2 * >(argp2);
+  if (arg1) (arg1)->rI4 = *arg2;
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Machine_rI4_get(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  mixal::Machine *arg1 = (mixal::Machine *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject *swig_obj[1] ;
+  mixal::Register2 *result = 0 ;
+  
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_mixal__Machine, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Machine_rI4_get" "', argument " "1"" of type '" "mixal::Machine *""'"); 
+  }
+  arg1 = reinterpret_cast< mixal::Machine * >(argp1);
+  result = (mixal::Register2 *)& ((arg1)->rI4);
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_mixal__Register2, 0 |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Machine_rI5_set(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  mixal::Machine *arg1 = (mixal::Machine *) 0 ;
+  mixal::Register2 *arg2 = (mixal::Register2 *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  PyObject *swig_obj[2] ;
+  
+  if (!SWIG_Python_UnpackTuple(args, "Machine_rI5_set", 2, 2, swig_obj)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_mixal__Machine, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Machine_rI5_set" "', argument " "1"" of type '" "mixal::Machine *""'"); 
+  }
+  arg1 = reinterpret_cast< mixal::Machine * >(argp1);
+  res2 = SWIG_ConvertPtr(swig_obj[1], &argp2,SWIGTYPE_p_mixal__Register2, 0 |  0 );
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Machine_rI5_set" "', argument " "2"" of type '" "mixal::Register2 *""'"); 
+  }
+  arg2 = reinterpret_cast< mixal::Register2 * >(argp2);
+  if (arg1) (arg1)->rI5 = *arg2;
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Machine_rI5_get(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  mixal::Machine *arg1 = (mixal::Machine *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject *swig_obj[1] ;
+  mixal::Register2 *result = 0 ;
+  
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_mixal__Machine, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Machine_rI5_get" "', argument " "1"" of type '" "mixal::Machine *""'"); 
+  }
+  arg1 = reinterpret_cast< mixal::Machine * >(argp1);
+  result = (mixal::Register2 *)& ((arg1)->rI5);
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_mixal__Register2, 0 |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Machine_rI6_set(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  mixal::Machine *arg1 = (mixal::Machine *) 0 ;
+  mixal::Register2 *arg2 = (mixal::Register2 *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  PyObject *swig_obj[2] ;
+  
+  if (!SWIG_Python_UnpackTuple(args, "Machine_rI6_set", 2, 2, swig_obj)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_mixal__Machine, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Machine_rI6_set" "', argument " "1"" of type '" "mixal::Machine *""'"); 
+  }
+  arg1 = reinterpret_cast< mixal::Machine * >(argp1);
+  res2 = SWIG_ConvertPtr(swig_obj[1], &argp2,SWIGTYPE_p_mixal__Register2, 0 |  0 );
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Machine_rI6_set" "', argument " "2"" of type '" "mixal::Register2 *""'"); 
+  }
+  arg2 = reinterpret_cast< mixal::Register2 * >(argp2);
+  if (arg1) (arg1)->rI6 = *arg2;
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Machine_rI6_get(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  mixal::Machine *arg1 = (mixal::Machine *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject *swig_obj[1] ;
+  mixal::Register2 *result = 0 ;
+  
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_mixal__Machine, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Machine_rI6_get" "', argument " "1"" of type '" "mixal::Machine *""'"); 
+  }
+  arg1 = reinterpret_cast< mixal::Machine * >(argp1);
+  result = (mixal::Register2 *)& ((arg1)->rI6);
   resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_mixal__Register2, 0 |  0 );
   return resultobj;
 fail:
@@ -12116,471 +12369,33 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_Machine_rI1__SWIG_0(PyObject *SWIGUNUSEDPARM(self), Py_ssize_t nobjs, PyObject **swig_obj) {
+SWIGINTERN PyObject *_wrap_Machine_rI(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   mixal::Machine *arg1 = (mixal::Machine *) 0 ;
+  int arg2 ;
   void *argp1 = 0 ;
   int res1 = 0 ;
+  int val2 ;
+  int ecode2 = 0 ;
+  PyObject *swig_obj[2] ;
   mixal::Register2 *result = 0 ;
   
-  if ((nobjs < 1) || (nobjs > 1)) SWIG_fail;
+  if (!SWIG_Python_UnpackTuple(args, "Machine_rI", 2, 2, swig_obj)) SWIG_fail;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_mixal__Machine, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Machine_rI1" "', argument " "1"" of type '" "mixal::Machine *""'"); 
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Machine_rI" "', argument " "1"" of type '" "mixal::Machine *""'"); 
   }
   arg1 = reinterpret_cast< mixal::Machine * >(argp1);
-  result = (mixal::Register2 *) &(arg1)->rI1();
+  ecode2 = SWIG_AsVal_int(swig_obj[1], &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "Machine_rI" "', argument " "2"" of type '" "int""'");
+  } 
+  arg2 = static_cast< int >(val2);
+  result = (mixal::Register2 *) &(arg1)->rI(arg2);
   resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_mixal__Register2, 0 |  0 );
   return resultobj;
 fail:
   return NULL;
-}
-
-
-SWIGINTERN PyObject *_wrap_Machine_rI2__SWIG_0(PyObject *SWIGUNUSEDPARM(self), Py_ssize_t nobjs, PyObject **swig_obj) {
-  PyObject *resultobj = 0;
-  mixal::Machine *arg1 = (mixal::Machine *) 0 ;
-  void *argp1 = 0 ;
-  int res1 = 0 ;
-  mixal::Register2 *result = 0 ;
-  
-  if ((nobjs < 1) || (nobjs > 1)) SWIG_fail;
-  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_mixal__Machine, 0 |  0 );
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Machine_rI2" "', argument " "1"" of type '" "mixal::Machine *""'"); 
-  }
-  arg1 = reinterpret_cast< mixal::Machine * >(argp1);
-  result = (mixal::Register2 *) &(arg1)->rI2();
-  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_mixal__Register2, 0 |  0 );
-  return resultobj;
-fail:
-  return NULL;
-}
-
-
-SWIGINTERN PyObject *_wrap_Machine_rI3__SWIG_0(PyObject *SWIGUNUSEDPARM(self), Py_ssize_t nobjs, PyObject **swig_obj) {
-  PyObject *resultobj = 0;
-  mixal::Machine *arg1 = (mixal::Machine *) 0 ;
-  void *argp1 = 0 ;
-  int res1 = 0 ;
-  mixal::Register2 *result = 0 ;
-  
-  if ((nobjs < 1) || (nobjs > 1)) SWIG_fail;
-  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_mixal__Machine, 0 |  0 );
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Machine_rI3" "', argument " "1"" of type '" "mixal::Machine *""'"); 
-  }
-  arg1 = reinterpret_cast< mixal::Machine * >(argp1);
-  result = (mixal::Register2 *) &(arg1)->rI3();
-  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_mixal__Register2, 0 |  0 );
-  return resultobj;
-fail:
-  return NULL;
-}
-
-
-SWIGINTERN PyObject *_wrap_Machine_rI4__SWIG_0(PyObject *SWIGUNUSEDPARM(self), Py_ssize_t nobjs, PyObject **swig_obj) {
-  PyObject *resultobj = 0;
-  mixal::Machine *arg1 = (mixal::Machine *) 0 ;
-  void *argp1 = 0 ;
-  int res1 = 0 ;
-  mixal::Register2 *result = 0 ;
-  
-  if ((nobjs < 1) || (nobjs > 1)) SWIG_fail;
-  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_mixal__Machine, 0 |  0 );
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Machine_rI4" "', argument " "1"" of type '" "mixal::Machine *""'"); 
-  }
-  arg1 = reinterpret_cast< mixal::Machine * >(argp1);
-  result = (mixal::Register2 *) &(arg1)->rI4();
-  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_mixal__Register2, 0 |  0 );
-  return resultobj;
-fail:
-  return NULL;
-}
-
-
-SWIGINTERN PyObject *_wrap_Machine_rI5__SWIG_0(PyObject *SWIGUNUSEDPARM(self), Py_ssize_t nobjs, PyObject **swig_obj) {
-  PyObject *resultobj = 0;
-  mixal::Machine *arg1 = (mixal::Machine *) 0 ;
-  void *argp1 = 0 ;
-  int res1 = 0 ;
-  mixal::Register2 *result = 0 ;
-  
-  if ((nobjs < 1) || (nobjs > 1)) SWIG_fail;
-  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_mixal__Machine, 0 |  0 );
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Machine_rI5" "', argument " "1"" of type '" "mixal::Machine *""'"); 
-  }
-  arg1 = reinterpret_cast< mixal::Machine * >(argp1);
-  result = (mixal::Register2 *) &(arg1)->rI5();
-  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_mixal__Register2, 0 |  0 );
-  return resultobj;
-fail:
-  return NULL;
-}
-
-
-SWIGINTERN PyObject *_wrap_Machine_rI6__SWIG_0(PyObject *SWIGUNUSEDPARM(self), Py_ssize_t nobjs, PyObject **swig_obj) {
-  PyObject *resultobj = 0;
-  mixal::Machine *arg1 = (mixal::Machine *) 0 ;
-  void *argp1 = 0 ;
-  int res1 = 0 ;
-  mixal::Register2 *result = 0 ;
-  
-  if ((nobjs < 1) || (nobjs > 1)) SWIG_fail;
-  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_mixal__Machine, 0 |  0 );
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Machine_rI6" "', argument " "1"" of type '" "mixal::Machine *""'"); 
-  }
-  arg1 = reinterpret_cast< mixal::Machine * >(argp1);
-  result = (mixal::Register2 *) &(arg1)->rI6();
-  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_mixal__Register2, 0 |  0 );
-  return resultobj;
-fail:
-  return NULL;
-}
-
-
-SWIGINTERN PyObject *_wrap_Machine_rI1__SWIG_1(PyObject *SWIGUNUSEDPARM(self), Py_ssize_t nobjs, PyObject **swig_obj) {
-  PyObject *resultobj = 0;
-  mixal::Machine *arg1 = (mixal::Machine *) 0 ;
-  void *argp1 = 0 ;
-  int res1 = 0 ;
-  mixal::Register2 *result = 0 ;
-  
-  if ((nobjs < 1) || (nobjs > 1)) SWIG_fail;
-  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_mixal__Machine, 0 |  0 );
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Machine_rI1" "', argument " "1"" of type '" "mixal::Machine const *""'"); 
-  }
-  arg1 = reinterpret_cast< mixal::Machine * >(argp1);
-  result = (mixal::Register2 *) &((mixal::Machine const *)arg1)->rI1();
-  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_mixal__Register2, 0 |  0 );
-  return resultobj;
-fail:
-  return NULL;
-}
-
-
-SWIGINTERN PyObject *_wrap_Machine_rI1(PyObject *self, PyObject *args) {
-  Py_ssize_t argc;
-  PyObject *argv[2] = {
-    0
-  };
-  
-  if (!(argc = SWIG_Python_UnpackTuple(args, "Machine_rI1", 0, 1, argv))) SWIG_fail;
-  --argc;
-  if (argc == 1) {
-    int _v;
-    void *vptr = 0;
-    int res = SWIG_ConvertPtr(argv[0], &vptr, SWIGTYPE_p_mixal__Machine, 0);
-    _v = SWIG_CheckState(res);
-    if (_v) {
-      return _wrap_Machine_rI1__SWIG_0(self, argc, argv);
-    }
-  }
-  if (argc == 1) {
-    int _v;
-    void *vptr = 0;
-    int res = SWIG_ConvertPtr(argv[0], &vptr, SWIGTYPE_p_mixal__Machine, 0);
-    _v = SWIG_CheckState(res);
-    if (_v) {
-      return _wrap_Machine_rI1__SWIG_1(self, argc, argv);
-    }
-  }
-  
-fail:
-  SWIG_Python_RaiseOrModifyTypeError("Wrong number or type of arguments for overloaded function 'Machine_rI1'.\n"
-    "  Possible C/C++ prototypes are:\n"
-    "    mixal::Machine::rI1()\n"
-    "    mixal::Machine::rI1() const\n");
-  return 0;
-}
-
-
-SWIGINTERN PyObject *_wrap_Machine_rI2__SWIG_1(PyObject *SWIGUNUSEDPARM(self), Py_ssize_t nobjs, PyObject **swig_obj) {
-  PyObject *resultobj = 0;
-  mixal::Machine *arg1 = (mixal::Machine *) 0 ;
-  void *argp1 = 0 ;
-  int res1 = 0 ;
-  mixal::Register2 *result = 0 ;
-  
-  if ((nobjs < 1) || (nobjs > 1)) SWIG_fail;
-  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_mixal__Machine, 0 |  0 );
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Machine_rI2" "', argument " "1"" of type '" "mixal::Machine const *""'"); 
-  }
-  arg1 = reinterpret_cast< mixal::Machine * >(argp1);
-  result = (mixal::Register2 *) &((mixal::Machine const *)arg1)->rI2();
-  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_mixal__Register2, 0 |  0 );
-  return resultobj;
-fail:
-  return NULL;
-}
-
-
-SWIGINTERN PyObject *_wrap_Machine_rI2(PyObject *self, PyObject *args) {
-  Py_ssize_t argc;
-  PyObject *argv[2] = {
-    0
-  };
-  
-  if (!(argc = SWIG_Python_UnpackTuple(args, "Machine_rI2", 0, 1, argv))) SWIG_fail;
-  --argc;
-  if (argc == 1) {
-    int _v;
-    void *vptr = 0;
-    int res = SWIG_ConvertPtr(argv[0], &vptr, SWIGTYPE_p_mixal__Machine, 0);
-    _v = SWIG_CheckState(res);
-    if (_v) {
-      return _wrap_Machine_rI2__SWIG_0(self, argc, argv);
-    }
-  }
-  if (argc == 1) {
-    int _v;
-    void *vptr = 0;
-    int res = SWIG_ConvertPtr(argv[0], &vptr, SWIGTYPE_p_mixal__Machine, 0);
-    _v = SWIG_CheckState(res);
-    if (_v) {
-      return _wrap_Machine_rI2__SWIG_1(self, argc, argv);
-    }
-  }
-  
-fail:
-  SWIG_Python_RaiseOrModifyTypeError("Wrong number or type of arguments for overloaded function 'Machine_rI2'.\n"
-    "  Possible C/C++ prototypes are:\n"
-    "    mixal::Machine::rI2()\n"
-    "    mixal::Machine::rI2() const\n");
-  return 0;
-}
-
-
-SWIGINTERN PyObject *_wrap_Machine_rI3__SWIG_1(PyObject *SWIGUNUSEDPARM(self), Py_ssize_t nobjs, PyObject **swig_obj) {
-  PyObject *resultobj = 0;
-  mixal::Machine *arg1 = (mixal::Machine *) 0 ;
-  void *argp1 = 0 ;
-  int res1 = 0 ;
-  mixal::Register2 *result = 0 ;
-  
-  if ((nobjs < 1) || (nobjs > 1)) SWIG_fail;
-  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_mixal__Machine, 0 |  0 );
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Machine_rI3" "', argument " "1"" of type '" "mixal::Machine const *""'"); 
-  }
-  arg1 = reinterpret_cast< mixal::Machine * >(argp1);
-  result = (mixal::Register2 *) &((mixal::Machine const *)arg1)->rI3();
-  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_mixal__Register2, 0 |  0 );
-  return resultobj;
-fail:
-  return NULL;
-}
-
-
-SWIGINTERN PyObject *_wrap_Machine_rI3(PyObject *self, PyObject *args) {
-  Py_ssize_t argc;
-  PyObject *argv[2] = {
-    0
-  };
-  
-  if (!(argc = SWIG_Python_UnpackTuple(args, "Machine_rI3", 0, 1, argv))) SWIG_fail;
-  --argc;
-  if (argc == 1) {
-    int _v;
-    void *vptr = 0;
-    int res = SWIG_ConvertPtr(argv[0], &vptr, SWIGTYPE_p_mixal__Machine, 0);
-    _v = SWIG_CheckState(res);
-    if (_v) {
-      return _wrap_Machine_rI3__SWIG_0(self, argc, argv);
-    }
-  }
-  if (argc == 1) {
-    int _v;
-    void *vptr = 0;
-    int res = SWIG_ConvertPtr(argv[0], &vptr, SWIGTYPE_p_mixal__Machine, 0);
-    _v = SWIG_CheckState(res);
-    if (_v) {
-      return _wrap_Machine_rI3__SWIG_1(self, argc, argv);
-    }
-  }
-  
-fail:
-  SWIG_Python_RaiseOrModifyTypeError("Wrong number or type of arguments for overloaded function 'Machine_rI3'.\n"
-    "  Possible C/C++ prototypes are:\n"
-    "    mixal::Machine::rI3()\n"
-    "    mixal::Machine::rI3() const\n");
-  return 0;
-}
-
-
-SWIGINTERN PyObject *_wrap_Machine_rI4__SWIG_1(PyObject *SWIGUNUSEDPARM(self), Py_ssize_t nobjs, PyObject **swig_obj) {
-  PyObject *resultobj = 0;
-  mixal::Machine *arg1 = (mixal::Machine *) 0 ;
-  void *argp1 = 0 ;
-  int res1 = 0 ;
-  mixal::Register2 *result = 0 ;
-  
-  if ((nobjs < 1) || (nobjs > 1)) SWIG_fail;
-  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_mixal__Machine, 0 |  0 );
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Machine_rI4" "', argument " "1"" of type '" "mixal::Machine const *""'"); 
-  }
-  arg1 = reinterpret_cast< mixal::Machine * >(argp1);
-  result = (mixal::Register2 *) &((mixal::Machine const *)arg1)->rI4();
-  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_mixal__Register2, 0 |  0 );
-  return resultobj;
-fail:
-  return NULL;
-}
-
-
-SWIGINTERN PyObject *_wrap_Machine_rI4(PyObject *self, PyObject *args) {
-  Py_ssize_t argc;
-  PyObject *argv[2] = {
-    0
-  };
-  
-  if (!(argc = SWIG_Python_UnpackTuple(args, "Machine_rI4", 0, 1, argv))) SWIG_fail;
-  --argc;
-  if (argc == 1) {
-    int _v;
-    void *vptr = 0;
-    int res = SWIG_ConvertPtr(argv[0], &vptr, SWIGTYPE_p_mixal__Machine, 0);
-    _v = SWIG_CheckState(res);
-    if (_v) {
-      return _wrap_Machine_rI4__SWIG_0(self, argc, argv);
-    }
-  }
-  if (argc == 1) {
-    int _v;
-    void *vptr = 0;
-    int res = SWIG_ConvertPtr(argv[0], &vptr, SWIGTYPE_p_mixal__Machine, 0);
-    _v = SWIG_CheckState(res);
-    if (_v) {
-      return _wrap_Machine_rI4__SWIG_1(self, argc, argv);
-    }
-  }
-  
-fail:
-  SWIG_Python_RaiseOrModifyTypeError("Wrong number or type of arguments for overloaded function 'Machine_rI4'.\n"
-    "  Possible C/C++ prototypes are:\n"
-    "    mixal::Machine::rI4()\n"
-    "    mixal::Machine::rI4() const\n");
-  return 0;
-}
-
-
-SWIGINTERN PyObject *_wrap_Machine_rI5__SWIG_1(PyObject *SWIGUNUSEDPARM(self), Py_ssize_t nobjs, PyObject **swig_obj) {
-  PyObject *resultobj = 0;
-  mixal::Machine *arg1 = (mixal::Machine *) 0 ;
-  void *argp1 = 0 ;
-  int res1 = 0 ;
-  mixal::Register2 *result = 0 ;
-  
-  if ((nobjs < 1) || (nobjs > 1)) SWIG_fail;
-  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_mixal__Machine, 0 |  0 );
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Machine_rI5" "', argument " "1"" of type '" "mixal::Machine const *""'"); 
-  }
-  arg1 = reinterpret_cast< mixal::Machine * >(argp1);
-  result = (mixal::Register2 *) &((mixal::Machine const *)arg1)->rI5();
-  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_mixal__Register2, 0 |  0 );
-  return resultobj;
-fail:
-  return NULL;
-}
-
-
-SWIGINTERN PyObject *_wrap_Machine_rI5(PyObject *self, PyObject *args) {
-  Py_ssize_t argc;
-  PyObject *argv[2] = {
-    0
-  };
-  
-  if (!(argc = SWIG_Python_UnpackTuple(args, "Machine_rI5", 0, 1, argv))) SWIG_fail;
-  --argc;
-  if (argc == 1) {
-    int _v;
-    void *vptr = 0;
-    int res = SWIG_ConvertPtr(argv[0], &vptr, SWIGTYPE_p_mixal__Machine, 0);
-    _v = SWIG_CheckState(res);
-    if (_v) {
-      return _wrap_Machine_rI5__SWIG_0(self, argc, argv);
-    }
-  }
-  if (argc == 1) {
-    int _v;
-    void *vptr = 0;
-    int res = SWIG_ConvertPtr(argv[0], &vptr, SWIGTYPE_p_mixal__Machine, 0);
-    _v = SWIG_CheckState(res);
-    if (_v) {
-      return _wrap_Machine_rI5__SWIG_1(self, argc, argv);
-    }
-  }
-  
-fail:
-  SWIG_Python_RaiseOrModifyTypeError("Wrong number or type of arguments for overloaded function 'Machine_rI5'.\n"
-    "  Possible C/C++ prototypes are:\n"
-    "    mixal::Machine::rI5()\n"
-    "    mixal::Machine::rI5() const\n");
-  return 0;
-}
-
-
-SWIGINTERN PyObject *_wrap_Machine_rI6__SWIG_1(PyObject *SWIGUNUSEDPARM(self), Py_ssize_t nobjs, PyObject **swig_obj) {
-  PyObject *resultobj = 0;
-  mixal::Machine *arg1 = (mixal::Machine *) 0 ;
-  void *argp1 = 0 ;
-  int res1 = 0 ;
-  mixal::Register2 *result = 0 ;
-  
-  if ((nobjs < 1) || (nobjs > 1)) SWIG_fail;
-  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_mixal__Machine, 0 |  0 );
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Machine_rI6" "', argument " "1"" of type '" "mixal::Machine const *""'"); 
-  }
-  arg1 = reinterpret_cast< mixal::Machine * >(argp1);
-  result = (mixal::Register2 *) &((mixal::Machine const *)arg1)->rI6();
-  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_mixal__Register2, 0 |  0 );
-  return resultobj;
-fail:
-  return NULL;
-}
-
-
-SWIGINTERN PyObject *_wrap_Machine_rI6(PyObject *self, PyObject *args) {
-  Py_ssize_t argc;
-  PyObject *argv[2] = {
-    0
-  };
-  
-  if (!(argc = SWIG_Python_UnpackTuple(args, "Machine_rI6", 0, 1, argv))) SWIG_fail;
-  --argc;
-  if (argc == 1) {
-    int _v;
-    void *vptr = 0;
-    int res = SWIG_ConvertPtr(argv[0], &vptr, SWIGTYPE_p_mixal__Machine, 0);
-    _v = SWIG_CheckState(res);
-    if (_v) {
-      return _wrap_Machine_rI6__SWIG_0(self, argc, argv);
-    }
-  }
-  if (argc == 1) {
-    int _v;
-    void *vptr = 0;
-    int res = SWIG_ConvertPtr(argv[0], &vptr, SWIGTYPE_p_mixal__Machine, 0);
-    _v = SWIG_CheckState(res);
-    if (_v) {
-      return _wrap_Machine_rI6__SWIG_1(self, argc, argv);
-    }
-  }
-  
-fail:
-  SWIG_Python_RaiseOrModifyTypeError("Wrong number or type of arguments for overloaded function 'Machine_rI6'.\n"
-    "  Possible C/C++ prototypes are:\n"
-    "    mixal::Machine::rI6()\n"
-    "    mixal::Machine::rI6() const\n");
-  return 0;
 }
 
 
@@ -13310,8 +13125,18 @@ static PyMethodDef SwigMethods[] = {
 	 { "Machine_rA_get", _wrap_Machine_rA_get, METH_O, NULL},
 	 { "Machine_rX_set", _wrap_Machine_rX_set, METH_VARARGS, NULL},
 	 { "Machine_rX_get", _wrap_Machine_rX_get, METH_O, NULL},
-	 { "Machine_rI_set", _wrap_Machine_rI_set, METH_VARARGS, NULL},
-	 { "Machine_rI_get", _wrap_Machine_rI_get, METH_O, NULL},
+	 { "Machine_rI1_set", _wrap_Machine_rI1_set, METH_VARARGS, NULL},
+	 { "Machine_rI1_get", _wrap_Machine_rI1_get, METH_O, NULL},
+	 { "Machine_rI2_set", _wrap_Machine_rI2_set, METH_VARARGS, NULL},
+	 { "Machine_rI2_get", _wrap_Machine_rI2_get, METH_O, NULL},
+	 { "Machine_rI3_set", _wrap_Machine_rI3_set, METH_VARARGS, NULL},
+	 { "Machine_rI3_get", _wrap_Machine_rI3_get, METH_O, NULL},
+	 { "Machine_rI4_set", _wrap_Machine_rI4_set, METH_VARARGS, NULL},
+	 { "Machine_rI4_get", _wrap_Machine_rI4_get, METH_O, NULL},
+	 { "Machine_rI5_set", _wrap_Machine_rI5_set, METH_VARARGS, NULL},
+	 { "Machine_rI5_get", _wrap_Machine_rI5_get, METH_O, NULL},
+	 { "Machine_rI6_set", _wrap_Machine_rI6_set, METH_VARARGS, NULL},
+	 { "Machine_rI6_get", _wrap_Machine_rI6_get, METH_O, NULL},
 	 { "Machine_rJ_set", _wrap_Machine_rJ_set, METH_VARARGS, NULL},
 	 { "Machine_rJ_get", _wrap_Machine_rJ_get, METH_O, NULL},
 	 { "Machine_overflow_set", _wrap_Machine_overflow_set, METH_VARARGS, NULL},
@@ -13323,12 +13148,7 @@ static PyMethodDef SwigMethods[] = {
 	 { "Machine_devices_set", _wrap_Machine_devices_set, METH_VARARGS, NULL},
 	 { "Machine_devices_get", _wrap_Machine_devices_get, METH_O, NULL},
 	 { "new_Machine", _wrap_new_Machine, METH_NOARGS, NULL},
-	 { "Machine_rI1", _wrap_Machine_rI1, METH_VARARGS, NULL},
-	 { "Machine_rI2", _wrap_Machine_rI2, METH_VARARGS, NULL},
-	 { "Machine_rI3", _wrap_Machine_rI3, METH_VARARGS, NULL},
-	 { "Machine_rI4", _wrap_Machine_rI4, METH_VARARGS, NULL},
-	 { "Machine_rI5", _wrap_Machine_rI5, METH_VARARGS, NULL},
-	 { "Machine_rI6", _wrap_Machine_rI6, METH_VARARGS, NULL},
+	 { "Machine_rI", _wrap_Machine_rI, METH_VARARGS, NULL},
 	 { "Machine_memoryAt", _wrap_Machine_memoryAt, METH_VARARGS, NULL},
 	 { "Machine_getDevice", _wrap_Machine_getDevice, METH_VARARGS, NULL},
 	 { "Machine_reset", _wrap_Machine_reset, METH_O, NULL},

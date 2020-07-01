@@ -34,8 +34,8 @@ void Machine::executeENN(const InstructionWord& instruction, Register5* reg) {
 }
 
 void Machine::executeINCi(const InstructionWord& instruction) {
-    int registerIndex = instruction.operation() - Instructions::INC1;
-    auto& rIi = rI[registerIndex];
+    int registerIndex = instruction.operation() - Instructions::INC1 + 1;
+    auto& rIi = rI(registerIndex);
     int16_t value = rIi.value();
     int16_t address = getIndexedAddress(instruction);
     value += address;
@@ -43,8 +43,8 @@ void Machine::executeINCi(const InstructionWord& instruction) {
 }
 
 void Machine::executeDECi(const InstructionWord& instruction) {
-    int registerIndex = instruction.operation() - Instructions::INC1;
-    auto& rIi = rI[registerIndex];
+    int registerIndex = instruction.operation() - Instructions::INC1 + 1;
+    auto& rIi = rI(registerIndex);
     int16_t value = rIi.value();
     int16_t address = getIndexedAddress(instruction);
     value -= address;
@@ -52,8 +52,8 @@ void Machine::executeDECi(const InstructionWord& instruction) {
 }
 
 void Machine::executeENTi(const InstructionWord& instruction) {
-    int registerIndex = instruction.operation() - Instructions::INC1;
-    auto& rIi = rI[registerIndex];
+    int registerIndex = instruction.operation() - Instructions::INC1 + 1;
+    auto& rIi = rI(registerIndex);
     int16_t address = getIndexedAddress(instruction);
     rIi.set(checkRange(address, 2));
     if (address == 0) {
@@ -62,8 +62,8 @@ void Machine::executeENTi(const InstructionWord& instruction) {
 }
 
 void Machine::executeENNi(const InstructionWord& instruction) {
-    int registerIndex = instruction.operation() - Instructions::INC1;
-    auto& rIi = rI[registerIndex];
+    int registerIndex = instruction.operation() - Instructions::INC1 + 1;
+    auto& rIi = rI(registerIndex);
     int16_t address = getIndexedAddress(instruction);
     rIi.set(checkRange(-address, 2));
     if (address == 0) {

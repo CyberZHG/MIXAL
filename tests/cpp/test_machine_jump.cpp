@@ -588,7 +588,7 @@ __TEST_U(TestMachineJump, test_j1n_on) {
         "EXIT JMP  EXIT",
     });
     machine.executeUntilSelfLoop();
-    __ASSERT_EQ(-5, machine.rI1().value());
+    __ASSERT_EQ(-5, machine.rI1.value());
     __ASSERT_EQ(3004, machine.rJ.value());
 }
 
@@ -601,7 +601,7 @@ __TEST_U(TestMachineJump, test_j2n_off) {
         "EXIT JMP  EXIT",
     });
     machine.executeUntilSelfLoop();
-    __ASSERT_EQ(35, machine.rI2().value());
+    __ASSERT_EQ(35, machine.rI2.value());
     __ASSERT_EQ(3004, machine.rJ.value());
 }
 
@@ -614,7 +614,7 @@ __TEST_U(TestMachineJump, test_j3z_on) {
         "EXIT JMP  EXIT",
     });
     machine.executeUntilSelfLoop();
-    __ASSERT_EQ(0, machine.rI3().value());
+    __ASSERT_EQ(0, machine.rI3.value());
     __ASSERT_EQ(3004, machine.rJ.value());
 }
 
@@ -627,7 +627,7 @@ __TEST_U(TestMachineJump, test_j4z_off) {
         "EXIT JMP  EXIT",
     });
     machine.executeUntilSelfLoop();
-    __ASSERT_EQ(35, machine.rI4().value());
+    __ASSERT_EQ(35, machine.rI4.value());
     __ASSERT_EQ(3004, machine.rJ.value());
 }
 
@@ -640,7 +640,7 @@ __TEST_U(TestMachineJump, test_j5p_on) {
         "EXIT JMP  EXIT",
     });
     machine.executeUntilSelfLoop();
-    __ASSERT_EQ(7, machine.rI5().value());
+    __ASSERT_EQ(7, machine.rI5.value());
     __ASSERT_EQ(3004, machine.rJ.value());
 }
 
@@ -653,7 +653,7 @@ __TEST_U(TestMachineJump, test_j6p_off) {
         "EXIT JMP  EXIT",
     });
     machine.executeUntilSelfLoop();
-    __ASSERT_EQ(35, machine.rI6().value());
+    __ASSERT_EQ(35, machine.rI6.value());
     __ASSERT_EQ(3004, machine.rJ.value());
 }
 
@@ -666,7 +666,7 @@ __TEST_U(TestMachineJump, test_j1nn_off) {
         "EXIT JMP  EXIT",
     });
     machine.executeUntilSelfLoop();
-    __ASSERT_EQ(35, machine.rI1().value());
+    __ASSERT_EQ(35, machine.rI1.value());
     __ASSERT_EQ(3004, machine.rJ.value());
 }
 
@@ -679,7 +679,7 @@ __TEST_U(TestMachineJump, test_j2nn_on) {
         "EXIT JMP  EXIT",
     });
     machine.executeUntilSelfLoop();
-    __ASSERT_EQ(5, machine.rI2().value());
+    __ASSERT_EQ(5, machine.rI2.value());
     __ASSERT_EQ(3004, machine.rJ.value());
 }
 
@@ -692,7 +692,7 @@ __TEST_U(TestMachineJump, test_j3nz_off) {
         "EXIT JMP  EXIT",
     });
     machine.executeUntilSelfLoop();
-    __ASSERT_EQ(35, machine.rI3().value());
+    __ASSERT_EQ(35, machine.rI3.value());
     __ASSERT_EQ(3004, machine.rJ.value());
 }
 
@@ -705,7 +705,7 @@ __TEST_U(TestMachineJump, test_j4nz_on) {
         "EXIT JMP  EXIT",
     });
     machine.executeUntilSelfLoop();
-    __ASSERT_EQ(5, machine.rI4().value());
+    __ASSERT_EQ(5, machine.rI4.value());
     __ASSERT_EQ(3004, machine.rJ.value());
 }
 
@@ -718,7 +718,7 @@ __TEST_U(TestMachineJump, test_j5np_off) {
         "EXIT JMP  EXIT",
     });
     machine.executeUntilSelfLoop();
-    __ASSERT_EQ(35, machine.rI5().value());
+    __ASSERT_EQ(35, machine.rI5.value());
     __ASSERT_EQ(3004, machine.rJ.value());
 }
 
@@ -731,7 +731,7 @@ __TEST_U(TestMachineJump, test_j6np_on) {
         "EXIT JMP  EXIT",
     });
     machine.executeUntilSelfLoop();
-    __ASSERT_EQ(-5, machine.rI6().value());
+    __ASSERT_EQ(-5, machine.rI6.value());
     __ASSERT_EQ(3004, machine.rJ.value());
 }
 

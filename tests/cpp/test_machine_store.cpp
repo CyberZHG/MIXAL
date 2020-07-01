@@ -95,7 +95,7 @@ __TEST_U(TestMachineStore, test_stx_0_to_1) {
 }
 
 __TEST_U(TestMachineStore, test_st1_0_to_1) {
-    machine.rI1().set(false, 6, 7);
+    machine.rI1.set(false, 6, 7);
     machine.memory[2000].set(true, 1, 2, 3, 4, 5);
     auto result = mixal::Parser::parseLine("ST1 2000(0:1)", "", false);
     machine.executeSingle(result.word);
@@ -108,7 +108,7 @@ __TEST_U(TestMachineStore, test_st1_0_to_1) {
 }
 
 __TEST_U(TestMachineStore, test_st2_1_to_2) {
-    machine.rI2().set(false, 6, 7);
+    machine.rI2.set(false, 6, 7);
     machine.memory[2000].set(true, 1, 2, 3, 4, 5);
     auto result = mixal::Parser::parseLine("ST2 2000(1:2)", "", false);
     machine.executeSingle(result.word);
@@ -121,7 +121,7 @@ __TEST_U(TestMachineStore, test_st2_1_to_2) {
 }
 
 __TEST_U(TestMachineStore, test_st3_2_to_3) {
-    machine.rI3().set(false, 6, 7);
+    machine.rI3.set(false, 6, 7);
     machine.memory[2000].set(true, 1, 2, 3, 4, 5);
     auto result = mixal::Parser::parseLine("ST3 2000(2:3)", "", false);
     machine.executeSingle(result.word);
@@ -134,7 +134,7 @@ __TEST_U(TestMachineStore, test_st3_2_to_3) {
 }
 
 __TEST_U(TestMachineStore, test_st4_3_to_4) {
-    machine.rI4().set(false, 6, 7);
+    machine.rI4.set(false, 6, 7);
     machine.memory[2000].set(true, 1, 2, 3, 4, 5);
     auto result = mixal::Parser::parseLine("ST4 2000(3:4)", "", false);
     machine.executeSingle(result.word);
@@ -147,7 +147,7 @@ __TEST_U(TestMachineStore, test_st4_3_to_4) {
 }
 
 __TEST_U(TestMachineStore, test_st5_4_to_5) {
-    machine.rI5().set(false, 6, 7);
+    machine.rI5.set(false, 6, 7);
     machine.memory[2000].set(true, 1, 2, 3, 4, 5);
     auto result = mixal::Parser::parseLine("ST5 2000(4:5)", "", false);
     machine.executeSingle(result.word);
@@ -160,7 +160,7 @@ __TEST_U(TestMachineStore, test_st5_4_to_5) {
 }
 
 __TEST_U(TestMachineStore, test_st6_all) {
-    machine.rI6().set(false, 6, 7);
+    machine.rI6.set(false, 6, 7);
     machine.memory[2000].set(true, 1, 2, 3, 4, 5);
     auto result = mixal::Parser::parseLine("ST6 2000", "", false);
     machine.executeSingle(result.word);

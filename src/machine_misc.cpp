@@ -95,7 +95,7 @@ void Machine::executeSRC(const InstructionWord& instruction) {
 
 void Machine::executeMOVE(const InstructionWord& instruction) {
     int32_t originAddress = getIndexedAddress(instruction);
-    int32_t targetAddress = rI1().value();
+    int32_t targetAddress = rI1.value();
     uint8_t amount = instruction.field();
     for (uint8_t i = 0; i < amount; ++i) {
         int32_t target = targetAddress + i;
@@ -108,7 +108,7 @@ void Machine::executeMOVE(const InstructionWord& instruction) {
         }
         memory[target] = memory[origin];
     }
-    rI1().set(targetAddress + amount);
+    rI1.set(targetAddress + amount);
 }
 
 };  // namespace mixal

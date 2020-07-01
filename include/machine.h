@@ -25,7 +25,7 @@ class Machine {
     static const int NUM_DEVICE = 20;
 
     Register5 rA, rX;
-    Register2 rI[NUM_INDEX_REGISTER], rJ;
+    Register2 rI1, rI2, rI3, rI4, rI5, rI6, rJ;
 
     bool overflow;
     ComparisonIndicator comparison;
@@ -33,27 +33,11 @@ class Machine {
     ComputerWord memory[NUM_MEMORY];
     std::vector<std::shared_ptr<IODevice>> devices;
 
-    Machine() : rA(), rX(), rI(), rJ(), overflow(false), comparison(ComparisonIndicator::EQUAL), memory(),
-      devices(NUM_DEVICE, nullptr),
-      _pesudoVarIndex(), _lineOffset(), _elapsed(), _constants(), _lineNumbers() {}
+    Machine();
 
-    inline Register2& rI1() { return rI[0]; }
-    inline Register2& rI2() { return rI[1]; }
-    inline Register2& rI3() { return rI[2]; }
-    inline Register2& rI4() { return rI[3]; }
-    inline Register2& rI5() { return rI[4]; }
-    inline Register2& rI6() { return rI[5]; }
-
-    inline const Register2& rI1() const { return rI[0]; }
-    inline const Register2& rI2() const { return rI[1]; }
-    inline const Register2& rI3() const { return rI[2]; }
-    inline const Register2& rI4() const { return rI[3]; }
-    inline const Register2& rI5() const { return rI[4]; }
-    inline const Register2& rI6() const { return rI[5]; }
-
+    Register2& rI(int index);
     const ComputerWord& memoryAt(int16_t index) const;
     ComputerWord& memoryAt(int16_t index);
-
     std::shared_ptr<IODevice> getDevice(int32_t index);
 
     void reset();

@@ -27,7 +27,7 @@ class TestSample(TestCase):
         ])
 
         n, max_val = 100, 0
-        self.machine.rI1().set(n)
+        self.machine.rI1.set(n)
         self.machine.rJ.set(3500)
         values = []
         for i in range(1001, 1001 + n):

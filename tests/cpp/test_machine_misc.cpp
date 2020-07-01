@@ -263,7 +263,7 @@ __TEST_U(TestMachineMISC, test_src_9) {
 }
 
 __TEST_U(TestMachineMISC, test_move_safe) {
-    machine.rI1().set(999);
+    machine.rI1.set(999);
     machine.memory[1000].set(1);
     machine.memory[1001].set(12);
     machine.memory[1002].set(123);
@@ -276,7 +276,7 @@ __TEST_U(TestMachineMISC, test_move_safe) {
 }
 
 __TEST_U(TestMachineMISC, test_move_unsafe) {
-    machine.rI1().set(1001);
+    machine.rI1.set(1001);
     machine.memory[1000].set(1);
     machine.memory[1001].set(12);
     auto result = mixal::Parser::parseLine("MOVE 1000(3)", "", false);
@@ -288,7 +288,7 @@ __TEST_U(TestMachineMISC, test_move_unsafe) {
 }
 
 __TEST_U(TestMachineMISC, test_move_stacked) {
-    machine.rI1().set(999);
+    machine.rI1.set(999);
     machine.memory[1000].set(1);
     machine.memory[1001].set(12);
     machine.memory[1002].set(123);

@@ -7,6 +7,11 @@
 
 namespace mixal {
 
+Machine::Machine() : rA(), rX(), rI1(), rI2(), rI3(), rI4(), rI5(), rI6(), rJ(),
+      overflow(false), comparison(ComparisonIndicator::EQUAL), memory(),
+      devices(NUM_DEVICE, nullptr),
+      _pesudoVarIndex(), _lineOffset(), _elapsed(), _constants(), _lineNumbers() {}
+
 std::shared_ptr<IODevice> Machine::getDevice(int32_t index) {
     if (devices[index] == nullptr) {
         switch (index) {
@@ -38,6 +43,18 @@ std::shared_ptr<IODevice> Machine::getDevice(int32_t index) {
     return devices[index];
 }
 
+Register2& Machine::rI(int index) {
+    switch (index) {
+    case 1: return rI1;
+    case 2: return rI2;
+    case 3: return rI3;
+    case 4: return rI4;
+    case 5: return rI5;
+    case 6: return rI6;
+    }
+    throw RuntimeError(_lineOffset, "Invalid offset for index register: " + std::to_string(index));
+}
+
 const ComputerWord& Machine::memoryAt(int16_t index) const {
     return memory[index];
 }
@@ -49,8 +66,8 @@ ComputerWord& Machine::memoryAt(int16_t index) {
 void Machine::reset() {
     rA.reset();
     rX.reset();
-    for (int i = 0; i < NUM_INDEX_REGISTER; ++i) {
-        rI[i].reset();
+    for (int i = 1; i <= NUM_INDEX_REGISTER; ++i) {
+        rI(i).reset();
     }
     rJ.reset();
     overflow = false;
@@ -517,7 +534,7 @@ std::string Machine::getPesudoSymbolname() {
 int Machine::getIndexedAddress(const InstructionWord& instruction) {
     int offset = 0;
     if (instruction.index() != 0) {
-        auto& rIi = rI[instruction.index() - 1];
+        auto& rIi = rI(instruction.index());
         offset = static_cast<int>(rIi.value());
     }
     return static_cast<int>(instruction.addressValue()) + offset;

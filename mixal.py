@@ -459,7 +459,12 @@ class Machine(object):
     NUM_DEVICE = _mixal.Machine_NUM_DEVICE
     rA = property(_mixal.Machine_rA_get, _mixal.Machine_rA_set)
     rX = property(_mixal.Machine_rX_get, _mixal.Machine_rX_set)
-    rI = property(_mixal.Machine_rI_get, _mixal.Machine_rI_set)
+    rI1 = property(_mixal.Machine_rI1_get, _mixal.Machine_rI1_set)
+    rI2 = property(_mixal.Machine_rI2_get, _mixal.Machine_rI2_set)
+    rI3 = property(_mixal.Machine_rI3_get, _mixal.Machine_rI3_set)
+    rI4 = property(_mixal.Machine_rI4_get, _mixal.Machine_rI4_set)
+    rI5 = property(_mixal.Machine_rI5_get, _mixal.Machine_rI5_set)
+    rI6 = property(_mixal.Machine_rI6_get, _mixal.Machine_rI6_set)
     rJ = property(_mixal.Machine_rJ_get, _mixal.Machine_rJ_set)
     overflow = property(_mixal.Machine_overflow_get, _mixal.Machine_overflow_set)
     comparison = property(_mixal.Machine_comparison_get, _mixal.Machine_comparison_set)
@@ -469,23 +474,8 @@ class Machine(object):
     def __init__(self):
         _mixal.Machine_swiginit(self, _mixal.new_Machine())
 
-    def rI1(self, *args):
-        return _mixal.Machine_rI1(self, *args)
-
-    def rI2(self, *args):
-        return _mixal.Machine_rI2(self, *args)
-
-    def rI3(self, *args):
-        return _mixal.Machine_rI3(self, *args)
-
-    def rI4(self, *args):
-        return _mixal.Machine_rI4(self, *args)
-
-    def rI5(self, *args):
-        return _mixal.Machine_rI5(self, *args)
-
-    def rI6(self, *args):
-        return _mixal.Machine_rI6(self, *args)
+    def rI(self, index):
+        return _mixal.Machine_rI(self, index)
 
     def memoryAt(self, *args):
         return _mixal.Machine_memoryAt(self, *args)

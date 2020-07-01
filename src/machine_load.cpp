@@ -10,8 +10,8 @@ void Machine::executeLD(const InstructionWord& instruction, Register5* reg) {
 
 void Machine::executeLDi(const InstructionWord& instruction) {
     int address = getIndexedAddress(instruction);
-    int registerIndex = instruction.operation() - Instructions::LD1;
-    auto& rIi = rI[registerIndex];
+    int registerIndex = instruction.operation() - Instructions::LD1 + 1;
+    auto& rIi = rI(registerIndex);
     copyToRegister2(instruction, memory[address], &rIi);
 }
 
@@ -22,8 +22,8 @@ void Machine::executeLDN(const InstructionWord& instruction, Register5* reg) {
 
 void Machine::executeLDiN(const InstructionWord& instruction) {
     int address = getIndexedAddress(instruction);
-    int registerIndex = instruction.operation() - Instructions::LD1N;
-    auto& rIi = rI[registerIndex];
+    int registerIndex = instruction.operation() - Instructions::LD1N + 1;
+    auto& rIi = rI(registerIndex);
     copyToRegister2(instruction, memory[address], &rIi);
     rIi.sign = 1 - rIi.sign;
 }

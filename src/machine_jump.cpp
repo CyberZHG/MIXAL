@@ -104,48 +104,48 @@ void Machine::executeJNP(const InstructionWord& instruction, Register5* reg) {
 }
 
 void Machine::executeJiN(const InstructionWord& instruction) {
-    int registerIndex = instruction.operation() - Instructions::J1N;
-    auto& rIi = rI[registerIndex];
+    int registerIndex = instruction.operation() - Instructions::J1N + 1;
+    auto rIi = rI(registerIndex);
     if (rIi.value() < 0) {
         this->executeJMP(instruction);
     }
 }
 
 void Machine::executeJiZ(const InstructionWord& instruction) {
-    int registerIndex = instruction.operation() - Instructions::J1N;
-    auto& rIi = rI[registerIndex];
+    int registerIndex = instruction.operation() - Instructions::J1N + 1;
+    auto& rIi = rI(registerIndex);
     if (rIi.value() == 0) {
         this->executeJMP(instruction);
     }
 }
 
 void Machine::executeJiP(const InstructionWord& instruction) {
-    int registerIndex = instruction.operation() - Instructions::J1N;
-    auto& rIi = rI[registerIndex];
+    int registerIndex = instruction.operation() - Instructions::J1N + 1;
+    auto& rIi = rI(registerIndex);
     if (rIi.value() > 0) {
         this->executeJMP(instruction);
     }
 }
 
 void Machine::executeJiNN(const InstructionWord& instruction) {
-    int registerIndex = instruction.operation() - Instructions::J1N;
-    auto& rIi = rI[registerIndex];
+    int registerIndex = instruction.operation() - Instructions::J1N + 1;
+    auto& rIi = rI(registerIndex);
     if (rIi.value() >= 0) {
         this->executeJMP(instruction);
     }
 }
 
 void Machine::executeJiNZ(const InstructionWord& instruction) {
-    int registerIndex = instruction.operation() - Instructions::J1N;
-    auto& rIi = rI[registerIndex];
+    int registerIndex = instruction.operation() - Instructions::J1N + 1;
+    auto& rIi = rI(registerIndex);
     if (rIi.value() != 0) {
         this->executeJMP(instruction);
     }
 }
 
 void Machine::executeJiNP(const InstructionWord& instruction) {
-    int registerIndex = instruction.operation() - Instructions::J1N;
-    auto& rIi = rI[registerIndex];
+    int registerIndex = instruction.operation() - Instructions::J1N + 1;
+    auto& rIi = rI(registerIndex);
     if (rIi.value() <= 0) {
         this->executeJMP(instruction);
     }
