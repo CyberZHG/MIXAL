@@ -2713,10 +2713,9 @@ SWIGINTERN PyObject *SWIG_PyStaticMethod_New(PyObject *SWIGUNUSEDPARM(self), PyO
 #define SWIGTYPE_p_std__vectorT_std__string_std__allocatorT_std__string_t_t swig_types[18]
 #define SWIGTYPE_p_swig__SwigPyIterator swig_types[19]
 #define SWIGTYPE_p_uint16_t swig_types[20]
-#define SWIGTYPE_p_uint32_t swig_types[21]
-#define SWIGTYPE_p_value_type swig_types[22]
-static swig_type_info *swig_types[24];
-static swig_module_info swig_module = {swig_types, 23, 0, 0, 0, 0};
+#define SWIGTYPE_p_value_type swig_types[21]
+static swig_type_info *swig_types[23];
+static swig_module_info swig_module = {swig_types, 22, 0, 0, 0, 0};
 #define SWIG_TypeQuery(name) SWIG_TypeQueryModule(&swig_module, &swig_module, name)
 #define SWIG_MangledTypeQuery(name) SWIG_MangledTypeQueryModule(&swig_module, &swig_module, name)
 
@@ -10412,7 +10411,7 @@ SWIGINTERN PyObject *_wrap_ComputerWord_address(PyObject *SWIGUNUSEDPARM(self), 
   void *argp1 = 0 ;
   int res1 = 0 ;
   PyObject *swig_obj[1] ;
-  uint32_t result;
+  uint16_t result;
   
   if (!args) SWIG_fail;
   swig_obj[0] = args;
@@ -10422,7 +10421,7 @@ SWIGINTERN PyObject *_wrap_ComputerWord_address(PyObject *SWIGUNUSEDPARM(self), 
   }
   arg1 = reinterpret_cast< mixal::ComputerWord * >(argp1);
   result = ((mixal::ComputerWord const *)arg1)->address();
-  resultobj = SWIG_NewPointerObj((new uint32_t(static_cast< const uint32_t& >(result))), SWIGTYPE_p_uint32_t, SWIG_POINTER_OWN |  0 );
+  resultobj = SWIG_NewPointerObj((new uint16_t(static_cast< const uint16_t& >(result))), SWIGTYPE_p_uint16_t, SWIG_POINTER_OWN |  0 );
   return resultobj;
 fail:
   return NULL;
@@ -13255,7 +13254,6 @@ static swig_type_info _swigt__p_std__vectorT_std__shared_ptrT_IODevice_t_std__al
 static swig_type_info _swigt__p_std__vectorT_std__string_std__allocatorT_std__string_t_t = {"_p_std__vectorT_std__string_std__allocatorT_std__string_t_t", "std::vector< std::string,std::allocator< std::string > > *|std::vector< std::string > *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_swig__SwigPyIterator = {"_p_swig__SwigPyIterator", "swig::SwigPyIterator *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_uint16_t = {"_p_uint16_t", "uint16_t *", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_uint32_t = {"_p_uint32_t", "uint32_t *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_value_type = {"_p_value_type", "value_type *", 0, 0, (void*)0, 0};
 
 static swig_type_info *swig_type_initial[] = {
@@ -13280,7 +13278,6 @@ static swig_type_info *swig_type_initial[] = {
   &_swigt__p_std__vectorT_std__string_std__allocatorT_std__string_t_t,
   &_swigt__p_swig__SwigPyIterator,
   &_swigt__p_uint16_t,
-  &_swigt__p_uint32_t,
   &_swigt__p_value_type,
 };
 
@@ -13305,7 +13302,6 @@ static swig_cast_info _swigc__p_std__vectorT_std__shared_ptrT_IODevice_t_std__al
 static swig_cast_info _swigc__p_std__vectorT_std__string_std__allocatorT_std__string_t_t[] = {  {&_swigt__p_std__vectorT_std__string_std__allocatorT_std__string_t_t, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_swig__SwigPyIterator[] = {  {&_swigt__p_swig__SwigPyIterator, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_uint16_t[] = {  {&_swigt__p_uint16_t, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_uint32_t[] = {  {&_swigt__p_uint32_t, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_value_type[] = {  {&_swigt__p_value_type, 0, 0, 0},{0, 0, 0, 0}};
 
 static swig_cast_info *swig_cast_initial[] = {
@@ -13330,7 +13326,6 @@ static swig_cast_info *swig_cast_initial[] = {
   _swigc__p_std__vectorT_std__string_std__allocatorT_std__string_t_t,
   _swigc__p_swig__SwigPyIterator,
   _swigc__p_uint16_t,
-  _swigc__p_uint32_t,
   _swigc__p_value_type,
 };
 

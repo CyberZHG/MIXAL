@@ -13,6 +13,8 @@ __TEST_U(TestMemory, test_invalid_get) {
     mixal::ComputerWord word;
     __ASSERT_THROW(word[0], std::runtime_error);
     __ASSERT_THROW(word[6], std::runtime_error);
+    const auto& ref = word;
+    __ASSERT_THROW(ref.getAt(-1), std::runtime_error);
 }
 
 __TEST_U(TestMemory, test_invalid_set) {
@@ -20,6 +22,31 @@ __TEST_U(TestMemory, test_invalid_set) {
     word.set(true, 0, 0, 0, 0, 0);
     __ASSERT_THROW(word.set(0, 0), std::runtime_error);
     __ASSERT_THROW(word.set(7, 0), std::runtime_error);
+}
+
+__TEST_U(TestMemory, test_get_bytes_string) {
+    mixal::ComputerWord word;
+    word.set(true, 0, 12, 3, 43, 49);
+    __ASSERT_EQ("-  0 12  3 43 49", word.getBytesString());
+}
+
+__TEST_U(TestMemory, test_set_address) {
+    mixal::ComputerWord word;
+    word.setAddress(-12);
+    __ASSERT_EQ(-12, word.addressValue());
+}
+
+__TEST_U(TestMemory, test_get_characters) {
+    mixal::ComputerWord word;
+    word.set("A4+ -");
+    word.set(2, 10);
+    word.set(3, 63);
+    __ASSERT_EQ("A   -", word.getCharacters());
+}
+
+__TEST_U(TestMemory, test_set_characters_invalid_length) {
+    mixal::ComputerWord word;
+    __ASSERT_THROW(word.set("A4+ -s"), std::runtime_error);
 }
 
 }  // namespace test
