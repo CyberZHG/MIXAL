@@ -120,3 +120,6 @@ Makefile
 tests/cpp/test
 tests/cpp/coverage
 tests/cpp/sep/test_*
+
+# Docs
+docs
