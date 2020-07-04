@@ -17,9 +17,10 @@ def get_requirements(*parts):
 
 
 sources = []
-for name in os.listdir('src'):
-    if name.endswith('.cpp') or name.endswith('.cxx'):
-        sources.append(os.path.join('src', name))
+for source_dir in ['src', 'deps/UChar/src']:
+    for name in os.listdir(source_dir):
+        if name.endswith('.cpp') or name.endswith('.cxx'):
+            sources.append(os.path.join(source_dir, name))
 
 extra_compile_args = ['-std=c++11']
 if platform.system() == 'Darwin':
@@ -27,13 +28,13 @@ if platform.system() == 'Darwin':
 ext_module = Extension(
     '_mixal',
     sources=sources,
-    include_dirs=['include'],
+    include_dirs=['include', 'deps/UChar/include'],
     extra_compile_args=extra_compile_args,
 )
 
 setup(
     name='mixal',
-    version='1.157.0',
+    version='1.157.1',
     ext_modules=[ext_module],
     packages=find_packages(),
     url='https://github.com/CyberZHG/MIXAL',

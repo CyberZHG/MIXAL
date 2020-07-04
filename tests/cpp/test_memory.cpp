@@ -41,7 +41,7 @@ __TEST_U(TestMemory, test_get_characters) {
     word.set("A4+ -");
     word.set(2, 10);
     word.set(3, 63);
-    __ASSERT_EQ("A   -", word.getCharacters());
+    __ASSERT_EQ("A´  -", word.getCharacters());
 }
 
 __TEST_U(TestMemory, test_set_characters_invalid_length) {

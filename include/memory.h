@@ -161,7 +161,7 @@ struct ComputerWord {
      */
     uint8_t getAt(int32_t index) const { return (*this)[index]; }
     /**
-     * Get the five characters represents by the 5 bytes.
+     * Get a UTF8 string represents the 5 characters in the word.
      */
     std::string getCharacters() const;
     /**
@@ -176,13 +176,15 @@ struct ComputerWord {
      */
     void set(int32_t value);
     /**
-     * Set the word based on the five characters.
+     * Set the word with a UTF8 string.
      * 
      * Only a subset of characters are allowed. The invalid characters with be replaced with spaces.
      * 
      * The sign will always be `+`.
      * 
-     * @throw std::runtime_error when the length of the string is not 5.
+     * @param chars UTF8 encoded string.
+     * 
+     * @throw std::runtime_error when the size of characters in the string is not 5.
      */
     void set(const std::string& chars);
     /**

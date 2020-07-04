@@ -2,6 +2,7 @@
 #include <string>
 #include <iostream>
 #include "memory.h"
+#include "unicode_char.h"
 
 namespace mixal {
 
@@ -127,11 +128,7 @@ std::string ComputerWord::getCharacters() const {
     for (int i = 1; i <= 5; ++i) {
         if (getAt(i) < CHAR_CODES_NUM) {
             uint16_t code = CHAR_CODES[getAt(i)];
-            if (code < 127) {
-                chars += static_cast<char>(code);
-            } else {
-                chars += ' ';
-            }
+            chars += unicode::toUTF8(static_cast<unicode::UChar>(code));
         } else {
             chars += ' ';
         }
@@ -153,14 +150,15 @@ void ComputerWord::set(int32_t value) {
 }
 
 void ComputerWord::set(const std::string& chars) {
-    if (chars.length() != 5) {
+    auto codes = unicode::fromUTF8(chars);
+    if (codes.size() != 5) {
         throw std::runtime_error("Invalid length of characters for a word: " + chars);
     }
     negative = false;
     for (int i = 0; i < 5; ++i) {
         (*this)[i + 1] = 0;
         for (int j = 0; j < CHAR_CODES_NUM; ++j) {
-            if (static_cast<uint16_t>(chars[i]) == CHAR_CODES[j]) {
+            if (static_cast<uint16_t>(codes[i]) == CHAR_CODES[j]) {
                 (*this)[i + 1] = j;
                 break;
             }
