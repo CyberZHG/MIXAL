@@ -32,7 +32,7 @@ __TEST_U(TestMachinePesudo, test_equ) {
     machine.executeSingle(&result);
     result = mixal::Parser::parseLine("  LDA X+X", "", true);
     machine.executeSingle(&result);
-    __ASSERT_EQ(1, machine.rA.sign);
+    __ASSERT_EQ(1, machine.rA.negative);
     __ASSERT_EQ(80, machine.rA.bytes12());
     __ASSERT_EQ(3, machine.rA[3]);
     __ASSERT_EQ(5, machine.rA[4]);
@@ -47,7 +47,7 @@ __TEST_U(TestMachinePesudo, test_equ_with_symbol) {
     machine.executeSingle(&result);
     result = mixal::Parser::parseLine("  LDA Y", "", true);
     machine.executeSingle(&result);
-    __ASSERT_EQ(1, machine.rA.sign);
+    __ASSERT_EQ(1, machine.rA.negative);
     __ASSERT_EQ(80, machine.rA.bytes12());
     __ASSERT_EQ(3, machine.rA[3]);
     __ASSERT_EQ(5, machine.rA[4]);
@@ -66,7 +66,7 @@ __TEST_U(TestMachinePesudo, test_orig) {
     machine.executeSingle(&result);
     result = mixal::Parser::parseLine(" LDA *-1000", machine.getSingleLineSymbol(), true);
     machine.executeSingle(&result);
-    __ASSERT_EQ(1, machine.rA.sign);
+    __ASSERT_EQ(1, machine.rA.negative);
     __ASSERT_EQ(80, machine.rA.bytes12());
     __ASSERT_EQ(3, machine.rA[3]);
     __ASSERT_EQ(5, machine.rA[4]);
@@ -79,7 +79,7 @@ __TEST_U(TestMachinePesudo, test_orig_with_location) {
     machine.executeSingle(&result);
     result = mixal::Parser::parseLine(" LDA *-1000", machine.getSingleLineSymbol(), true);
     machine.executeSingle(&result);
-    __ASSERT_EQ(1, machine.rA.sign);
+    __ASSERT_EQ(1, machine.rA.negative);
     __ASSERT_EQ(80, machine.rA.bytes12());
     __ASSERT_EQ(3, machine.rA[3]);
     __ASSERT_EQ(5, machine.rA[4]);
@@ -94,7 +94,7 @@ __TEST_U(TestMachinePesudo, test_orig_with_equ) {
     machine.executeSingle(&result);
     result = mixal::Parser::parseLine(" LDA *-1000", machine.getSingleLineSymbol(), true);
     machine.executeSingle(&result);
-    __ASSERT_EQ(1, machine.rA.sign);
+    __ASSERT_EQ(1, machine.rA.negative);
     __ASSERT_EQ(80, machine.rA.bytes12());
     __ASSERT_EQ(3, machine.rA[3]);
     __ASSERT_EQ(5, machine.rA[4]);

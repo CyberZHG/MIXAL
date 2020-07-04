@@ -21,7 +21,7 @@ void Machine::executeENT(const InstructionWord& instruction, Register5* reg) {
     int32_t address = getIndexedAddress(instruction);
     reg->set(address);
     if (address == 0) {
-        reg->sign = instruction.sign;
+        reg->negative = instruction.negative;
     }
 }
 
@@ -29,7 +29,7 @@ void Machine::executeENN(const InstructionWord& instruction, Register5* reg) {
     int32_t address = getIndexedAddress(instruction);
     reg->set(-address);
     if (address == 0) {
-        reg->sign = !instruction.sign;
+        reg->negative = !instruction.negative;
     }
 }
 
@@ -57,7 +57,7 @@ void Machine::executeENTi(const InstructionWord& instruction) {
     int16_t address = getIndexedAddress(instruction);
     rIi.set(checkRange(address, 2));
     if (address == 0) {
-        rIi.sign = instruction.sign;
+        rIi.negative = instruction.negative;
     }
 }
 
@@ -67,7 +67,7 @@ void Machine::executeENNi(const InstructionWord& instruction) {
     int16_t address = getIndexedAddress(instruction);
     rIi.set(checkRange(-address, 2));
     if (address == 0) {
-        rIi.sign = !instruction.sign;
+        rIi.negative = !instruction.negative;
     }
 }
 

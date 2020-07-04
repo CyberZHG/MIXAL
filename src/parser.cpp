@@ -254,7 +254,6 @@ ParsedResult Parser::parseLine(const std::string& line, const std::string& lineS
                 state = ParseState::END;
             } else if (Expression::isValidFirst(ch)) {
                 state = ParseState::ADDRESS;
-                result.word.sign = true;
                 addressStart = i;
             } else {
                 throw ParseError(i, "Unexpected character encountered while finding address");

@@ -8,28 +8,42 @@ namespace mixal {
 
 class Instructions;
 
-extern uint16_t CHAR_CODES[];
-const int32_t CHAR_CODES_NUM = 56;
+extern uint16_t CHAR_CODES[];       /**< The mapping from a byte to the characters. */
+const int32_t CHAR_CODES_NUM = 56;  /**< The maximum number of characters in the mapping. */
 
+/**
+ * Basic definition of a word.
+ * 
+ * A word contains a sign indicator (`+` or `-`) and 5 bytes.
+ * Each byte can represent at least [0, 64) integers.
+ */
 struct ComputerWord {
-    bool sign;
+    bool negative;
     uint8_t byte1;
     uint8_t byte2;
     uint8_t byte3;
     uint8_t byte4;
     uint8_t byte5;
 
-    ComputerWord() : sign(), byte1(), byte2(), byte3(), byte4(), byte5() {}
-    explicit ComputerWord(int32_t value) : sign(), byte1(), byte2(), byte3(), byte4(), byte5() { set(value); }
+    /**
+     * Initialize with 0s. The default sign is '+'.
+     */
+    ComputerWord() : negative(), byte1(), byte2(), byte3(), byte4(), byte5() {}
+    /**
+     * Initialize with integer value.
+     * 
+     * @see set(int32_t)
+     */
+    explicit ComputerWord(int32_t value) : negative(), byte1(), byte2(), byte3(), byte4(), byte5() { set(value); }
     explicit ComputerWord(const std::string& chars) :
-        sign(), byte1(), byte2(), byte3(), byte4(), byte5() { set(chars); }
+        negative(), byte1(), byte2(), byte3(), byte4(), byte5() { set(chars); }
     ComputerWord(bool _negative, uint8_t _byte1, uint8_t _byte2, uint8_t _byte3, uint8_t _byte4, uint8_t _byte5) :
-        sign(_negative), byte1(_byte1), byte2(_byte2), byte3(_byte3), byte4(_byte4), byte5(_byte5) {}
+        negative(_negative), byte1(_byte1), byte2(_byte2), byte3(_byte3), byte4(_byte4), byte5(_byte5) {}
     ComputerWord(bool _negative, uint16_t bytes12, uint8_t _byte3, uint8_t _byte4, uint8_t _byte5) :
-        sign(_negative), byte1(bytes12 / 64), byte2(bytes12 % 64), byte3(_byte3), byte4(_byte4), byte5(_byte5) {}
+        negative(_negative), byte1(bytes12 / 64), byte2(bytes12 % 64), byte3(_byte3), byte4(_byte4), byte5(_byte5) {}
 
     inline void reset() {
-        sign = false;
+        negative = false;
         byte1 = byte2 = byte3 = byte4 = byte5 = 0;
     }
 
@@ -60,6 +74,16 @@ struct ComputerWord {
 
     uint8_t getAt(int32_t index) const { return (*this)[index]; }
     std::string getCharacters() const;
+    /**
+     * Set the word with an integer.
+     * 
+     * The sign will be set only when the input is non-zero.
+     * Therefore to set the word to `-0` with this function,
+     * one can set it with a negative value first, then set it to 0.
+     * 
+     * The least significant 30 bits will be saved to the word.
+     * Each byte contains 6 bits. The byte5 will contain the least significant 5 bits. 
+     */
     void set(int32_t value);
     void set(const std::string& chars);
     void set(int index, uint8_t val);

@@ -11,13 +11,13 @@ void Machine::executeNUM() {
     for (int i = 1; i <= 5; ++i) {
         num = num * 10 + rX[i] % 10;
     }
-    bool negative = rA.sign;
+    bool negative = rA.negative;
     if (num >= (1 << 30)) {
         overflow = true;
         num %= (1 << 30);
     }
     rA.set(num);
-    rA.sign = negative;
+    rA.negative = negative;
 }
 
 void Machine::executeCHAR() {

@@ -16,16 +16,16 @@ enum class Registers {
 using Register5 = ComputerWord;
 
 struct Register2 {
-    bool sign;
+    bool negative;
     uint8_t byte1;
     uint8_t byte2;
 
-    Register2() : sign(), byte1(), byte2() {}
-    explicit Register2(int16_t value) : sign(), byte1(), byte2() { set(value); }
-    Register2(bool _negative, uint8_t _byte1, uint8_t _byte2) : sign(_negative), byte1(_byte1), byte2(_byte2) {}
+    Register2() : negative(), byte1(), byte2() {}
+    explicit Register2(int16_t value) : negative(), byte1(), byte2() { set(value); }
+    Register2(bool _negative, uint8_t _byte1, uint8_t _byte2) : negative(_negative), byte1(_byte1), byte2(_byte2) {}
 
     inline void reset() {
-        sign = false;
+        negative = false;
         byte1 = byte2 = 0;
     }
 

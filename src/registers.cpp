@@ -22,14 +22,14 @@ uint16_t Register2::bytes12() const {
 
 int16_t Register2::value() const {
     int16_t val = static_cast<int16_t>(bytes12());
-    return sign ? -val : val;
+    return negative ? -val : val;
 }
 
 void Register2::set(int16_t value) {
     if (value > 0) {
-        sign = 0;
+        negative = false;
     } else if (value < 0) {
-        sign = 1;
+        negative = true;
         value = -value;
     }
     byte1 = static_cast<uint8_t>(value / (1 << 6));
@@ -47,7 +47,7 @@ void Register2::set(int index, int8_t val) {
 }
 
 void Register2::set(bool negative, uint8_t byte1, uint8_t byte2) {
-    this->sign = negative;
+    this->negative = negative;
     this->byte1 = byte1;
     this->byte2 = byte2;
 }

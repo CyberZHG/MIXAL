@@ -337,7 +337,7 @@ _mixal.VecStr_swigregister(VecStr)
 class ComputerWord(object):
     thisown = property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc="The membership flag")
     __repr__ = _swig_repr
-    sign = property(_mixal.ComputerWord_sign_get, _mixal.ComputerWord_sign_set)
+    negative = property(_mixal.ComputerWord_negative_get, _mixal.ComputerWord_negative_set)
     byte1 = property(_mixal.ComputerWord_byte1_get, _mixal.ComputerWord_byte1_set)
     byte2 = property(_mixal.ComputerWord_byte2_get, _mixal.ComputerWord_byte2_set)
     byte3 = property(_mixal.ComputerWord_byte3_get, _mixal.ComputerWord_byte3_set)
@@ -428,7 +428,7 @@ Registers_J = _mixal.Registers_J
 class Register2(object):
     thisown = property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc="The membership flag")
     __repr__ = _swig_repr
-    sign = property(_mixal.Register2_sign_get, _mixal.Register2_sign_set)
+    negative = property(_mixal.Register2_negative_get, _mixal.Register2_negative_set)
     byte1 = property(_mixal.Register2_byte1_get, _mixal.Register2_byte1_set)
     byte2 = property(_mixal.Register2_byte2_get, _mixal.Register2_byte2_set)
 

@@ -79,7 +79,7 @@ __TEST_U(TestMachineAddressTransfer, test_enta_with_index) {
     machine.rI4.set(5);
     auto result = mixal::Parser::parseLine("ENTA -5,4", "", false);
     machine.executeSingle(result.word);
-    __ASSERT_EQ(true, machine.rA.sign);
+    __ASSERT_EQ(true, machine.rA.negative);
     __ASSERT_EQ(0, machine.rA.value());
     __ASSERT_FALSE(machine.overflow);
 }
@@ -88,7 +88,7 @@ __TEST_U(TestMachineAddressTransfer, test_enna) {
     machine.rA.set(-1073741814);
     auto result = mixal::Parser::parseLine("ENNA 0", "", false);
     machine.executeSingle(result.word);
-    __ASSERT_EQ(true, machine.rA.sign);
+    __ASSERT_EQ(true, machine.rA.negative);
     __ASSERT_EQ(0, machine.rA.value());
     __ASSERT_FALSE(machine.overflow);
 }
@@ -98,7 +98,7 @@ __TEST_U(TestMachineAddressTransfer, test_enna_with_index) {
     machine.rI5.set(5);
     auto result = mixal::Parser::parseLine("ENNA -5,5", "", false);
     machine.executeSingle(result.word);
-    __ASSERT_EQ(false, machine.rA.sign);
+    __ASSERT_EQ(false, machine.rA.negative);
     __ASSERT_EQ(0, machine.rA.value());
     __ASSERT_FALSE(machine.overflow);
 }
@@ -166,7 +166,7 @@ __TEST_U(TestMachineAddressTransfer, test_entx_with_index) {
     machine.rI4.set(5);
     auto result = mixal::Parser::parseLine("ENTX -5,4", "", false);
     machine.executeSingle(result.word);
-    __ASSERT_EQ(true, machine.rX.sign);
+    __ASSERT_EQ(true, machine.rX.negative);
     __ASSERT_EQ(0, machine.rX.value());
     __ASSERT_FALSE(machine.overflow);
 }
@@ -175,7 +175,7 @@ __TEST_U(TestMachineAddressTransfer, test_ennx) {
     machine.rX.set(-1073741814);
     auto result = mixal::Parser::parseLine("ENNX 0", "", false);
     machine.executeSingle(result.word);
-    __ASSERT_EQ(true, machine.rX.sign);
+    __ASSERT_EQ(true, machine.rX.negative);
     __ASSERT_EQ(0, machine.rX.value());
     __ASSERT_FALSE(machine.overflow);
 }
@@ -185,7 +185,7 @@ __TEST_U(TestMachineAddressTransfer, test_ennx_with_index) {
     machine.rI5.set(5);
     auto result = mixal::Parser::parseLine("ENNX -5,5", "", false);
     machine.executeSingle(result.word);
-    __ASSERT_EQ(false, machine.rX.sign);
+    __ASSERT_EQ(false, machine.rX.negative);
     __ASSERT_EQ(0, machine.rX.value());
     __ASSERT_FALSE(machine.overflow);
 }
@@ -259,7 +259,7 @@ __TEST_U(TestMachineAddressTransfer, test_ent2_with_index) {
     machine.rI4.set(5);
     auto result = mixal::Parser::parseLine("ENT2 -5,4", "", false);
     machine.executeSingle(result.word);
-    __ASSERT_EQ(true, machine.rI2.sign);
+    __ASSERT_EQ(true, machine.rI2.negative);
     __ASSERT_EQ(0, machine.rI2.value());
     __ASSERT_FALSE(machine.overflow);
 }
@@ -268,7 +268,7 @@ __TEST_U(TestMachineAddressTransfer, test_enn3) {
     machine.rI3.set(-4000);
     auto result = mixal::Parser::parseLine("ENN3 0", "", false);
     machine.executeSingle(result.word);
-    __ASSERT_EQ(true, machine.rI3.sign);
+    __ASSERT_EQ(true, machine.rI3.negative);
     __ASSERT_EQ(0, machine.rI3.value());
     __ASSERT_FALSE(machine.overflow);
 }
@@ -278,7 +278,7 @@ __TEST_U(TestMachineAddressTransfer, test_ent5_with_index_and_overflow) {
     machine.rI4.set(4000);
     auto result = mixal::Parser::parseLine("ENT5 100,4", "", false);
     machine.executeSingle(result.word);
-    __ASSERT_EQ(false, machine.rI5.sign);
+    __ASSERT_EQ(false, machine.rI5.negative);
     __ASSERT_EQ(4, machine.rI5.value());
     __ASSERT_FALSE(machine.overflow);
 }
@@ -288,7 +288,7 @@ __TEST_U(TestMachineAddressTransfer, test_enn4_with_index) {
     machine.rI5.set(5);
     auto result = mixal::Parser::parseLine("ENN4 -5,5", "", false);
     machine.executeSingle(result.word);
-    __ASSERT_EQ(false, machine.rI4.sign);
+    __ASSERT_EQ(false, machine.rI4.negative);
     __ASSERT_EQ(0, machine.rI4.value());
     __ASSERT_FALSE(machine.overflow);
 }
@@ -298,7 +298,7 @@ __TEST_U(TestMachineAddressTransfer, test_enn6_with_index_and_overflow) {
     machine.rI5.set(4000);
     auto result = mixal::Parser::parseLine("ENN6 100,5", "", false);
     machine.executeSingle(result.word);
-    __ASSERT_EQ(true, machine.rI6.sign);
+    __ASSERT_EQ(true, machine.rI6.negative);
     __ASSERT_EQ(-4, machine.rI6.value());
     __ASSERT_FALSE(machine.overflow);
 }

@@ -18,7 +18,7 @@ void Machine::executeSUB(const InstructionWord& instruction) {
     ComputerWord word;
     int address = getIndexedAddress(instruction);
     copyToRegister5(instruction, memory[address], &word);
-    word.sign = !word.sign;
+    word.negative = !word.negative;
     int32_t valueM = word.value();
     int32_t result = valueA + valueM;
     rA.set(checkRange(result));
@@ -39,7 +39,7 @@ void Machine::executeDIV(const InstructionWord& instruction) {
     int32_t valueA = abs(rA.value());
     int32_t valueX = abs(rX.value());
     int64_t dividend = (static_cast<int64_t>(valueA) << 30) + static_cast<int64_t>(valueX);
-    if (rA.sign) {
+    if (rA.negative) {
         dividend = -dividend;
     }
     ComputerWord word;

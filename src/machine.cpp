@@ -483,7 +483,7 @@ void Machine::loadCodes(const std::vector<std::string>& codes, bool addHalt) {
             if (_lineOffset == -1) {
                 _lineOffset = result.location.result().value;
             }
-            memory[result.location.result().value].set(result.word.sign,
+            memory[result.location.result().value].set(result.word.negative,
                                                        result.word.address(),
                                                        result.word.index(),
                                                        result.word.field(),
@@ -516,7 +516,7 @@ void Machine::copyToRegister5(const InstructionWord& instruction, const Computer
     int stop = instruction.field() % 8;
     reg->reset();
     if (start == 0) {
-        reg->sign = word.sign;
+        reg->negative = word.negative;
         ++start;
     }
     for (int i = stop, j = 5; i >= start; --i, --j) {
@@ -528,7 +528,7 @@ void Machine::copyFromRegister5(const InstructionWord& instruction, const Regist
     int start = instruction.field() / 8;
     int stop = instruction.field() % 8;
     if (start == 0) {
-        word->sign = reg.sign;
+        word->negative = reg.negative;
         ++start;
     }
     for (int i = stop, j = 5; i >= start; --i, --j) {
@@ -541,7 +541,7 @@ void Machine::copyToRegister2(const InstructionWord& instruction, const Computer
     int stop = instruction.field() % 8;
     reg->reset();
     if (start == 0) {
-        reg->sign = word.sign;
+        reg->negative = word.negative;
         ++start;
     }
     for (int i = stop, j = 2; i >= start && j > 0; --i, --j) {

@@ -17,7 +17,7 @@ void Machine::executeLDi(const InstructionWord& instruction) {
 
 void Machine::executeLDN(const InstructionWord& instruction, Register5* reg) {
     executeLD(instruction, reg);
-    reg->sign = !reg->sign;
+    reg->negative = !reg->negative;
 }
 
 void Machine::executeLDiN(const InstructionWord& instruction) {
@@ -25,7 +25,7 @@ void Machine::executeLDiN(const InstructionWord& instruction) {
     int registerIndex = instruction.operation() - Instructions::LD1N + 1;
     auto& rIi = rI(registerIndex);
     copyToRegister2(instruction, memory[address], &rIi);
-    rIi.sign = 1 - rIi.sign;
+    rIi.negative = 1 - rIi.negative;
 }
 
 };  // namespace mixal

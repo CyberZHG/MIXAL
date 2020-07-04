@@ -9591,7 +9591,7 @@ SWIGINTERN PyObject *Swig_var_CHAR_CODES_NUM_get(void) {
 }
 
 
-SWIGINTERN PyObject *_wrap_ComputerWord_sign_set(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+SWIGINTERN PyObject *_wrap_ComputerWord_negative_set(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   mixal::ComputerWord *arg1 = (mixal::ComputerWord *) 0 ;
   bool arg2 ;
@@ -9601,18 +9601,18 @@ SWIGINTERN PyObject *_wrap_ComputerWord_sign_set(PyObject *SWIGUNUSEDPARM(self),
   int ecode2 = 0 ;
   PyObject *swig_obj[2] ;
   
-  if (!SWIG_Python_UnpackTuple(args, "ComputerWord_sign_set", 2, 2, swig_obj)) SWIG_fail;
+  if (!SWIG_Python_UnpackTuple(args, "ComputerWord_negative_set", 2, 2, swig_obj)) SWIG_fail;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_mixal__ComputerWord, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "ComputerWord_sign_set" "', argument " "1"" of type '" "mixal::ComputerWord *""'"); 
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "ComputerWord_negative_set" "', argument " "1"" of type '" "mixal::ComputerWord *""'"); 
   }
   arg1 = reinterpret_cast< mixal::ComputerWord * >(argp1);
   ecode2 = SWIG_AsVal_bool(swig_obj[1], &val2);
   if (!SWIG_IsOK(ecode2)) {
-    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "ComputerWord_sign_set" "', argument " "2"" of type '" "bool""'");
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "ComputerWord_negative_set" "', argument " "2"" of type '" "bool""'");
   } 
   arg2 = static_cast< bool >(val2);
-  if (arg1) (arg1)->sign = arg2;
+  if (arg1) (arg1)->negative = arg2;
   resultobj = SWIG_Py_Void();
   return resultobj;
 fail:
@@ -9620,7 +9620,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_ComputerWord_sign_get(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+SWIGINTERN PyObject *_wrap_ComputerWord_negative_get(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   mixal::ComputerWord *arg1 = (mixal::ComputerWord *) 0 ;
   void *argp1 = 0 ;
@@ -9632,10 +9632,10 @@ SWIGINTERN PyObject *_wrap_ComputerWord_sign_get(PyObject *SWIGUNUSEDPARM(self),
   swig_obj[0] = args;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_mixal__ComputerWord, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "ComputerWord_sign_get" "', argument " "1"" of type '" "mixal::ComputerWord *""'"); 
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "ComputerWord_negative_get" "', argument " "1"" of type '" "mixal::ComputerWord *""'"); 
   }
   arg1 = reinterpret_cast< mixal::ComputerWord * >(argp1);
-  result = (bool) ((arg1)->sign);
+  result = (bool) ((arg1)->negative);
   resultobj = SWIG_From_bool(static_cast< bool >(result));
   return resultobj;
 fail:
@@ -11119,7 +11119,7 @@ SWIGINTERN PyObject *ComputerWord_swiginit(PyObject *SWIGUNUSEDPARM(self), PyObj
   return SWIG_Python_InitShadowInstance(args);
 }
 
-SWIGINTERN PyObject *_wrap_Register2_sign_set(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+SWIGINTERN PyObject *_wrap_Register2_negative_set(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   mixal::Register2 *arg1 = (mixal::Register2 *) 0 ;
   bool arg2 ;
@@ -11129,18 +11129,18 @@ SWIGINTERN PyObject *_wrap_Register2_sign_set(PyObject *SWIGUNUSEDPARM(self), Py
   int ecode2 = 0 ;
   PyObject *swig_obj[2] ;
   
-  if (!SWIG_Python_UnpackTuple(args, "Register2_sign_set", 2, 2, swig_obj)) SWIG_fail;
+  if (!SWIG_Python_UnpackTuple(args, "Register2_negative_set", 2, 2, swig_obj)) SWIG_fail;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_mixal__Register2, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Register2_sign_set" "', argument " "1"" of type '" "mixal::Register2 *""'"); 
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Register2_negative_set" "', argument " "1"" of type '" "mixal::Register2 *""'"); 
   }
   arg1 = reinterpret_cast< mixal::Register2 * >(argp1);
   ecode2 = SWIG_AsVal_bool(swig_obj[1], &val2);
   if (!SWIG_IsOK(ecode2)) {
-    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "Register2_sign_set" "', argument " "2"" of type '" "bool""'");
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "Register2_negative_set" "', argument " "2"" of type '" "bool""'");
   } 
   arg2 = static_cast< bool >(val2);
-  if (arg1) (arg1)->sign = arg2;
+  if (arg1) (arg1)->negative = arg2;
   resultobj = SWIG_Py_Void();
   return resultobj;
 fail:
@@ -11148,7 +11148,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_Register2_sign_get(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+SWIGINTERN PyObject *_wrap_Register2_negative_get(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   mixal::Register2 *arg1 = (mixal::Register2 *) 0 ;
   void *argp1 = 0 ;
@@ -11160,10 +11160,10 @@ SWIGINTERN PyObject *_wrap_Register2_sign_get(PyObject *SWIGUNUSEDPARM(self), Py
   swig_obj[0] = args;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_mixal__Register2, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Register2_sign_get" "', argument " "1"" of type '" "mixal::Register2 *""'"); 
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Register2_negative_get" "', argument " "1"" of type '" "mixal::Register2 *""'"); 
   }
   arg1 = reinterpret_cast< mixal::Register2 * >(argp1);
-  result = (bool) ((arg1)->sign);
+  result = (bool) ((arg1)->negative);
   resultobj = SWIG_From_bool(static_cast< bool >(result));
   return resultobj;
 fail:
@@ -13129,8 +13129,8 @@ static PyMethodDef SwigMethods[] = {
 	 { "delete_VecStr", _wrap_delete_VecStr, METH_O, NULL},
 	 { "VecStr_swigregister", VecStr_swigregister, METH_O, NULL},
 	 { "VecStr_swiginit", VecStr_swiginit, METH_VARARGS, NULL},
-	 { "ComputerWord_sign_set", _wrap_ComputerWord_sign_set, METH_VARARGS, NULL},
-	 { "ComputerWord_sign_get", _wrap_ComputerWord_sign_get, METH_O, NULL},
+	 { "ComputerWord_negative_set", _wrap_ComputerWord_negative_set, METH_VARARGS, NULL},
+	 { "ComputerWord_negative_get", _wrap_ComputerWord_negative_get, METH_O, NULL},
 	 { "ComputerWord_byte1_set", _wrap_ComputerWord_byte1_set, METH_VARARGS, NULL},
 	 { "ComputerWord_byte1_get", _wrap_ComputerWord_byte1_get, METH_O, NULL},
 	 { "ComputerWord_byte2_set", _wrap_ComputerWord_byte2_set, METH_VARARGS, NULL},
@@ -13166,8 +13166,8 @@ static PyMethodDef SwigMethods[] = {
 	 { "delete_ComputerWord", _wrap_delete_ComputerWord, METH_O, NULL},
 	 { "ComputerWord_swigregister", ComputerWord_swigregister, METH_O, NULL},
 	 { "ComputerWord_swiginit", ComputerWord_swiginit, METH_VARARGS, NULL},
-	 { "Register2_sign_set", _wrap_Register2_sign_set, METH_VARARGS, NULL},
-	 { "Register2_sign_get", _wrap_Register2_sign_get, METH_O, NULL},
+	 { "Register2_negative_set", _wrap_Register2_negative_set, METH_VARARGS, NULL},
+	 { "Register2_negative_get", _wrap_Register2_negative_get, METH_O, NULL},
 	 { "Register2_byte1_set", _wrap_Register2_byte1_set, METH_VARARGS, NULL},
 	 { "Register2_byte1_get", _wrap_Register2_byte1_get, METH_O, NULL},
 	 { "Register2_byte2_set", _wrap_Register2_byte2_set, METH_VARARGS, NULL},
