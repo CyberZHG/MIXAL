@@ -211,4 +211,17 @@ __TEST_U(TestMachineArithmetic, test_div_overflow) {
     __ASSERT_TRUE(machine.overflow);
 }
 
+__TEST_U(TestMachineArithmetic, test_div_zero) {
+    machine.rA.set(true, 64, 0, 0, 0, 0);
+    machine.rX.set(false, 0, 0, 0, 0);
+    machine.memory[1000].set(false, 0, 0, 0, 0, 0);
+    auto result = mixal::Parser::parseLine("DIV 1000", "", false);
+    __ASSERT_THROW(machine.executeSingle(result.word), mixal::RuntimeError);
+    try {
+        machine.executeSingle(result.word);
+    } catch (mixal::RuntimeError& error) {
+        __ASSERT_EQ(std::string("Divisor cannot be 0"), std::string(error.what()));
+    }
+}
+
 }  // namespace test
