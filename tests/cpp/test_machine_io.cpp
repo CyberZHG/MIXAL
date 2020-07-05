@@ -15,6 +15,12 @@ class TestMachineIO : public UnitTest {
     }
 };
 
+__TEST_U(TestMachineIO, test_get_devices) {
+    for (int i = 0; i < machine.NUM_IO_DEVICE; ++i) {
+        machine.getDevice(i)->control(0);
+    }
+}
+
 __TEST_U(TestMachineIO, test_io_tape) {
     machine.loadCodes({
         "     ORIG 3000",

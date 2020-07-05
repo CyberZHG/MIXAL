@@ -22,7 +22,7 @@ class Machine {
  public:
     static const int NUM_INDEX_REGISTER = 6;
     static const int NUM_MEMORY = 4000;
-    static const int NUM_IO_DEVICE = 20;
+    static const int NUM_IO_DEVICE = 21;
 
     Register5 rA, rX;
     Register2 rI1, rI2, rI3, rI4, rI5, rI6, rJ;

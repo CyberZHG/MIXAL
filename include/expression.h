@@ -7,27 +7,37 @@
 #include <unordered_set>
 #include "errors.h"
 
+/**
+ * @file
+ * @brief To parse the expressions.
+ */
+
 namespace mixal {
 
+/** Type of atomics. */
 enum class AtomicType {
-    INTEGER,
-    SYMBOL,
-    ASTERISK,
+    INTEGER,   /**< A constant integer. */
+    SYMBOL,    /**< A named symbol. */
+    ASTERISK,  /**< The current location. */
 };
 
+/** Store the information about an atomic. */
 struct Atomic {
-    AtomicType type;
-    bool negative;
-    int32_t integer;
-    std::string symbol;
+    AtomicType type;     /**< The type of the atomic. */
+    bool negative;       /**< The sign for the integer value. */
+    int32_t integer;     /**< The absolute value part of the integer. */
+    std::string symbol;  /**< The named symbol for the symbol and the current location. */
 
-    Atomic() : type(AtomicType::INTEGER), negative(false), integer(), symbol() {}
-    explicit Atomic(AtomicType _type, bool _negative = false) :
+    /** Initialize the atomic with specific atomic type. */
+    explicit Atomic(AtomicType _type = AtomicType::INTEGER, bool _negative = false) :
         type(_type), negative(_negative), integer(), symbol() {}
+    /** Initialize the atomic with an integer value. */
     Atomic(AtomicType _type, int32_t _value, bool _negative = false) :
         type(_type), negative(_negative), integer(_value), symbol() {}
+    /** Initialize the atomic with a symbol. */
     Atomic(AtomicType _type, const std::string& _value, bool _negative = false) :
         type(_type), negative(_negative), integer(), symbol(_value) {}
+    /** Initialize the atomic with another atomic. */
     Atomic(const Atomic& atomic) : type(atomic.type), negative(atomic.negative), integer(), symbol() {
         if (type == AtomicType::INTEGER) {
             integer = atomic.integer;
@@ -36,11 +46,32 @@ struct Atomic {
         }
     }
 
-    Atomic& operator=(const Atomic& atomic);
+    /** Whether two atomics are the same. */
+    bool operator==(const Atomic& atomic);
+    /** Outputs the integer or the symbol based on the atomic type. */
     friend std::ostream& operator<<(std::ostream& out, const Atomic& atomic);
 
+    /** Whether the symbol is a local symbol.
+     * 
+     * A local symbol has the form [0-9][HFB] (here, forward, backward).
+     */
     static bool isLocalSymbol(const std::string& symbol);
+    /**
+     * Whether the atomic is a local symbol.
+     * 
+     * @see isLocalSymbol(const std::string&)
+     */
     bool isLocalSymbol() const;
+    /** Replace the symbol with the actual location.
+     * 
+     * If the symbol is `2B`, it should be replaced with the location of the nearest `2H`
+     * before the current location.
+     * 
+     * If the symbol is `4F`, it should be replaced with the location of the nearest `4H`
+     * after the current location.
+     * 
+     * @param symbol A temporary name representing the location that should be replaced to.
+     */
     void replaceSymbol(const std::string& symbol);
 };
 
