@@ -416,15 +416,6 @@ _mixal.ComputerWord_swigregister(ComputerWord)
 cvar = _mixal.cvar
 CHAR_CODES_NUM = cvar.CHAR_CODES_NUM
 
-Registers_A = _mixal.Registers_A
-Registers_X = _mixal.Registers_X
-Registers_I1 = _mixal.Registers_I1
-Registers_I2 = _mixal.Registers_I2
-Registers_I3 = _mixal.Registers_I3
-Registers_I4 = _mixal.Registers_I4
-Registers_I5 = _mixal.Registers_I5
-Registers_I6 = _mixal.Registers_I6
-Registers_J = _mixal.Registers_J
 class Register2(object):
     thisown = property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc="The membership flag")
     __repr__ = _swig_repr

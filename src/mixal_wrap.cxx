@@ -14079,15 +14079,6 @@ SWIG_init(void) {
   Py_DECREF(globals);
   SWIG_addvarlink(globals, "CHAR_CODES", Swig_var_CHAR_CODES_get, Swig_var_CHAR_CODES_set);
   SWIG_addvarlink(globals, "CHAR_CODES_NUM", Swig_var_CHAR_CODES_NUM_get, Swig_var_CHAR_CODES_NUM_set);
-  SWIG_Python_SetConstant(d, "Registers_A",SWIG_From_int(static_cast< int >(mixal::Registers::A)));
-  SWIG_Python_SetConstant(d, "Registers_X",SWIG_From_int(static_cast< int >(mixal::Registers::X)));
-  SWIG_Python_SetConstant(d, "Registers_I1",SWIG_From_int(static_cast< int >(mixal::Registers::I1)));
-  SWIG_Python_SetConstant(d, "Registers_I2",SWIG_From_int(static_cast< int >(mixal::Registers::I2)));
-  SWIG_Python_SetConstant(d, "Registers_I3",SWIG_From_int(static_cast< int >(mixal::Registers::I3)));
-  SWIG_Python_SetConstant(d, "Registers_I4",SWIG_From_int(static_cast< int >(mixal::Registers::I4)));
-  SWIG_Python_SetConstant(d, "Registers_I5",SWIG_From_int(static_cast< int >(mixal::Registers::I5)));
-  SWIG_Python_SetConstant(d, "Registers_I6",SWIG_From_int(static_cast< int >(mixal::Registers::I6)));
-  SWIG_Python_SetConstant(d, "Registers_J",SWIG_From_int(static_cast< int >(mixal::Registers::J)));
   SWIG_Python_SetConstant(d, "Machine_NUM_INDEX_REGISTER",SWIG_From_int(static_cast< int >(mixal::Machine::NUM_INDEX_REGISTER)));
   SWIG_Python_SetConstant(d, "Machine_NUM_MEMORY",SWIG_From_int(static_cast< int >(mixal::Machine::NUM_MEMORY)));
   SWIG_Python_SetConstant(d, "Machine_NUM_IO_DEVICE",SWIG_From_int(static_cast< int >(mixal::Machine::NUM_IO_DEVICE)));
