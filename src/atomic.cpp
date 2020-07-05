@@ -3,15 +3,11 @@
 
 namespace mixal {
 
-Atomic& Atomic::operator=(const Atomic& atomic) {
-    type = atomic.type;
-    negative = atomic.negative;
-    if (type == AtomicType::INTEGER) {
-        integer = atomic.integer;
-    } else {
-        symbol = atomic.symbol;
+bool Atomic::operator==(const Atomic& atomic) {
+    if (type != atomic.type || negative != atomic.negative) {
+        return false;
     }
-    return *this;
+    return type == AtomicType::INTEGER ? integer == atomic.integer : symbol == atomic.symbol;
 }
 
 std::ostream& operator<<(std::ostream& out, const Atomic& atomic) {
