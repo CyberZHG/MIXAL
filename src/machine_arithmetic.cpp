@@ -47,7 +47,7 @@ void Machine::executeDIV(const InstructionWord& instruction) {
     copyToRegister5(instruction, memory[address], &word);
     int32_t divisor = word.value();
     if (divisor == 0) {
-        throw RuntimeError(_lineOffset, "Divisor is 0");
+        throw RuntimeError(_lineOffset, "Divisor cannot be 0");
     }
     int64_t quotient = dividend / divisor;
     if (abs(quotient) >= (1 << 30)) {
