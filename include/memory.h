@@ -4,6 +4,11 @@
 #include <cstdint>
 #include <string>
 
+/**
+ * @file
+ * @brief The definition of a computer word.
+ */
+
 namespace mixal {
 
 class Instructions;
@@ -71,12 +76,12 @@ struct ComputerWord {
 
     /** Get the value with index in [1, 5].
      * 
-     * @throw std::runtime_error
+     * @throw std::runtime_error when the index is not in [1, 5].
      */
     uint8_t operator[](int index) const;
     /** Get the reference with index in [1, 5].
      * 
-     * @throw std::runtime_error
+     * @throw std::runtime_error when the index is not in [1, 5].
      */
     uint8_t& operator[](int index);
     /** Get the value that represented by the indices of two bytes.
@@ -157,12 +162,10 @@ struct ComputerWord {
      * 
      * @see operator[](int) const
      * 
-     * @throw std::runtime_error
+     * @throw std::runtime_error when the index is not in [1, 5].
      */
     uint8_t getAt(int32_t index) const { return (*this)[index]; }
-    /**
-     * Get a UTF8 string represents the 5 characters in the word.
-     */
+    /** Get a UTF8 string represents the 5 characters in the word. */
     std::string getCharacters() const;
     /**
      * Set the word with an integer.
@@ -172,7 +175,7 @@ struct ComputerWord {
      * one can set it with a negative value first, then set it to 0.
      * 
      * The least significant 30 bits will be saved to the word.
-     * Each byte contains 6 bits. The byte5 will contain the least significant 5 bits. 
+     * Each byte contains 6 bits. The byte5 will contain the least significant 6 bits. 
      */
     void set(int32_t value);
     /**
@@ -195,9 +198,7 @@ struct ComputerWord {
      * @throw std::runtime_error when the index is not in [1, 5].
      */
     void set(int index, uint8_t val);
-    /**
-     *  Set all the values.
-     */
+    /** Set all the values. */
     void set(bool negative, uint8_t byte1, uint8_t byte2, uint8_t byte3, uint8_t byte4, uint8_t byte5);
     /**
      *  Set all the values.
