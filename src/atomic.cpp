@@ -28,6 +28,10 @@ bool Atomic::operator==(const Atomic& atomic) {
     return type == AtomicType::INTEGER ? integer == atomic.integer : symbol == atomic.symbol;
 }
 
+bool Atomic::operator!=(const Atomic& atomic) {
+    return !((*this) == atomic);
+}
+
 std::ostream& operator<<(std::ostream& out, const Atomic& atomic) {
     switch (atomic.type) {
     case AtomicType::INTEGER: out << atomic.integer; break;

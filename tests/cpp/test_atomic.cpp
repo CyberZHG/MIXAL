@@ -14,8 +14,8 @@ __TEST_U(TestAtomic, test_equal) {
                 mixal::Atomic(mixal::AtomicType::SYMBOL, "sym"));
     __ASSERT_EQ(mixal::Atomic(mixal::AtomicType::ASTERISK, "sym"),
                 mixal::Atomic(mixal::AtomicType::ASTERISK, "sym"));
-    __ASSERT_FALSE(mixal::Atomic(mixal::AtomicType::SYMBOL, "sym") ==
-                   mixal::Atomic(mixal::AtomicType::ASTERISK, "sym"));
+    __ASSERT_NE(mixal::Atomic(mixal::AtomicType::SYMBOL, "sym"),
+                mixal::Atomic(mixal::AtomicType::ASTERISK, "sym"));
 }
 
 __TEST_U(TestAtomic, test_is_local_symbol) {

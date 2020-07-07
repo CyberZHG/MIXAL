@@ -1,8 +1,24 @@
 #include <cassert>
+#include <limits>
 #include <iostream>
 #include "expression.h"
 
+/**
+ * @file
+ * @brief The parsing and evaluation of expressions.
+ */
+
 namespace mixal {
+
+Expression::Expression() : _evaluated(false), _result(), _literalConstant(false),
+    _depends(), _atomics(), _operations() {
+}
+
+Expression::Expression(const std::string& expression, const std::string& lineSymbol) :
+    _evaluated(false), _result(), _literalConstant(false),
+    _depends(), _atomics(), _operations() {
+    parse(expression, lineSymbol);
+}
 
 Expression Expression::getConstExpression(const AtomicValue& value) {
     auto expr = Expression();
@@ -32,47 +48,53 @@ bool Expression::isValidFirst(char ch) {
 }
 
 bool Expression::isValidChar(char ch) {
-    return isValidFirst(ch) || ch == '/' || ch == ':' || ch == '=';
+    return isValidFirst(ch) || ch == '/' || ch == ':';
 }
 
-enum class ParseState {
-    /**
-     * EXPRESSION -> + EXPRESSION
-     *             | - EXPRESSION
-     *             | EXPRESSION OPERATOR EXPRESSION
-     *             | ATOMIC
-     * OPERATOR -> + | - | * | / | // | :
-     * ATOMIC -> INTEGER
-     *         | SYMBOL
-     *         | *
-     * INTEGER -> DIGIT
-     *          | DIGIT INTEGER
-     * SYMBOL -> ALPHA
-     *         | DIGIT
-     *         | ALPHS SYMBOL
-     *         | DIGIT SYMBOL
-     * DIGIT -> [0-9]
-     * ALPHA -> [A-Z]
-     */
-    START,
-    ATOMIC,
-    OPERATION,
-    END,
+/** The states while parsing the expression.
+ * 
+ * ```
+ * EXPRESSION -> + EXPRESSION
+ *             | - EXPRESSION
+ *             | EXPRESSION OPERATOR EXPRESSION
+ *             | ATOMIC
+ * OPERATOR -> + | - | * | / | // | :
+ * ATOMIC -> INTEGER
+ *         | SYMBOL
+ *         | *
+ * INTEGER -> DIGIT
+ *          | DIGIT INTEGER
+ * SYMBOL -> ALPHA
+ *         | DIGIT
+ *         | ALPHS SYMBOL
+ *         | DIGIT SYMBOL
+ * DIGIT -> [0-9]
+ * ALPHA -> [A-Z]
+ * ```
+ * 
+ * However, multiple signs like `++` or `---` will be rejected as they are useless.
+ */
+enum class ExprParseState {
+    START,      /**< The start state. */
+    ATOMIC,     /**< Parsing the atomic. */
+    OPERATION,  /**< Parsing the operation. */
+    END,        /**< The end of parsing. */
 };
 
+/** Whether an operation can start with the given character. */
 inline bool isOperationFirst(char ch) {
     return ch == '+' || ch == '-' || ch == '*' || ch == '/' || ch == ':';
 }
 
 void Expression::parse(const std::string& expression, const std::string& lineSymbol) {
-    const char END_CHAR = '#';
-    const int INIT_INDEX = -1;
-    ParseState state = ParseState::START;
-    int lastAtomicStart = INIT_INDEX;
-    int lastOperationStart = INIT_INDEX;
-    _depends.clear();
-    _atomics.clear();
-    _operations.clear();
+    this->reset();
+    const char END_CHAR = '#';  // The character that indicates the end of the input.
+    const int INIT_INDEX = -1;  // The uninitialized index value.
+    ExprParseState state = ExprParseState::START;
+    int lastAtomicStart = INIT_INDEX;     // The start index of the last atomic.
+    int lastOperationStart = INIT_INDEX;  // The start index of the last operation.
+
+    // Check whether this is a literal constant that starts and ends with a `=`.
     int start = 0;
     int exprLen = static_cast<int>(expression.size());
     if (exprLen > 2 && expression[0] == '=' && expression[exprLen - 1] == '=') {
@@ -80,32 +102,38 @@ void Expression::parse(const std::string& expression, const std::string& lineSym
         start = 1;
         --exprLen;
     }
+
+    // Parsing the expression.
     for (int i = start; i <= exprLen; ++i) {
         char ch = i < exprLen ? expression[i] : END_CHAR;
         switch (state) {
-        case ParseState::START:
+        case ExprParseState::START:
             if (ch == '+' || ch == '-' || ch == '*' || isalnum(ch)) {
-                state = ParseState::ATOMIC;
+                state = ExprParseState::ATOMIC;
                 lastAtomicStart = i;
             } else if (ch == END_CHAR) {
-                throw ExpressionError(i, "Empty expression");
+                throw ExpressionError(i, "The expression is empty.");
             } else {
-                throw ExpressionError(i, "Invalid character found at the start of the expression");
+                throw ExpressionError(i,
+                    "Invalid character found at the start of the expression: " + std::to_string(ch));
             }
             break;
-        case ParseState::ATOMIC:
+
+        case ExprParseState::ATOMIC:
             assert(lastAtomicStart != INIT_INDEX);
             if (expression[lastAtomicStart] == '*' ||
                 (lastAtomicStart + 1 < i &&
                  (expression[lastAtomicStart] == '+' || expression[lastAtomicStart] == '-') &&
                  expression[lastAtomicStart + 1] == '*')) {
+                // The atomic that matches `*`, `+*`, or `-*`.
                 if (ch == END_CHAR) {
-                    state = ParseState::END;
+                    state = ExprParseState::END;
                 } else if (isOperationFirst(ch)) {
-                    state = ParseState::OPERATION;
+                    state = ExprParseState::OPERATION;
                     lastOperationStart = i;
                 } else {
-                    throw ExpressionError(i, "Invalid character found while finding operation");
+                    throw ExpressionError(i,
+                        "Invalid character found while trying to find an operation: " + std::to_string(ch));
                 }
                 bool negative = expression[lastAtomicStart] == '-';
                 _atomics.emplace_back(Atomic(AtomicType::ASTERISK, lineSymbol, negative));
@@ -115,15 +143,16 @@ void Expression::parse(const std::string& expression, const std::string& lineSym
                  lastAtomicStart + 1 == i && ch == '*')) {
             } else {
                 if (ch == END_CHAR) {
-                    state = ParseState::END;
+                    state = ExprParseState::END;
                 } else if (isOperationFirst(ch)) {
-                    state = ParseState::OPERATION;
+                    state = ExprParseState::OPERATION;
                     lastOperationStart = i;
                 } else {
-                    throw ExpressionError(i, "Invalid character found while finding operation");
+                    throw ExpressionError(i,
+                        "Invalid character found while trying to find an operation: " + std::to_string(ch));
                 }
                 bool isInteger = true, negative = false;
-                int integerValue = 0;
+                int32_t integerValue = 0;
                 if (expression[lastAtomicStart] == '-') {
                     negative = true;
                     ++lastAtomicStart;
@@ -131,14 +160,21 @@ void Expression::parse(const std::string& expression, const std::string& lineSym
                     ++lastAtomicStart;
                 }
                 if (lastAtomicStart == i) {
-                    throw ExpressionError(i, "The atomic is empty");
+                    throw ExpressionError(i, "The atomic is empty: " +
+                        std::to_string(expression[lastAtomicStart - 1]));
                 }
+                // Check the type of the atomic. Note that symbols can start with digits.
                 for (int j = lastAtomicStart; j < i; ++j) {
                     if (isalpha(expression[j])) {
                         isInteger = false;
                         break;
                     }
-                    integerValue = integerValue * 10 + (expression[j] - '0');
+                    int32_t digit = expression[j] - '0';
+                    if (integerValue > (std::numeric_limits<int32_t>::max() - digit) / 10) {
+                        throw ExpressionError(i, "The integer value is too large: " +
+                            expression.substr(lastAtomicStart, i - lastAtomicStart));
+                    }
+                    integerValue = integerValue * 10 + digit;
                 }
                 if (isInteger) {
                     _atomics.emplace_back(Atomic(AtomicType::INTEGER, integerValue, negative));
@@ -149,13 +185,15 @@ void Expression::parse(const std::string& expression, const std::string& lineSym
                 }
             }
             break;
-        case ParseState::OPERATION:
+
+        case ExprParseState::OPERATION:
             assert(lastOperationStart != INIT_INDEX);
             if (ch == '/') {
+                // The `/` could be continuous for `//`.
             } else if (ch == END_CHAR) {
                 throw ExpressionError(i, "No atomic found after the binary operator");
             } else {
-                state = ParseState::ATOMIC;
+                state = ExprParseState::ATOMIC;
                 lastAtomicStart = i;
                 if (i - lastOperationStart == 1) {
                     switch (expression[lastOperationStart]) {
@@ -176,15 +214,19 @@ void Expression::parse(const std::string& expression, const std::string& lineSym
                         break;
                     }
                 } else {
+                    // TODO(admin): Add float division.
                     throw ExpressionError(i, "Unknown binary operator found");
                 }
             }
             break;
-        case ParseState::END:
-            assert(false);
+
+        case ExprParseState::END:
+            assert(false);  // This line will never be reached.
         }
     }
-    assert(state == ParseState::END);
+    // The parsing should always end with END state.
+    assert(state == ExprParseState::END);
+    // Since all the operations are binary, there should be exactly one more operations than atomics.
     assert(_atomics.size() == _operations.size() + 1);
 }
 
@@ -259,6 +301,35 @@ void Expression::replaceSymbol(const std::unordered_map<std::string, std::string
             }
         }
     }
+}
+
+void Expression::reset() {
+    _evaluated = false;
+    _literalConstant = false;
+    _depends.clear();
+    _atomics.clear();
+    _operations.clear();
+}
+
+bool Expression::operator==(const Expression& expression) {
+    if (_atomics.size() != expression._atomics.size()) {
+        return false;
+    }
+    for (size_t i = 0; i < _atomics.size(); ++i) {
+        if (_atomics[i] != expression._atomics[i]) {
+            return false;
+        }
+    }
+    for (size_t i = 0; i < _operations.size(); ++i) {
+        if (_operations[i] != expression._operations[i]) {
+            return false;
+        }
+    }
+    return true;
+}
+
+bool Expression::operator!=(const Expression& expression) {
+    return !((*this) == expression);
 }
 
 std::ostream& operator<<(std::ostream& out, Operation operation) {

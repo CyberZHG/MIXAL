@@ -39,6 +39,8 @@ struct Atomic {
 
     /** Whether two atomics are the same. */
     bool operator==(const Atomic& atomic);
+    /** Whether two atomics are different. */
+    bool operator!=(const Atomic& atomic);
     /** Outputs the integer or the symbol based on the atomic type. */
     friend std::ostream& operator<<(std::ostream& out, const Atomic& atomic);
 
@@ -86,53 +88,118 @@ struct AtomicValue {
     AtomicValue& operator=(const AtomicValue& atomicValue);
 };
 
+/** Types of operations in expressions. */
 enum class Operation {
-    ADD,
-    SUBTRACT,
-    MULTIPLY,
-    FLOOR_DIV,
-    // FLOAT_DIV,
-    FIELD,
+    ADD,            /**< `+` */
+    SUBTRACT,       /**< `-` */
+    MULTIPLY,       /**< `*` */
+    FLOOR_DIV,      /**< `/` */
+    // FLOAT_DIV,   /**< `//` */
+    FIELD,          /**< `a:b`, a * 8 + b. */
 };
 
+/** Output the symbol of the operation. */
 std::ostream& operator<<(std::ostream& out, Operation operation);
 
+/** Parse and store expressions. */
 class Expression {
  public:
-    Expression() : _evaluated(false), _result(), _literalConstant(false),
-                   _depends(), _atomics(), _operations() {}
+    /** Initialize with zeros. */
+    Expression();
+    /** Initialize with parsing
+     * 
+     * @see parse(const std::string&, const std::string&)
+     */
+    explicit Expression(const std::string& expression, const std::string& lineSymbol = "");
 
+    /** Get a constant expression based on a given atomic value. */
     static Expression getConstExpression(const AtomicValue& value);
+    /** Get a constant expression based on a given symbol.
+     * 
+     * The evaluation will depend on the given symbol.
+     */
     static Expression getConstExpression(const std::string& symbol);
+    /** Get a constant expression based on a given symbol and an offset.
+     * 
+     * This is used for representing the offset from an address.
+     */
     static Expression getConstOffsetExpression(const std::string& symbol, int32_t offset);
+    /** Whether an expression can start with the given character.
+     * 
+     * The first character could be:
+     * - `[0-9A-Z]`, for symbols.
+     * - `*`, for current location.
+     * - `[+-]`, for the sign of an atomic.
+     * - `=`, for literal constant.
+     */
     static bool isValidFirst(char ch);
+    /** Whether a character is valid inside an expression.
+     * 
+     * Besides the valid characters at the beginning,
+     * the rest characters in the operations are also valid: `/` and `:`.
+     * 
+     * @see isValidFirst(char)
+     */
     static bool isValidChar(char ch);
 
+    /** Whether the expression has been evaluated. */
     inline bool evaluated() const { return _evaluated; }
+    /** Get the evaluated atomic value. */
     inline const AtomicValue& result() const { return _result; }
 
+    /** Whether this is a literal constant, which is surrounded by `=`. */
     inline bool literalConstant() const { return _literalConstant; }
 
+    /** Get the symbols that should be evaluated before evaluating this expression. */
     inline const std::unordered_set<std::string> depends() const { return _depends; }
+    /** Get the atomics in the expression. */
     inline const std::vector<Atomic> atomics() const { return _atomics; }
+    /** Get the operations in the expression. */
     inline const std::vector<Operation> operations() const { return _operations; }
 
+    /** Try to parse an expression string.
+     * 
+     * @param expression A string containing only the expression.
+     * @param lineSymbol The symbol representing the current location.
+     *                   Used for `*` to point to the current location.
+     * 
+     * @throw ExpressionError When the input expression string is invalid.
+     */
     void parse(const std::string& expression, const std::string& lineSymbol);
+    /** Try to evaluate the parsed expression.
+     * 
+     * @param constants A dictionary that maps from symbol names to evaluated atomic values.
+     * 
+     * @return Return true if the expression can be evaluated with the given dictionary.
+     */
     bool evaluate(const std::unordered_map<std::string, AtomicValue>& constants);
 
+    /** Output the expression. */
     friend std::ostream& operator<<(std::ostream& out, const Expression& expression);
 
+    /** Replace the symbols in the expression.
+     * 
+     * This is used for replacing local symbols.
+     */
     void replaceSymbol(const std::unordered_map<std::string, std::string>& mapping);
 
+    /** Clear the parsed results. */
+    void reset();
+
+    /** Whether two expressions are the same. */
+    bool operator==(const Expression& expression);
+    /** Whether two expressions are different. */
+    bool operator!=(const Expression& expression);
+
  private:
-    bool _evaluated;
-    AtomicValue _result;
+    bool _evaluated;      /**< Whether the expression has been evaluated. */
+    AtomicValue _result;  /**< The evaluated atomic value. */
 
-    bool _literalConstant;
+    bool _literalConstant;  /**< Whether this is a literal constant. */
 
-    std::unordered_set<std::string> _depends;
-    std::vector<Atomic> _atomics;
-    std::vector<Operation> _operations;
+    std::unordered_set<std::string> _depends;  /**< The symbols in the expression. */
+    std::vector<Atomic> _atomics;              /**< The atomics in the expression. */
+    std::vector<Operation> _operations;        /**< The operations in the expression. */
 };
 
 };  // namespace mixal
