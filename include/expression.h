@@ -29,22 +29,13 @@ struct Atomic {
     std::string symbol;  /**< The named symbol for the symbol and the current location. */
 
     /** Initialize the atomic with specific atomic type. */
-    explicit Atomic(AtomicType _type = AtomicType::INTEGER, bool _negative = false) :
-        type(_type), negative(_negative), integer(), symbol() {}
+    explicit Atomic(AtomicType _type = AtomicType::INTEGER, bool _negative = false);
     /** Initialize the atomic with an integer value. */
-    Atomic(AtomicType _type, int32_t _value, bool _negative = false) :
-        type(_type), negative(_negative), integer(_value), symbol() {}
+    Atomic(AtomicType _type, int32_t _value, bool _negative = false);
     /** Initialize the atomic with a symbol. */
-    Atomic(AtomicType _type, const std::string& _value, bool _negative = false) :
-        type(_type), negative(_negative), integer(), symbol(_value) {}
+    Atomic(AtomicType _type, const std::string& _value, bool _negative = false);
     /** Initialize the atomic with another atomic. */
-    Atomic(const Atomic& atomic) : type(atomic.type), negative(atomic.negative), integer(), symbol() {
-        if (type == AtomicType::INTEGER) {
-            integer = atomic.integer;
-        } else {
-            symbol = atomic.symbol;
-        }
-    }
+    Atomic(const Atomic& atomic);
 
     /** Whether two atomics are the same. */
     bool operator==(const Atomic& atomic);
@@ -75,19 +66,24 @@ struct Atomic {
     void replaceSymbol(const std::string& symbol);
 };
 
+/** The evaluated value of an atomic.
+ * 
+ * Note that the sign is only used to distinguish `+0` and `-0`.
+ */
 struct AtomicValue {
     bool negative;
     int32_t value;
 
-    AtomicValue() : negative(), value() {}
-    explicit AtomicValue(int32_t _value) : negative(), value(_value) { negative = _value < 0; }
-    AtomicValue(bool _negative, int32_t _value) : negative(_negative), value(_value) {}
-    AtomicValue(const AtomicValue& atomicValue) : negative(atomicValue.negative), value(atomicValue.value) {}
-    AtomicValue& operator=(const AtomicValue& atomicValue) {
-        negative = atomicValue.negative;
-        value = atomicValue.value;
-        return *this;
-    }
+    /** Initialize with `+0`. */
+    AtomicValue();
+    /** Initialize with an integer value. */
+    explicit AtomicValue(int32_t _value);
+    /** Initialize with an integer value and the sign. */
+    AtomicValue(bool _negative, int32_t _value);
+    /** Initialize with another atomic value. */
+    AtomicValue(const AtomicValue& atomicValue);
+    /** The copy assign operation. */
+    AtomicValue& operator=(const AtomicValue& atomicValue);
 };
 
 enum class Operation {
