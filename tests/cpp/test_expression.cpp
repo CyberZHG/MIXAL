@@ -214,4 +214,19 @@ __TEST_U(TestExpression, test_const_expression) {
     __ASSERT_EQ(true, expression.result().negative);
 }
 
+__TEST_U(TestExpression, test_expression_invalid_large_integer) {
+    __ASSERT_THROW(expression.parse("12345678901234", ""), mixal::ExpressionError);
+}
+
+__TEST_U(TestExpression, test_expression_evaluate_before_parse) {
+    __ASSERT_FALSE(mixal::Expression().evaluate(environment));
+}
+
+__TEST_U(TestExpression, test_expression_equal) {
+    __ASSERT_EQ(mixal::Expression("1+2"), mixal::Expression("+1++2"));
+    __ASSERT_NE(mixal::Expression("*"), mixal::Expression("*-***"));
+    __ASSERT_NE(mixal::Expression("+0"), mixal::Expression("-0"));
+    __ASSERT_NE(mixal::Expression("1/2"), mixal::Expression("1:2"));
+}
+
 }  // namespace test
