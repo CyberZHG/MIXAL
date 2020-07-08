@@ -2,7 +2,6 @@ language: cpp
 os:
   - linux
 compiler:
-  - clang
   - gcc
 addons:
   apt:
@@ -12,6 +11,6 @@ install:
   - gem install coveralls-lcov
 script: bash test_cpp.sh
 after_success:
-  - coveralls-lcov tests/cpp/coverage/coverage.info
+  - coveralls-lcov tests/cpp/coverage/filtered.info
 notifications:
   webhooks: https://coveralls.io/webhook
