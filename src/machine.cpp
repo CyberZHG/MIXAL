@@ -355,9 +355,10 @@ void Machine::loadCodes(const std::vector<std::string>& codes, bool addHalt) {
                 if (!result.rawLocation.empty()) {
                     lineSymbol = result.rawLocation;
                 }
-                constants.push_back({lineSymbol,
-                                     Expression::getConstOffsetExpression(lineBase, lineOffset++),
-                                     result.address});
+                constants.push_back(std::make_tuple(
+                    lineSymbol,
+                    Expression::getConstOffsetExpression(lineBase, lineOffset++),
+                    result.address));
                 break;
             case Instructions::END:
                 endIndex = codeIndex;
@@ -409,18 +410,20 @@ void Machine::loadCodes(const std::vector<std::string>& codes, bool addHalt) {
     if (addHalt) {
         auto lineSymbol = getPesudoSymbolname();
         auto haltCommand = Parser::parseLine("HLT", lineSymbol, false);
-        constants.push_back({lineSymbol,
-                             Expression::getConstOffsetExpression(lineBase, lineOffset++),
-                             Expression::getConstExpression(AtomicValue(haltCommand.word.value()))});
+        constants.push_back(std::make_tuple(
+            lineSymbol,
+             Expression::getConstOffsetExpression(lineBase, lineOffset++),
+             Expression::getConstExpression(AtomicValue(haltCommand.word.value()))));
     }
     // Add expressions and literal constants
     for (auto& result : results) {
         if (!result.rawAddress.empty()) {
             if (result.address.literalConstant()) {
                 auto lineSymbol = getPesudoSymbolname();
-                constants.push_back({lineSymbol,
-                                    Expression::getConstOffsetExpression(lineBase, lineOffset++),
-                                    result.address});
+                constants.push_back(std::make_tuple(
+                    lineSymbol,
+                    Expression::getConstOffsetExpression(lineBase, lineOffset++),
+                    result.address));
                 result.address = Expression::getConstExpression(lineSymbol);
             }
             expressions[getPesudoSymbolname()] = &result.address;
@@ -434,9 +437,10 @@ void Machine::loadCodes(const std::vector<std::string>& codes, bool addHalt) {
     }
     if (endIndex != -1) {
         auto lineSymbol = results[endIndex].rawLocation.empty() ? getPesudoSymbolname() : results[endIndex].rawLocation;
-        constants.push_back({lineSymbol,
-                             Expression::getConstOffsetExpression(lineBase, lineOffset++),
-                             results[endIndex].address});
+        constants.push_back(std::make_tuple(
+            lineSymbol,
+            Expression::getConstOffsetExpression(lineBase, lineOffset++),
+            results[endIndex].address));
     }
     // Add collected constants to expressions
     for (auto& it : constants) {

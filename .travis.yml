@@ -5,14 +5,17 @@ os:
 compiler:
   - clang
   - gcc
+cache:
+  directories:
+    - $HOME/Library/Caches/Homebrew
+    - /usr/local/Homebrew
 addons:
   apt:
-    packages: lcov
-  homebrew:
     packages: lcov
 install:
   - python -m pip install --user -r requirements.txt
   - python -m pip install --user -r requirements-dev.txt
+  - if [ "${TRAVIS_OS_NAME}" = "osx" ]; then brew update && brew install lcov; fi
 script:  bash test_cpp.sh && bash test_py.sh
 after_success:
   coveralls
