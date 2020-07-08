@@ -1,22 +1,17 @@
 language: cpp
 os:
   - linux
-  - osx
 compiler:
   - clang
   - gcc
-cache:
-  directories:
-    - $HOME/Library/Caches/Homebrew
-    - /usr/local/Homebrew
 addons:
   apt:
     packages: lcov
 install:
-  - python -m pip install --user cpplint
-  - if [ "${TRAVIS_OS_NAME}" = "osx" ]; then brew update && brew install lcov; fi
-script:  bash test_cpp.sh
+  - python -m pip install --user cpplint coveralls
+  - gem install coveralls-lcov
+script: bash test_cpp.sh
 after_success:
-  coveralls
+  - coveralls-lcov tests/cpp/coverage/coverage.info
 notifications:
   webhooks: https://coveralls.io/webhook
