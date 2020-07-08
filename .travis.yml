@@ -13,10 +13,8 @@ addons:
   apt:
     packages: lcov
 install:
-  - python -m pip install --user -r requirements.txt
-  - python -m pip install --user -r requirements-dev.txt
   - if [ "${TRAVIS_OS_NAME}" = "osx" ]; then brew update && brew install lcov; fi
-script:  bash test_cpp.sh && bash test_py.sh
+script:  bash test_cpp.sh
 after_success:
   coveralls
 notifications:
