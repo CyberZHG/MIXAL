@@ -21,7 +21,7 @@ void Machine::executeNUM() {
 }
 
 void Machine::executeCHAR() {
-    int32_t num = abs(rA.value());
+    int32_t num = std::abs(rA.value());
     for (int i = 5; i >= 1; --i) {
         rX[i] = 30 + num % 10;
         num /= 10;

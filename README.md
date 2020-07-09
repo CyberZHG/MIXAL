@@ -3,6 +3,8 @@ MIXAL
 
 ![Unit Tests](https://github.com/CyberZHG/MIXAL/workflows/Unit%20Tests/badge.svg)
 [![Deploy](https://github.com/CyberZHG/MIXAL/workflows/Deploy/badge.svg)](https://cyberzhg.github.io/MIXAL/)
+[![Build Status](https://travis-ci.org/CyberZHG/MIXAL.svg?branch=master)](https://travis-ci.org/CyberZHG/MIXAL)
+[![Coverage Status](https://coveralls.io/repos/github/CyberZHG/MIXAL/badge.svg?branch=master)](https://coveralls.io/github/CyberZHG/MIXAL?branch=travis)
 [![Version](https://img.shields.io/pypi/v/mixal.svg)](https://pypi.org/project/mixal/)
 ![Downloads](https://img.shields.io/pypi/dm/mixal.svg)
 ![License](https://img.shields.io/pypi/l/keras-bert.svg)
