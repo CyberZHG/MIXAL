@@ -73,10 +73,10 @@ bool ParsedResult::evaluateAddress(const std::unordered_map<std::string, AtomicV
         return false;
     }
     int32_t value = address.result().value;
-    if (parsedType == ParsedType::INSTRUCTION && !address.literalConstant() && abs(value) >= 4096) {
+    if (parsedType == ParsedType::INSTRUCTION && !address.literalConstant() && std::abs(value) >= 4096) {
         throw ParseError(index, "Address can not be represented in 2 bytes: " + std::to_string(value));
     }
-    word.setAddress(address.result().negative, static_cast<uint16_t>(abs(value)));
+    word.setAddress(address.result().negative, static_cast<uint16_t>(std::abs(value)));
     return true;
 }
 

@@ -1,13 +1,16 @@
-dist: xenial
-language: python
-python:
-  - 3.7
+language: cpp
+os:
+  - linux
+compiler:
+  - gcc
+addons:
+  apt:
+    packages: lcov
 install:
-  - pip install --upgrade pip
-  - pip install -r requirements.txt
-  - pip install -r requirements-dev.txt
-  - pip install coveralls
-script:
-  - ./test.sh
+  - python -m pip install --user cpplint coveralls
+  - gem install coveralls-lcov
+script: bash test_cpp.sh
 after_success:
-  coveralls
+  - coveralls-lcov tests/cpp/coverage/filtered.info
+notifications:
+  webhooks: https://coveralls.io/webhook
