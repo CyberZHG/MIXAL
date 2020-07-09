@@ -1,4 +1,5 @@
 #include <iostream>
+#include <sstream>
 #include "test.h"
 #include "parser.h"
 
@@ -242,6 +243,8 @@ __TEST_U(TestParse, test_parse_line_empty_with_indent) {
     __ASSERT_EQ(0, result.word.index());
     __ASSERT_EQ(0, result.word.field());
     __ASSERT_EQ(0, result.word.operation());
+    result = mixal::Parser::parseLine("", "", true);
+    __ASSERT_EQ(mixal::ParsedType::EMPTY, result.parsedType);
 }
 
 __TEST_U(TestParse, test_parse_line_single_line_comment) {
@@ -293,6 +296,10 @@ __TEST_U(TestParse, test_parse_line_invalid_address_with_only_negative_sign) {
 
 __TEST_U(TestParse, test_parse_line_invalid_address_with_multiple_negative_signs) {
     __ASSERT_THROW(mixal::Parser::parseLine("LDA --2000", "", false), mixal::ParseError);
+}
+
+__TEST_U(TestParse, test_parse_line_invalid_operation_name) {
+    __ASSERT_THROW(mixal::Parser::parseLine("LDW -2000", "", false), mixal::ParseError);
 }
 
 __TEST_U(TestParse, test_parse_line_invalid_address_with_too_long) {
@@ -376,7 +383,7 @@ __TEST_U(TestParse, test_parse_line_invalid_field_with_get_index) {
         mixal::Parser::parseLine("LDA -2000,2(0:3)x", "", false);
     } catch (mixal::ParseError error) {
         __ASSERT_EQ(16, error.index());
-        __ASSERT_EQ(std::string("Unexpected character encountered while parsing digital modification"),
+        __ASSERT_EQ(std::string("Unexpected character encountered while parsing field: x"),
                     std::string(error.what()));
     }
 }
@@ -392,6 +399,26 @@ __TEST_U(TestParse, test_parse_line_invalid_line_without_address) {
 __TEST_U(TestParse, test_parse_line_invalid_field_value) {
     __ASSERT_NO_THROW(mixal::Parser::parseLine("ENTA 0", "", false));
     __ASSERT_THROW(mixal::Parser::parseLine("ENTA 0(1:3)", "", false), mixal::ParseError);
+}
+
+__TEST_U(TestParse, test_move_with_only_tailing_space) {
+    __ASSERT_NO_THROW(mixal::Parser::parseLine("MOVE ", "", false));
+}
+
+__TEST_U(TestParse, test_output_parsed_result) {
+    auto result = mixal::Parser::parseLine("LOC LDA X,Y(Z)", "", true);
+    std::stringstream out;
+    out << result;
+    __ASSERT_EQ("LOC\tLDA\tX,Y(Z)", out.str());
+    std::unordered_map<std::string, mixal::AtomicValue> constants;
+    constants["X"] = mixal::AtomicValue(1000);
+    constants["Y"] = mixal::AtomicValue(2);
+    constants["Z"] = mixal::AtomicValue(5);
+    result.location = mixal::Expression::getConstExpression(mixal::AtomicValue(3000));
+    result.evaluate(constants);
+    out.str("");
+    out << result;
+    __ASSERT_EQ("3000\tLDA\t1000,2(5)", out.str());
 }
 
 }  // namespace test

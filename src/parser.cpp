@@ -3,48 +3,35 @@
 #include "parser.h"
 #include "instructions.h"
 
+/**
+ * @file
+ * @brief The parsing of one line of code.
+ */
+
 namespace mixal {
 
+/** The state while parsing a line.
+ * 
+ * ```
+ * LOC OP ADDRESS,INDEX(FIELD) COMMENT
+ * ```
+ */
 enum class ParseState {
-    // LOC OP ADDRESS,INDEX(FIELD)
-    START,
-    LOC,
-    BEFORE_OP,
-    OP,
-    BEFORE_ADDRESS,
-    // CONSTANT,
-    ADDRESS,
-    BEFORE_INDEX,
-    INDEX,
-    FIELD_OPEN,
-    FIELD,
-    FIELD_CLOSE,
-    BEFORE_COMMENT,
-    COMMENT,
-    END,
+    START,            /**< The start of parsing. */
+    LOC,              /**< The location. */
+    BEFORE_OP,        /**< The spaces before operation. */
+    OP,               /**< The operation. */
+    BEFORE_ADDRESS,   /**< The spaces before base address. */
+    ADDRESS,          /**< The base address. */
+    BEFORE_INDEX,     /**< The comma. */
+    INDEX,            /**< The index. */
+    FIELD_OPEN,       /**< The open bracket of the, field. */
+    FIELD,            /**< The field. */
+    FIELD_CLOSE,      /**< The close bracket of the field. */
+    BEFORE_COMMENT,   /**< The spaces before comment. */
+    COMMENT,          /**< The comment. */
+    END,              /**< The end state. */
 };
-
-#ifdef __DEBUG__
-std::ostream& operator<<(std::ostream& os, ParseState c) {
-    switch (c) {
-    case ParseState::START: os << "START"; break;
-    case ParseState::LOC: os << "LOC"; break;
-    case ParseState::BEFORE_OP: os << "BEFORE_OP"; break;
-    case ParseState::OP: os << "OP"; break;
-    case ParseState::BEFORE_ADDRESS: os << "BEFORE_ADDRESS"; break;
-    case ParseState::ADDRESS: os << "ADDRESS"; break;
-    case ParseState::BEFORE_INDEX: os << "BEFORE_INDEX"; break;
-    case ParseState::INDEX: os << "INDEX"; break;
-    case ParseState::FIELD_OPEN: os << "FIELD_OPEN"; break;
-    case ParseState::FIELD: os << "FIELD"; break;
-    case ParseState::FIELD_CLOSE: os << "FIELD_CLOSE"; break;
-    case ParseState::BEFORE_COMMENT: os << "BEFORE_COMMENT"; break;
-    case ParseState::COMMENT: os << "COMMENT"; break;
-    case ParseState::END: os << "END"; break;
-    }
-    return os;
-}
-#endif  // __DEBUG__
 
 std::ostream& operator<<(std::ostream& os, ParsedType c) {
     switch (c) {
@@ -157,7 +144,7 @@ ParsedResult Parser::parseLine(const std::string& line, const std::string& lineS
     const char END_CHAR = '#';
     const int INIT_INDEX = -1;
     ParsedResult result;
-    result.word.setField(5);
+    result.word.setField(5);  // For most of the operations, the default field value is (0:5) = 5.
     result.parsedType = ParsedType::INSTRUCTION;
     auto state = hasLocation ? ParseState::START : ParseState::BEFORE_OP;
     int locationStart = INIT_INDEX,
@@ -173,24 +160,34 @@ ParsedResult Parser::parseLine(const std::string& line, const std::string& lineS
         switch (state) {
         case ParseState::START:
             if (ch == ' ') {
+                // This line does not have the location name.
                 state = ParseState::BEFORE_OP;
             } else if (ch == '*') {
+                // This line only contains comments.
                 state = ParseState::COMMENT;
                 result.parsedType = ParsedType::EMPTY;
                 commentStart = i;
-            } else {
+            } else if (ch == END_CHAR) {
+                state = ParseState::END;
+                result.parsedType = ParsedType::EMPTY;
+            } else if (isalnum(ch)) {
+                // A valid character in location.
                 state = ParseState::LOC;
                 locationStart = i;
+            } else {
+                throw ParseError(i, "Unexpected character encountered while parsing location: " + std::string(1, ch));
             }
             break;
+
         case ParseState::LOC:
             if (ch == ' ') {
                 state = ParseState::BEFORE_OP;
                 result.rawLocation = line.substr(locationStart, i - locationStart);
             } else if (!isalnum(ch)) {
-                throw ParseError(i, "Unexpected character encountered while parsing location");
+                throw ParseError(i, "Unexpected character encountered while parsing location: " + std::string(1, ch));
             }
             break;
+
         case ParseState::BEFORE_OP:
             if (ch == ' ') {
                 continue;
@@ -204,9 +201,10 @@ ParsedResult Parser::parseLine(const std::string& line, const std::string& lineS
                 state = ParseState::OP;
                 operationStart = i;
             } else {
-                throw ParseError(i, "Unexpected character encountered while finding operation");
+                throw ParseError(i, "Unexpected character encountered while finding operation: " + std::string(1, ch));
             }
             break;
+
         case ParseState::OP:
             if (ch == ' ' || ch == END_CHAR) {
                 result.operation = line.substr(operationStart, i - operationStart);
@@ -229,6 +227,7 @@ ParsedResult Parser::parseLine(const std::string& line, const std::string& lineS
                     result.parsedType = ParsedType::PSEUDO;
                     result.word.setOperation(static_cast<uint8_t>(operation - Instructions::PSEUDO));
                     if (operation == Instructions::ALF) {
+                        // The "address" in ALF starts exactly two characters after the operation.
                         result.rawAddress = "     ";
                         ++i;
                         for (int shift = 0; shift < 5 && i < static_cast<int>(line.size()); ++shift) {
@@ -244,9 +243,10 @@ ParsedResult Parser::parseLine(const std::string& line, const std::string& lineS
                     }
                 }
             } else if (!isalnum(ch)) {
-                throw ParseError(i, "Unexpected character encountered while parsing operation");
+                throw ParseError(i, "Unexpected character encountered while parsing operation: " + std::string(1, ch));
             }
             break;
+
         case ParseState::BEFORE_ADDRESS:
             if (ch == ' ') {
                 continue;
@@ -256,9 +256,10 @@ ParsedResult Parser::parseLine(const std::string& line, const std::string& lineS
                 state = ParseState::ADDRESS;
                 addressStart = i;
             } else {
-                throw ParseError(i, "Unexpected character encountered while finding address");
+                throw ParseError(i, "Unexpected character encountered while finding address: " + std::string(1, ch));
             }
             break;
+
         case ParseState::ADDRESS:
             if (ch == ' ' || ch == ',' || ch == '(' || ch == END_CHAR) {
                 if (ch == ' ') {
@@ -278,9 +279,10 @@ ParsedResult Parser::parseLine(const std::string& line, const std::string& lineS
                 }
                 result.evaluateAddress(emptyDict);
             } else if (!Expression::isValidChar(ch)) {
-                throw ParseError(i, "Unexpected character encountered while parsing address");
+                throw ParseError(i, "Unexpected character encountered while parsing address: " + std::string(1, ch));
             }
             break;
+
         case ParseState::BEFORE_INDEX:
             if (Expression::isValidFirst(ch)) {
                 state = ParseState::INDEX;
@@ -288,9 +290,10 @@ ParsedResult Parser::parseLine(const std::string& line, const std::string& lineS
             } else if (ch == END_CHAR) {
                 throw ParseError(i, "No index found after comma");
             } else {
-                throw ParseError(i, "Unexpected character encountered while finding index");
+                throw ParseError(i, "Unexpected character encountered while finding index: " + std::string(1, ch));
             }
             break;
+
         case ParseState::INDEX:
             if (ch == ' ' || ch == '(' || ch == END_CHAR) {
                 if (ch == ' ') {
@@ -308,17 +311,20 @@ ParsedResult Parser::parseLine(const std::string& line, const std::string& lineS
                 }
                 result.evaluateIndex(emptyDict);
             } else if (!Expression::isValidChar(ch)) {
-                throw ParseError(i, "Unexpected character encountered while parsing index");
+                throw ParseError(i, "Unexpected character encountered while parsing index: " + std::string(1, ch));
             }
             break;
+
         case ParseState::FIELD_OPEN:
             if (Expression::isValidFirst(ch)) {
                 state = ParseState::FIELD;
                 fieldStart = i;
             } else {
-                throw ParseError(i, "Unexpected character encountered while parsing modification");
+                throw ParseError(i, "Unexpected character encountered "
+                                    "while parsing modification: " + std::string(1, ch));
             }
             break;
+
         case ParseState::FIELD:
             if (ch == ')') {
                 state = ParseState::FIELD_CLOSE;
@@ -330,9 +336,10 @@ ParsedResult Parser::parseLine(const std::string& line, const std::string& lineS
                 }
                 result.evaluateField(emptyDict);
             } else if (!Expression::isValidChar(ch)) {
-                throw ParseError(i, "Unexpected character encountered while parsing index");
+                throw ParseError(i, "Unexpected character encountered while parsing index: " + std::string(1, ch));
             }
             break;
+
         case ParseState::FIELD_CLOSE:
             if (ch == ' ' || ch == END_CHAR) {
                 if (ch == ' ') {
@@ -341,9 +348,10 @@ ParsedResult Parser::parseLine(const std::string& line, const std::string& lineS
                     state = ParseState::END;
                 }
             } else {
-                throw ParseError(i, "Unexpected character encountered while parsing digital modification");
+                throw ParseError(i, "Unexpected character encountered while parsing field: " + std::string(1, ch));
             }
             break;
+
         case ParseState::BEFORE_COMMENT:
             if (ch == END_CHAR) {
                 state = ParseState::END;
@@ -352,20 +360,24 @@ ParsedResult Parser::parseLine(const std::string& line, const std::string& lineS
                 commentStart = i;
             }
             break;
+
         case ParseState::COMMENT:
             if (ch == END_CHAR) {
                 state = ParseState::END;
                 result.comment = line.substr(commentStart, i - commentStart);
             }
             break;
+
         case ParseState::END:
-            break;
+            assert(false);  // This line can not be reached.
         }
     }
     if (result.rawField.empty()) {
         if (result.word.operation() == Instructions::MOVE) {
+            // The default field value for MOVE is 1, but it is not mandatory.
             defaultField = 1;
         } else if (result.word.operation() == Instructions::NOP) {
+            // The whole word is `+0`, but it is not mandatory.
             defaultField = 0;
         }
     }
