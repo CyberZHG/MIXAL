@@ -115,7 +115,7 @@ void Expression::parse(const std::string& expression, const std::string& lineSym
                 throw ExpressionError(i, "The expression is empty.");
             } else {
                 throw ExpressionError(i,
-                    "Invalid character found at the start of the expression: " + std::to_string(ch));
+                    "Invalid character found at the start of the expression: " + std::string(1, ch));
             }
             break;
 
@@ -133,7 +133,7 @@ void Expression::parse(const std::string& expression, const std::string& lineSym
                     lastOperationStart = i;
                 } else {
                     throw ExpressionError(i,
-                        "Invalid character found while trying to find an operation: " + std::to_string(ch));
+                        "Invalid character found while trying to find an operation: " + std::string(1, ch));
                 }
                 bool negative = expression[lastAtomicStart] == '-';
                 _atomics.emplace_back(Atomic(AtomicType::ASTERISK, lineSymbol, negative));
@@ -149,7 +149,7 @@ void Expression::parse(const std::string& expression, const std::string& lineSym
                     lastOperationStart = i;
                 } else {
                     throw ExpressionError(i,
-                        "Invalid character found while trying to find an operation: " + std::to_string(ch));
+                        "Invalid character found while trying to find an operation: " + std::string(1, ch));
                 }
                 bool isInteger = true, negative = false;
                 int32_t integerValue = 0;

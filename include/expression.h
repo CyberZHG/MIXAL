@@ -80,8 +80,6 @@ struct AtomicValue {
     AtomicValue();
     /** Initialize with an integer value. */
     explicit AtomicValue(int32_t _value);
-    /** Initialize with an integer value and the sign. */
-    AtomicValue(bool _negative, int32_t _value);
     /** Initialize with another atomic value. */
     AtomicValue(const AtomicValue& atomicValue);
     /** The copy assign operation. */

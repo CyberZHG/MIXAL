@@ -61,10 +61,6 @@ AtomicValue::AtomicValue(int32_t _value) : negative(), value(_value) {
     negative = _value < 0;
 }
 
-AtomicValue::AtomicValue(bool _negative, int32_t _value) :
-    negative(_negative), value(_value) {
-}
-
 AtomicValue::AtomicValue(const AtomicValue& atomicValue) :
     negative(atomicValue.negative), value(atomicValue.value) {
 }

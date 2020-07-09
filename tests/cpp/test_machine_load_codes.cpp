@@ -82,6 +82,19 @@ __TEST_U(TestMachineLoadCodes, test_load_constant) {
     __ASSERT_EQ(1000000, machine.memory[3000].value());
 }
 
+__TEST_U(TestMachineLoadCodes, test_load_set_all_zeros) {
+    std::vector<std::string> codes = {
+        "        ORIG    3000",
+        "        STZ     0",
+        "        LD1     =1=",
+        "        MOVE    0(49)",
+        "        MOVE    0(50)"
+    };
+    machine.loadCodes(codes);
+    __ASSERT_EQ(mixal::ComputerWord(false, 0, 0, 49, 7), machine.memory[3002]);
+    __ASSERT_EQ(mixal::ComputerWord(false, 0, 0, 50, 7), machine.memory[3003]);
+}
+
 __TEST_U(TestMachineLoadCodes, test_load_literal_constant) {
     std::vector<std::string> codes = {
         " ORIG 3000",
