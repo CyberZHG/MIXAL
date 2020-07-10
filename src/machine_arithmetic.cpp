@@ -3,6 +3,10 @@
 
 namespace mixal {
 
+/** Add the values of rA and the word in the memory into rA.
+ * 
+ * @see overflow
+ */
 void Machine::executeADD(const InstructionWord& instruction) {
     int32_t valueA = rA.value();
     ComputerWord word;
@@ -13,6 +17,10 @@ void Machine::executeADD(const InstructionWord& instruction) {
     rA.set(checkRange(result));
 }
 
+/** Subtract the values of rA and the word in the memory into rA.
+ * 
+ * @see overflow
+ */
 void Machine::executeSUB(const InstructionWord& instruction) {
     int32_t valueA = rA.value();
     ComputerWord word;
@@ -24,6 +32,10 @@ void Machine::executeSUB(const InstructionWord& instruction) {
     rA.set(checkRange(result));
 }
 
+/** Multiply the values of rA and the word in the memory into rA and rX.
+ * 
+ * Note that overflow will never be triggered.
+ */
 void Machine::executeMUL(const InstructionWord& instruction) {
     int32_t valueA = rA.value();
     ComputerWord word;
@@ -35,6 +47,12 @@ void Machine::executeMUL(const InstructionWord& instruction) {
     rX.set(result % (1 << 30));
 }
 
+/** Divide the value of rA and rX with the value of the word in the memory.
+ * 
+ * The quotient will be placed in rA and the remainder will be placed in rX.
+ * 
+ * @see overflow
+ */
 void Machine::executeDIV(const InstructionWord& instruction) {
     int32_t valueA = std::abs(rA.value());
     int32_t valueX = std::abs(rX.value());

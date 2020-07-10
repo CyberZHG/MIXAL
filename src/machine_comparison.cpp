@@ -3,6 +3,10 @@
 
 namespace mixal {
 
+/** Compare the values in rA or rX and the word in memory.
+ * 
+ * @see comparison
+ */
 void Machine::executeCMP(const InstructionWord& instruction, Register5* reg) {
     ComputerWord a, b;
     int32_t address = getIndexedAddress(instruction);
@@ -18,6 +22,10 @@ void Machine::executeCMP(const InstructionWord& instruction, Register5* reg) {
     }
 }
 
+/** Compare the values in rI and the word in memory.
+ * 
+ * @see comparison
+ */
 void Machine::executeCMPi(const InstructionWord& instruction) {
     int registerIndex = instruction.operation() - Instructions::CMP1 + 1;
     auto& rIi = rI(registerIndex);

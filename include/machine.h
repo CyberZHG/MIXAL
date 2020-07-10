@@ -97,11 +97,7 @@ class Machine {
     void copyFromRegister5(const InstructionWord& instruction, const Register5& reg, ComputerWord* word);
     /** Copy values considered the field value. */
     void copyToRegister2(const InstructionWord& instruction, const ComputerWord& word, Register2* reg);
-    /** Check whether the given value can be fitted into the given number of bytes.
-     * 
-     * Overflow will be triggered if it the value can not be fitted into 5 bytes.
-     * (Which means rI will not trigger overflow.)
-     */
+
     int32_t checkRange(int32_t value, int bytes = 5);
 
     /** Get one byte from the unit value of rA and rX. */

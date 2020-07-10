@@ -547,6 +547,11 @@ void Machine::copyToRegister2(const InstructionWord& instruction, const Computer
     }
 }
 
+/** Check whether the given value can be fitted into the given number of bytes.
+ * 
+ * Overflow will be triggered if it the value can not be fitted into 5 bytes.
+ * (Which means rI will not trigger overflow.)
+ */
 int32_t Machine::checkRange(int32_t value, int bytes) {
     int32_t range = 1 << (6 * bytes);
     if (std::abs(value) >= range) {
