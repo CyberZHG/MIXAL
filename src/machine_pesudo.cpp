@@ -8,6 +8,7 @@
 
 namespace mixal {
 
+/** Define a symbol and its corresponding value. */
 void Machine::executeEQU(ParsedResult* instruction) {
     if (!instruction->address.evaluated()) {
         if (!instruction->address.evaluate(_constants)) {
@@ -17,6 +18,7 @@ void Machine::executeEQU(ParsedResult* instruction) {
     _constants[instruction->rawLocation] = AtomicValue(instruction->address.result().value);
 }
 
+/** Set the start line of the following codes. */
 void Machine::executeORIG(ParsedResult* instruction) {
     if (!instruction->address.evaluated()) {
         if (!instruction->address.evaluate(_constants)) {
@@ -32,6 +34,7 @@ void Machine::executeORIG(ParsedResult* instruction) {
     }
 }
 
+/** Store a constant to memory. */
 void Machine::executeCON(ParsedResult* instruction) {
     if (!instruction->address.evaluated()) {
         if (!instruction->address.evaluate(_constants)) {

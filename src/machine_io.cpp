@@ -91,7 +91,7 @@ void Machine::executeIN(const InstructionWord& instruction) {
         throw RuntimeError(_lineOffset, "Device does not support read: " + std::to_string(instruction.field()));
     }
     waitDevice(device);
-    int32_t address = getIndexedAddress(instruction);
+    int32_t address = getIndexedAddress(instruction, true);
     device->read(memory, address);
 }
 
@@ -107,7 +107,7 @@ void Machine::executeOUT(const InstructionWord& instruction) {
         throw RuntimeError(_lineOffset, "Device does not support write: " + std::to_string(instruction.field()));
     }
     waitDevice(device);
-    int32_t address = getIndexedAddress(instruction);
+    int32_t address = getIndexedAddress(instruction, true);
     device->write(memory, address);
 }
 

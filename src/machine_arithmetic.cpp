@@ -15,7 +15,7 @@ namespace mixal {
 void Machine::executeADD(const InstructionWord& instruction) {
     int32_t valueA = rA.value();
     ComputerWord word;
-    int address = getIndexedAddress(instruction);
+    int address = getIndexedAddress(instruction, true);
     copyToRegister5(instruction, memory[address], &word);
     int32_t valueM = word.value();
     int32_t result = valueA + valueM;
@@ -29,7 +29,7 @@ void Machine::executeADD(const InstructionWord& instruction) {
 void Machine::executeSUB(const InstructionWord& instruction) {
     int32_t valueA = rA.value();
     ComputerWord word;
-    int address = getIndexedAddress(instruction);
+    int address = getIndexedAddress(instruction, true);
     copyToRegister5(instruction, memory[address], &word);
     word.negative = !word.negative;
     int32_t valueM = word.value();
@@ -44,7 +44,7 @@ void Machine::executeSUB(const InstructionWord& instruction) {
 void Machine::executeMUL(const InstructionWord& instruction) {
     int32_t valueA = rA.value();
     ComputerWord word;
-    int address = getIndexedAddress(instruction);
+    int address = getIndexedAddress(instruction, true);
     copyToRegister5(instruction, memory[address], &word);
     int32_t valueM = word.value();
     int64_t result = static_cast<int64_t>(valueA) * static_cast<int64_t>(valueM);
@@ -68,7 +68,7 @@ void Machine::executeDIV(const InstructionWord& instruction) {
         dividend = -dividend;
     }
     ComputerWord word;
-    int address = getIndexedAddress(instruction);
+    int address = getIndexedAddress(instruction, true);
     copyToRegister5(instruction, memory[address], &word);
     int32_t divisor = word.value();
     if (divisor == 0) {

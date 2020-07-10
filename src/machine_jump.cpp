@@ -13,14 +13,14 @@ namespace mixal {
  * rJ will be set to the next instruction if the jump has not been occured.
  */
 void Machine::executeJMP(const InstructionWord& instruction) {
-    int32_t address = getIndexedAddress(instruction);
+    int32_t address = getIndexedAddress(instruction, true);
     rJ.set(_lineOffset + 1);
     _lineOffset = address - 1;
 }
 
 /** Jump without updating rJ. */
 void Machine::executeJSJ(const InstructionWord& instruction) {
-    int32_t address = getIndexedAddress(instruction);
+    int32_t address = getIndexedAddress(instruction, true);
     _lineOffset = address - 1;
 }
 
@@ -96,7 +96,7 @@ void Machine::executeJGE(const InstructionWord& instruction) {
  */
 void Machine::executeJNE(const InstructionWord& instruction) {
     if (comparison != ComparisonIndicator::EQUAL) {
-        int32_t address = getIndexedAddress(instruction);
+        int32_t address = getIndexedAddress(instruction, true);
         rJ.set(_lineOffset + 1);
         _lineOffset = address - 1;
     }

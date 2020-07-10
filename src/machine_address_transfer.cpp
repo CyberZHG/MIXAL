@@ -30,7 +30,7 @@ void Machine::executeDEC(const InstructionWord& instruction, Register5* reg) {
     reg->set(checkRange(value));
 }
 
-/** Enter the address value to rA or rX. */
+/** Enter the immediate address value to rA or rX. */
 void Machine::executeENT(const InstructionWord& instruction, Register5* reg) {
     int32_t address = getIndexedAddress(instruction);
     reg->set(address);
@@ -39,7 +39,7 @@ void Machine::executeENT(const InstructionWord& instruction, Register5* reg) {
     }
 }
 
-/** Enter the negative address value to rA or rX. */
+/** Enter the negative immediate address value to rA or rX. */
 void Machine::executeENN(const InstructionWord& instruction, Register5* reg) {
     int32_t address = getIndexedAddress(instruction);
     reg->set(-address);
