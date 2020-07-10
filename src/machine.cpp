@@ -2,6 +2,7 @@
 #include <set>
 #include <tuple>
 #include <sstream>
+#include <cassert>
 #include "machine.h"
 #include "parser.h"
 
@@ -10,7 +11,7 @@ namespace mixal {
 Machine::Machine() : rA(), rX(), rI1(), rI2(), rI3(), rI4(), rI5(), rI6(), rJ(),
       overflow(false), comparison(ComparisonIndicator::EQUAL), memory(),
       devices(NUM_IO_DEVICE, nullptr),
-      _pesudoVarIndex(), _lineOffset(), _elapsed(), _constants(), _lineNumbers() {}
+      _pesudoVarIndex(), _lineOffset(), _elapsed(), _constants() {}
 
 Register2& Machine::rI(int index) {
     switch (index) {
@@ -51,7 +52,6 @@ void Machine::reset() {
     _lineOffset = 0;
     _elapsed = 0;
     _constants.clear();
-    _lineNumbers.clear();
 }
 
 std::string Machine::getSingleLineSymbol() {
@@ -300,8 +300,6 @@ void Machine::executeSingle(const InstructionWord& instruction) {
     case Instructions::CMPX:
         executeCMP(instruction, &rX);
         break;
-    default:
-        break;
     }
     ++_lineOffset;
     _elapsed += Instructions::getCost(static_cast<Instructions::Code>(instruction.operation()),
@@ -318,8 +316,6 @@ void Machine::executeSinglePesudo(ParsedResult* instruction) {
         break;
     case Instructions::CON:
         executeCON(instruction);
-        break;
-    default:
         break;
     }
 }
@@ -362,8 +358,6 @@ void Machine::loadCodes(const std::vector<std::string>& codes, bool addHalt) {
                 break;
             case Instructions::END:
                 endIndex = codeIndex;
-                break;
-            default:
                 break;
             }
         } else if (result.parsedType == ParsedType::INSTRUCTION) {
@@ -565,16 +559,12 @@ int32_t Machine::checkRange(int32_t value, int bytes) {
 }
 
 uint8_t Machine::getAX(int index) const {
-    if (index <= 0 || index > 10) {
-        throw std::runtime_error("Invalid index for AX: " + std::to_string(index));
-    }
+    assert(1 <= index && index <= 10);
     return index <= 5 ? rA[index] : rX[index - 5];
 }
 
 void Machine::setAX(int index, uint8_t value) {
-    if (index <= 0 || index > 10) {
-        throw std::runtime_error("Invalid index for AX: " + std::to_string(index));
-    }
+    assert(1 <= index && index <= 10);
     if (index <= 5) {
         rA[index] = value;
     } else {

@@ -14,64 +14,99 @@
 #include "io.h"
 #include "errors.h"
 
+/**
+ * @file
+ * @brief The virtual machine.
+ */
+
 namespace mixal {
 
 using InstructionWord = ComputerWord;
 
 class Machine {
  public:
-    static const int NUM_INDEX_REGISTER = 6;
-    static const int NUM_MEMORY = 4000;
-    static const int NUM_IO_DEVICE = 21;
+    static const int NUM_INDEX_REGISTER = 6;  /**< Number of index registers. */
+    static const int NUM_MEMORY = 4000;       /**< Number of words in memory. */
+    static const int NUM_IO_DEVICE = 21;      /**< Number of IO devices. */
 
-    Register5 rA, rX;
-    Register2 rI1, rI2, rI3, rI4, rI5, rI6, rJ;
+    Register5 rA, /**< Accumulator register. */ rX;  /**< Extension register. */
+    Register2 rI1 /**< Index register. */, rI2, rI3, rI4, rI5, rI6, rJ;  /**< Jump address register. */
 
-    bool overflow;
-    ComparisonIndicator comparison;
+    bool overflow;  /**< Whether overflow has been triggered. */
+    ComparisonIndicator comparison;  /**< The result of comparison operations. */
 
-    ComputerWord memory[NUM_MEMORY];
-    std::vector<std::shared_ptr<IODevice>> devices;
+    ComputerWord memory[NUM_MEMORY];  /**< The memory in the machine. */
+    std::vector<std::shared_ptr<IODevice>> devices;  /**< The IO devices. */
 
+    /** Initialize the machine with zeros. */
     Machine();
 
+    /** Get the index register given the index of the register. */
     Register2& rI(int index);
+    /** Get a word from the memory. */
     const ComputerWord& memoryAt(int16_t index) const;
+    /** Get a word from the memory. */
     ComputerWord& memoryAt(int16_t index);
+    /** Get the device based on the index value. */
     std::shared_ptr<IODevice> getDevice(int32_t index);
+    /** Wait the IO device to be ready. */
     void waitDevice(std::shared_ptr<IODevice> device);
+    /** Wait all IO devices to be ready. */
     void waitDevices();
 
+    /** Reset the machine to zeros. */
     void reset();
+    /** Get the current executing line of the memory. */
     inline int line() const { return _lineOffset; }
+    /** Get elapsed unit time after executing the codes. */
     inline int elapsed() const { return _elapsed; }
 
+    /** Get a unique symbol name. */
     std::string getSingleLineSymbol();
+    /** Execute a single instruction in the memory. */
     void executeSingle();
+    /** Execute instructions until there is a self loop. */
     void executeUntilSelfLoop();
+    /** Execute instructions until the HLT operation has been met. */
     void executeUntilHalt();
+    /** Execute a single instruction based on the given instruction. */
     void executeSingle(ParsedResult* instruction);
+    /** Execute a single instruction based on the given instruction. */
     void executeSingle(const InstructionWord& instruction);
+    /** Execute a single pesudo instruction. */
     void executeSinglePesudo(ParsedResult* instruction);
 
+    /** Reset and load codes to memory. */
     void loadCodes(const std::vector<std::string>& codes, bool addHalt = true);
 
  private:
-    int32_t _pesudoVarIndex;
-    int32_t _lineOffset;
-    int32_t _elapsed;
+    int32_t _pesudoVarIndex;  /**< Used to generate unique symbol name. */
+    int32_t _lineOffset;      /**< The line of memory that is currently executing. */
+    int32_t _elapsed;         /**< The number of unit time that has been elapsed. */
+    /** The constants after executing the single line codes. */
     std::unordered_map<std::string, AtomicValue> _constants;
-    std::vector<std::string> _lineNumbers;
 
+    /** Get a unique symbol name. */
     std::string getPesudoSymbolname();
 
+    /** Get the address based on the base address and the index register. */
     int getIndexedAddress(const InstructionWord& instruction);
+    /** Copy values considered the field value. */
     void copyToRegister5(const InstructionWord& instruction, const ComputerWord& word, Register5* reg);
+    /** Copy values considered the field value. */
     void copyFromRegister5(const InstructionWord& instruction, const Register5& reg, ComputerWord* word);
+    /** Copy values considered the field value. */
     void copyToRegister2(const InstructionWord& instruction, const ComputerWord& word, Register2* reg);
+    /** Check whether the given value can be fitted into the given number of bytes.
+     * 
+     * Overflow will be triggered if it the value can not be fitted into 5 bytes.
+     * (Which means rI will not trigger overflow.)
+     */
     int32_t checkRange(int32_t value, int bytes = 5);
 
+    /** Get one byte from the unit value of rA and rX. */
     uint8_t getAX(int index) const;
+    /** Set one byte to the unit value of rA and rX. */
     void setAX(int index, uint8_t value);
 
     void executeADD(const InstructionWord& instruction);

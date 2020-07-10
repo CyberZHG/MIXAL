@@ -45,6 +45,23 @@ __TEST_U(TestMachineLoadCodes, test_load_sample) {
     __ASSERT_EQ(mixal::ComputerWord(false, 3009, 0, 0, 39), machine.memory[3009]);
 }
 
+__TEST_U(TestMachineLoadCodes, test_load_undefined_symbol) {
+    std::vector<std::string> codes = {
+        "        ORIG 3000",
+        "MAXIMUM STJ  EXIT",
+        "INIT    ENT3 0,1",
+        "        JMP  CHANGEM",
+        "LOOP    CMPA X,3",
+        "        JGE  *+3",
+        "CHANGEM ENT2 0,3",
+        "        LDA  X,3",
+        "        DEC3 1",
+        "        J3P  LOOP",
+        "EXIT    JMP  *",
+    };
+    __ASSERT_THROW(machine.loadCodes(codes), mixal::RuntimeError);
+}
+
 __TEST_U(TestMachineLoadCodes, test_run_sample) {
     std::vector<std::string> codes = {
         "X       EQU  1000",
