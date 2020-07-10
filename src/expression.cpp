@@ -221,7 +221,7 @@ void Expression::parse(const std::string& expression, const std::string& lineSym
             break;
 
         case ExprParseState::END:
-            assert(false);  // This line will never be reached.
+            break;
         }
     }
     // The parsing should always end with END state.

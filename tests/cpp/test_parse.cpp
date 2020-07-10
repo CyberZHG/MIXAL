@@ -405,6 +405,10 @@ __TEST_U(TestParse, test_move_with_only_tailing_space) {
     __ASSERT_NO_THROW(mixal::Parser::parseLine("MOVE ", "", false));
 }
 
+__TEST_U(TestParse, test_move_with_end_char) {
+    __ASSERT_NO_THROW(mixal::Parser::parseLine("MOVE##", "", false));
+}
+
 __TEST_U(TestParse, test_output_parsed_result) {
     auto result = mixal::Parser::parseLine("LOC LDA X,Y(Z)", "", true);
     std::stringstream out;

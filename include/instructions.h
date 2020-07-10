@@ -4,8 +4,14 @@
 #include <cstdint>
 #include <string>
 
+/**
+ * @file
+ * @brief Definitions of instructions.
+ */
+
 namespace mixal {
 
+/** Instruction type and utilities. */
 class Instructions {
  public:
     enum Code {
@@ -168,9 +174,13 @@ class Instructions {
         END = 104,   // pseudo-operation: end
     };
 
+    /** Whether the operation has extra arguments. */
     static bool hasArguments(Instructions::Code code);
+    /** The the type from the name of the operation. */
     static Instructions::Code getInstructionCode(const std::string& name);
+    /** Get default field value from the operation name. */
     static int getDefaultField(const std::string& name);
+    /** Get the unit time needed for an instruction. */
     static int getCost(Instructions::Code code, uint8_t field = 0);
 };
 

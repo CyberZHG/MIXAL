@@ -369,7 +369,7 @@ ParsedResult Parser::parseLine(const std::string& line, const std::string& lineS
             break;
 
         case ParseState::END:
-            assert(false);  // This line can not be reached.
+            break;
         }
     }
     if (result.rawField.empty()) {
