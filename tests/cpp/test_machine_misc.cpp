@@ -304,6 +304,13 @@ __TEST_U(TestMachineMISC, test_move_stacked) {
     __ASSERT_EQ(123, machine.memory[1002].value());
 }
 
+__TEST_U(TestMachineMISC, test_move_out_of_range) {
+    machine.rI1.set(4000);
+    machine.memory[1000].set(1);
+    auto result = mixal::Parser::parseLine("MOVE 1000(1)", "", false);
+    machine.executeSingle(&result);
+}
+
 __TEST_U(TestMachineMISC, test_hlt) {
     machine.loadCodes({
         "     ORIG 3000",

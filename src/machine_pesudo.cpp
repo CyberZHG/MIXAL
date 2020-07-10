@@ -1,6 +1,11 @@
 #include <iostream>
 #include "machine.h"
 
+/**
+ * @file
+ * @brief Pesudo operations.
+ */
+
 namespace mixal {
 
 void Machine::executeEQU(ParsedResult* instruction) {

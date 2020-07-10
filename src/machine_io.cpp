@@ -1,6 +1,11 @@
 #include <iostream>
 #include "machine.h"
 
+/**
+ * @file
+ * @brief IO operations.
+ */
+
 namespace mixal {
 
 std::shared_ptr<IODevice> Machine::getDevice(int32_t index) {

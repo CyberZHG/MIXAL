@@ -1,6 +1,11 @@
 #include <iostream>
 #include "machine.h"
 
+/**
+ * @file
+ * @brief Conversion operations.
+ */
+
 namespace mixal {
 
 /** Convert chars in rA and rX to number, and save the result to rA.

@@ -1,8 +1,14 @@
 #include <iostream>
 #include "machine.h"
 
+/**
+ * @file
+ * @brief MISC operations.
+ */
+
 namespace mixal {
 
+/** Shift left rA padded with zeros. */
 void Machine::executeSLA(const InstructionWord& instruction) {
     int32_t address = getIndexedAddress(instruction);
     int32_t shift = (address + 10000) % 5;
@@ -16,6 +22,7 @@ void Machine::executeSLA(const InstructionWord& instruction) {
     }
 }
 
+/** Shift right rA padded with zeros. */
 void Machine::executeSRA(const InstructionWord& instruction) {
     int32_t address = getIndexedAddress(instruction);
     int32_t shift = (address + 10000) % 5;
@@ -29,6 +36,7 @@ void Machine::executeSRA(const InstructionWord& instruction) {
     }
 }
 
+/** Shift left rA and rX padded with zeros. */
 void Machine::executeSLAX(const InstructionWord& instruction) {
     int32_t address = getIndexedAddress(instruction);
     int32_t shift = (address + 10000) % 10;
@@ -42,6 +50,7 @@ void Machine::executeSLAX(const InstructionWord& instruction) {
     }
 }
 
+/** Shift right rA and rX padded with zeros. */
 void Machine::executeSRAX(const InstructionWord& instruction) {
     int32_t address = getIndexedAddress(instruction);
     int32_t shift = (address + 10000) % 10;
@@ -55,6 +64,7 @@ void Machine::executeSRAX(const InstructionWord& instruction) {
     }
 }
 
+/** Shift left rA and rX circularly. */
 void Machine::executeSLC(const InstructionWord& instruction) {
     int32_t address = getIndexedAddress(instruction);
     int32_t shift = (address + 10000) % 10;
@@ -74,6 +84,7 @@ void Machine::executeSLC(const InstructionWord& instruction) {
     }
 }
 
+/** Shift right rA and rX circularly. */
 void Machine::executeSRC(const InstructionWord& instruction) {
     int32_t address = getIndexedAddress(instruction);
     int32_t shift = (address + 10000) % 10;
@@ -93,6 +104,11 @@ void Machine::executeSRC(const InstructionWord& instruction) {
     }
 }
 
+/** Move a batch of words based on address and rI1.
+ *
+ * The field value means the number of words to be moved.
+ * Nothing happens if the address is out of range.
+ */
 void Machine::executeMOVE(const InstructionWord& instruction) {
     int32_t originAddress = getIndexedAddress(instruction);
     int32_t targetAddress = rI1.value();
@@ -101,9 +117,6 @@ void Machine::executeMOVE(const InstructionWord& instruction) {
         int32_t target = targetAddress + i;
         int32_t origin = originAddress + i;
         if (target < 0 || target >= NUM_MEMORY) {
-            continue;
-        }
-        if (origin < 0 || origin >= NUM_MEMORY) {
             continue;
         }
         memory[target] = memory[origin];
