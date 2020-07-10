@@ -1,6 +1,11 @@
 #include <iostream>
 #include "machine.h"
 
+/**
+ * @file
+ * @brief Comparison operations.
+ */
+
 namespace mixal {
 
 /** Compare the values in rA or rX and the word in memory.

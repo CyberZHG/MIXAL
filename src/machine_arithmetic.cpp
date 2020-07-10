@@ -1,6 +1,11 @@
 #include <iostream>
 #include "machine.h"
 
+/**
+ * @file
+ * @brief Arithmetic operations.
+ */
+
 namespace mixal {
 
 /** Add the values of rA and the word in the memory into rA.
