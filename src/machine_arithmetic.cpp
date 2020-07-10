@@ -52,6 +52,8 @@ void Machine::executeMUL(const InstructionWord& instruction) {
  * The quotient will be placed in rA and the remainder will be placed in rX.
  * 
  * @see overflow
+ * 
+ * @throw mixal::RuntimeError When the divisor is 0.
  */
 void Machine::executeDIV(const InstructionWord& instruction) {
     int32_t valueA = std::abs(rA.value());

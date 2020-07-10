@@ -48,6 +48,10 @@ void Machine::waitDevices() {
     }
 }
 
+/** Jump when the device is busy.
+ * 
+ * The field value indicates the device.
+ */
 void Machine::executeJBUS(const InstructionWord& instruction) {
     auto device = getDevice(instruction.field());
     if (!device->ready(this->_elapsed)) {
@@ -55,6 +59,10 @@ void Machine::executeJBUS(const InstructionWord& instruction) {
     }
 }
 
+/** Execute special control signal.
+ * 
+ * The field value indicates the device.
+ */
 void Machine::executeIOC(const InstructionWord& instruction) {
     auto device = getDevice(instruction.field());
     waitDevice(device);
@@ -66,6 +74,12 @@ void Machine::executeIOC(const InstructionWord& instruction) {
     }
 }
 
+/** Read a block from the device.
+ * 
+ * The field value indicates the device.
+ * 
+ * @throw mixal::Runtime When the device cannot be read.
+ */
 void Machine::executeIN(const InstructionWord& instruction) {
     auto device = getDevice(instruction.field());
     if (!device->allowRead()) {
@@ -76,6 +90,12 @@ void Machine::executeIN(const InstructionWord& instruction) {
     device->read(memory, address);
 }
 
+/** Write a block to the device.
+ * 
+ * The field value indicates the device.
+ * 
+ * @throw mixal::Runtime When the device cannot be wrote.
+ */
 void Machine::executeOUT(const InstructionWord& instruction) {
     auto device = getDevice(instruction.field());
     if (!device->allowWrite()) {
@@ -86,6 +106,10 @@ void Machine::executeOUT(const InstructionWord& instruction) {
     device->write(memory, address);
 }
 
+/** Jump when the device is ready.
+ * 
+ * The field value indicates the device.
+ */
 void Machine::executeJRED(const InstructionWord& instruction) {
     auto device = getDevice(instruction.field());
     if (device->ready(this->_elapsed)) {
