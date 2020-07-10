@@ -122,6 +122,22 @@ __TEST_U(TestMachineLoadCodes, test_load_literal_constant) {
     __ASSERT_EQ(-13, machine.memory[3001].value());
 }
 
+__TEST_U(TestMachineLoadCodes, test_load_constant_out_of_range) {
+    std::vector<std::string> codes = {
+        " ORIG 4000",
+        " LDA  =10-23=,0+0(2+3)",
+    };
+    __ASSERT_THROW(machine.loadCodes(codes, false), mixal::RuntimeError);
+}
+
+__TEST_U(TestMachineLoadCodes, test_load_out_of_range) {
+    std::vector<std::string> codes = {
+        " ORIG 4000",
+        " LDA  23",
+    };
+    __ASSERT_THROW(machine.loadCodes(codes, false), mixal::RuntimeError);
+}
+
 __TEST_U(TestMachineLoadCodes, test_load_sample_with_local_symbols) {
     std::vector<std::string> codes = {
         "X       EQU  1000",
