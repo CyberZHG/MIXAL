@@ -29,6 +29,16 @@ __TEST_U(TestInstructions, test_get_instructions) {
     __ASSERT_EQ(mixal::Instructions::Code::LDA, mixal::Instructions::getInstructionCode("LDA"));
 }
 
+__TEST_U(TestInstructions, test_get_cost) {
+    __ASSERT_EQ(1, mixal::Instructions::getCost(mixal::Instructions::NOP, 0));
+    __ASSERT_EQ(2, mixal::Instructions::getCost(mixal::Instructions::CMP1, 0));
+    __ASSERT_EQ(2, mixal::Instructions::getCost(mixal::Instructions::CMP2, 0));
+    __ASSERT_EQ(2, mixal::Instructions::getCost(mixal::Instructions::CMP3, 0));
+    __ASSERT_EQ(2, mixal::Instructions::getCost(mixal::Instructions::CMP4, 0));
+    __ASSERT_EQ(2, mixal::Instructions::getCost(mixal::Instructions::CMP5, 0));
+    __ASSERT_EQ(0, mixal::Instructions::getCost(mixal::Instructions::CON, 0));
+}
+
 __TEST_U(TestInstructions, test_get_instructions_coverage) {
     for (int i = 0; i < 37; ++i) {
         char a = getValidChar(i);

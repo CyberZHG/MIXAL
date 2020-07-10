@@ -229,4 +229,11 @@ __TEST_U(TestExpression, test_expression_equal) {
     __ASSERT_NE(mixal::Expression("1/2"), mixal::Expression("1:2"));
 }
 
+__TEST_U(TestExpression, test_expression_end_char) {
+    expression.parse("-12#456", "");
+    __ASSERT_TRUE(expression.evaluate(environment));
+    __ASSERT_EQ(-12, expression.result().value);
+    __ASSERT_EQ(true, expression.result().negative);
+}
+
 }  // namespace test
