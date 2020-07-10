@@ -90,4 +90,20 @@ __TEST_U(TestMachineIO, test_io_chars) {
     __ASSERT_EQ("PRIME", machine.getDevice(17)->wordAt(0).getCharacters());
 }
 
+__TEST_U(TestMachineIO, test_io_invalid_in) {
+    machine.loadCodes({
+        "     ORIG 3000",
+        "     IN   100(17)",
+    });
+    __ASSERT_THROW(machine.executeUntilHalt(), mixal::RuntimeError);
+}
+
+__TEST_U(TestMachineIO, test_io_invalid_out) {
+    machine.loadCodes({
+        "     ORIG 3000",
+        "     OUT  100(16)",
+    });
+    __ASSERT_THROW(machine.executeUntilHalt(), mixal::RuntimeError);
+}
+
 }  // namespace test
