@@ -471,21 +471,29 @@ void Machine::loadCodes(const std::vector<std::string>& codes, bool addHalt) {
     }
     // Load constants to memory
     for (auto& it : constants) {
-        memory[std::get<1>(it).result().value].set(std::get<2>(it).result().value);
+        int32_t location = std::get<1>(it).result().value;
+        if (location < 0 || location >= NUM_MEMORY) {
+            throw RuntimeError(location, "Location of the code is invalid: " + std::to_string(location));
+        }
+        memory[location].set(std::get<2>(it).result().value);
     }
     // Load results to memory
     _lineOffset = -1;
     for (auto& result : results) {
         if (result.parsedType == ParsedType::INSTRUCTION) {
             result.evaluate(evaluated);
-            if (_lineOffset == -1) {
-                _lineOffset = result.location.result().value;
+            int32_t location = result.location.result().value;
+            if (location < 0 || location >= NUM_MEMORY) {
+                throw RuntimeError(location, "Location of the code is invalid: " + std::to_string(location));
             }
-            memory[result.location.result().value].set(result.word.negative,
-                                                       result.word.address(),
-                                                       result.word.index(),
-                                                       result.word.field(),
-                                                       result.word.operation());
+            if (_lineOffset == -1) {
+                _lineOffset = location;
+            }
+            memory[location].set(result.word.negative,
+                                 result.word.address(),
+                                 result.word.index(),
+                                 result.word.field(),
+                                 result.word.operation());
         }
     }
     if (endIndex != -1) {
