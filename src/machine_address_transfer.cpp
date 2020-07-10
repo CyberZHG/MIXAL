@@ -1,8 +1,17 @@
 #include <iostream>
 #include "machine.h"
 
+/**
+ * @file
+ * @brief Address transfer operations.
+ */
+
 namespace mixal {
 
+/** Increase rA or rX by the address value.
+ * 
+ * @see overflow
+ */
 void Machine::executeINC(const InstructionWord& instruction, Register5* reg) {
     int32_t value = reg->value();
     int32_t address = getIndexedAddress(instruction);
@@ -10,6 +19,10 @@ void Machine::executeINC(const InstructionWord& instruction, Register5* reg) {
     reg->set(checkRange(value));
 }
 
+/** Decrease rA or rX by the address value.
+ * 
+ * @see overflow
+ */
 void Machine::executeDEC(const InstructionWord& instruction, Register5* reg) {
     int32_t value = reg->value();
     int32_t address = getIndexedAddress(instruction);
@@ -17,6 +30,7 @@ void Machine::executeDEC(const InstructionWord& instruction, Register5* reg) {
     reg->set(checkRange(value));
 }
 
+/** Enter the address value to rA or rX. */
 void Machine::executeENT(const InstructionWord& instruction, Register5* reg) {
     int32_t address = getIndexedAddress(instruction);
     reg->set(address);
@@ -25,6 +39,7 @@ void Machine::executeENT(const InstructionWord& instruction, Register5* reg) {
     }
 }
 
+/** Enter the negative address value to rA or rX. */
 void Machine::executeENN(const InstructionWord& instruction, Register5* reg) {
     int32_t address = getIndexedAddress(instruction);
     reg->set(-address);
@@ -33,6 +48,7 @@ void Machine::executeENN(const InstructionWord& instruction, Register5* reg) {
     }
 }
 
+/** Increase rI by the address value. */
 void Machine::executeINCi(const InstructionWord& instruction) {
     int registerIndex = instruction.operation() - Instructions::INC1 + 1;
     auto& rIi = rI(registerIndex);
@@ -42,6 +58,7 @@ void Machine::executeINCi(const InstructionWord& instruction) {
     rIi.set(checkRange(value, 2));
 }
 
+/** Decrease rI by the address value. */
 void Machine::executeDECi(const InstructionWord& instruction) {
     int registerIndex = instruction.operation() - Instructions::INC1 + 1;
     auto& rIi = rI(registerIndex);
@@ -51,6 +68,7 @@ void Machine::executeDECi(const InstructionWord& instruction) {
     rIi.set(checkRange(value, 2));
 }
 
+/** Enter address value to rI. */
 void Machine::executeENTi(const InstructionWord& instruction) {
     int registerIndex = instruction.operation() - Instructions::INC1 + 1;
     auto& rIi = rI(registerIndex);
@@ -61,6 +79,7 @@ void Machine::executeENTi(const InstructionWord& instruction) {
     }
 }
 
+/** Enter negative address value to rI. */
 void Machine::executeENNi(const InstructionWord& instruction) {
     int registerIndex = instruction.operation() - Instructions::INC1 + 1;
     auto& rIi = rI(registerIndex);

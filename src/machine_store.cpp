@@ -1,6 +1,11 @@
 #include <iostream>
 #include "machine.h"
 
+/**
+ * @file
+ * @brief Store operations.
+ */
+
 namespace mixal {
 
 void Machine::executeST(const InstructionWord& instruction, Register5* reg) {
