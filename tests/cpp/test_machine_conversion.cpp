@@ -25,6 +25,15 @@ __TEST_U(TestMachineConversion, test_num) {
     __ASSERT_EQ(mixal::ComputerWord(false, 37, 57, 47, 30, 30), machine.rX);
 }
 
+__TEST_U(TestMachineConversion, test_num_overflow) {
+    machine.rA.set(false, 39, 39, 31, 32, 39);
+    machine.rX.set(false, 37, 57, 47, 30, 30);
+    auto result = mixal::Parser::parseLine("NUM", "", false);
+    machine.executeSingle(result.word);
+    __ASSERT_EQ(249301284, machine.rA.value());
+    __ASSERT_TRUE(machine.overflow);
+}
+
 __TEST_U(TestMachineConversion, test_char) {
     machine.rA.set(-12977699);
     machine.rX.set(false, 37, 57, 47, 30, 30);

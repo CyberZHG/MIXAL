@@ -3,6 +3,10 @@
 
 namespace mixal {
 
+/** Convert chars in rA and rX to number, and save the result to rA.
+ * 
+ * @see overflow
+ */
 void Machine::executeNUM() {
     int64_t num = 0;
     for (int i = 1; i <= 5; ++i) {
@@ -20,6 +24,7 @@ void Machine::executeNUM() {
     rA.negative = negative;
 }
 
+/** Convert number in rA to chars, and save the result to rA and rX. */
 void Machine::executeCHAR() {
     int32_t num = std::abs(rA.value());
     for (int i = 5; i >= 1; --i) {
