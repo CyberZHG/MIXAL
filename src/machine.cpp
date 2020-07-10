@@ -500,13 +500,18 @@ std::string Machine::getPesudoSymbolname() {
     return "#" + std::to_string(_pesudoVarIndex++);
 }
 
-int Machine::getIndexedAddress(const InstructionWord& instruction) {
-    int offset = 0;
+int32_t Machine::getIndexedAddress(const InstructionWord& instruction, bool checkRange) {
+    int32_t offset = 0;
     if (instruction.index() != 0) {
         auto& rIi = rI(instruction.index());
-        offset = static_cast<int>(rIi.value());
+        offset = static_cast<int32_t>(rIi.value());
     }
-    return static_cast<int>(instruction.addressValue()) + offset;
+    int32_t address = static_cast<int32_t>(instruction.addressValue()) + offset;
+    if (checkRange && !(0 <= address && address < NUM_MEMORY)) {
+        throw RuntimeError(_lineOffset, "Invalid address in instruction '" + instruction.getBytesString() +
+                                        "': " + std::to_string(address));
+    }
+    return address;
 }
 
 void Machine::copyToRegister5(const InstructionWord& instruction, const ComputerWord& word, Register5* reg) {

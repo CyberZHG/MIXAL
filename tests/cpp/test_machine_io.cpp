@@ -106,4 +106,12 @@ __TEST_U(TestMachineIO, test_io_invalid_out) {
     __ASSERT_THROW(machine.executeUntilHalt(), mixal::RuntimeError);
 }
 
+__TEST_U(TestMachineIO, test_io_invalid_address) {
+    machine.loadCodes({
+        "     ORIG 3000",
+        "     OUT  -100(17)",
+    });
+    __ASSERT_THROW(machine.executeUntilHalt(), mixal::RuntimeError);
+}
+
 }  // namespace test

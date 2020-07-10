@@ -90,7 +90,7 @@ class Machine {
     std::string getPesudoSymbolname();
 
     /** Get the address based on the base address and the index register. */
-    int getIndexedAddress(const InstructionWord& instruction);
+    int32_t getIndexedAddress(const InstructionWord& instruction, bool checkRange = false);
     /** Copy values considered the field value. */
     void copyToRegister5(const InstructionWord& instruction, const ComputerWord& word, Register5* reg);
     /** Copy values considered the field value. */
