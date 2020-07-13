@@ -9,7 +9,7 @@
 namespace mixal {
 
 /** Define a symbol and its corresponding value. */
-void Machine::executeEQU(ParsedResult* instruction) {
+void Computer::executeEQU(ParsedResult* instruction) {
     if (!instruction->address.evaluated()) {
         if (!instruction->address.evaluate(_constants)) {
             throw RuntimeError(_lineOffset, "Unresolved symbol found while parsing EQU: " + instruction->rawAddress);
@@ -19,7 +19,7 @@ void Machine::executeEQU(ParsedResult* instruction) {
 }
 
 /** Set the start line of the following codes. */
-void Machine::executeORIG(ParsedResult* instruction) {
+void Computer::executeORIG(ParsedResult* instruction) {
     if (!instruction->address.evaluated()) {
         if (!instruction->address.evaluate(_constants)) {
             throw RuntimeError(_lineOffset, "Unresolved symbol found while parsing ORIG: " + instruction->rawAddress);
@@ -35,7 +35,7 @@ void Machine::executeORIG(ParsedResult* instruction) {
 }
 
 /** Store a constant to memory. */
-void Machine::executeCON(ParsedResult* instruction) {
+void Computer::executeCON(ParsedResult* instruction) {
     if (!instruction->address.evaluated()) {
         if (!instruction->address.evaluate(_constants)) {
             throw RuntimeError(_lineOffset, "Unresolved symbol found while parsing CON: " + instruction->rawAddress);

@@ -6,7 +6,7 @@ namespace test {
 
 class TestMachineIO : public UnitTest {
  public:
-    mixal::Machine machine;
+    mixal::Computer machine;
 
     TestMachineIO() : machine() {}
 

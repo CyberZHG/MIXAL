@@ -36,13 +36,13 @@ import random
 import mixal
 
 # 初始化一个执行环境
-machine = mixal.Machine()
+computer = mixal.Computer()
 
 # 寄存器J的调用位置
 end_point = 3500
 
 # 加载一段汇编代码，在最后将寄存器J的位置设置为HLT，以确保函数执行结束后可以停机
-machine.loadCodes([
+computer.loadCodes([
     'X       EQU  1000',
     '        ORIG 3000',
     'MAXIMUM STJ  EXIT',
@@ -61,19 +61,19 @@ machine.loadCodes([
 
 num_numbers, max_val = 100, 0
 # 寄存器I1存储了数字的个数
-machine.rI1.set(num_numbers)
+computer.rI1.set(num_numbers)
 # 寄存器J存储了返回位置
-machine.rJ.set(end_point)
+computer.rJ.set(end_point)
 for i in range(1001, 1001 + num_numbers):
     val = random.randint(0, 100000)
     # 为环境内容设置随机值
-    machine.memoryAt(i).set(val)
+    computer.memoryAt(i).set(val)
     max_val = max(max_val, val)
 # 不断运行直到遇到HLT指令
-machine.executeUntilHalt()
+computer.executeUntilHalt()
 print('Expected:', max_val)
 # 寄存器A中包含了最大值结果
-print('Actual:', machine.rA.value())
+print('Actual:', computer.rA.value())
 # 执行这段代码消耗的单位时间，不包含最后的HLT
-print('Compute Cost:', machine.elapsed())
+print('Compute Cost:', computer.elapsed())
 ```

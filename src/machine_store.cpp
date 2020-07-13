@@ -9,13 +9,13 @@
 namespace mixal {
 
 /** Store the value in rA or rX to memory. */
-void Machine::executeST(const InstructionWord& instruction, Register5* reg) {
+void Computer::executeST(const InstructionWord& instruction, Register5* reg) {
     int address = getIndexedAddress(instruction, true);
     copyFromRegister5(instruction, *reg, &memory[address]);
 }
 
 /** Store the value in rI to memory. */
-void Machine::executeSTi(const InstructionWord& instruction) {
+void Computer::executeSTi(const InstructionWord& instruction) {
     int address = getIndexedAddress(instruction, true);
     int registerIndex = instruction.operation() - Instructions::ST1 + 1;
     auto& rIi = rI(registerIndex);
@@ -24,14 +24,14 @@ void Machine::executeSTi(const InstructionWord& instruction) {
 }
 
 /** Store the value in rJ to memory. */
-void Machine::executeSTJ(const InstructionWord& instruction) {
+void Computer::executeSTJ(const InstructionWord& instruction) {
     int address = getIndexedAddress(instruction, true);
     ComputerWord word(0, 0, 0, 0, rJ[1], rJ[2]);
     copyFromRegister5(instruction, word, &memory[address]);
 }
 
 /** Store zeros to memory. */
-void Machine::executeSTZ(const InstructionWord& instruction) {
+void Computer::executeSTZ(const InstructionWord& instruction) {
     int address = getIndexedAddress(instruction, true);
     ComputerWord word(0, 0, 0, 0, 0, 0);
     copyFromRegister5(instruction, word, &memory[address]);

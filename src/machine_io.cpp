@@ -8,7 +8,7 @@
 
 namespace mixal {
 
-std::shared_ptr<IODevice> Machine::getDevice(int32_t index) {
+std::shared_ptr<IODevice> Computer::getDevice(int32_t index) {
     if (devices[index] == nullptr) {
         switch (index) {
         case 0: case 1: case 2: case 3:
@@ -39,13 +39,13 @@ std::shared_ptr<IODevice> Machine::getDevice(int32_t index) {
     return devices[index];
 }
 
-void Machine::waitDevice(std::shared_ptr<IODevice> device) {
+void Computer::waitDevice(std::shared_ptr<IODevice> device) {
     while (!device->ready(this->_elapsed)) {
         ++this->_elapsed;
     }
 }
 
-void Machine::waitDevices() {
+void Computer::waitDevices() {
     for (int i = 0; i < NUM_IO_DEVICE; ++i) {
         if (devices[i] != nullptr) {
             waitDevice(devices[i]);
@@ -57,7 +57,7 @@ void Machine::waitDevices() {
  * 
  * The field value indicates the device.
  */
-void Machine::executeJBUS(const InstructionWord& instruction) {
+void Computer::executeJBUS(const InstructionWord& instruction) {
     auto device = getDevice(instruction.field());
     if (!device->ready(this->_elapsed)) {
         this->executeJMP(instruction);
@@ -68,7 +68,7 @@ void Machine::executeJBUS(const InstructionWord& instruction) {
  * 
  * The field value indicates the device.
  */
-void Machine::executeIOC(const InstructionWord& instruction) {
+void Computer::executeIOC(const InstructionWord& instruction) {
     auto device = getDevice(instruction.field());
     waitDevice(device);
     if (device->type() == IODeviceType::DISK) {
@@ -85,7 +85,7 @@ void Machine::executeIOC(const InstructionWord& instruction) {
  * 
  * @throw mixal::Runtime When the device cannot be read.
  */
-void Machine::executeIN(const InstructionWord& instruction) {
+void Computer::executeIN(const InstructionWord& instruction) {
     auto device = getDevice(instruction.field());
     if (!device->allowRead()) {
         throw RuntimeError(_lineOffset, "Device does not support read: " + std::to_string(instruction.field()));
@@ -101,7 +101,7 @@ void Machine::executeIN(const InstructionWord& instruction) {
  * 
  * @throw mixal::Runtime When the device cannot be wrote.
  */
-void Machine::executeOUT(const InstructionWord& instruction) {
+void Computer::executeOUT(const InstructionWord& instruction) {
     auto device = getDevice(instruction.field());
     if (!device->allowWrite()) {
         throw RuntimeError(_lineOffset, "Device does not support write: " + std::to_string(instruction.field()));
@@ -115,7 +115,7 @@ void Machine::executeOUT(const InstructionWord& instruction) {
  * 
  * The field value indicates the device.
  */
-void Machine::executeJRED(const InstructionWord& instruction) {
+void Computer::executeJRED(const InstructionWord& instruction) {
     auto device = getDevice(instruction.field());
     if (device->ready(this->_elapsed)) {
         this->executeJMP(instruction);

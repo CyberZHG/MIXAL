@@ -6,10 +6,10 @@ import mixal
 class TestSample(TestCase):
 
     def setUp(self) -> None:
-        self.machine = mixal.Machine()
+        self.computer = mixal.Computer()
 
     def test_sample(self):
-        self.machine.loadCodes([
+        self.computer.loadCodes([
             'X       EQU  1000',
             '        ORIG 3000',
             'MAXIMUM STJ  EXIT',
@@ -27,13 +27,13 @@ class TestSample(TestCase):
         ])
 
         n, max_val = 100, 0
-        self.machine.rI1.set(n)
-        self.machine.rJ.set(3500)
+        self.computer.rI1.set(n)
+        self.computer.rJ.set(3500)
         values = []
         for i in range(1001, 1001 + n):
             val = random.randint(0, 100000)
-            self.machine.memoryAt(i).set(val)
+            self.computer.memoryAt(i).set(val)
             max_val = max(max_val, val)
             values.append(val)
-        self.machine.executeUntilHalt()
-        self.assertEqual(max_val, self.machine.rA.value(), str(values))
+        self.computer.executeUntilHalt()
+        self.assertEqual(max_val, self.computer.rA.value(), str(values))

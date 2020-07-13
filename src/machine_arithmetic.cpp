@@ -12,7 +12,7 @@ namespace mixal {
  * 
  * @see overflow
  */
-void Machine::executeADD(const InstructionWord& instruction) {
+void Computer::executeADD(const InstructionWord& instruction) {
     int32_t valueA = rA.value();
     ComputerWord word;
     int address = getIndexedAddress(instruction, true);
@@ -26,7 +26,7 @@ void Machine::executeADD(const InstructionWord& instruction) {
  * 
  * @see overflow
  */
-void Machine::executeSUB(const InstructionWord& instruction) {
+void Computer::executeSUB(const InstructionWord& instruction) {
     int32_t valueA = rA.value();
     ComputerWord word;
     int address = getIndexedAddress(instruction, true);
@@ -41,7 +41,7 @@ void Machine::executeSUB(const InstructionWord& instruction) {
  * 
  * Note that overflow will never be triggered.
  */
-void Machine::executeMUL(const InstructionWord& instruction) {
+void Computer::executeMUL(const InstructionWord& instruction) {
     int32_t valueA = rA.value();
     ComputerWord word;
     int address = getIndexedAddress(instruction, true);
@@ -60,7 +60,7 @@ void Machine::executeMUL(const InstructionWord& instruction) {
  * 
  * @throw mixal::RuntimeError When the divisor is 0.
  */
-void Machine::executeDIV(const InstructionWord& instruction) {
+void Computer::executeDIV(const InstructionWord& instruction) {
     int32_t valueA = std::abs(rA.value());
     int32_t valueX = std::abs(rX.value());
     int64_t dividend = (static_cast<int64_t>(valueA) << 30) + static_cast<int64_t>(valueX);

@@ -12,14 +12,14 @@ namespace mixal {
  * 
  * rJ will be set to the next instruction if the jump has not been occured.
  */
-void Machine::executeJMP(const InstructionWord& instruction) {
+void Computer::executeJMP(const InstructionWord& instruction) {
     int32_t address = getIndexedAddress(instruction, true);
     rJ.set(_lineOffset + 1);
     _lineOffset = address - 1;
 }
 
 /** Jump without updating rJ. */
-void Machine::executeJSJ(const InstructionWord& instruction) {
+void Computer::executeJSJ(const InstructionWord& instruction) {
     int32_t address = getIndexedAddress(instruction, true);
     _lineOffset = address - 1;
 }
@@ -30,7 +30,7 @@ void Machine::executeJSJ(const InstructionWord& instruction) {
  * 
  * @see overflow.
  */
-void Machine::executeJOV(const InstructionWord& instruction) {
+void Computer::executeJOV(const InstructionWord& instruction) {
     if (overflow) {
         this->executeJMP(instruction);
         overflow = false;
@@ -43,7 +43,7 @@ void Machine::executeJOV(const InstructionWord& instruction) {
  * 
  * @see overflow.
  */
-void Machine::executeJNOV(const InstructionWord& instruction) {
+void Computer::executeJNOV(const InstructionWord& instruction) {
     if (overflow) {
         overflow = false;
     } else {
@@ -55,7 +55,7 @@ void Machine::executeJNOV(const InstructionWord& instruction) {
  * 
  * @see comparison
  */
-void Machine::executeJL(const InstructionWord& instruction) {
+void Computer::executeJL(const InstructionWord& instruction) {
     if (comparison == ComparisonIndicator::LESS) {
         this->executeJMP(instruction);
     }
@@ -65,7 +65,7 @@ void Machine::executeJL(const InstructionWord& instruction) {
  * 
  * @see comparison
  */
-void Machine::executeJE(const InstructionWord& instruction) {
+void Computer::executeJE(const InstructionWord& instruction) {
     if (comparison == ComparisonIndicator::EQUAL) {
         this->executeJMP(instruction);
     }
@@ -75,7 +75,7 @@ void Machine::executeJE(const InstructionWord& instruction) {
  * 
  * @see comparison
  */
-void Machine::executeJG(const InstructionWord& instruction) {
+void Computer::executeJG(const InstructionWord& instruction) {
     if (comparison == ComparisonIndicator::GREATER) {
         this->executeJMP(instruction);
     }
@@ -85,7 +85,7 @@ void Machine::executeJG(const InstructionWord& instruction) {
  * 
  * @see comparison
  */
-void Machine::executeJGE(const InstructionWord& instruction) {
+void Computer::executeJGE(const InstructionWord& instruction) {
     if (comparison != ComparisonIndicator::LESS) {
         this->executeJMP(instruction);
     }
@@ -94,7 +94,7 @@ void Machine::executeJGE(const InstructionWord& instruction) {
  * 
  * @see comparison
  */
-void Machine::executeJNE(const InstructionWord& instruction) {
+void Computer::executeJNE(const InstructionWord& instruction) {
     if (comparison != ComparisonIndicator::EQUAL) {
         int32_t address = getIndexedAddress(instruction, true);
         rJ.set(_lineOffset + 1);
@@ -106,56 +106,56 @@ void Machine::executeJNE(const InstructionWord& instruction) {
  * 
  * @see comparison
  */
-void Machine::executeJLE(const InstructionWord& instruction) {
+void Computer::executeJLE(const InstructionWord& instruction) {
     if (comparison != ComparisonIndicator::GREATER) {
         this->executeJMP(instruction);
     }
 }
 
 /** Jump when rA or rX is negative. */
-void Machine::executeJN(const InstructionWord& instruction, Register5* reg) {
+void Computer::executeJN(const InstructionWord& instruction, Register5* reg) {
     if (reg->value() < 0) {
         this->executeJMP(instruction);
     }
 }
 
 /** Jump when rA or rX is zero. */
-void Machine::executeJZ(const InstructionWord& instruction, Register5* reg) {
+void Computer::executeJZ(const InstructionWord& instruction, Register5* reg) {
     if (reg->value() == 0) {
         this->executeJMP(instruction);
     }
 }
 
 /** Jump when rA or rX is positive. */
-void Machine::executeJP(const InstructionWord& instruction, Register5* reg) {
+void Computer::executeJP(const InstructionWord& instruction, Register5* reg) {
     if (reg->value() > 0) {
         this->executeJMP(instruction);
     }
 }
 
 /** Jump when rA or rX is non-negative. */
-void Machine::executeJNN(const InstructionWord& instruction, Register5* reg) {
+void Computer::executeJNN(const InstructionWord& instruction, Register5* reg) {
     if (reg->value() >= 0) {
         this->executeJMP(instruction);
     }
 }
 
 /** Jump when rA or rX is not zero. */
-void Machine::executeJNZ(const InstructionWord& instruction, Register5* reg) {
+void Computer::executeJNZ(const InstructionWord& instruction, Register5* reg) {
     if (reg->value() != 0) {
         this->executeJMP(instruction);
     }
 }
 
 /** Jump when rA or rX is non-positive. */
-void Machine::executeJNP(const InstructionWord& instruction, Register5* reg) {
+void Computer::executeJNP(const InstructionWord& instruction, Register5* reg) {
     if (reg->value() <= 0) {
         this->executeJMP(instruction);
     }
 }
 
 /** Jump when rI is negative. */
-void Machine::executeJiN(const InstructionWord& instruction) {
+void Computer::executeJiN(const InstructionWord& instruction) {
     int registerIndex = instruction.operation() - Instructions::J1N + 1;
     auto rIi = rI(registerIndex);
     if (rIi.value() < 0) {
@@ -164,7 +164,7 @@ void Machine::executeJiN(const InstructionWord& instruction) {
 }
 
 /** Jump when rI is zero. */
-void Machine::executeJiZ(const InstructionWord& instruction) {
+void Computer::executeJiZ(const InstructionWord& instruction) {
     int registerIndex = instruction.operation() - Instructions::J1N + 1;
     auto& rIi = rI(registerIndex);
     if (rIi.value() == 0) {
@@ -173,7 +173,7 @@ void Machine::executeJiZ(const InstructionWord& instruction) {
 }
 
 /** Jump when rI is positive. */
-void Machine::executeJiP(const InstructionWord& instruction) {
+void Computer::executeJiP(const InstructionWord& instruction) {
     int registerIndex = instruction.operation() - Instructions::J1N + 1;
     auto& rIi = rI(registerIndex);
     if (rIi.value() > 0) {
@@ -182,7 +182,7 @@ void Machine::executeJiP(const InstructionWord& instruction) {
 }
 
 /** Jump when rI is non-negative. */
-void Machine::executeJiNN(const InstructionWord& instruction) {
+void Computer::executeJiNN(const InstructionWord& instruction) {
     int registerIndex = instruction.operation() - Instructions::J1N + 1;
     auto& rIi = rI(registerIndex);
     if (rIi.value() >= 0) {
@@ -191,7 +191,7 @@ void Machine::executeJiNN(const InstructionWord& instruction) {
 }
 
 /** Jump when rI is not zero. */
-void Machine::executeJiNZ(const InstructionWord& instruction) {
+void Computer::executeJiNZ(const InstructionWord& instruction) {
     int registerIndex = instruction.operation() - Instructions::J1N + 1;
     auto& rIi = rI(registerIndex);
     if (rIi.value() != 0) {
@@ -200,7 +200,7 @@ void Machine::executeJiNZ(const InstructionWord& instruction) {
 }
 
 /** Jump when rI is non-positive. */
-void Machine::executeJiNP(const InstructionWord& instruction) {
+void Computer::executeJiNP(const InstructionWord& instruction) {
     int registerIndex = instruction.operation() - Instructions::J1N + 1;
     auto& rIi = rI(registerIndex);
     if (rIi.value() <= 0) {

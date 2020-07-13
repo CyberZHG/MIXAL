@@ -36,7 +36,7 @@ import random
 import mixal
 
 # Initialize an environment
-machine = mixal.Machine()
+computer = mixal.Computer()
 
 # The location for register J
 end_point = 3500
@@ -44,7 +44,7 @@ end_point = 3500
 # Load the assembly codes.
 # Note that the location for register J is set to HLT
 # to make sure the codes halt eventually
-machine.loadCodes([
+computer.loadCodes([
     'X       EQU  1000',
     '        ORIG 3000',
     'MAXIMUM STJ  EXIT',
@@ -63,19 +63,19 @@ machine.loadCodes([
 
 num_numbers, max_val = 100, 0
 # Register I1 denotes the number of integers in the memory buffer
-machine.rI1.set(num_numbers)
+computer.rI1.set(num_numbers)
 # Register J stores the returning location
-machine.rJ.set(end_point)
+computer.rJ.set(end_point)
 for i in range(1001, 1001 + num_numbers):
     val = random.randint(0, 100000)
     # Set random values to memory
-    machine.memoryAt(i).set(val)
+    computer.memoryAt(i).set(val)
     max_val = max(max_val, val)
 # Execute until the HLT operation
-machine.executeUntilHalt()
+computer.executeUntilHalt()
 print('Expected:', max_val)
 # Register A stores the final maximum value
-print('Actual:', machine.rA.value())
+print('Actual:', computer.rA.value())
 # The units of time for executing the codes, exclude the halt operation.
-print('Compute Cost:', machine.elapsed())
+print('Compute Cost:', computer.elapsed())
 ```

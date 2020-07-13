@@ -442,74 +442,74 @@ class Register2(object):
 # Register Register2 in _mixal:
 _mixal.Register2_swigregister(Register2)
 
-class Machine(object):
+class Computer(object):
     thisown = property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc="The membership flag")
     __repr__ = _swig_repr
-    NUM_INDEX_REGISTER = _mixal.Machine_NUM_INDEX_REGISTER
-    NUM_MEMORY = _mixal.Machine_NUM_MEMORY
-    NUM_IO_DEVICE = _mixal.Machine_NUM_IO_DEVICE
-    rA = property(_mixal.Machine_rA_get, _mixal.Machine_rA_set)
-    rX = property(_mixal.Machine_rX_get, _mixal.Machine_rX_set)
-    rI1 = property(_mixal.Machine_rI1_get, _mixal.Machine_rI1_set)
-    rI2 = property(_mixal.Machine_rI2_get, _mixal.Machine_rI2_set)
-    rI3 = property(_mixal.Machine_rI3_get, _mixal.Machine_rI3_set)
-    rI4 = property(_mixal.Machine_rI4_get, _mixal.Machine_rI4_set)
-    rI5 = property(_mixal.Machine_rI5_get, _mixal.Machine_rI5_set)
-    rI6 = property(_mixal.Machine_rI6_get, _mixal.Machine_rI6_set)
-    rJ = property(_mixal.Machine_rJ_get, _mixal.Machine_rJ_set)
-    overflow = property(_mixal.Machine_overflow_get, _mixal.Machine_overflow_set)
-    comparison = property(_mixal.Machine_comparison_get, _mixal.Machine_comparison_set)
-    memory = property(_mixal.Machine_memory_get, _mixal.Machine_memory_set)
-    devices = property(_mixal.Machine_devices_get, _mixal.Machine_devices_set)
+    NUM_INDEX_REGISTER = _mixal.Computer_NUM_INDEX_REGISTER
+    NUM_MEMORY = _mixal.Computer_NUM_MEMORY
+    NUM_IO_DEVICE = _mixal.Computer_NUM_IO_DEVICE
+    rA = property(_mixal.Computer_rA_get, _mixal.Computer_rA_set)
+    rX = property(_mixal.Computer_rX_get, _mixal.Computer_rX_set)
+    rI1 = property(_mixal.Computer_rI1_get, _mixal.Computer_rI1_set)
+    rI2 = property(_mixal.Computer_rI2_get, _mixal.Computer_rI2_set)
+    rI3 = property(_mixal.Computer_rI3_get, _mixal.Computer_rI3_set)
+    rI4 = property(_mixal.Computer_rI4_get, _mixal.Computer_rI4_set)
+    rI5 = property(_mixal.Computer_rI5_get, _mixal.Computer_rI5_set)
+    rI6 = property(_mixal.Computer_rI6_get, _mixal.Computer_rI6_set)
+    rJ = property(_mixal.Computer_rJ_get, _mixal.Computer_rJ_set)
+    overflow = property(_mixal.Computer_overflow_get, _mixal.Computer_overflow_set)
+    comparison = property(_mixal.Computer_comparison_get, _mixal.Computer_comparison_set)
+    memory = property(_mixal.Computer_memory_get, _mixal.Computer_memory_set)
+    devices = property(_mixal.Computer_devices_get, _mixal.Computer_devices_set)
 
     def __init__(self):
-        _mixal.Machine_swiginit(self, _mixal.new_Machine())
+        _mixal.Computer_swiginit(self, _mixal.new_Computer())
 
     def rI(self, index):
-        return _mixal.Machine_rI(self, index)
+        return _mixal.Computer_rI(self, index)
 
     def memoryAt(self, *args):
-        return _mixal.Machine_memoryAt(self, *args)
+        return _mixal.Computer_memoryAt(self, *args)
 
     def getDevice(self, index):
-        return _mixal.Machine_getDevice(self, index)
+        return _mixal.Computer_getDevice(self, index)
 
     def waitDevice(self, device):
-        return _mixal.Machine_waitDevice(self, device)
+        return _mixal.Computer_waitDevice(self, device)
 
     def waitDevices(self):
-        return _mixal.Machine_waitDevices(self)
+        return _mixal.Computer_waitDevices(self)
 
     def reset(self):
-        return _mixal.Machine_reset(self)
+        return _mixal.Computer_reset(self)
 
     def line(self):
-        return _mixal.Machine_line(self)
+        return _mixal.Computer_line(self)
 
     def elapsed(self):
-        return _mixal.Machine_elapsed(self)
+        return _mixal.Computer_elapsed(self)
 
     def getSingleLineSymbol(self):
-        return _mixal.Machine_getSingleLineSymbol(self)
+        return _mixal.Computer_getSingleLineSymbol(self)
 
     def executeUntilSelfLoop(self):
-        return _mixal.Machine_executeUntilSelfLoop(self)
+        return _mixal.Computer_executeUntilSelfLoop(self)
 
     def executeUntilHalt(self):
-        return _mixal.Machine_executeUntilHalt(self)
+        return _mixal.Computer_executeUntilHalt(self)
 
     def executeSingle(self, *args):
-        return _mixal.Machine_executeSingle(self, *args)
+        return _mixal.Computer_executeSingle(self, *args)
 
     def executeSinglePesudo(self, instruction):
-        return _mixal.Machine_executeSinglePesudo(self, instruction)
+        return _mixal.Computer_executeSinglePesudo(self, instruction)
 
     def loadCodes(self, codes, addHalt=True):
-        return _mixal.Machine_loadCodes(self, codes, addHalt)
-    __swig_destroy__ = _mixal.delete_Machine
+        return _mixal.Computer_loadCodes(self, codes, addHalt)
+    __swig_destroy__ = _mixal.delete_Computer
 
-# Register Machine in _mixal:
-_mixal.Machine_swigregister(Machine)
+# Register Computer in _mixal:
+_mixal.Computer_swigregister(Computer)
 
 
 

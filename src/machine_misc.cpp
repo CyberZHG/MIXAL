@@ -9,7 +9,7 @@
 namespace mixal {
 
 /** Shift left rA padded with zeros. */
-void Machine::executeSLA(const InstructionWord& instruction) {
+void Computer::executeSLA(const InstructionWord& instruction) {
     int32_t address = getIndexedAddress(instruction);
     int32_t shift = (address + 10000) % 5;
     if (shift) {
@@ -23,7 +23,7 @@ void Machine::executeSLA(const InstructionWord& instruction) {
 }
 
 /** Shift right rA padded with zeros. */
-void Machine::executeSRA(const InstructionWord& instruction) {
+void Computer::executeSRA(const InstructionWord& instruction) {
     int32_t address = getIndexedAddress(instruction);
     int32_t shift = (address + 10000) % 5;
     if (shift) {
@@ -37,7 +37,7 @@ void Machine::executeSRA(const InstructionWord& instruction) {
 }
 
 /** Shift left rA and rX padded with zeros. */
-void Machine::executeSLAX(const InstructionWord& instruction) {
+void Computer::executeSLAX(const InstructionWord& instruction) {
     int32_t address = getIndexedAddress(instruction);
     int32_t shift = (address + 10000) % 10;
     if (shift) {
@@ -51,7 +51,7 @@ void Machine::executeSLAX(const InstructionWord& instruction) {
 }
 
 /** Shift right rA and rX padded with zeros. */
-void Machine::executeSRAX(const InstructionWord& instruction) {
+void Computer::executeSRAX(const InstructionWord& instruction) {
     int32_t address = getIndexedAddress(instruction);
     int32_t shift = (address + 10000) % 10;
     if (shift) {
@@ -65,7 +65,7 @@ void Machine::executeSRAX(const InstructionWord& instruction) {
 }
 
 /** Shift left rA and rX circularly. */
-void Machine::executeSLC(const InstructionWord& instruction) {
+void Computer::executeSLC(const InstructionWord& instruction) {
     int32_t address = getIndexedAddress(instruction);
     int32_t shift = (address + 10000) % 10;
     if (shift) {
@@ -85,7 +85,7 @@ void Machine::executeSLC(const InstructionWord& instruction) {
 }
 
 /** Shift right rA and rX circularly. */
-void Machine::executeSRC(const InstructionWord& instruction) {
+void Computer::executeSRC(const InstructionWord& instruction) {
     int32_t address = getIndexedAddress(instruction);
     int32_t shift = (address + 10000) % 10;
     if (shift) {
@@ -109,7 +109,7 @@ void Machine::executeSRC(const InstructionWord& instruction) {
  * The field value means the number of words to be moved.
  * Nothing happens if the address is out of range.
  */
-void Machine::executeMOVE(const InstructionWord& instruction) {
+void Computer::executeMOVE(const InstructionWord& instruction) {
     int32_t originAddress = getIndexedAddress(instruction);
     int32_t targetAddress = rI1.value();
     uint8_t amount = instruction.field();

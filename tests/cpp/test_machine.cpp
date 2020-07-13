@@ -7,9 +7,9 @@ namespace test {
 
 class TestMachine : public UnitTest {
  public:
-    mixal::Machine machine;
+    mixal::Computer machine;
 
-    friend mixal::Machine;
+    friend mixal::Computer;
 
     TestMachine() : machine() {}
 

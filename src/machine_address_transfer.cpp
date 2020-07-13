@@ -12,7 +12,7 @@ namespace mixal {
  * 
  * @see overflow
  */
-void Machine::executeINC(const InstructionWord& instruction, Register5* reg) {
+void Computer::executeINC(const InstructionWord& instruction, Register5* reg) {
     int32_t value = reg->value();
     int32_t address = getIndexedAddress(instruction);
     value += address;
@@ -23,7 +23,7 @@ void Machine::executeINC(const InstructionWord& instruction, Register5* reg) {
  * 
  * @see overflow
  */
-void Machine::executeDEC(const InstructionWord& instruction, Register5* reg) {
+void Computer::executeDEC(const InstructionWord& instruction, Register5* reg) {
     int32_t value = reg->value();
     int32_t address = getIndexedAddress(instruction);
     value -= address;
@@ -31,7 +31,7 @@ void Machine::executeDEC(const InstructionWord& instruction, Register5* reg) {
 }
 
 /** Enter the immediate address value to rA or rX. */
-void Machine::executeENT(const InstructionWord& instruction, Register5* reg) {
+void Computer::executeENT(const InstructionWord& instruction, Register5* reg) {
     int32_t address = getIndexedAddress(instruction);
     reg->set(address);
     if (address == 0) {
@@ -40,7 +40,7 @@ void Machine::executeENT(const InstructionWord& instruction, Register5* reg) {
 }
 
 /** Enter the negative immediate address value to rA or rX. */
-void Machine::executeENN(const InstructionWord& instruction, Register5* reg) {
+void Computer::executeENN(const InstructionWord& instruction, Register5* reg) {
     int32_t address = getIndexedAddress(instruction);
     reg->set(-address);
     if (address == 0) {
@@ -49,7 +49,7 @@ void Machine::executeENN(const InstructionWord& instruction, Register5* reg) {
 }
 
 /** Increase rI by the address value. */
-void Machine::executeINCi(const InstructionWord& instruction) {
+void Computer::executeINCi(const InstructionWord& instruction) {
     int registerIndex = instruction.operation() - Instructions::INC1 + 1;
     auto& rIi = rI(registerIndex);
     int16_t value = rIi.value();
@@ -59,7 +59,7 @@ void Machine::executeINCi(const InstructionWord& instruction) {
 }
 
 /** Decrease rI by the address value. */
-void Machine::executeDECi(const InstructionWord& instruction) {
+void Computer::executeDECi(const InstructionWord& instruction) {
     int registerIndex = instruction.operation() - Instructions::INC1 + 1;
     auto& rIi = rI(registerIndex);
     int16_t value = rIi.value();
@@ -69,7 +69,7 @@ void Machine::executeDECi(const InstructionWord& instruction) {
 }
 
 /** Enter address value to rI. */
-void Machine::executeENTi(const InstructionWord& instruction) {
+void Computer::executeENTi(const InstructionWord& instruction) {
     int registerIndex = instruction.operation() - Instructions::INC1 + 1;
     auto& rIi = rI(registerIndex);
     int16_t address = getIndexedAddress(instruction);
@@ -80,7 +80,7 @@ void Machine::executeENTi(const InstructionWord& instruction) {
 }
 
 /** Enter negative address value to rI. */
-void Machine::executeENNi(const InstructionWord& instruction) {
+void Computer::executeENNi(const InstructionWord& instruction) {
     int registerIndex = instruction.operation() - Instructions::INC1 + 1;
     auto& rIi = rI(registerIndex);
     int16_t address = getIndexedAddress(instruction);

@@ -12,7 +12,7 @@ namespace mixal {
  * 
  * @see comparison
  */
-void Machine::executeCMP(const InstructionWord& instruction, Register5* reg) {
+void Computer::executeCMP(const InstructionWord& instruction, Register5* reg) {
     ComputerWord a, b;
     int32_t address = getIndexedAddress(instruction, true);
     copyToRegister5(instruction, *reg, &a);
@@ -31,7 +31,7 @@ void Machine::executeCMP(const InstructionWord& instruction, Register5* reg) {
  * 
  * @see comparison
  */
-void Machine::executeCMPi(const InstructionWord& instruction) {
+void Computer::executeCMPi(const InstructionWord& instruction) {
     int registerIndex = instruction.operation() - Instructions::CMP1 + 1;
     auto& rIi = rI(registerIndex);
     ComputerWord t(rIi.negative, 0, 0, 0, rIi.byte1, rIi.byte2), a, b;

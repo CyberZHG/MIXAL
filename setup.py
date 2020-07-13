@@ -34,7 +34,7 @@ ext_module = Extension(
 
 setup(
     name='mixal',
-    version='1.157.7',
+    version='1.157.8',
     py_modules=['mixal'],
     ext_modules=[ext_module],
     packages=find_packages(),

@@ -23,7 +23,7 @@ namespace mixal {
 
 using InstructionWord = ComputerWord;
 
-class Machine {
+class Computer {
  public:
     static const int NUM_INDEX_REGISTER = 6;  /**< Number of index registers. */
     static const int NUM_MEMORY = 4000;       /**< Number of words in memory. */
@@ -39,7 +39,7 @@ class Machine {
     std::vector<std::shared_ptr<IODevice>> devices;  /**< The IO devices. */
 
     /** Initialize the machine with zeros. */
-    Machine();
+    Computer();
 
     /** Get the index register given the index of the register. */
     Register2& rI(int index);

@@ -7,7 +7,7 @@ namespace test {
 
 class TestMachineArithmetic : public UnitTest {
  public:
-    mixal::Machine machine;
+    mixal::Computer machine;
 
     TestMachineArithmetic() : machine() {}
 

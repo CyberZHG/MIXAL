@@ -7,7 +7,7 @@ namespace test {
 
 class TestMachineAddressTransfer : public UnitTest {
  public:
-    mixal::Machine machine;
+    mixal::Computer machine;
 
     TestMachineAddressTransfer() : machine() {}
 

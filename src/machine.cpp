@@ -8,12 +8,12 @@
 
 namespace mixal {
 
-Machine::Machine() : rA(), rX(), rI1(), rI2(), rI3(), rI4(), rI5(), rI6(), rJ(),
+Computer::Computer() : rA(), rX(), rI1(), rI2(), rI3(), rI4(), rI5(), rI6(), rJ(),
       overflow(false), comparison(ComparisonIndicator::EQUAL), memory(),
       devices(NUM_IO_DEVICE, nullptr),
       _pesudoVarIndex(), _lineOffset(), _elapsed(), _constants() {}
 
-Register2& Machine::rI(int index) {
+Register2& Computer::rI(int index) {
     switch (index) {
     case 1: return rI1;
     case 2: return rI2;
@@ -25,15 +25,15 @@ Register2& Machine::rI(int index) {
     throw RuntimeError(_lineOffset, "Invalid offset for index register: " + std::to_string(index));
 }
 
-const ComputerWord& Machine::memoryAt(int16_t index) const {
+const ComputerWord& Computer::memoryAt(int16_t index) const {
     return memory[index];
 }
 
-ComputerWord& Machine::memoryAt(int16_t index) {
+ComputerWord& Computer::memoryAt(int16_t index) {
     return memory[index];
 }
 
-void Machine::reset() {
+void Computer::reset() {
     rA.reset();
     rX.reset();
     for (int i = 1; i <= NUM_INDEX_REGISTER; ++i) {
@@ -54,17 +54,17 @@ void Machine::reset() {
     _constants.clear();
 }
 
-std::string Machine::getSingleLineSymbol() {
+std::string Computer::getSingleLineSymbol() {
     std::string symbolName = getPesudoSymbolname();
     _constants[symbolName] = AtomicValue(_lineOffset);
     return symbolName;
 }
 
-void Machine::executeSingle() {
+void Computer::executeSingle() {
     executeSingle(memory[_lineOffset]);
 }
 
-void Machine::executeUntilSelfLoop() {
+void Computer::executeUntilSelfLoop() {
     int32_t lastOffset = _lineOffset;
     while (true) {
         if (_lineOffset < 0 || NUM_MEMORY <= _lineOffset) {
@@ -79,7 +79,7 @@ void Machine::executeUntilSelfLoop() {
     waitDevices();
 }
 
-void Machine::executeUntilHalt() {
+void Computer::executeUntilHalt() {
     while (true) {
         if (_lineOffset < 0 || NUM_MEMORY <= _lineOffset) {
             throw RuntimeError(_lineOffset, "Invalid code line: " + std::to_string(_lineOffset));
@@ -94,7 +94,7 @@ void Machine::executeUntilHalt() {
     waitDevices();
 }
 
-void Machine::executeSingle(ParsedResult* instruction) {
+void Computer::executeSingle(ParsedResult* instruction) {
     if (instruction->address.literalConstant() ||
         instruction->index.literalConstant() ||
         instruction->field.literalConstant()) {
@@ -112,7 +112,7 @@ void Machine::executeSingle(ParsedResult* instruction) {
     }
 }
 
-void Machine::executeSingle(const InstructionWord& instruction) {
+void Computer::executeSingle(const InstructionWord& instruction) {
     switch (instruction.operation()) {
     case Instructions::ADD:
         executeADD(instruction);
@@ -306,7 +306,7 @@ void Machine::executeSingle(const InstructionWord& instruction) {
                                       instruction.field());
 }
 
-void Machine::executeSinglePesudo(ParsedResult* instruction) {
+void Computer::executeSinglePesudo(ParsedResult* instruction) {
     switch (instruction->word.operation() + Instructions::PSEUDO) {
     case Instructions::EQU:
         executeEQU(instruction);
@@ -320,7 +320,7 @@ void Machine::executeSinglePesudo(ParsedResult* instruction) {
     }
 }
 
-void Machine::loadCodes(const std::vector<std::string>& codes, bool addHalt) {
+void Computer::loadCodes(const std::vector<std::string>& codes, bool addHalt) {
     this->reset();
     // Parse and save all the results and intermediate expressions
     std::vector<ParsedResult> results(codes.size());
@@ -504,11 +504,11 @@ void Machine::loadCodes(const std::vector<std::string>& codes, bool addHalt) {
     }
 }
 
-std::string Machine::getPesudoSymbolname() {
+std::string Computer::getPesudoSymbolname() {
     return "#" + std::to_string(_pesudoVarIndex++);
 }
 
-int32_t Machine::getIndexedAddress(const InstructionWord& instruction, bool checkRange) {
+int32_t Computer::getIndexedAddress(const InstructionWord& instruction, bool checkRange) {
     int32_t offset = 0;
     if (instruction.index() != 0) {
         auto& rIi = rI(instruction.index());
@@ -522,7 +522,7 @@ int32_t Machine::getIndexedAddress(const InstructionWord& instruction, bool chec
     return address;
 }
 
-void Machine::copyToRegister5(const InstructionWord& instruction, const ComputerWord& word, Register5* reg) {
+void Computer::copyToRegister5(const InstructionWord& instruction, const ComputerWord& word, Register5* reg) {
     int start = instruction.field() / 8;
     int stop = instruction.field() % 8;
     reg->reset();
@@ -535,7 +535,7 @@ void Machine::copyToRegister5(const InstructionWord& instruction, const Computer
     }
 }
 
-void Machine::copyFromRegister5(const InstructionWord& instruction, const Register5& reg, ComputerWord* word) {
+void Computer::copyFromRegister5(const InstructionWord& instruction, const Register5& reg, ComputerWord* word) {
     int start = instruction.field() / 8;
     int stop = instruction.field() % 8;
     if (start == 0) {
@@ -547,7 +547,7 @@ void Machine::copyFromRegister5(const InstructionWord& instruction, const Regist
     }
 }
 
-void Machine::copyToRegister2(const InstructionWord& instruction, const ComputerWord& word, Register2* reg) {
+void Computer::copyToRegister2(const InstructionWord& instruction, const ComputerWord& word, Register2* reg) {
     int start = instruction.field() / 8;
     int stop = instruction.field() % 8;
     reg->reset();
@@ -565,7 +565,7 @@ void Machine::copyToRegister2(const InstructionWord& instruction, const Computer
  * Overflow will be triggered if it the value can not be fitted into 5 bytes.
  * (Which means rI will not trigger overflow.)
  */
-int32_t Machine::checkRange(int32_t value, int bytes) {
+int32_t Computer::checkRange(int32_t value, int bytes) {
     int32_t range = 1 << (6 * bytes);
     if (std::abs(value) >= range) {
         if (bytes == 5) {
@@ -576,12 +576,12 @@ int32_t Machine::checkRange(int32_t value, int bytes) {
     return value;
 }
 
-uint8_t Machine::getAX(int index) const {
+uint8_t Computer::getAX(int index) const {
     assert(1 <= index && index <= 10);
     return index <= 5 ? rA[index] : rX[index - 5];
 }
 
-void Machine::setAX(int index, uint8_t value) {
+void Computer::setAX(int index, uint8_t value) {
     assert(1 <= index && index <= 10);
     if (index <= 5) {
         rA[index] = value;

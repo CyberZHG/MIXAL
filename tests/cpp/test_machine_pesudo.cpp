@@ -7,7 +7,7 @@ namespace test {
 
 class TestMachinePesudo : public UnitTest {
  public:
-    mixal::Machine machine;
+    mixal::Computer machine;
 
     TestMachinePesudo() : machine() {}
 
