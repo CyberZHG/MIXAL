@@ -504,6 +504,9 @@ class Computer(object):
     def executeSinglePesudo(self, instruction):
         return _mixal.Computer_executeSinglePesudo(self, instruction)
 
+    def loadCode(self, codes, addHalt=True):
+        return _mixal.Computer_loadCode(self, codes, addHalt)
+
     def loadCodes(self, codes, addHalt=True):
         return _mixal.Computer_loadCodes(self, codes, addHalt)
     __swig_destroy__ = _mixal.delete_Computer

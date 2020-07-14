@@ -320,8 +320,17 @@ void Computer::executeSinglePesudo(ParsedResult* instruction) {
     }
 }
 
+void Computer::loadCode(const std::string& codes, bool addHalt) {
+    std::vector<std::string> lines;
+    std::string item;
+    std::stringstream ss(codes);
+    while (std::getline(ss, item, '\n')) {
+        lines.emplace_back(item);
+    }
+    loadCodes(lines, addHalt);
+}
+
 void Computer::loadCodes(const std::vector<std::string>& codes, bool addHalt) {
-    this->reset();
     // Parse and save all the results and intermediate expressions
     std::vector<ParsedResult> results(codes.size());
     std::unordered_map<std::string, AtomicValue> evaluated;
