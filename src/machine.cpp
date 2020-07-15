@@ -532,39 +532,51 @@ int32_t Computer::getIndexedAddress(const InstructionWord& instruction, bool che
 }
 
 void Computer::copyToRegister5(const InstructionWord& instruction, const ComputerWord& word, Register5* reg) {
-    int start = instruction.field() / 8;
-    int stop = instruction.field() % 8;
+    int32_t start = instruction.field() / 8;
+    int32_t stop = instruction.field() % 8;
     reg->reset();
+    if (start > stop || stop > 5) {
+        throw RuntimeError(_lineOffset, "Invalid field value: ("
+                                        + std::to_string(start) + ":" + std::to_string(stop) + ")");
+    }
     if (start == 0) {
         reg->negative = word.negative;
         ++start;
     }
-    for (int i = stop, j = 5; i >= start; --i, --j) {
+    for (int32_t i = stop, j = 5; i >= start; --i, --j) {
         reg->set(j, word[i]);
     }
 }
 
 void Computer::copyFromRegister5(const InstructionWord& instruction, const Register5& reg, ComputerWord* word) {
-    int start = instruction.field() / 8;
-    int stop = instruction.field() % 8;
+    int32_t start = instruction.field() / 8;
+    int32_t stop = instruction.field() % 8;
+    if (start > stop || stop > 5) {
+        throw RuntimeError(_lineOffset, "Invalid field value: ("
+                                        + std::to_string(start) + ":" + std::to_string(stop) + ")");
+    }
     if (start == 0) {
         word->negative = reg.negative;
         ++start;
     }
-    for (int i = stop, j = 5; i >= start; --i, --j) {
+    for (int32_t i = stop, j = 5; i >= start; --i, --j) {
         word->set(i, reg[j]);
     }
 }
 
 void Computer::copyToRegister2(const InstructionWord& instruction, const ComputerWord& word, Register2* reg) {
-    int start = instruction.field() / 8;
-    int stop = instruction.field() % 8;
+    int32_t start = instruction.field() / 8;
+    int32_t stop = instruction.field() % 8;
+    if (start > stop || stop > 5) {
+        throw RuntimeError(_lineOffset, "Invalid field value: ("
+                                        + std::to_string(start) + ":" + std::to_string(stop) + ")");
+    }
     reg->reset();
     if (start == 0) {
         reg->negative = word.negative;
         ++start;
     }
-    for (int i = stop, j = 2; i >= start && j > 0; --i, --j) {
+    for (int32_t i = stop, j = 2; i >= start && j > 0; --i, --j) {
         reg->set(j, word[i]);
     }
 }

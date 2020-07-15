@@ -39,4 +39,19 @@ __TEST_U(TestMachine, test_line_output_of_range_halt) {
     __ASSERT_THROW(machine.executeUntilHalt(), mixal::RuntimeError);
 }
 
+__TEST_U(TestMachine, test_invalid_field) {
+    auto result = mixal::Parser::parseLine("LDA 2000(3:2)", "", false);
+    __ASSERT_THROW(machine.executeSingle(result.word), mixal::RuntimeError);
+    result = mixal::Parser::parseLine("LDX 2000(0:6)", "", false);
+    __ASSERT_THROW(machine.executeSingle(result.word), mixal::RuntimeError);
+    result = mixal::Parser::parseLine("STA 2000(3:2)", "", false);
+    __ASSERT_THROW(machine.executeSingle(result.word), mixal::RuntimeError);
+    result = mixal::Parser::parseLine("STX 2000(0:6)", "", false);
+    __ASSERT_THROW(machine.executeSingle(result.word), mixal::RuntimeError);
+    result = mixal::Parser::parseLine("LD1 2000(3:2)", "", false);
+    __ASSERT_THROW(machine.executeSingle(result.word), mixal::RuntimeError);
+    result = mixal::Parser::parseLine("LD2 2000(4:6)", "", false);
+    __ASSERT_THROW(machine.executeSingle(result.word), mixal::RuntimeError);
+}
+
 }  // namespace test
