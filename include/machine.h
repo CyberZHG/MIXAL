@@ -77,7 +77,7 @@ class Computer {
     void executeSinglePesudo(ParsedResult* instruction);
 
     /** Parse and load codes to memory. */
-    void loadCode(const std::string& codes, bool addHalt = true);
+    void loadCodes(const std::string& codes, bool addHalt = true);
     /** Parse and load codes to memory. */
     void loadCodes(const std::vector<std::string>& codes, bool addHalt = true);
 

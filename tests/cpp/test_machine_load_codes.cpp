@@ -102,7 +102,7 @@ __TEST_U(TestMachineLoadCodes, test_load_with_string) {
         "        DEC3 1\n"
         "        J3P  LOOP\n"
         "EXIT    JMP  *";
-    machine.loadCode(codes);
+    machine.loadCodes(codes);
     machine.rI1.set(5);
     machine.rJ.set(3009);
     machine.memory[1000].set(123);

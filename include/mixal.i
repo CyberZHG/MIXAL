@@ -8,7 +8,7 @@ using namespace mixal;
 %}
 
 %pythoncode %{
-__version__ = '1.157.11'
+__version__ = '1.157.12'
 %}
 
 %include <std_vector.i>

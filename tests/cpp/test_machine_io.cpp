@@ -91,26 +91,26 @@ __TEST_U(TestMachineIO, test_io_chars) {
 }
 
 __TEST_U(TestMachineIO, test_io_invalid_in) {
-    machine.loadCodes({
+    machine.loadCodes(std::vector<std::string>({
         "     ORIG 3000",
         "     IN   100(17)",
-    });
+    }));
     __ASSERT_THROW(machine.executeUntilHalt(), mixal::RuntimeError);
 }
 
 __TEST_U(TestMachineIO, test_io_invalid_out) {
-    machine.loadCodes({
+    machine.loadCodes(std::vector<std::string>({
         "     ORIG 3000",
         "     OUT  100(16)",
-    });
+    }));
     __ASSERT_THROW(machine.executeUntilHalt(), mixal::RuntimeError);
 }
 
 __TEST_U(TestMachineIO, test_io_invalid_address) {
-    machine.loadCodes({
+    machine.loadCodes(std::vector<std::string>({
         "     ORIG 3000",
         "     OUT  -100(17)",
-    });
+    }));
     __ASSERT_THROW(machine.executeUntilHalt(), mixal::RuntimeError);
 }
 

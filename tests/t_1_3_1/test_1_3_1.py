@@ -13,8 +13,7 @@ class TestSample(TestCase):
         current_path = os.path.dirname(os.path.abspath(__file__))
         file_path = os.path.join(current_path, name + '.mix')
         with open(file_path) as reader:
-            lines = reader.read().split('\n')
-            self.computer.loadCodes(lines)
+            self.computer.loadCodes(reader.read())
 
     def test_16_set_all_zeros_a(self):
         self.load_codes('16_set_all_zeros_a')

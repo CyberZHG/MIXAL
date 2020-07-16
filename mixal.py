@@ -62,7 +62,7 @@ class _SwigNonDynamicMeta(type):
 
 
 
-__version__ = '1.157.11'
+__version__ = '1.157.12'
 
 class SwigPyIterator(object):
     thisown = property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc="The membership flag")
@@ -507,11 +507,8 @@ class Computer(object):
     def executeSinglePesudo(self, instruction):
         return _mixal.Computer_executeSinglePesudo(self, instruction)
 
-    def loadCode(self, codes, addHalt=True):
-        return _mixal.Computer_loadCode(self, codes, addHalt)
-
-    def loadCodes(self, codes, addHalt=True):
-        return _mixal.Computer_loadCodes(self, codes, addHalt)
+    def loadCodes(self, *args):
+        return _mixal.Computer_loadCodes(self, *args)
     __swig_destroy__ = _mixal.delete_Computer
 
 # Register Computer in _mixal:

@@ -320,7 +320,7 @@ void Computer::executeSinglePesudo(ParsedResult* instruction) {
     }
 }
 
-void Computer::loadCode(const std::string& codes, bool addHalt) {
+void Computer::loadCodes(const std::string& codes, bool addHalt) {
     std::vector<std::string> lines;
     std::string item;
     std::stringstream ss(codes);
