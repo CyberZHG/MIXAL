@@ -1,9 +1,18 @@
 import os
+import re
 import codecs
 import platform
 from setuptools import setup, find_packages, Extension
 
 current_path = os.path.abspath(os.path.dirname(__file__))
+
+
+def find_version(*file_paths):
+    version_file = read_file(*file_paths)
+    version_match = re.search(r"^__version__ = ['\"]([^'\"]*)['\"]", version_file, re.M)
+    if version_match:
+        return version_match.group(1)
+    raise RuntimeError('Unable to find version string.')
 
 
 def read_file(*parts):
@@ -34,7 +43,7 @@ ext_module = Extension(
 
 setup(
     name='mixal',
-    version='1.157.10',
+    version=find_version('mixal.py'),
     py_modules=['mixal'],
     ext_modules=[ext_module],
     packages=find_packages(),

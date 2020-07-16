@@ -7,6 +7,10 @@ using namespace std;
 using namespace mixal;
 %}
 
+%pythoncode %{
+__version__ = '1.157.11'
+%}
+
 %include <std_vector.i>
 %include <std_string.i>
 
