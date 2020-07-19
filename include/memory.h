@@ -31,34 +31,39 @@ struct ComputerWord {
     uint8_t byte5;
 
     /** Initialize with 0s. The default sign is '+'. */
-    ComputerWord() : negative(), byte1(), byte2(), byte3(), byte4(), byte5() {}
+    ComputerWord();
     /** Initialize with integer value.
      * 
      * @see set(int32_t)
      */
-    explicit ComputerWord(int32_t value) : negative(), byte1(), byte2(), byte3(), byte4(), byte5() { set(value); }
+    explicit ComputerWord(int32_t value);
     /** Initialize with five characters.
      * 
      * @see set(const std::string&)
      */
-    explicit ComputerWord(const std::string& chars) :
-        negative(), byte1(), byte2(), byte3(), byte4(), byte5() { set(chars); }
+    explicit ComputerWord(const std::string& chars);
+    /** Initialize with full representation. */
+    ComputerWord(bool _negative, uint8_t _byte1, uint8_t _byte2, uint8_t _byte3, uint8_t _byte4, uint8_t _byte5);
     /** Initialize with full representation.
+     * 
+     * @throw std::runtime_error when the sign is neither '+' nor '-'.
      */
-    ComputerWord(bool _negative, uint8_t _byte1, uint8_t _byte2, uint8_t _byte3, uint8_t _byte4, uint8_t _byte5) :
-        negative(_negative), byte1(_byte1), byte2(_byte2), byte3(_byte3), byte4(_byte4), byte5(_byte5) {}
+    ComputerWord(char sign, uint8_t _byte1, uint8_t _byte2, uint8_t _byte3, uint8_t _byte4, uint8_t _byte5);
     /** Initialize with the first two bytes combined.
      * 
      * @see set(bool, uint16_t, uint8_t, uint8_t, uint8_t)
      */
-    ComputerWord(bool _negative, uint16_t bytes12, uint8_t _byte3, uint8_t _byte4, uint8_t _byte5) :
-        negative(_negative), byte1(bytes12 / 64), byte2(bytes12 % 64), byte3(_byte3), byte4(_byte4), byte5(_byte5) {}
+    ComputerWord(bool _negative, uint16_t bytes12, uint8_t _byte3, uint8_t _byte4, uint8_t _byte5);
+    /** Initialize with the first two bytes combined.
+     * 
+     * @see set(sign, uint16_t, uint8_t, uint8_t, uint8_t)
+     * 
+     * @throw std::runtime_error when the sign is neither '+' nor '-'.
+     */
+    ComputerWord(char sign, uint16_t bytes12, uint8_t _byte3, uint8_t _byte4, uint8_t _byte5);
 
     /** Set the sign to `+` and all the bytes to 0. */
-    inline void reset() {
-        negative = false;
-        byte1 = byte2 = byte3 = byte4 = byte5 = 0;
-    }
+    void reset();
 
     /** Whether two words are strictly equal.
      * 
@@ -200,6 +205,11 @@ struct ComputerWord {
     void set(int index, uint8_t val);
     /** Set all the values. */
     void set(bool negative, uint8_t byte1, uint8_t byte2, uint8_t byte3, uint8_t byte4, uint8_t byte5);
+    /** Set all the values.
+     * 
+     * @throw std::runtime_error when the sign is neither '+' nor '-'.
+     */
+    void set(char sign, uint8_t byte1, uint8_t byte2, uint8_t byte3, uint8_t byte4, uint8_t byte5);
     /**
      *  Set all the values.
      * 
@@ -207,6 +217,15 @@ struct ComputerWord {
      *                The behavior is undefined if the number can not be represented.
      */
     void set(bool negative, uint16_t bytes12, uint8_t byte3, uint8_t byte4, uint8_t byte5);
+    /**
+     *  Set all the values.
+     * 
+     * @param bytes12 Use the first two bytes to represent an integer within 4096.
+     *                The behavior is undefined if the number can not be represented.
+     * 
+     * @throw std::runtime_error when the sign is neither '+' nor '-'.
+     */
+    void set(char sign, uint16_t bytes12, uint8_t byte3, uint8_t byte4, uint8_t byte5);
 };
 
 };  // namespace mixal

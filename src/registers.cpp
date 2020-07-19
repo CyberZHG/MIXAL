@@ -4,6 +4,24 @@
 
 namespace mixal {
 
+Register2::Register2() : negative(), byte1(), byte2() {
+}
+
+Register2::Register2(int16_t value) : negative(), byte1(), byte2() {
+    set(value);
+}
+
+Register2::Register2(bool _negative, uint8_t _byte1, uint8_t _byte2) :
+    negative(_negative), byte1(_byte1), byte2(_byte2) {
+}
+
+Register2::Register2(char sign, uint8_t _byte1, uint8_t _byte2) :
+    negative(sign == '-'), byte1(_byte1), byte2(_byte2) {
+    if (sign != '+' && sign != '-') {
+        throw std::runtime_error("Invalid sign: " + std::string(1, sign));
+    }
+}
+
 uint8_t Register2::operator[](int index) const {
     if (index == 1) {
         return byte1;
@@ -48,6 +66,15 @@ void Register2::set(int index, int8_t val) {
 
 void Register2::set(bool negative, uint8_t byte1, uint8_t byte2) {
     this->negative = negative;
+    this->byte1 = byte1;
+    this->byte2 = byte2;
+}
+
+void Register2::set(char sign, uint8_t byte1, uint8_t byte2) {
+    if (sign != '+' && sign != '-') {
+        throw std::runtime_error("Invalid sign: " + std::string(1, sign));
+    }
+    this->negative = sign == '-';
     this->byte1 = byte1;
     this->byte2 = byte2;
 }

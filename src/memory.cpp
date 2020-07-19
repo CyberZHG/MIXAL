@@ -29,6 +29,45 @@ std::ostream& operator<<(std::ostream& out, const ComputerWord& word) {
     return out;
 }
 
+ComputerWord::ComputerWord() : negative(), byte1(), byte2(), byte3(), byte4(), byte5() {
+}
+
+ComputerWord::ComputerWord(int32_t value) : negative(), byte1(), byte2(), byte3(), byte4(), byte5() {
+    set(value);
+}
+
+ComputerWord::ComputerWord(const std::string& chars) : negative(), byte1(), byte2(), byte3(), byte4(), byte5() {
+    set(chars);
+}
+
+ComputerWord::ComputerWord(bool _negative,
+    uint8_t _byte1, uint8_t _byte2, uint8_t _byte3, uint8_t _byte4, uint8_t _byte5) :
+    negative(_negative), byte1(_byte1), byte2(_byte2), byte3(_byte3), byte4(_byte4), byte5(_byte5) {
+}
+
+ComputerWord::ComputerWord(char sign, uint8_t _byte1, uint8_t _byte2, uint8_t _byte3, uint8_t _byte4, uint8_t _byte5) :
+    negative(sign == '-'), byte1(_byte1), byte2(_byte2), byte3(_byte3), byte4(_byte4), byte5(_byte5) {
+    if (sign != '+' && sign != '-') {
+        throw std::runtime_error("Invalid sign: " + std::string(1, sign));
+    }
+}
+
+ComputerWord::ComputerWord(bool _negative, uint16_t bytes12, uint8_t _byte3, uint8_t _byte4, uint8_t _byte5) :
+    negative(_negative), byte1(bytes12 / 64), byte2(bytes12 % 64), byte3(_byte3), byte4(_byte4), byte5(_byte5) {
+}
+
+ComputerWord::ComputerWord(char sign, uint16_t bytes12, uint8_t _byte3, uint8_t _byte4, uint8_t _byte5) :
+    negative(sign == '-'), byte1(bytes12 / 64), byte2(bytes12 % 64), byte3(_byte3), byte4(_byte4), byte5(_byte5) {
+    if (sign != '+' && sign != '-') {
+        throw std::runtime_error("Invalid sign: " + std::string(1, sign));
+    }
+}
+
+void ComputerWord::reset() {
+    negative = false;
+    byte1 = byte2 = byte3 = byte4 = byte5 = 0;
+}
+
 std::string ComputerWord::getBytesString() const {
     std::string result;
     result += negative ? '-' : '+';
@@ -188,8 +227,32 @@ void ComputerWord::set(bool negative, uint8_t byte1, uint8_t byte2, uint8_t byte
     this->byte5 = byte5;
 }
 
+void ComputerWord::set(char sign, uint8_t byte1, uint8_t byte2, uint8_t byte3, uint8_t byte4, uint8_t byte5) {
+    if (sign != '+' && sign != '-') {
+        throw std::runtime_error("Invalid sign: " + std::string(1, sign));
+    }
+    this->negative = sign == '-';
+    this->byte1 = byte1;
+    this->byte2 = byte2;
+    this->byte3 = byte3;
+    this->byte4 = byte4;
+    this->byte5 = byte5;
+}
+
 void ComputerWord::set(bool negative, uint16_t bytes12, uint8_t byte3, uint8_t byte4, uint8_t byte5) {
     this->negative = negative;
+    this->byte1 = static_cast<uint8_t>(bytes12 / 64);
+    this->byte2 = static_cast<uint8_t>(bytes12 % 64);
+    this->byte3 = byte3;
+    this->byte4 = byte4;
+    this->byte5 = byte5;
+}
+
+void ComputerWord::set(char sign, uint16_t bytes12, uint8_t byte3, uint8_t byte4, uint8_t byte5) {
+    if (sign != '+' && sign != '-') {
+        throw std::runtime_error("Invalid sign: " + std::string(1, sign));
+    }
+    this->negative = sign == '-';
     this->byte1 = static_cast<uint8_t>(bytes12 / 64);
     this->byte2 = static_cast<uint8_t>(bytes12 % 64);
     this->byte3 = byte3;

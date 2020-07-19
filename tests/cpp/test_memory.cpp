@@ -24,10 +24,25 @@ __TEST_U(TestMemory, test_invalid_set) {
     __ASSERT_THROW(word.set(7, 0), std::runtime_error);
 }
 
+__TEST_U(TestMemory, test_invalid_sign) {
+    __ASSERT_THROW(mixal::ComputerWord('*', 1, 2, 3, 4, 5), std::runtime_error);
+    __ASSERT_THROW(mixal::ComputerWord('*', 1, 2, 3, 4), std::runtime_error);
+    mixal::ComputerWord word;
+    word.set(true, 0, 0, 0, 0, 0);
+    __ASSERT_THROW(word.set('*', 1, 2, 3, 4, 5), std::runtime_error);
+    __ASSERT_THROW(word.set('*', 1, 2, 3, 4), std::runtime_error);
+}
+
+__TEST_U(TestMemory, test_value) {
+    __ASSERT_EQ(-42, mixal::ComputerWord(-42).value());
+}
+
 __TEST_U(TestMemory, test_get_bytes_string) {
     mixal::ComputerWord word;
-    word.set(true, 0, 12, 3, 43, 49);
+    word.set('-', 0, 12, 3, 43, 49);
     __ASSERT_EQ("-  0 12  3 43 49", word.getBytesString());
+    word.set('+', 12, 3, 43, 49);
+    __ASSERT_EQ("+  0 12  3 43 49", word.getBytesString());
 }
 
 __TEST_U(TestMemory, test_set_address) {
@@ -37,7 +52,7 @@ __TEST_U(TestMemory, test_set_address) {
 }
 
 __TEST_U(TestMemory, test_get_characters) {
-    mixal::ComputerWord word;
+    mixal::ComputerWord word('+', 1, 2, 3, 4);
     word.set("A4+ -");
     word.set(2, 10);
     word.set(3, 63);

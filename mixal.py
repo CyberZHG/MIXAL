@@ -62,7 +62,7 @@ class _SwigNonDynamicMeta(type):
 
 
 
-__version__ = '1.157.12'
+__version__ = '1.157.13'
 
 class SwigPyIterator(object):
     thisown = property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc="The membership flag")

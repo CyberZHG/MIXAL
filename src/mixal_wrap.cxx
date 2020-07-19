@@ -5073,6 +5073,50 @@ SWIG_AsVal_bool (PyObject *obj, bool *val)
   return SWIG_OK;
 }
 
+
+SWIGINTERN int
+SWIG_AsCharArray(PyObject * obj, char *val, size_t size)
+{ 
+  char* cptr = 0; size_t csize = 0; int alloc = SWIG_OLDOBJ;
+  int res = SWIG_AsCharPtrAndSize(obj, &cptr, &csize, &alloc);
+  if (SWIG_IsOK(res)) {
+    /* special case of single char conversion when we don't need space for NUL */
+    if (size == 1 && csize == 2 && cptr && !cptr[1]) --csize;
+    if (csize <= size) {
+      if (val) {
+	if (csize) memcpy(val, cptr, csize*sizeof(char));
+	if (csize < size) memset(val + csize, 0, (size - csize)*sizeof(char));
+      }
+      if (alloc == SWIG_NEWOBJ) {
+	delete[] cptr;
+	res = SWIG_DelNewMask(res);
+      }      
+      return res;
+    }
+    if (alloc == SWIG_NEWOBJ) delete[] cptr;
+  }
+  return SWIG_TypeError;
+}
+
+
+SWIGINTERN int
+SWIG_AsVal_char (PyObject * obj, char *val)
+{    
+  int res = SWIG_AsCharArray(obj, val, 1);
+  if (!SWIG_IsOK(res)) {
+    long v;
+    res = SWIG_AddCast(SWIG_AsVal_long (obj, &v));
+    if (SWIG_IsOK(res)) {
+      if ((CHAR_MIN <= v) && (v <= CHAR_MAX)) {
+	if (val) *val = static_cast< char >(v);
+      } else {
+	res = SWIG_OverflowError;
+      }
+    }
+  }
+  return res;
+}
+
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -9993,6 +10037,47 @@ fail:
 
 SWIGINTERN PyObject *_wrap_new_ComputerWord__SWIG_4(PyObject *SWIGUNUSEDPARM(self), Py_ssize_t nobjs, PyObject **swig_obj) {
   PyObject *resultobj = 0;
+  char arg1 ;
+  uint8_t arg2 ;
+  uint8_t arg3 ;
+  uint8_t arg4 ;
+  uint8_t arg5 ;
+  uint8_t arg6 ;
+  char val1 ;
+  int ecode1 = 0 ;
+  mixal::ComputerWord *result = 0 ;
+  
+  if ((nobjs < 6) || (nobjs > 6)) SWIG_fail;
+  ecode1 = SWIG_AsVal_char(swig_obj[0], &val1);
+  if (!SWIG_IsOK(ecode1)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "new_ComputerWord" "', argument " "1"" of type '" "char""'");
+  } 
+  arg1 = static_cast< char >(val1);
+  {
+    arg2 = static_cast<uint8_t>(PyLong_AsLong(swig_obj[1]));
+  }
+  {
+    arg3 = static_cast<uint8_t>(PyLong_AsLong(swig_obj[2]));
+  }
+  {
+    arg4 = static_cast<uint8_t>(PyLong_AsLong(swig_obj[3]));
+  }
+  {
+    arg5 = static_cast<uint8_t>(PyLong_AsLong(swig_obj[4]));
+  }
+  {
+    arg6 = static_cast<uint8_t>(PyLong_AsLong(swig_obj[5]));
+  }
+  result = (mixal::ComputerWord *)new mixal::ComputerWord(arg1,arg2,arg3,arg4,arg5,arg6);
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_mixal__ComputerWord, SWIG_POINTER_NEW |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_new_ComputerWord__SWIG_5(PyObject *SWIGUNUSEDPARM(self), Py_ssize_t nobjs, PyObject **swig_obj) {
+  PyObject *resultobj = 0;
   bool arg1 ;
   uint16_t arg2 ;
   uint8_t arg3 ;
@@ -10010,6 +10095,55 @@ SWIGINTERN PyObject *_wrap_new_ComputerWord__SWIG_4(PyObject *SWIGUNUSEDPARM(sel
     SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "new_ComputerWord" "', argument " "1"" of type '" "bool""'");
   } 
   arg1 = static_cast< bool >(val1);
+  {
+    res2 = SWIG_ConvertPtr(swig_obj[1], &argp2, SWIGTYPE_p_uint16_t,  0  | 0);
+    if (!SWIG_IsOK(res2)) {
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "new_ComputerWord" "', argument " "2"" of type '" "uint16_t""'"); 
+    }  
+    if (!argp2) {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "new_ComputerWord" "', argument " "2"" of type '" "uint16_t""'");
+    } else {
+      uint16_t * temp = reinterpret_cast< uint16_t * >(argp2);
+      arg2 = *temp;
+      if (SWIG_IsNewObj(res2)) delete temp;
+    }
+  }
+  {
+    arg3 = static_cast<uint8_t>(PyLong_AsLong(swig_obj[2]));
+  }
+  {
+    arg4 = static_cast<uint8_t>(PyLong_AsLong(swig_obj[3]));
+  }
+  {
+    arg5 = static_cast<uint8_t>(PyLong_AsLong(swig_obj[4]));
+  }
+  result = (mixal::ComputerWord *)new mixal::ComputerWord(arg1,arg2,arg3,arg4,arg5);
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_mixal__ComputerWord, SWIG_POINTER_NEW |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_new_ComputerWord__SWIG_6(PyObject *SWIGUNUSEDPARM(self), Py_ssize_t nobjs, PyObject **swig_obj) {
+  PyObject *resultobj = 0;
+  char arg1 ;
+  uint16_t arg2 ;
+  uint8_t arg3 ;
+  uint8_t arg4 ;
+  uint8_t arg5 ;
+  char val1 ;
+  int ecode1 = 0 ;
+  void *argp2 ;
+  int res2 = 0 ;
+  mixal::ComputerWord *result = 0 ;
+  
+  if ((nobjs < 5) || (nobjs > 5)) SWIG_fail;
+  ecode1 = SWIG_AsVal_char(swig_obj[0], &val1);
+  if (!SWIG_IsOK(ecode1)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "new_ComputerWord" "', argument " "1"" of type '" "char""'");
+  } 
+  arg1 = static_cast< char >(val1);
   {
     res2 = SWIG_ConvertPtr(swig_obj[1], &argp2, SWIGTYPE_p_uint16_t,  0  | 0);
     if (!SWIG_IsOK(res2)) {
@@ -10090,7 +10224,36 @@ SWIGINTERN PyObject *_wrap_new_ComputerWord(PyObject *self, PyObject *args) {
               _v = PyLong_Check(argv[4]);
             }
             if (_v) {
-              return _wrap_new_ComputerWord__SWIG_4(self, argc, argv);
+              return _wrap_new_ComputerWord__SWIG_5(self, argc, argv);
+            }
+          }
+        }
+      }
+    }
+  }
+  if (argc == 5) {
+    int _v;
+    {
+      int res = SWIG_AsVal_char(argv[0], NULL);
+      _v = SWIG_CheckState(res);
+    }
+    if (_v) {
+      int res = SWIG_ConvertPtr(argv[1], 0, SWIGTYPE_p_uint16_t, SWIG_POINTER_NO_NULL | 0);
+      _v = SWIG_CheckState(res);
+      if (_v) {
+        {
+          _v = PyLong_Check(argv[2]);
+        }
+        if (_v) {
+          {
+            _v = PyLong_Check(argv[3]);
+          }
+          if (_v) {
+            {
+              _v = PyLong_Check(argv[4]);
+            }
+            if (_v) {
+              return _wrap_new_ComputerWord__SWIG_6(self, argc, argv);
             }
           }
         }
@@ -10132,6 +10295,41 @@ SWIGINTERN PyObject *_wrap_new_ComputerWord(PyObject *self, PyObject *args) {
       }
     }
   }
+  if (argc == 6) {
+    int _v;
+    {
+      int res = SWIG_AsVal_char(argv[0], NULL);
+      _v = SWIG_CheckState(res);
+    }
+    if (_v) {
+      {
+        _v = PyLong_Check(argv[1]);
+      }
+      if (_v) {
+        {
+          _v = PyLong_Check(argv[2]);
+        }
+        if (_v) {
+          {
+            _v = PyLong_Check(argv[3]);
+          }
+          if (_v) {
+            {
+              _v = PyLong_Check(argv[4]);
+            }
+            if (_v) {
+              {
+                _v = PyLong_Check(argv[5]);
+              }
+              if (_v) {
+                return _wrap_new_ComputerWord__SWIG_4(self, argc, argv);
+              }
+            }
+          }
+        }
+      }
+    }
+  }
   
 fail:
   SWIG_Python_RaiseOrModifyTypeError("Wrong number or type of arguments for overloaded function 'new_ComputerWord'.\n"
@@ -10140,7 +10338,9 @@ fail:
     "    mixal::ComputerWord::ComputerWord(int32_t)\n"
     "    mixal::ComputerWord::ComputerWord(std::string const &)\n"
     "    mixal::ComputerWord::ComputerWord(bool,uint8_t,uint8_t,uint8_t,uint8_t,uint8_t)\n"
-    "    mixal::ComputerWord::ComputerWord(bool,uint16_t,uint8_t,uint8_t,uint8_t)\n");
+    "    mixal::ComputerWord::ComputerWord(char,uint8_t,uint8_t,uint8_t,uint8_t,uint8_t)\n"
+    "    mixal::ComputerWord::ComputerWord(bool,uint16_t,uint8_t,uint8_t,uint8_t)\n"
+    "    mixal::ComputerWord::ComputerWord(char,uint16_t,uint8_t,uint8_t,uint8_t)\n");
   return 0;
 }
 
@@ -10890,6 +11090,54 @@ fail:
 SWIGINTERN PyObject *_wrap_ComputerWord_set__SWIG_4(PyObject *SWIGUNUSEDPARM(self), Py_ssize_t nobjs, PyObject **swig_obj) {
   PyObject *resultobj = 0;
   mixal::ComputerWord *arg1 = (mixal::ComputerWord *) 0 ;
+  char arg2 ;
+  uint8_t arg3 ;
+  uint8_t arg4 ;
+  uint8_t arg5 ;
+  uint8_t arg6 ;
+  uint8_t arg7 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  char val2 ;
+  int ecode2 = 0 ;
+  
+  if ((nobjs < 7) || (nobjs > 7)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_mixal__ComputerWord, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "ComputerWord_set" "', argument " "1"" of type '" "mixal::ComputerWord *""'"); 
+  }
+  arg1 = reinterpret_cast< mixal::ComputerWord * >(argp1);
+  ecode2 = SWIG_AsVal_char(swig_obj[1], &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "ComputerWord_set" "', argument " "2"" of type '" "char""'");
+  } 
+  arg2 = static_cast< char >(val2);
+  {
+    arg3 = static_cast<uint8_t>(PyLong_AsLong(swig_obj[2]));
+  }
+  {
+    arg4 = static_cast<uint8_t>(PyLong_AsLong(swig_obj[3]));
+  }
+  {
+    arg5 = static_cast<uint8_t>(PyLong_AsLong(swig_obj[4]));
+  }
+  {
+    arg6 = static_cast<uint8_t>(PyLong_AsLong(swig_obj[5]));
+  }
+  {
+    arg7 = static_cast<uint8_t>(PyLong_AsLong(swig_obj[6]));
+  }
+  (arg1)->set(arg2,arg3,arg4,arg5,arg6,arg7);
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_ComputerWord_set__SWIG_5(PyObject *SWIGUNUSEDPARM(self), Py_ssize_t nobjs, PyObject **swig_obj) {
+  PyObject *resultobj = 0;
+  mixal::ComputerWord *arg1 = (mixal::ComputerWord *) 0 ;
   bool arg2 ;
   uint16_t arg3 ;
   uint8_t arg4 ;
@@ -10913,6 +11161,62 @@ SWIGINTERN PyObject *_wrap_ComputerWord_set__SWIG_4(PyObject *SWIGUNUSEDPARM(sel
     SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "ComputerWord_set" "', argument " "2"" of type '" "bool""'");
   } 
   arg2 = static_cast< bool >(val2);
+  {
+    res3 = SWIG_ConvertPtr(swig_obj[2], &argp3, SWIGTYPE_p_uint16_t,  0  | 0);
+    if (!SWIG_IsOK(res3)) {
+      SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "ComputerWord_set" "', argument " "3"" of type '" "uint16_t""'"); 
+    }  
+    if (!argp3) {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "ComputerWord_set" "', argument " "3"" of type '" "uint16_t""'");
+    } else {
+      uint16_t * temp = reinterpret_cast< uint16_t * >(argp3);
+      arg3 = *temp;
+      if (SWIG_IsNewObj(res3)) delete temp;
+    }
+  }
+  {
+    arg4 = static_cast<uint8_t>(PyLong_AsLong(swig_obj[3]));
+  }
+  {
+    arg5 = static_cast<uint8_t>(PyLong_AsLong(swig_obj[4]));
+  }
+  {
+    arg6 = static_cast<uint8_t>(PyLong_AsLong(swig_obj[5]));
+  }
+  (arg1)->set(arg2,arg3,arg4,arg5,arg6);
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_ComputerWord_set__SWIG_6(PyObject *SWIGUNUSEDPARM(self), Py_ssize_t nobjs, PyObject **swig_obj) {
+  PyObject *resultobj = 0;
+  mixal::ComputerWord *arg1 = (mixal::ComputerWord *) 0 ;
+  char arg2 ;
+  uint16_t arg3 ;
+  uint8_t arg4 ;
+  uint8_t arg5 ;
+  uint8_t arg6 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  char val2 ;
+  int ecode2 = 0 ;
+  void *argp3 ;
+  int res3 = 0 ;
+  
+  if ((nobjs < 6) || (nobjs > 6)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_mixal__ComputerWord, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "ComputerWord_set" "', argument " "1"" of type '" "mixal::ComputerWord *""'"); 
+  }
+  arg1 = reinterpret_cast< mixal::ComputerWord * >(argp1);
+  ecode2 = SWIG_AsVal_char(swig_obj[1], &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "ComputerWord_set" "', argument " "2"" of type '" "char""'");
+  } 
+  arg2 = static_cast< char >(val2);
   {
     res3 = SWIG_ConvertPtr(swig_obj[2], &argp3, SWIGTYPE_p_uint16_t,  0  | 0);
     if (!SWIG_IsOK(res3)) {
@@ -11024,7 +11328,41 @@ SWIGINTERN PyObject *_wrap_ComputerWord_set(PyObject *self, PyObject *args) {
                 _v = PyLong_Check(argv[5]);
               }
               if (_v) {
-                return _wrap_ComputerWord_set__SWIG_4(self, argc, argv);
+                return _wrap_ComputerWord_set__SWIG_5(self, argc, argv);
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  if (argc == 6) {
+    int _v;
+    void *vptr = 0;
+    int res = SWIG_ConvertPtr(argv[0], &vptr, SWIGTYPE_p_mixal__ComputerWord, 0);
+    _v = SWIG_CheckState(res);
+    if (_v) {
+      {
+        int res = SWIG_AsVal_char(argv[1], NULL);
+        _v = SWIG_CheckState(res);
+      }
+      if (_v) {
+        int res = SWIG_ConvertPtr(argv[2], 0, SWIGTYPE_p_uint16_t, SWIG_POINTER_NO_NULL | 0);
+        _v = SWIG_CheckState(res);
+        if (_v) {
+          {
+            _v = PyLong_Check(argv[3]);
+          }
+          if (_v) {
+            {
+              _v = PyLong_Check(argv[4]);
+            }
+            if (_v) {
+              {
+                _v = PyLong_Check(argv[5]);
+              }
+              if (_v) {
+                return _wrap_ComputerWord_set__SWIG_6(self, argc, argv);
               }
             }
           }
@@ -11072,6 +11410,46 @@ SWIGINTERN PyObject *_wrap_ComputerWord_set(PyObject *self, PyObject *args) {
       }
     }
   }
+  if (argc == 7) {
+    int _v;
+    void *vptr = 0;
+    int res = SWIG_ConvertPtr(argv[0], &vptr, SWIGTYPE_p_mixal__ComputerWord, 0);
+    _v = SWIG_CheckState(res);
+    if (_v) {
+      {
+        int res = SWIG_AsVal_char(argv[1], NULL);
+        _v = SWIG_CheckState(res);
+      }
+      if (_v) {
+        {
+          _v = PyLong_Check(argv[2]);
+        }
+        if (_v) {
+          {
+            _v = PyLong_Check(argv[3]);
+          }
+          if (_v) {
+            {
+              _v = PyLong_Check(argv[4]);
+            }
+            if (_v) {
+              {
+                _v = PyLong_Check(argv[5]);
+              }
+              if (_v) {
+                {
+                  _v = PyLong_Check(argv[6]);
+                }
+                if (_v) {
+                  return _wrap_ComputerWord_set__SWIG_4(self, argc, argv);
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
   
 fail:
   SWIG_Python_RaiseOrModifyTypeError("Wrong number or type of arguments for overloaded function 'ComputerWord_set'.\n"
@@ -11080,7 +11458,9 @@ fail:
     "    mixal::ComputerWord::set(std::string const &)\n"
     "    mixal::ComputerWord::set(int,uint8_t)\n"
     "    mixal::ComputerWord::set(bool,uint8_t,uint8_t,uint8_t,uint8_t,uint8_t)\n"
-    "    mixal::ComputerWord::set(bool,uint16_t,uint8_t,uint8_t,uint8_t)\n");
+    "    mixal::ComputerWord::set(char,uint8_t,uint8_t,uint8_t,uint8_t,uint8_t)\n"
+    "    mixal::ComputerWord::set(bool,uint16_t,uint8_t,uint8_t,uint8_t)\n"
+    "    mixal::ComputerWord::set(char,uint16_t,uint8_t,uint8_t,uint8_t)\n");
   return 0;
 }
 
@@ -11329,6 +11709,35 @@ fail:
 }
 
 
+SWIGINTERN PyObject *_wrap_new_Register2__SWIG_3(PyObject *SWIGUNUSEDPARM(self), Py_ssize_t nobjs, PyObject **swig_obj) {
+  PyObject *resultobj = 0;
+  char arg1 ;
+  uint8_t arg2 ;
+  uint8_t arg3 ;
+  char val1 ;
+  int ecode1 = 0 ;
+  mixal::Register2 *result = 0 ;
+  
+  if ((nobjs < 3) || (nobjs > 3)) SWIG_fail;
+  ecode1 = SWIG_AsVal_char(swig_obj[0], &val1);
+  if (!SWIG_IsOK(ecode1)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "new_Register2" "', argument " "1"" of type '" "char""'");
+  } 
+  arg1 = static_cast< char >(val1);
+  {
+    arg2 = static_cast<uint8_t>(PyLong_AsLong(swig_obj[1]));
+  }
+  {
+    arg3 = static_cast<uint8_t>(PyLong_AsLong(swig_obj[2]));
+  }
+  result = (mixal::Register2 *)new mixal::Register2(arg1,arg2,arg3);
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_mixal__Register2, SWIG_POINTER_NEW |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
 SWIGINTERN PyObject *_wrap_new_Register2(PyObject *self, PyObject *args) {
   Py_ssize_t argc;
   PyObject *argv[4] = {
@@ -11369,13 +11778,34 @@ SWIGINTERN PyObject *_wrap_new_Register2(PyObject *self, PyObject *args) {
       }
     }
   }
+  if (argc == 3) {
+    int _v;
+    {
+      int res = SWIG_AsVal_char(argv[0], NULL);
+      _v = SWIG_CheckState(res);
+    }
+    if (_v) {
+      {
+        _v = PyLong_Check(argv[1]);
+      }
+      if (_v) {
+        {
+          _v = PyLong_Check(argv[2]);
+        }
+        if (_v) {
+          return _wrap_new_Register2__SWIG_3(self, argc, argv);
+        }
+      }
+    }
+  }
   
 fail:
   SWIG_Python_RaiseOrModifyTypeError("Wrong number or type of arguments for overloaded function 'new_Register2'.\n"
     "  Possible C/C++ prototypes are:\n"
     "    mixal::Register2::Register2()\n"
     "    mixal::Register2::Register2(int16_t)\n"
-    "    mixal::Register2::Register2(bool,uint8_t,uint8_t)\n");
+    "    mixal::Register2::Register2(bool,uint8_t,uint8_t)\n"
+    "    mixal::Register2::Register2(char,uint8_t,uint8_t)\n");
   return 0;
 }
 
@@ -11554,6 +11984,42 @@ fail:
 }
 
 
+SWIGINTERN PyObject *_wrap_Register2_set__SWIG_3(PyObject *SWIGUNUSEDPARM(self), Py_ssize_t nobjs, PyObject **swig_obj) {
+  PyObject *resultobj = 0;
+  mixal::Register2 *arg1 = (mixal::Register2 *) 0 ;
+  char arg2 ;
+  uint8_t arg3 ;
+  uint8_t arg4 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  char val2 ;
+  int ecode2 = 0 ;
+  
+  if ((nobjs < 4) || (nobjs > 4)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_mixal__Register2, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Register2_set" "', argument " "1"" of type '" "mixal::Register2 *""'"); 
+  }
+  arg1 = reinterpret_cast< mixal::Register2 * >(argp1);
+  ecode2 = SWIG_AsVal_char(swig_obj[1], &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "Register2_set" "', argument " "2"" of type '" "char""'");
+  } 
+  arg2 = static_cast< char >(val2);
+  {
+    arg3 = static_cast<uint8_t>(PyLong_AsLong(swig_obj[2]));
+  }
+  {
+    arg4 = static_cast<uint8_t>(PyLong_AsLong(swig_obj[3]));
+  }
+  (arg1)->set(arg2,arg3,arg4);
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
 SWIGINTERN PyObject *_wrap_Register2_set(PyObject *self, PyObject *args) {
   Py_ssize_t argc;
   PyObject *argv[5] = {
@@ -11620,13 +12086,39 @@ SWIGINTERN PyObject *_wrap_Register2_set(PyObject *self, PyObject *args) {
       }
     }
   }
+  if (argc == 4) {
+    int _v;
+    void *vptr = 0;
+    int res = SWIG_ConvertPtr(argv[0], &vptr, SWIGTYPE_p_mixal__Register2, 0);
+    _v = SWIG_CheckState(res);
+    if (_v) {
+      {
+        int res = SWIG_AsVal_char(argv[1], NULL);
+        _v = SWIG_CheckState(res);
+      }
+      if (_v) {
+        {
+          _v = PyLong_Check(argv[2]);
+        }
+        if (_v) {
+          {
+            _v = PyLong_Check(argv[3]);
+          }
+          if (_v) {
+            return _wrap_Register2_set__SWIG_3(self, argc, argv);
+          }
+        }
+      }
+    }
+  }
   
 fail:
   SWIG_Python_RaiseOrModifyTypeError("Wrong number or type of arguments for overloaded function 'Register2_set'.\n"
     "  Possible C/C++ prototypes are:\n"
     "    mixal::Register2::set(int16_t)\n"
     "    mixal::Register2::set(int,int8_t)\n"
-    "    mixal::Register2::set(bool,uint8_t,uint8_t)\n");
+    "    mixal::Register2::set(bool,uint8_t,uint8_t)\n"
+    "    mixal::Register2::set(char,uint8_t,uint8_t)\n");
   return 0;
 }
 

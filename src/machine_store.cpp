@@ -26,14 +26,14 @@ void Computer::executeSTi(const InstructionWord& instruction) {
 /** Store the value in rJ to memory. */
 void Computer::executeSTJ(const InstructionWord& instruction) {
     int address = getIndexedAddress(instruction, true);
-    ComputerWord word(0, 0, 0, 0, rJ[1], rJ[2]);
+    ComputerWord word('+', 0, 0, 0, rJ[1], rJ[2]);
     copyFromRegister5(instruction, word, &memory[address]);
 }
 
 /** Store zeros to memory. */
 void Computer::executeSTZ(const InstructionWord& instruction) {
     int address = getIndexedAddress(instruction, true);
-    ComputerWord word(0, 0, 0, 0, 0, 0);
+    ComputerWord word('+', 0, 0, 0, 0, 0);
     copyFromRegister5(instruction, word, &memory[address]);
 }
 

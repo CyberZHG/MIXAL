@@ -26,14 +26,19 @@ struct Register2 {
     uint8_t byte2;
 
     /** Initialize the register with zeros. */
-    Register2() : negative(), byte1(), byte2() {}
+    Register2();
     /** Initialize the register with an integer value.
      * 
      * @see set(int16_t)
      */
-    explicit Register2(int16_t value) : negative(), byte1(), byte2() { set(value); }
+    explicit Register2(int16_t value);
     /** Initialize the register with all the specific values. */
-    Register2(bool _negative, uint8_t _byte1, uint8_t _byte2) : negative(_negative), byte1(_byte1), byte2(_byte2) {}
+    Register2(bool _negative, uint8_t _byte1, uint8_t _byte2);
+    /** Initialize the register with all the specific values.
+     * 
+     * @throw std::runtime_error when the sign is neither '+' nor '-'.
+     */
+    Register2(char sign, uint8_t _byte1, uint8_t _byte2);
 
     /** Reset the values in the register to 0. */
     inline void reset() {
@@ -72,6 +77,11 @@ struct Register2 {
     void set(int index, int8_t val);
     /** Set all the values. */
     void set(bool negative, uint8_t byte1, uint8_t byte2);
+    /** Set all the values.
+     * 
+     * @throw std::runtime_error when the sign is neither '+' nor '-'.
+     */
+    void set(char sign, uint8_t byte1, uint8_t byte2);
 };
 
 };  // namespace mixal
