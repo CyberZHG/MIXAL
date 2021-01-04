@@ -29,7 +29,7 @@ MACOSX_DEPLOYMENT_TARGET=10.9 pip install mixal
 
 ## Sample
 
-A sample code that finds the maximum value:
+Following is a piece of sample code that finds the maximum value. There are upper-case letters in the names of functions and attributes as the codes were written with C++.
 
 ```python
 import random
@@ -79,3 +79,32 @@ print('Actual:', computer.rA.value())
 # The units of time for executing the codes, exclude the halt operation.
 print('Compute Cost:', computer.elapsed())
 ```
+
+# IO Device
+
+There are several pre-defined IO devices in the environment. You can set the initial values of the input devices before the execution. Following is the code that reads one word from the input device and writes the same one to the output device.
+
+```python
+import mixal
+
+# Initialize an environment
+computer = mixal.Computer()
+
+# Pre-defined indices for IO devices
+card_reader_index = 16
+card_punch_index = 17
+
+computer.loadCodes(f"""
+        ORIG 3000
+        IN   100({card_reader_index})
+LIN     JBUS LIN({card_reader_index})
+        OUT  100({card_punch_index})
+LOUT    JBUS LOUT({card_punch_index})
+        """)
+# Set the initial value of input device
+computer.getDeviceWordAt(card_reader_index, 0).set('PRIME')
+computer.executeUntilHalt()
+# Check the output text of the output device
+print(computer.getDeviceWordAt(card_punch_index, 0).getCharacters())
+```
+

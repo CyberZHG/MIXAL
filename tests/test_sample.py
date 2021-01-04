@@ -37,3 +37,18 @@ EXIT    JMP  *
             values.append(val)
         self.computer.executeUntilHalt()
         self.assertEqual(max_val, self.computer.rA.value(), str(values))
+
+    def test_basic_io(self):
+        card_reader_index = 16
+        card_punch_index = 17
+
+        self.computer.loadCodes(f"""
+        ORIG 3000
+        IN   100({card_reader_index})
+LIN     JBUS LIN({card_reader_index})
+        OUT  100({card_punch_index})
+LOUT    JBUS LOUT({card_punch_index})
+        """)
+        self.computer.getDeviceWordAt(card_reader_index, 0).set('PRIME')
+        self.computer.executeUntilHalt()
+        print(self.computer.getDeviceWordAt(card_punch_index, 0).getCharacters())

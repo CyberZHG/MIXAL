@@ -29,7 +29,7 @@ MACOSX_DEPLOYMENT_TARGET=10.9 pip install mixal
 
 ## 示例
 
-一段找最大值的代码：
+下面是一段找最大值的代码，因为底层代码由C++编写，所以变量名和函数名里存在大写字母：
 
 ```python
 import random
@@ -77,3 +77,32 @@ print('Actual:', computer.rA.value())
 # 执行这段代码消耗的单位时间，不包含最后的HLT
 print('Compute Cost:', computer.elapsed())
 ```
+
+# IO设备
+
+MIXAL环境中预定义了一些IO设备，在程序运行之前可以设置输入设备的初始值。下面的代码从输入设备中读取一个字，然后将这个字写到输出设备：
+
+```python
+import mixal
+
+# 初始化一个执行环境
+computer = mixal.Computer()
+
+# 预定义的IO设备编号
+card_reader_index = 16
+card_punch_index = 17
+
+computer.loadCodes(f"""
+        ORIG 3000
+        IN   100({card_reader_index})
+LIN     JBUS LIN({card_reader_index})
+        OUT  100({card_punch_index})
+LOUT    JBUS LOUT({card_punch_index})
+        """)
+# 设置输入的初始值
+computer.getDeviceWordAt(card_reader_index, 0).set('PRIME')
+computer.executeUntilHalt()
+# 检查输出值是否与输入相同
+print(computer.getDeviceWordAt(card_punch_index, 0).getCharacters())
+```
+
