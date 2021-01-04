@@ -41,3 +41,19 @@ class TestSample(TestCase):
             output += self.computer.getDeviceWordAt(18, i).getCharacters()
         self.assertEqual('    (  C    E    B  )        (  D    G    A  )    ', output)
         print('Cost:', self.computer.elapsed())
+
+    def test_i_inverse_in_space(self):
+        self.load_codes('i_inverse_in_space')
+        self.computer.executeUntilHalt()
+        expected = [3, 2, 6, 5, 4, 1]
+        for i, val in enumerate(expected):
+            self.assertEqual(val, self.computer.memoryAt(1001 + i).value())
+        print('Cost:', self.computer.elapsed())
+
+    def test_j_analogous_to_program_i(self):
+        self.load_codes('j_analogous_to_program_i')
+        self.computer.executeUntilHalt()
+        expected = [3, 2, 6, 5, 4, 1]
+        for i, val in enumerate(expected):
+            self.assertEqual(val, self.computer.memoryAt(1001 + i).value())
+        print('Cost:', self.computer.elapsed())
