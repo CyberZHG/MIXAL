@@ -107,6 +107,19 @@ __TEST_U(TestMachinePesudo, test_orig_with_undefined_symbol) {
     __ASSERT_THROW(machine.executeSingle(&result), mixal::RuntimeError);
 }
 
+__TEST_U(TestMachinePesudo, test_orig_with_asterisk) {
+    initMemory2000();
+    auto result = mixal::Parser::parseLine(" ORIG 1500", "", true);
+    machine.executeSingle(&result);
+    result = mixal::Parser::parseLine("BUF ORIG *+100", machine.getSingleLineSymbol(), true);
+    machine.executeSingle(&result);
+    result = mixal::Parser::parseLine(" CON BUF", "", true);
+    machine.executeSingle(&result);
+    result = mixal::Parser::parseLine(" LDA 1600", "", true);
+    machine.executeSingle(&result);
+    __ASSERT_EQ(1500, machine.rA.value());
+}
+
 __TEST_U(TestMachinePesudo, test_con_load) {
     auto result = mixal::Parser::parseLine(" ORIG 2000", "", true);
     machine.executeSingle(&result);

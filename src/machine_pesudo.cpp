@@ -25,9 +25,15 @@ void Computer::executeORIG(ParsedResult* instruction) {
             throw RuntimeError(_lineOffset, "Unresolved symbol found while parsing ORIG: " + instruction->rawAddress);
         }
     }
+    int lineOffset = _lineOffset;
     _lineOffset = instruction->address.result().value;
     if (instruction->rawLocation.length() > 0) {
-        _constants[instruction->rawLocation] = AtomicValue(instruction->address.result().value);
+        if (instruction->rawAddress.find('*') == std::string::npos) {
+            _constants[instruction->rawLocation] = AtomicValue(instruction->address.result().value);
+        } else {
+            // When there is a `*` in the address, the location should equal to the `*` value before the calculation.
+            _constants[instruction->rawLocation] = AtomicValue(lineOffset);
+        }
     } else {
         std::string symbol = getPesudoSymbolname();
         _constants[symbol] = AtomicValue(instruction->address.result().value);
