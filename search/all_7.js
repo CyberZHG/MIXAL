@@ -7,7 +7,8 @@ var searchData=
   ['getconstoffsetexpression_51',['getConstOffsetExpression',['../classmixal_1_1_expression.html#a337a5b713a005ebd83665c96f8307826',1,'mixal::Expression']]],
   ['getcost_52',['getCost',['../classmixal_1_1_instructions.html#ac6e0db2bca4ccfabf3076ac1826a6d73',1,'mixal::Instructions']]],
   ['getdefaultfield_53',['getDefaultField',['../classmixal_1_1_instructions.html#a2a0fe4c6863ec594a0b1937ccdd329aa',1,'mixal::Instructions']]],
-  ['getdevice_54',['getDevice',['../classmixal_1_1_computer.html#a574e5b329efa9f0844f580a00eb27ce4',1,'mixal::Computer']]],
-  ['getinstructioncode_55',['getInstructionCode',['../classmixal_1_1_instructions.html#ae587fa5da53475c7a8881da404298a03',1,'mixal::Instructions']]],
-  ['getsinglelinesymbol_56',['getSingleLineSymbol',['../classmixal_1_1_computer.html#a9ff0298a628b05b708dfc05159f2d611',1,'mixal::Computer']]]
+  ['getdevice_54',['getDevice',['../classmixal_1_1_computer.html#a68dc93e42235d1a7a98bf369b2ec5a99',1,'mixal::Computer']]],
+  ['getdevicewordat_55',['getDeviceWordAt',['../classmixal_1_1_computer.html#adaa1928b48e78499cb4ce9818be38f11',1,'mixal::Computer']]],
+  ['getinstructioncode_56',['getInstructionCode',['../classmixal_1_1_instructions.html#ae587fa5da53475c7a8881da404298a03',1,'mixal::Instructions']]],
+  ['getsinglelinesymbol_57',['getSingleLineSymbol',['../classmixal_1_1_computer.html#a9ff0298a628b05b708dfc05159f2d611',1,'mixal::Computer']]]
 ];
