@@ -8,38 +8,38 @@
 
 namespace mixal {
 
-std::shared_ptr<IODevice> Computer::getDevice(int32_t index) {
+IODevice* Computer::getDevice(int32_t index) {
     if (devices[index] == nullptr) {
         switch (index) {
         case 0: case 1: case 2: case 3:
         case 4: case 5: case 6: case 7:
-            devices[index] = std::shared_ptr<IODevice>(new IODeviceTape());
+            devices[index] = new IODeviceTape();
             break;
         case 8: case 9: case 10: case 11:
         case 12: case 13: case 14: case 15:
-            devices[index] = std::shared_ptr<IODevice>(new IODeviceDisk());
+            devices[index] = new IODeviceDisk();
             break;
         case 16:
-            devices[index] = std::shared_ptr<IODevice>(new IODeviceCardReader());
+            devices[index] = new IODeviceCardReader();
             break;
         case 17:
-            devices[index] = std::shared_ptr<IODevice>(new IODeviceCardPunch());
+            devices[index] = new IODeviceCardPunch();
             break;
         case 18:
-            devices[index] = std::shared_ptr<IODevice>(new IODeviceLinePrinter());
+            devices[index] = new IODeviceLinePrinter();
             break;
         case 19:
-            devices[index] = std::shared_ptr<IODevice>(new IODeviceTypewriter());
+            devices[index] = new IODeviceTypewriter();
             break;
         case 20:
-            devices[index] = std::shared_ptr<IODevice>(new IODevicePaperTape());
+            devices[index] = new IODevicePaperTape();
             break;
         }
     }
     return devices[index];
 }
 
-void Computer::waitDevice(std::shared_ptr<IODevice> device) {
+void Computer::waitDevice(IODevice* device) {
     while (!device->ready(this->_elapsed)) {
         ++this->_elapsed;
     }
@@ -51,6 +51,10 @@ void Computer::waitDevices() {
             waitDevice(devices[i]);
         }
     }
+}
+
+ComputerWord& Computer::getDeviceWordAt(int32_t device, int32_t index) {
+    return this->getDevice(device)->wordAt(index);
 }
 
 /** Jump when the device is busy.

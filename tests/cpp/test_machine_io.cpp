@@ -90,6 +90,19 @@ __TEST_U(TestMachineIO, test_io_chars) {
     __ASSERT_EQ("PRIME", machine.getDevice(17)->wordAt(0).getCharacters());
 }
 
+__TEST_U(TestMachineIO, test_io_chars_with_wrap) {
+    machine.loadCodes({
+        "     ORIG 3000",
+        "     IN   100(16)",
+        "LIN  JBUS LIN(16)",
+        "     OUT  100(17)",
+        "LOUT JBUS LOUT(17)",
+    });
+    machine.getDeviceWordAt(16, 0).set("PRIME");
+    machine.executeUntilHalt();
+    __ASSERT_EQ("PRIME", machine.getDeviceWordAt(17, 0).getCharacters());
+}
+
 __TEST_U(TestMachineIO, test_io_invalid_in) {
     machine.loadCodes(std::vector<std::string>({
         "     ORIG 3000",

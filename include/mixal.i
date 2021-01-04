@@ -8,11 +8,8 @@ using namespace mixal;
 %}
 
 %pythoncode %{
-__version__ = '1.157.13'
+__version__ = '1.168.14'
 %}
-
-%include <std_vector.i>
-%include <std_string.i>
 
 %typemap(typecheck) uint8_t {
 $1 = PyLong_Check($input);
@@ -50,6 +47,8 @@ $1 = static_cast<int32_t>(PyLong_AsLong($input));
 $result = PyLong_FromLong(static_cast<long>($1));
 }
 
+%include <std_vector.i>
+%include <std_string.i>
 namespace std {
   %template(VecInt) vector<int>;
   %template(VecStr) vector<string>;
@@ -58,3 +57,4 @@ namespace std {
 %include "memory.h"
 %include "registers.h"
 %include "machine.h"
+%include "io.h"

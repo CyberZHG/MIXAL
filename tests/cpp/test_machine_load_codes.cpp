@@ -293,7 +293,7 @@ __TEST_U(TestMachineLoadCodes, test_load_codes_prime) {
     __ASSERT_EQ(mixal::ComputerWord(false, 19,  9, 14,  5, 22), machine.memory[1999]);
 
     machine.executeUntilHalt();
-    auto linePrinter = std::dynamic_pointer_cast<mixal::IODeviceLinePrinter>(machine.getDevice(18));
+    auto linePrinter = reinterpret_cast<mixal::IODeviceLinePrinter*>(machine.getDevice(18));
     std::vector<std::string> outputs;
     for (int i = 0; i < 51; ++i) {
         outputs.push_back(linePrinter->line(1, i).substr(0, 55));

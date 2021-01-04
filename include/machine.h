@@ -36,10 +36,11 @@ class Computer {
     ComparisonIndicator comparison;  /**< The result of comparison operations. */
 
     ComputerWord memory[NUM_MEMORY];  /**< The memory in the machine. */
-    std::vector<std::shared_ptr<IODevice>> devices;  /**< The IO devices. */
+    std::vector<IODevice*> devices;  /**< The IO devices. */
 
     /** Initialize the machine with zeros. */
     Computer();
+    ~Computer();
 
     /** Get the index register given the index of the register. */
     Register2& rI(int index);
@@ -48,11 +49,13 @@ class Computer {
     /** Get a word from the memory. */
     ComputerWord& memoryAt(int16_t index);
     /** Get the device based on the index value. */
-    std::shared_ptr<IODevice> getDevice(int32_t index);
+    IODevice* getDevice(int32_t index);
     /** Wait the IO device to be ready. */
-    void waitDevice(std::shared_ptr<IODevice> device);
+    void waitDevice(IODevice* device);
     /** Wait all IO devices to be ready. */
     void waitDevices();
+    /** Get a word from a device. */
+    ComputerWord& getDeviceWordAt(int32_t device, int32_t index);
 
     /** Reset the machine to zeros. */
     void reset();

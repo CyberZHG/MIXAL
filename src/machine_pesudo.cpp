@@ -29,7 +29,9 @@ void Computer::executeORIG(ParsedResult* instruction) {
     _lineOffset = instruction->address.result().value;
     if (instruction->rawLocation.length() > 0) {
         if (instruction->rawAddress.find('*') == std::string::npos) {
-            _constants[instruction->rawLocation] = AtomicValue(instruction->address.result().value);
+            if (!instruction->rawLocation.empty()) {
+                _constants[instruction->rawLocation] = AtomicValue(instruction->address.result().value);
+            }
         } else {
             // When there is a `*` in the address, the location should equal to the `*` value before the calculation.
             _constants[instruction->rawLocation] = AtomicValue(lineOffset);

@@ -108,8 +108,7 @@ __TEST_U(TestMachinePesudo, test_orig_with_undefined_symbol) {
 }
 
 __TEST_U(TestMachinePesudo, test_orig_with_asterisk) {
-    initMemory2000();
-    auto result = mixal::Parser::parseLine(" ORIG 1500", "", true);
+    auto result = mixal::Parser::parseLine("FOO ORIG 1500", "", true);
     machine.executeSingle(&result);
     result = mixal::Parser::parseLine("BUF ORIG *+100", machine.getSingleLineSymbol(), true);
     machine.executeSingle(&result);
@@ -117,6 +116,18 @@ __TEST_U(TestMachinePesudo, test_orig_with_asterisk) {
     machine.executeSingle(&result);
     result = mixal::Parser::parseLine(" LDA 1600", "", true);
     machine.executeSingle(&result);
+    __ASSERT_EQ(1500, machine.rA.value());
+}
+
+__TEST_U(TestMachinePesudo, test_orig_with_asterisk_loadCodes) {
+    machine.loadCodes({
+        "BAR  ORIG 1500",
+        "BUF  ORIG *+200",
+        "     CON  BUF",
+        "     LDA  1700",
+        "     HLT",
+    });
+    machine.executeUntilHalt();
     __ASSERT_EQ(1500, machine.rA.value());
 }
 

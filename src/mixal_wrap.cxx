@@ -2693,29 +2693,40 @@ SWIGINTERN PyObject *SWIG_PyStaticMethod_New(PyObject *SWIGUNUSEDPARM(self), PyO
 /* -------- TYPES TABLE (BEGIN) -------- */
 
 #define SWIGTYPE_p_ComparisonIndicator swig_types[0]
-#define SWIGTYPE_p_ParsedResult swig_types[1]
-#define SWIGTYPE_p_allocator_type swig_types[2]
-#define SWIGTYPE_p_char swig_types[3]
-#define SWIGTYPE_p_difference_type swig_types[4]
-#define SWIGTYPE_p_int32_t swig_types[5]
-#define SWIGTYPE_p_int8_t swig_types[6]
-#define SWIGTYPE_p_mixal__Computer swig_types[7]
-#define SWIGTYPE_p_mixal__ComputerWord swig_types[8]
-#define SWIGTYPE_p_mixal__Register2 swig_types[9]
-#define SWIGTYPE_p_p_PyObject swig_types[10]
-#define SWIGTYPE_p_size_type swig_types[11]
-#define SWIGTYPE_p_std__allocatorT_int_t swig_types[12]
-#define SWIGTYPE_p_std__allocatorT_std__string_t swig_types[13]
-#define SWIGTYPE_p_std__invalid_argument swig_types[14]
-#define SWIGTYPE_p_std__shared_ptrT_IODevice_t swig_types[15]
-#define SWIGTYPE_p_std__vectorT_int_std__allocatorT_int_t_t swig_types[16]
-#define SWIGTYPE_p_std__vectorT_std__shared_ptrT_IODevice_t_std__allocatorT_std__shared_ptrT_IODevice_t_t_t swig_types[17]
-#define SWIGTYPE_p_std__vectorT_std__string_std__allocatorT_std__string_t_t swig_types[18]
-#define SWIGTYPE_p_swig__SwigPyIterator swig_types[19]
-#define SWIGTYPE_p_uint16_t swig_types[20]
-#define SWIGTYPE_p_value_type swig_types[21]
-static swig_type_info *swig_types[23];
-static swig_module_info swig_module = {swig_types, 22, 0, 0, 0, 0};
+#define SWIGTYPE_p_IODevice swig_types[1]
+#define SWIGTYPE_p_ParsedResult swig_types[2]
+#define SWIGTYPE_p_allocator_type swig_types[3]
+#define SWIGTYPE_p_char swig_types[4]
+#define SWIGTYPE_p_difference_type swig_types[5]
+#define SWIGTYPE_p_int32_t swig_types[6]
+#define SWIGTYPE_p_int8_t swig_types[7]
+#define SWIGTYPE_p_mixal__Computer swig_types[8]
+#define SWIGTYPE_p_mixal__ComputerWord swig_types[9]
+#define SWIGTYPE_p_mixal__IODevice swig_types[10]
+#define SWIGTYPE_p_mixal__IODeviceCardPunch swig_types[11]
+#define SWIGTYPE_p_mixal__IODeviceCardReader swig_types[12]
+#define SWIGTYPE_p_mixal__IODeviceDisk swig_types[13]
+#define SWIGTYPE_p_mixal__IODeviceLinePrinter swig_types[14]
+#define SWIGTYPE_p_mixal__IODevicePaperTape swig_types[15]
+#define SWIGTYPE_p_mixal__IODeviceSeqReader swig_types[16]
+#define SWIGTYPE_p_mixal__IODeviceSeqWriter swig_types[17]
+#define SWIGTYPE_p_mixal__IODeviceStorage swig_types[18]
+#define SWIGTYPE_p_mixal__IODeviceTape swig_types[19]
+#define SWIGTYPE_p_mixal__IODeviceTypewriter swig_types[20]
+#define SWIGTYPE_p_mixal__Register2 swig_types[21]
+#define SWIGTYPE_p_p_PyObject swig_types[22]
+#define SWIGTYPE_p_size_type swig_types[23]
+#define SWIGTYPE_p_std__allocatorT_int_t swig_types[24]
+#define SWIGTYPE_p_std__allocatorT_std__string_t swig_types[25]
+#define SWIGTYPE_p_std__invalid_argument swig_types[26]
+#define SWIGTYPE_p_std__vectorT_IODevice_p_std__allocatorT_mixal__IODevice_p_t_t swig_types[27]
+#define SWIGTYPE_p_std__vectorT_int_std__allocatorT_int_t_t swig_types[28]
+#define SWIGTYPE_p_std__vectorT_std__string_std__allocatorT_std__string_t_t swig_types[29]
+#define SWIGTYPE_p_swig__SwigPyIterator swig_types[30]
+#define SWIGTYPE_p_uint16_t swig_types[31]
+#define SWIGTYPE_p_value_type swig_types[32]
+static swig_type_info *swig_types[34];
+static swig_module_info swig_module = {swig_types, 33, 0, 0, 0, 0};
 #define SWIG_TypeQuery(name) SWIG_TypeQueryModule(&swig_module, &swig_module, name)
 #define SWIG_MangledTypeQuery(name) SWIG_MangledTypeQueryModule(&swig_module, &swig_module, name)
 
@@ -12798,7 +12809,7 @@ fail:
 SWIGINTERN PyObject *_wrap_Computer_devices_set(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   mixal::Computer *arg1 = (mixal::Computer *) 0 ;
-  std::vector< std::shared_ptr< IODevice >,std::allocator< std::shared_ptr< IODevice > > > *arg2 = (std::vector< std::shared_ptr< IODevice >,std::allocator< std::shared_ptr< IODevice > > > *) 0 ;
+  std::vector< IODevice *,std::allocator< mixal::IODevice * > > *arg2 = (std::vector< IODevice *,std::allocator< mixal::IODevice * > > *) 0 ;
   void *argp1 = 0 ;
   int res1 = 0 ;
   void *argp2 = 0 ;
@@ -12811,11 +12822,11 @@ SWIGINTERN PyObject *_wrap_Computer_devices_set(PyObject *SWIGUNUSEDPARM(self), 
     SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Computer_devices_set" "', argument " "1"" of type '" "mixal::Computer *""'"); 
   }
   arg1 = reinterpret_cast< mixal::Computer * >(argp1);
-  res2 = SWIG_ConvertPtr(swig_obj[1], &argp2,SWIGTYPE_p_std__vectorT_std__shared_ptrT_IODevice_t_std__allocatorT_std__shared_ptrT_IODevice_t_t_t, 0 |  0 );
+  res2 = SWIG_ConvertPtr(swig_obj[1], &argp2,SWIGTYPE_p_std__vectorT_IODevice_p_std__allocatorT_mixal__IODevice_p_t_t, 0 |  0 );
   if (!SWIG_IsOK(res2)) {
-    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Computer_devices_set" "', argument " "2"" of type '" "std::vector< std::shared_ptr< IODevice >,std::allocator< std::shared_ptr< IODevice > > > *""'"); 
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Computer_devices_set" "', argument " "2"" of type '" "std::vector< IODevice *,std::allocator< mixal::IODevice * > > *""'"); 
   }
-  arg2 = reinterpret_cast< std::vector< std::shared_ptr< IODevice >,std::allocator< std::shared_ptr< IODevice > > > * >(argp2);
+  arg2 = reinterpret_cast< std::vector< IODevice *,std::allocator< mixal::IODevice * > > * >(argp2);
   if (arg1) (arg1)->devices = *arg2;
   resultobj = SWIG_Py_Void();
   return resultobj;
@@ -12830,7 +12841,7 @@ SWIGINTERN PyObject *_wrap_Computer_devices_get(PyObject *SWIGUNUSEDPARM(self), 
   void *argp1 = 0 ;
   int res1 = 0 ;
   PyObject *swig_obj[1] ;
-  std::vector< std::shared_ptr< IODevice >,std::allocator< std::shared_ptr< IODevice > > > *result = 0 ;
+  std::vector< IODevice *,std::allocator< mixal::IODevice * > > *result = 0 ;
   
   if (!args) SWIG_fail;
   swig_obj[0] = args;
@@ -12839,8 +12850,8 @@ SWIGINTERN PyObject *_wrap_Computer_devices_get(PyObject *SWIGUNUSEDPARM(self), 
     SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Computer_devices_get" "', argument " "1"" of type '" "mixal::Computer *""'"); 
   }
   arg1 = reinterpret_cast< mixal::Computer * >(argp1);
-  result = (std::vector< std::shared_ptr< IODevice >,std::allocator< std::shared_ptr< IODevice > > > *)& ((arg1)->devices);
-  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_std__vectorT_std__shared_ptrT_IODevice_t_std__allocatorT_std__shared_ptrT_IODevice_t_t_t, 0 |  0 );
+  result = (std::vector< IODevice *,std::allocator< mixal::IODevice * > > *)& ((arg1)->devices);
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_std__vectorT_IODevice_p_std__allocatorT_mixal__IODevice_p_t_t, 0 |  0 );
   return resultobj;
 fail:
   return NULL;
@@ -12854,6 +12865,28 @@ SWIGINTERN PyObject *_wrap_new_Computer(PyObject *SWIGUNUSEDPARM(self), PyObject
   if (!SWIG_Python_UnpackTuple(args, "new_Computer", 0, 0, 0)) SWIG_fail;
   result = (mixal::Computer *)new mixal::Computer();
   resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_mixal__Computer, SWIG_POINTER_NEW |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_delete_Computer(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  mixal::Computer *arg1 = (mixal::Computer *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject *swig_obj[1] ;
+  
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_mixal__Computer, SWIG_POINTER_DISOWN |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "delete_Computer" "', argument " "1"" of type '" "mixal::Computer *""'"); 
+  }
+  arg1 = reinterpret_cast< mixal::Computer * >(argp1);
+  delete arg1;
+  resultobj = SWIG_Py_Void();
   return resultobj;
 fail:
   return NULL;
@@ -12993,7 +13026,7 @@ SWIGINTERN PyObject *_wrap_Computer_getDevice(PyObject *SWIGUNUSEDPARM(self), Py
   void *argp1 = 0 ;
   int res1 = 0 ;
   PyObject *swig_obj[2] ;
-  std::shared_ptr< IODevice > result;
+  IODevice *result = 0 ;
   
   if (!SWIG_Python_UnpackTuple(args, "Computer_getDevice", 2, 2, swig_obj)) SWIG_fail;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_mixal__Computer, 0 |  0 );
@@ -13004,8 +13037,8 @@ SWIGINTERN PyObject *_wrap_Computer_getDevice(PyObject *SWIGUNUSEDPARM(self), Py
   {
     arg2 = static_cast<int32_t>(PyLong_AsLong(swig_obj[1]));
   }
-  result = (arg1)->getDevice(arg2);
-  resultobj = SWIG_NewPointerObj((new std::shared_ptr< IODevice >(static_cast< const std::shared_ptr< IODevice >& >(result))), SWIGTYPE_p_std__shared_ptrT_IODevice_t, SWIG_POINTER_OWN |  0 );
+  result = (IODevice *)(arg1)->getDevice(arg2);
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_IODevice, 0 |  0 );
   return resultobj;
 fail:
   return NULL;
@@ -13015,10 +13048,10 @@ fail:
 SWIGINTERN PyObject *_wrap_Computer_waitDevice(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   mixal::Computer *arg1 = (mixal::Computer *) 0 ;
-  std::shared_ptr< IODevice > arg2 ;
+  IODevice *arg2 = (IODevice *) 0 ;
   void *argp1 = 0 ;
   int res1 = 0 ;
-  void *argp2 ;
+  void *argp2 = 0 ;
   int res2 = 0 ;
   PyObject *swig_obj[2] ;
   
@@ -13028,19 +13061,11 @@ SWIGINTERN PyObject *_wrap_Computer_waitDevice(PyObject *SWIGUNUSEDPARM(self), P
     SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Computer_waitDevice" "', argument " "1"" of type '" "mixal::Computer *""'"); 
   }
   arg1 = reinterpret_cast< mixal::Computer * >(argp1);
-  {
-    res2 = SWIG_ConvertPtr(swig_obj[1], &argp2, SWIGTYPE_p_std__shared_ptrT_IODevice_t,  0  | 0);
-    if (!SWIG_IsOK(res2)) {
-      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Computer_waitDevice" "', argument " "2"" of type '" "std::shared_ptr< IODevice >""'"); 
-    }  
-    if (!argp2) {
-      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "Computer_waitDevice" "', argument " "2"" of type '" "std::shared_ptr< IODevice >""'");
-    } else {
-      std::shared_ptr< IODevice > * temp = reinterpret_cast< std::shared_ptr< IODevice > * >(argp2);
-      arg2 = *temp;
-      if (SWIG_IsNewObj(res2)) delete temp;
-    }
+  res2 = SWIG_ConvertPtr(swig_obj[1], &argp2,SWIGTYPE_p_IODevice, 0 |  0 );
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Computer_waitDevice" "', argument " "2"" of type '" "IODevice *""'"); 
   }
+  arg2 = reinterpret_cast< IODevice * >(argp2);
   (arg1)->waitDevice(arg2);
   resultobj = SWIG_Py_Void();
   return resultobj;
@@ -13065,6 +13090,36 @@ SWIGINTERN PyObject *_wrap_Computer_waitDevices(PyObject *SWIGUNUSEDPARM(self), 
   arg1 = reinterpret_cast< mixal::Computer * >(argp1);
   (arg1)->waitDevices();
   resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Computer_getDeviceWordAt(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  mixal::Computer *arg1 = (mixal::Computer *) 0 ;
+  int32_t arg2 ;
+  int32_t arg3 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject *swig_obj[3] ;
+  mixal::ComputerWord *result = 0 ;
+  
+  if (!SWIG_Python_UnpackTuple(args, "Computer_getDeviceWordAt", 3, 3, swig_obj)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_mixal__Computer, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Computer_getDeviceWordAt" "', argument " "1"" of type '" "mixal::Computer *""'"); 
+  }
+  arg1 = reinterpret_cast< mixal::Computer * >(argp1);
+  {
+    arg2 = static_cast<int32_t>(PyLong_AsLong(swig_obj[1]));
+  }
+  {
+    arg3 = static_cast<int32_t>(PyLong_AsLong(swig_obj[2]));
+  }
+  result = (mixal::ComputerWord *) &(arg1)->getDeviceWordAt(arg2,arg3);
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_mixal__ComputerWord, 0 |  0 );
   return resultobj;
 fail:
   return NULL;
@@ -13609,28 +13664,6 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_delete_Computer(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
-  PyObject *resultobj = 0;
-  mixal::Computer *arg1 = (mixal::Computer *) 0 ;
-  void *argp1 = 0 ;
-  int res1 = 0 ;
-  PyObject *swig_obj[1] ;
-  
-  if (!args) SWIG_fail;
-  swig_obj[0] = args;
-  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_mixal__Computer, SWIG_POINTER_DISOWN |  0 );
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "delete_Computer" "', argument " "1"" of type '" "mixal::Computer *""'"); 
-  }
-  arg1 = reinterpret_cast< mixal::Computer * >(argp1);
-  delete arg1;
-  resultobj = SWIG_Py_Void();
-  return resultobj;
-fail:
-  return NULL;
-}
-
-
 SWIGINTERN PyObject *Computer_swigregister(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *obj;
   if (!SWIG_Python_UnpackTuple(args, "swigregister", 1, 1, &obj)) return NULL;
@@ -13639,6 +13672,1570 @@ SWIGINTERN PyObject *Computer_swigregister(PyObject *SWIGUNUSEDPARM(self), PyObj
 }
 
 SWIGINTERN PyObject *Computer_swiginit(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  return SWIG_Python_InitShadowInstance(args);
+}
+
+SWIGINTERN PyObject *_wrap_delete_IODevice(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  mixal::IODevice *arg1 = (mixal::IODevice *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject *swig_obj[1] ;
+  
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_mixal__IODevice, SWIG_POINTER_DISOWN |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "delete_IODevice" "', argument " "1"" of type '" "mixal::IODevice *""'"); 
+  }
+  arg1 = reinterpret_cast< mixal::IODevice * >(argp1);
+  delete arg1;
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_IODevice_type(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  mixal::IODevice *arg1 = (mixal::IODevice *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject *swig_obj[1] ;
+  mixal::IODeviceType result;
+  
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_mixal__IODevice, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "IODevice_type" "', argument " "1"" of type '" "mixal::IODevice const *""'"); 
+  }
+  arg1 = reinterpret_cast< mixal::IODevice * >(argp1);
+  result = (mixal::IODeviceType)((mixal::IODevice const *)arg1)->type();
+  resultobj = SWIG_From_int(static_cast< int >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_IODevice_blockSize(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  mixal::IODevice *arg1 = (mixal::IODevice *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject *swig_obj[1] ;
+  int result;
+  
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_mixal__IODevice, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "IODevice_blockSize" "', argument " "1"" of type '" "mixal::IODevice const *""'"); 
+  }
+  arg1 = reinterpret_cast< mixal::IODevice * >(argp1);
+  result = (int)((mixal::IODevice const *)arg1)->blockSize();
+  resultobj = SWIG_From_int(static_cast< int >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_IODevice_allowRead(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  mixal::IODevice *arg1 = (mixal::IODevice *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject *swig_obj[1] ;
+  bool result;
+  
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_mixal__IODevice, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "IODevice_allowRead" "', argument " "1"" of type '" "mixal::IODevice const *""'"); 
+  }
+  arg1 = reinterpret_cast< mixal::IODevice * >(argp1);
+  result = (bool)((mixal::IODevice const *)arg1)->allowRead();
+  resultobj = SWIG_From_bool(static_cast< bool >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_IODevice_allowWrite(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  mixal::IODevice *arg1 = (mixal::IODevice *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject *swig_obj[1] ;
+  bool result;
+  
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_mixal__IODevice, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "IODevice_allowWrite" "', argument " "1"" of type '" "mixal::IODevice const *""'"); 
+  }
+  arg1 = reinterpret_cast< mixal::IODevice * >(argp1);
+  result = (bool)((mixal::IODevice const *)arg1)->allowWrite();
+  resultobj = SWIG_From_bool(static_cast< bool >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_IODevice_ready(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  mixal::IODevice *arg1 = (mixal::IODevice *) 0 ;
+  int32_t arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject *swig_obj[2] ;
+  bool result;
+  
+  if (!SWIG_Python_UnpackTuple(args, "IODevice_ready", 2, 2, swig_obj)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_mixal__IODevice, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "IODevice_ready" "', argument " "1"" of type '" "mixal::IODevice *""'"); 
+  }
+  arg1 = reinterpret_cast< mixal::IODevice * >(argp1);
+  {
+    arg2 = static_cast<int32_t>(PyLong_AsLong(swig_obj[1]));
+  }
+  result = (bool)(arg1)->ready(arg2);
+  resultobj = SWIG_From_bool(static_cast< bool >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_IODevice_control(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  mixal::IODevice *arg1 = (mixal::IODevice *) 0 ;
+  int32_t arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject *swig_obj[2] ;
+  
+  if (!SWIG_Python_UnpackTuple(args, "IODevice_control", 2, 2, swig_obj)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_mixal__IODevice, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "IODevice_control" "', argument " "1"" of type '" "mixal::IODevice *""'"); 
+  }
+  arg1 = reinterpret_cast< mixal::IODevice * >(argp1);
+  {
+    arg2 = static_cast<int32_t>(PyLong_AsLong(swig_obj[1]));
+  }
+  (arg1)->control(arg2);
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_IODevice_read(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  mixal::IODevice *arg1 = (mixal::IODevice *) 0 ;
+  mixal::ComputerWord *arg2 = (mixal::ComputerWord *) 0 ;
+  int32_t arg3 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  PyObject *swig_obj[3] ;
+  
+  if (!SWIG_Python_UnpackTuple(args, "IODevice_read", 3, 3, swig_obj)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_mixal__IODevice, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "IODevice_read" "', argument " "1"" of type '" "mixal::IODevice *""'"); 
+  }
+  arg1 = reinterpret_cast< mixal::IODevice * >(argp1);
+  res2 = SWIG_ConvertPtr(swig_obj[1], &argp2,SWIGTYPE_p_mixal__ComputerWord, 0 |  0 );
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "IODevice_read" "', argument " "2"" of type '" "mixal::ComputerWord *""'"); 
+  }
+  arg2 = reinterpret_cast< mixal::ComputerWord * >(argp2);
+  {
+    arg3 = static_cast<int32_t>(PyLong_AsLong(swig_obj[2]));
+  }
+  (arg1)->read(arg2,arg3);
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_IODevice_write(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  mixal::IODevice *arg1 = (mixal::IODevice *) 0 ;
+  mixal::ComputerWord *arg2 = (mixal::ComputerWord *) 0 ;
+  int32_t arg3 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  PyObject *swig_obj[3] ;
+  
+  if (!SWIG_Python_UnpackTuple(args, "IODevice_write", 3, 3, swig_obj)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_mixal__IODevice, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "IODevice_write" "', argument " "1"" of type '" "mixal::IODevice *""'"); 
+  }
+  arg1 = reinterpret_cast< mixal::IODevice * >(argp1);
+  res2 = SWIG_ConvertPtr(swig_obj[1], &argp2,SWIGTYPE_p_mixal__ComputerWord, 0 |  0 );
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "IODevice_write" "', argument " "2"" of type '" "mixal::ComputerWord const *""'"); 
+  }
+  arg2 = reinterpret_cast< mixal::ComputerWord * >(argp2);
+  {
+    arg3 = static_cast<int32_t>(PyLong_AsLong(swig_obj[2]));
+  }
+  (arg1)->write((mixal::ComputerWord const *)arg2,arg3);
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_IODevice_wordAt(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  mixal::IODevice *arg1 = (mixal::IODevice *) 0 ;
+  int32_t arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject *swig_obj[2] ;
+  mixal::ComputerWord *result = 0 ;
+  
+  if (!SWIG_Python_UnpackTuple(args, "IODevice_wordAt", 2, 2, swig_obj)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_mixal__IODevice, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "IODevice_wordAt" "', argument " "1"" of type '" "mixal::IODevice *""'"); 
+  }
+  arg1 = reinterpret_cast< mixal::IODevice * >(argp1);
+  {
+    arg2 = static_cast<int32_t>(PyLong_AsLong(swig_obj[1]));
+  }
+  result = (mixal::ComputerWord *) &(arg1)->wordAt(arg2);
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_mixal__ComputerWord, 0 |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *IODevice_swigregister(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *obj;
+  if (!SWIG_Python_UnpackTuple(args, "swigregister", 1, 1, &obj)) return NULL;
+  SWIG_TypeNewClientData(SWIGTYPE_p_mixal__IODevice, SWIG_NewClientData(obj));
+  return SWIG_Py_Void();
+}
+
+SWIGINTERN PyObject *_wrap_new_IODeviceStorage__SWIG_0(PyObject *SWIGUNUSEDPARM(self), Py_ssize_t nobjs, PyObject **swig_obj) {
+  PyObject *resultobj = 0;
+  int32_t arg1 ;
+  mixal::IODeviceStorage *result = 0 ;
+  
+  if ((nobjs < 1) || (nobjs > 1)) SWIG_fail;
+  {
+    arg1 = static_cast<int32_t>(PyLong_AsLong(swig_obj[0]));
+  }
+  result = (mixal::IODeviceStorage *)new mixal::IODeviceStorage(arg1);
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_mixal__IODeviceStorage, SWIG_POINTER_NEW |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_new_IODeviceStorage__SWIG_1(PyObject *SWIGUNUSEDPARM(self), Py_ssize_t nobjs, PyObject **SWIGUNUSEDPARM(swig_obj)) {
+  PyObject *resultobj = 0;
+  mixal::IODeviceStorage *result = 0 ;
+  
+  if ((nobjs < 0) || (nobjs > 0)) SWIG_fail;
+  result = (mixal::IODeviceStorage *)new mixal::IODeviceStorage();
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_mixal__IODeviceStorage, SWIG_POINTER_NEW |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_new_IODeviceStorage__SWIG_2(PyObject *SWIGUNUSEDPARM(self), Py_ssize_t nobjs, PyObject **swig_obj) {
+  PyObject *resultobj = 0;
+  mixal::IODeviceStorage *arg1 = 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  mixal::IODeviceStorage *result = 0 ;
+  
+  if ((nobjs < 1) || (nobjs > 1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1, SWIGTYPE_p_mixal__IODeviceStorage,  0  | 0);
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "new_IODeviceStorage" "', argument " "1"" of type '" "mixal::IODeviceStorage const &""'"); 
+  }
+  if (!argp1) {
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "new_IODeviceStorage" "', argument " "1"" of type '" "mixal::IODeviceStorage const &""'"); 
+  }
+  arg1 = reinterpret_cast< mixal::IODeviceStorage * >(argp1);
+  result = (mixal::IODeviceStorage *)new mixal::IODeviceStorage((mixal::IODeviceStorage const &)*arg1);
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_mixal__IODeviceStorage, SWIG_POINTER_NEW |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_new_IODeviceStorage(PyObject *self, PyObject *args) {
+  Py_ssize_t argc;
+  PyObject *argv[2] = {
+    0
+  };
+  
+  if (!(argc = SWIG_Python_UnpackTuple(args, "new_IODeviceStorage", 0, 1, argv))) SWIG_fail;
+  --argc;
+  if (argc == 0) {
+    return _wrap_new_IODeviceStorage__SWIG_1(self, argc, argv);
+  }
+  if (argc == 1) {
+    int _v;
+    int res = SWIG_ConvertPtr(argv[0], 0, SWIGTYPE_p_mixal__IODeviceStorage, SWIG_POINTER_NO_NULL | 0);
+    _v = SWIG_CheckState(res);
+    if (_v) {
+      return _wrap_new_IODeviceStorage__SWIG_2(self, argc, argv);
+    }
+  }
+  if (argc == 1) {
+    int _v;
+    {
+      _v = PyLong_Check(argv[0]);
+    }
+    if (_v) {
+      return _wrap_new_IODeviceStorage__SWIG_0(self, argc, argv);
+    }
+  }
+  
+fail:
+  SWIG_Python_RaiseOrModifyTypeError("Wrong number or type of arguments for overloaded function 'new_IODeviceStorage'.\n"
+    "  Possible C/C++ prototypes are:\n"
+    "    mixal::IODeviceStorage::IODeviceStorage(int32_t)\n"
+    "    mixal::IODeviceStorage::IODeviceStorage()\n"
+    "    mixal::IODeviceStorage::IODeviceStorage(mixal::IODeviceStorage const &)\n");
+  return 0;
+}
+
+
+SWIGINTERN PyObject *_wrap_IODeviceStorage_ready(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  mixal::IODeviceStorage *arg1 = (mixal::IODeviceStorage *) 0 ;
+  int32_t arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject *swig_obj[2] ;
+  bool result;
+  
+  if (!SWIG_Python_UnpackTuple(args, "IODeviceStorage_ready", 2, 2, swig_obj)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_mixal__IODeviceStorage, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "IODeviceStorage_ready" "', argument " "1"" of type '" "mixal::IODeviceStorage *""'"); 
+  }
+  arg1 = reinterpret_cast< mixal::IODeviceStorage * >(argp1);
+  {
+    arg2 = static_cast<int32_t>(PyLong_AsLong(swig_obj[1]));
+  }
+  result = (bool)(arg1)->ready(arg2);
+  resultobj = SWIG_From_bool(static_cast< bool >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_IODeviceStorage_read(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  mixal::IODeviceStorage *arg1 = (mixal::IODeviceStorage *) 0 ;
+  mixal::ComputerWord *arg2 = (mixal::ComputerWord *) 0 ;
+  int32_t arg3 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  PyObject *swig_obj[3] ;
+  
+  if (!SWIG_Python_UnpackTuple(args, "IODeviceStorage_read", 3, 3, swig_obj)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_mixal__IODeviceStorage, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "IODeviceStorage_read" "', argument " "1"" of type '" "mixal::IODeviceStorage *""'"); 
+  }
+  arg1 = reinterpret_cast< mixal::IODeviceStorage * >(argp1);
+  res2 = SWIG_ConvertPtr(swig_obj[1], &argp2,SWIGTYPE_p_mixal__ComputerWord, 0 |  0 );
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "IODeviceStorage_read" "', argument " "2"" of type '" "mixal::ComputerWord *""'"); 
+  }
+  arg2 = reinterpret_cast< mixal::ComputerWord * >(argp2);
+  {
+    arg3 = static_cast<int32_t>(PyLong_AsLong(swig_obj[2]));
+  }
+  (arg1)->read(arg2,arg3);
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_IODeviceStorage_write(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  mixal::IODeviceStorage *arg1 = (mixal::IODeviceStorage *) 0 ;
+  mixal::ComputerWord *arg2 = (mixal::ComputerWord *) 0 ;
+  int32_t arg3 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  PyObject *swig_obj[3] ;
+  
+  if (!SWIG_Python_UnpackTuple(args, "IODeviceStorage_write", 3, 3, swig_obj)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_mixal__IODeviceStorage, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "IODeviceStorage_write" "', argument " "1"" of type '" "mixal::IODeviceStorage *""'"); 
+  }
+  arg1 = reinterpret_cast< mixal::IODeviceStorage * >(argp1);
+  res2 = SWIG_ConvertPtr(swig_obj[1], &argp2,SWIGTYPE_p_mixal__ComputerWord, 0 |  0 );
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "IODeviceStorage_write" "', argument " "2"" of type '" "mixal::ComputerWord const *""'"); 
+  }
+  arg2 = reinterpret_cast< mixal::ComputerWord * >(argp2);
+  {
+    arg3 = static_cast<int32_t>(PyLong_AsLong(swig_obj[2]));
+  }
+  (arg1)->write((mixal::ComputerWord const *)arg2,arg3);
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_IODeviceStorage_wordAt(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  mixal::IODeviceStorage *arg1 = (mixal::IODeviceStorage *) 0 ;
+  int32_t arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject *swig_obj[2] ;
+  mixal::ComputerWord *result = 0 ;
+  
+  if (!SWIG_Python_UnpackTuple(args, "IODeviceStorage_wordAt", 2, 2, swig_obj)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_mixal__IODeviceStorage, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "IODeviceStorage_wordAt" "', argument " "1"" of type '" "mixal::IODeviceStorage *""'"); 
+  }
+  arg1 = reinterpret_cast< mixal::IODeviceStorage * >(argp1);
+  {
+    arg2 = static_cast<int32_t>(PyLong_AsLong(swig_obj[1]));
+  }
+  result = (mixal::ComputerWord *) &(arg1)->wordAt(arg2);
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_mixal__ComputerWord, 0 |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_delete_IODeviceStorage(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  mixal::IODeviceStorage *arg1 = (mixal::IODeviceStorage *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject *swig_obj[1] ;
+  
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_mixal__IODeviceStorage, SWIG_POINTER_DISOWN |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "delete_IODeviceStorage" "', argument " "1"" of type '" "mixal::IODeviceStorage *""'"); 
+  }
+  arg1 = reinterpret_cast< mixal::IODeviceStorage * >(argp1);
+  delete arg1;
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *IODeviceStorage_swigregister(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *obj;
+  if (!SWIG_Python_UnpackTuple(args, "swigregister", 1, 1, &obj)) return NULL;
+  SWIG_TypeNewClientData(SWIGTYPE_p_mixal__IODeviceStorage, SWIG_NewClientData(obj));
+  return SWIG_Py_Void();
+}
+
+SWIGINTERN PyObject *IODeviceStorage_swiginit(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  return SWIG_Python_InitShadowInstance(args);
+}
+
+SWIGINTERN PyObject *_wrap_new_IODeviceTape__SWIG_0(PyObject *SWIGUNUSEDPARM(self), Py_ssize_t nobjs, PyObject **swig_obj) {
+  PyObject *resultobj = 0;
+  int32_t arg1 ;
+  mixal::IODeviceTape *result = 0 ;
+  
+  if ((nobjs < 1) || (nobjs > 1)) SWIG_fail;
+  {
+    arg1 = static_cast<int32_t>(PyLong_AsLong(swig_obj[0]));
+  }
+  result = (mixal::IODeviceTape *)new mixal::IODeviceTape(arg1);
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_mixal__IODeviceTape, SWIG_POINTER_NEW |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_new_IODeviceTape__SWIG_1(PyObject *SWIGUNUSEDPARM(self), Py_ssize_t nobjs, PyObject **SWIGUNUSEDPARM(swig_obj)) {
+  PyObject *resultobj = 0;
+  mixal::IODeviceTape *result = 0 ;
+  
+  if ((nobjs < 0) || (nobjs > 0)) SWIG_fail;
+  result = (mixal::IODeviceTape *)new mixal::IODeviceTape();
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_mixal__IODeviceTape, SWIG_POINTER_NEW |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_new_IODeviceTape(PyObject *self, PyObject *args) {
+  Py_ssize_t argc;
+  PyObject *argv[2] = {
+    0
+  };
+  
+  if (!(argc = SWIG_Python_UnpackTuple(args, "new_IODeviceTape", 0, 1, argv))) SWIG_fail;
+  --argc;
+  if (argc == 0) {
+    return _wrap_new_IODeviceTape__SWIG_1(self, argc, argv);
+  }
+  if (argc == 1) {
+    int _v;
+    {
+      _v = PyLong_Check(argv[0]);
+    }
+    if (_v) {
+      return _wrap_new_IODeviceTape__SWIG_0(self, argc, argv);
+    }
+  }
+  
+fail:
+  SWIG_Python_RaiseOrModifyTypeError("Wrong number or type of arguments for overloaded function 'new_IODeviceTape'.\n"
+    "  Possible C/C++ prototypes are:\n"
+    "    mixal::IODeviceTape::IODeviceTape(int32_t)\n"
+    "    mixal::IODeviceTape::IODeviceTape()\n");
+  return 0;
+}
+
+
+SWIGINTERN PyObject *_wrap_IODeviceTape_control(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  mixal::IODeviceTape *arg1 = (mixal::IODeviceTape *) 0 ;
+  int32_t arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject *swig_obj[2] ;
+  
+  if (!SWIG_Python_UnpackTuple(args, "IODeviceTape_control", 2, 2, swig_obj)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_mixal__IODeviceTape, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "IODeviceTape_control" "', argument " "1"" of type '" "mixal::IODeviceTape *""'"); 
+  }
+  arg1 = reinterpret_cast< mixal::IODeviceTape * >(argp1);
+  {
+    arg2 = static_cast<int32_t>(PyLong_AsLong(swig_obj[1]));
+  }
+  (arg1)->control(arg2);
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_delete_IODeviceTape(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  mixal::IODeviceTape *arg1 = (mixal::IODeviceTape *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject *swig_obj[1] ;
+  
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_mixal__IODeviceTape, SWIG_POINTER_DISOWN |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "delete_IODeviceTape" "', argument " "1"" of type '" "mixal::IODeviceTape *""'"); 
+  }
+  arg1 = reinterpret_cast< mixal::IODeviceTape * >(argp1);
+  delete arg1;
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *IODeviceTape_swigregister(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *obj;
+  if (!SWIG_Python_UnpackTuple(args, "swigregister", 1, 1, &obj)) return NULL;
+  SWIG_TypeNewClientData(SWIGTYPE_p_mixal__IODeviceTape, SWIG_NewClientData(obj));
+  return SWIG_Py_Void();
+}
+
+SWIGINTERN PyObject *IODeviceTape_swiginit(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  return SWIG_Python_InitShadowInstance(args);
+}
+
+SWIGINTERN PyObject *_wrap_new_IODeviceDisk__SWIG_0(PyObject *SWIGUNUSEDPARM(self), Py_ssize_t nobjs, PyObject **swig_obj) {
+  PyObject *resultobj = 0;
+  int32_t arg1 ;
+  mixal::IODeviceDisk *result = 0 ;
+  
+  if ((nobjs < 1) || (nobjs > 1)) SWIG_fail;
+  {
+    arg1 = static_cast<int32_t>(PyLong_AsLong(swig_obj[0]));
+  }
+  result = (mixal::IODeviceDisk *)new mixal::IODeviceDisk(arg1);
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_mixal__IODeviceDisk, SWIG_POINTER_NEW |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_new_IODeviceDisk__SWIG_1(PyObject *SWIGUNUSEDPARM(self), Py_ssize_t nobjs, PyObject **SWIGUNUSEDPARM(swig_obj)) {
+  PyObject *resultobj = 0;
+  mixal::IODeviceDisk *result = 0 ;
+  
+  if ((nobjs < 0) || (nobjs > 0)) SWIG_fail;
+  result = (mixal::IODeviceDisk *)new mixal::IODeviceDisk();
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_mixal__IODeviceDisk, SWIG_POINTER_NEW |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_new_IODeviceDisk(PyObject *self, PyObject *args) {
+  Py_ssize_t argc;
+  PyObject *argv[2] = {
+    0
+  };
+  
+  if (!(argc = SWIG_Python_UnpackTuple(args, "new_IODeviceDisk", 0, 1, argv))) SWIG_fail;
+  --argc;
+  if (argc == 0) {
+    return _wrap_new_IODeviceDisk__SWIG_1(self, argc, argv);
+  }
+  if (argc == 1) {
+    int _v;
+    {
+      _v = PyLong_Check(argv[0]);
+    }
+    if (_v) {
+      return _wrap_new_IODeviceDisk__SWIG_0(self, argc, argv);
+    }
+  }
+  
+fail:
+  SWIG_Python_RaiseOrModifyTypeError("Wrong number or type of arguments for overloaded function 'new_IODeviceDisk'.\n"
+    "  Possible C/C++ prototypes are:\n"
+    "    mixal::IODeviceDisk::IODeviceDisk(int32_t)\n"
+    "    mixal::IODeviceDisk::IODeviceDisk()\n");
+  return 0;
+}
+
+
+SWIGINTERN PyObject *_wrap_IODeviceDisk_control(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  mixal::IODeviceDisk *arg1 = (mixal::IODeviceDisk *) 0 ;
+  int32_t arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject *swig_obj[2] ;
+  
+  if (!SWIG_Python_UnpackTuple(args, "IODeviceDisk_control", 2, 2, swig_obj)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_mixal__IODeviceDisk, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "IODeviceDisk_control" "', argument " "1"" of type '" "mixal::IODeviceDisk *""'"); 
+  }
+  arg1 = reinterpret_cast< mixal::IODeviceDisk * >(argp1);
+  {
+    arg2 = static_cast<int32_t>(PyLong_AsLong(swig_obj[1]));
+  }
+  (arg1)->control(arg2);
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_delete_IODeviceDisk(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  mixal::IODeviceDisk *arg1 = (mixal::IODeviceDisk *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject *swig_obj[1] ;
+  
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_mixal__IODeviceDisk, SWIG_POINTER_DISOWN |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "delete_IODeviceDisk" "', argument " "1"" of type '" "mixal::IODeviceDisk *""'"); 
+  }
+  arg1 = reinterpret_cast< mixal::IODeviceDisk * >(argp1);
+  delete arg1;
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *IODeviceDisk_swigregister(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *obj;
+  if (!SWIG_Python_UnpackTuple(args, "swigregister", 1, 1, &obj)) return NULL;
+  SWIG_TypeNewClientData(SWIGTYPE_p_mixal__IODeviceDisk, SWIG_NewClientData(obj));
+  return SWIG_Py_Void();
+}
+
+SWIGINTERN PyObject *IODeviceDisk_swiginit(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  return SWIG_Python_InitShadowInstance(args);
+}
+
+SWIGINTERN PyObject *_wrap_new_IODeviceSeqReader__SWIG_0(PyObject *SWIGUNUSEDPARM(self), Py_ssize_t nobjs, PyObject **swig_obj) {
+  PyObject *resultobj = 0;
+  int32_t arg1 ;
+  mixal::IODeviceSeqReader *result = 0 ;
+  
+  if ((nobjs < 1) || (nobjs > 1)) SWIG_fail;
+  {
+    arg1 = static_cast<int32_t>(PyLong_AsLong(swig_obj[0]));
+  }
+  result = (mixal::IODeviceSeqReader *)new mixal::IODeviceSeqReader(arg1);
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_mixal__IODeviceSeqReader, SWIG_POINTER_NEW |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_new_IODeviceSeqReader__SWIG_1(PyObject *SWIGUNUSEDPARM(self), Py_ssize_t nobjs, PyObject **SWIGUNUSEDPARM(swig_obj)) {
+  PyObject *resultobj = 0;
+  mixal::IODeviceSeqReader *result = 0 ;
+  
+  if ((nobjs < 0) || (nobjs > 0)) SWIG_fail;
+  result = (mixal::IODeviceSeqReader *)new mixal::IODeviceSeqReader();
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_mixal__IODeviceSeqReader, SWIG_POINTER_NEW |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_new_IODeviceSeqReader(PyObject *self, PyObject *args) {
+  Py_ssize_t argc;
+  PyObject *argv[2] = {
+    0
+  };
+  
+  if (!(argc = SWIG_Python_UnpackTuple(args, "new_IODeviceSeqReader", 0, 1, argv))) SWIG_fail;
+  --argc;
+  if (argc == 0) {
+    return _wrap_new_IODeviceSeqReader__SWIG_1(self, argc, argv);
+  }
+  if (argc == 1) {
+    int _v;
+    {
+      _v = PyLong_Check(argv[0]);
+    }
+    if (_v) {
+      return _wrap_new_IODeviceSeqReader__SWIG_0(self, argc, argv);
+    }
+  }
+  
+fail:
+  SWIG_Python_RaiseOrModifyTypeError("Wrong number or type of arguments for overloaded function 'new_IODeviceSeqReader'.\n"
+    "  Possible C/C++ prototypes are:\n"
+    "    mixal::IODeviceSeqReader::IODeviceSeqReader(int32_t)\n"
+    "    mixal::IODeviceSeqReader::IODeviceSeqReader()\n");
+  return 0;
+}
+
+
+SWIGINTERN PyObject *_wrap_delete_IODeviceSeqReader(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  mixal::IODeviceSeqReader *arg1 = (mixal::IODeviceSeqReader *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject *swig_obj[1] ;
+  
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_mixal__IODeviceSeqReader, SWIG_POINTER_DISOWN |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "delete_IODeviceSeqReader" "', argument " "1"" of type '" "mixal::IODeviceSeqReader *""'"); 
+  }
+  arg1 = reinterpret_cast< mixal::IODeviceSeqReader * >(argp1);
+  delete arg1;
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *IODeviceSeqReader_swigregister(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *obj;
+  if (!SWIG_Python_UnpackTuple(args, "swigregister", 1, 1, &obj)) return NULL;
+  SWIG_TypeNewClientData(SWIGTYPE_p_mixal__IODeviceSeqReader, SWIG_NewClientData(obj));
+  return SWIG_Py_Void();
+}
+
+SWIGINTERN PyObject *IODeviceSeqReader_swiginit(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  return SWIG_Python_InitShadowInstance(args);
+}
+
+SWIGINTERN PyObject *_wrap_new_IODeviceSeqWriter__SWIG_0(PyObject *SWIGUNUSEDPARM(self), Py_ssize_t nobjs, PyObject **swig_obj) {
+  PyObject *resultobj = 0;
+  int32_t arg1 ;
+  mixal::IODeviceSeqWriter *result = 0 ;
+  
+  if ((nobjs < 1) || (nobjs > 1)) SWIG_fail;
+  {
+    arg1 = static_cast<int32_t>(PyLong_AsLong(swig_obj[0]));
+  }
+  result = (mixal::IODeviceSeqWriter *)new mixal::IODeviceSeqWriter(arg1);
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_mixal__IODeviceSeqWriter, SWIG_POINTER_NEW |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_new_IODeviceSeqWriter__SWIG_1(PyObject *SWIGUNUSEDPARM(self), Py_ssize_t nobjs, PyObject **SWIGUNUSEDPARM(swig_obj)) {
+  PyObject *resultobj = 0;
+  mixal::IODeviceSeqWriter *result = 0 ;
+  
+  if ((nobjs < 0) || (nobjs > 0)) SWIG_fail;
+  result = (mixal::IODeviceSeqWriter *)new mixal::IODeviceSeqWriter();
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_mixal__IODeviceSeqWriter, SWIG_POINTER_NEW |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_new_IODeviceSeqWriter(PyObject *self, PyObject *args) {
+  Py_ssize_t argc;
+  PyObject *argv[2] = {
+    0
+  };
+  
+  if (!(argc = SWIG_Python_UnpackTuple(args, "new_IODeviceSeqWriter", 0, 1, argv))) SWIG_fail;
+  --argc;
+  if (argc == 0) {
+    return _wrap_new_IODeviceSeqWriter__SWIG_1(self, argc, argv);
+  }
+  if (argc == 1) {
+    int _v;
+    {
+      _v = PyLong_Check(argv[0]);
+    }
+    if (_v) {
+      return _wrap_new_IODeviceSeqWriter__SWIG_0(self, argc, argv);
+    }
+  }
+  
+fail:
+  SWIG_Python_RaiseOrModifyTypeError("Wrong number or type of arguments for overloaded function 'new_IODeviceSeqWriter'.\n"
+    "  Possible C/C++ prototypes are:\n"
+    "    mixal::IODeviceSeqWriter::IODeviceSeqWriter(int32_t)\n"
+    "    mixal::IODeviceSeqWriter::IODeviceSeqWriter()\n");
+  return 0;
+}
+
+
+SWIGINTERN PyObject *_wrap_delete_IODeviceSeqWriter(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  mixal::IODeviceSeqWriter *arg1 = (mixal::IODeviceSeqWriter *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject *swig_obj[1] ;
+  
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_mixal__IODeviceSeqWriter, SWIG_POINTER_DISOWN |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "delete_IODeviceSeqWriter" "', argument " "1"" of type '" "mixal::IODeviceSeqWriter *""'"); 
+  }
+  arg1 = reinterpret_cast< mixal::IODeviceSeqWriter * >(argp1);
+  delete arg1;
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *IODeviceSeqWriter_swigregister(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *obj;
+  if (!SWIG_Python_UnpackTuple(args, "swigregister", 1, 1, &obj)) return NULL;
+  SWIG_TypeNewClientData(SWIGTYPE_p_mixal__IODeviceSeqWriter, SWIG_NewClientData(obj));
+  return SWIG_Py_Void();
+}
+
+SWIGINTERN PyObject *IODeviceSeqWriter_swiginit(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  return SWIG_Python_InitShadowInstance(args);
+}
+
+SWIGINTERN PyObject *_wrap_new_IODeviceCardReader__SWIG_0(PyObject *SWIGUNUSEDPARM(self), Py_ssize_t nobjs, PyObject **swig_obj) {
+  PyObject *resultobj = 0;
+  int32_t arg1 ;
+  mixal::IODeviceCardReader *result = 0 ;
+  
+  if ((nobjs < 1) || (nobjs > 1)) SWIG_fail;
+  {
+    arg1 = static_cast<int32_t>(PyLong_AsLong(swig_obj[0]));
+  }
+  result = (mixal::IODeviceCardReader *)new mixal::IODeviceCardReader(arg1);
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_mixal__IODeviceCardReader, SWIG_POINTER_NEW |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_new_IODeviceCardReader__SWIG_1(PyObject *SWIGUNUSEDPARM(self), Py_ssize_t nobjs, PyObject **SWIGUNUSEDPARM(swig_obj)) {
+  PyObject *resultobj = 0;
+  mixal::IODeviceCardReader *result = 0 ;
+  
+  if ((nobjs < 0) || (nobjs > 0)) SWIG_fail;
+  result = (mixal::IODeviceCardReader *)new mixal::IODeviceCardReader();
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_mixal__IODeviceCardReader, SWIG_POINTER_NEW |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_new_IODeviceCardReader(PyObject *self, PyObject *args) {
+  Py_ssize_t argc;
+  PyObject *argv[2] = {
+    0
+  };
+  
+  if (!(argc = SWIG_Python_UnpackTuple(args, "new_IODeviceCardReader", 0, 1, argv))) SWIG_fail;
+  --argc;
+  if (argc == 0) {
+    return _wrap_new_IODeviceCardReader__SWIG_1(self, argc, argv);
+  }
+  if (argc == 1) {
+    int _v;
+    {
+      _v = PyLong_Check(argv[0]);
+    }
+    if (_v) {
+      return _wrap_new_IODeviceCardReader__SWIG_0(self, argc, argv);
+    }
+  }
+  
+fail:
+  SWIG_Python_RaiseOrModifyTypeError("Wrong number or type of arguments for overloaded function 'new_IODeviceCardReader'.\n"
+    "  Possible C/C++ prototypes are:\n"
+    "    mixal::IODeviceCardReader::IODeviceCardReader(int32_t)\n"
+    "    mixal::IODeviceCardReader::IODeviceCardReader()\n");
+  return 0;
+}
+
+
+SWIGINTERN PyObject *_wrap_delete_IODeviceCardReader(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  mixal::IODeviceCardReader *arg1 = (mixal::IODeviceCardReader *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject *swig_obj[1] ;
+  
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_mixal__IODeviceCardReader, SWIG_POINTER_DISOWN |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "delete_IODeviceCardReader" "', argument " "1"" of type '" "mixal::IODeviceCardReader *""'"); 
+  }
+  arg1 = reinterpret_cast< mixal::IODeviceCardReader * >(argp1);
+  delete arg1;
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *IODeviceCardReader_swigregister(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *obj;
+  if (!SWIG_Python_UnpackTuple(args, "swigregister", 1, 1, &obj)) return NULL;
+  SWIG_TypeNewClientData(SWIGTYPE_p_mixal__IODeviceCardReader, SWIG_NewClientData(obj));
+  return SWIG_Py_Void();
+}
+
+SWIGINTERN PyObject *IODeviceCardReader_swiginit(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  return SWIG_Python_InitShadowInstance(args);
+}
+
+SWIGINTERN PyObject *_wrap_new_IODeviceCardPunch__SWIG_0(PyObject *SWIGUNUSEDPARM(self), Py_ssize_t nobjs, PyObject **swig_obj) {
+  PyObject *resultobj = 0;
+  int32_t arg1 ;
+  mixal::IODeviceCardPunch *result = 0 ;
+  
+  if ((nobjs < 1) || (nobjs > 1)) SWIG_fail;
+  {
+    arg1 = static_cast<int32_t>(PyLong_AsLong(swig_obj[0]));
+  }
+  result = (mixal::IODeviceCardPunch *)new mixal::IODeviceCardPunch(arg1);
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_mixal__IODeviceCardPunch, SWIG_POINTER_NEW |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_new_IODeviceCardPunch__SWIG_1(PyObject *SWIGUNUSEDPARM(self), Py_ssize_t nobjs, PyObject **SWIGUNUSEDPARM(swig_obj)) {
+  PyObject *resultobj = 0;
+  mixal::IODeviceCardPunch *result = 0 ;
+  
+  if ((nobjs < 0) || (nobjs > 0)) SWIG_fail;
+  result = (mixal::IODeviceCardPunch *)new mixal::IODeviceCardPunch();
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_mixal__IODeviceCardPunch, SWIG_POINTER_NEW |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_new_IODeviceCardPunch(PyObject *self, PyObject *args) {
+  Py_ssize_t argc;
+  PyObject *argv[2] = {
+    0
+  };
+  
+  if (!(argc = SWIG_Python_UnpackTuple(args, "new_IODeviceCardPunch", 0, 1, argv))) SWIG_fail;
+  --argc;
+  if (argc == 0) {
+    return _wrap_new_IODeviceCardPunch__SWIG_1(self, argc, argv);
+  }
+  if (argc == 1) {
+    int _v;
+    {
+      _v = PyLong_Check(argv[0]);
+    }
+    if (_v) {
+      return _wrap_new_IODeviceCardPunch__SWIG_0(self, argc, argv);
+    }
+  }
+  
+fail:
+  SWIG_Python_RaiseOrModifyTypeError("Wrong number or type of arguments for overloaded function 'new_IODeviceCardPunch'.\n"
+    "  Possible C/C++ prototypes are:\n"
+    "    mixal::IODeviceCardPunch::IODeviceCardPunch(int32_t)\n"
+    "    mixal::IODeviceCardPunch::IODeviceCardPunch()\n");
+  return 0;
+}
+
+
+SWIGINTERN PyObject *_wrap_delete_IODeviceCardPunch(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  mixal::IODeviceCardPunch *arg1 = (mixal::IODeviceCardPunch *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject *swig_obj[1] ;
+  
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_mixal__IODeviceCardPunch, SWIG_POINTER_DISOWN |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "delete_IODeviceCardPunch" "', argument " "1"" of type '" "mixal::IODeviceCardPunch *""'"); 
+  }
+  arg1 = reinterpret_cast< mixal::IODeviceCardPunch * >(argp1);
+  delete arg1;
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *IODeviceCardPunch_swigregister(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *obj;
+  if (!SWIG_Python_UnpackTuple(args, "swigregister", 1, 1, &obj)) return NULL;
+  SWIG_TypeNewClientData(SWIGTYPE_p_mixal__IODeviceCardPunch, SWIG_NewClientData(obj));
+  return SWIG_Py_Void();
+}
+
+SWIGINTERN PyObject *IODeviceCardPunch_swiginit(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  return SWIG_Python_InitShadowInstance(args);
+}
+
+SWIGINTERN PyObject *_wrap_new_IODeviceLinePrinter__SWIG_0(PyObject *SWIGUNUSEDPARM(self), Py_ssize_t nobjs, PyObject **swig_obj) {
+  PyObject *resultobj = 0;
+  int32_t arg1 ;
+  int32_t arg2 ;
+  mixal::IODeviceLinePrinter *result = 0 ;
+  
+  if ((nobjs < 2) || (nobjs > 2)) SWIG_fail;
+  {
+    arg1 = static_cast<int32_t>(PyLong_AsLong(swig_obj[0]));
+  }
+  {
+    arg2 = static_cast<int32_t>(PyLong_AsLong(swig_obj[1]));
+  }
+  result = (mixal::IODeviceLinePrinter *)new mixal::IODeviceLinePrinter(arg1,arg2);
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_mixal__IODeviceLinePrinter, SWIG_POINTER_NEW |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_new_IODeviceLinePrinter__SWIG_1(PyObject *SWIGUNUSEDPARM(self), Py_ssize_t nobjs, PyObject **swig_obj) {
+  PyObject *resultobj = 0;
+  int32_t arg1 ;
+  mixal::IODeviceLinePrinter *result = 0 ;
+  
+  if ((nobjs < 1) || (nobjs > 1)) SWIG_fail;
+  {
+    arg1 = static_cast<int32_t>(PyLong_AsLong(swig_obj[0]));
+  }
+  result = (mixal::IODeviceLinePrinter *)new mixal::IODeviceLinePrinter(arg1);
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_mixal__IODeviceLinePrinter, SWIG_POINTER_NEW |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_new_IODeviceLinePrinter__SWIG_2(PyObject *SWIGUNUSEDPARM(self), Py_ssize_t nobjs, PyObject **SWIGUNUSEDPARM(swig_obj)) {
+  PyObject *resultobj = 0;
+  mixal::IODeviceLinePrinter *result = 0 ;
+  
+  if ((nobjs < 0) || (nobjs > 0)) SWIG_fail;
+  result = (mixal::IODeviceLinePrinter *)new mixal::IODeviceLinePrinter();
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_mixal__IODeviceLinePrinter, SWIG_POINTER_NEW |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_new_IODeviceLinePrinter(PyObject *self, PyObject *args) {
+  Py_ssize_t argc;
+  PyObject *argv[3] = {
+    0
+  };
+  
+  if (!(argc = SWIG_Python_UnpackTuple(args, "new_IODeviceLinePrinter", 0, 2, argv))) SWIG_fail;
+  --argc;
+  if (argc == 0) {
+    return _wrap_new_IODeviceLinePrinter__SWIG_2(self, argc, argv);
+  }
+  if (argc == 1) {
+    int _v;
+    {
+      _v = PyLong_Check(argv[0]);
+    }
+    if (_v) {
+      return _wrap_new_IODeviceLinePrinter__SWIG_1(self, argc, argv);
+    }
+  }
+  if (argc == 2) {
+    int _v;
+    {
+      _v = PyLong_Check(argv[0]);
+    }
+    if (_v) {
+      {
+        _v = PyLong_Check(argv[1]);
+      }
+      if (_v) {
+        return _wrap_new_IODeviceLinePrinter__SWIG_0(self, argc, argv);
+      }
+    }
+  }
+  
+fail:
+  SWIG_Python_RaiseOrModifyTypeError("Wrong number or type of arguments for overloaded function 'new_IODeviceLinePrinter'.\n"
+    "  Possible C/C++ prototypes are:\n"
+    "    mixal::IODeviceLinePrinter::IODeviceLinePrinter(int32_t,int32_t)\n"
+    "    mixal::IODeviceLinePrinter::IODeviceLinePrinter(int32_t)\n"
+    "    mixal::IODeviceLinePrinter::IODeviceLinePrinter()\n");
+  return 0;
+}
+
+
+SWIGINTERN PyObject *_wrap_IODeviceLinePrinter_control(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  mixal::IODeviceLinePrinter *arg1 = (mixal::IODeviceLinePrinter *) 0 ;
+  int32_t arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject *swig_obj[2] ;
+  
+  if (!SWIG_Python_UnpackTuple(args, "IODeviceLinePrinter_control", 2, 2, swig_obj)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_mixal__IODeviceLinePrinter, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "IODeviceLinePrinter_control" "', argument " "1"" of type '" "mixal::IODeviceLinePrinter *""'"); 
+  }
+  arg1 = reinterpret_cast< mixal::IODeviceLinePrinter * >(argp1);
+  {
+    arg2 = static_cast<int32_t>(PyLong_AsLong(swig_obj[1]));
+  }
+  (arg1)->control(arg2);
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_IODeviceLinePrinter_pageSize(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  mixal::IODeviceLinePrinter *arg1 = (mixal::IODeviceLinePrinter *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject *swig_obj[1] ;
+  int32_t result;
+  
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_mixal__IODeviceLinePrinter, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "IODeviceLinePrinter_pageSize" "', argument " "1"" of type '" "mixal::IODeviceLinePrinter const *""'"); 
+  }
+  arg1 = reinterpret_cast< mixal::IODeviceLinePrinter * >(argp1);
+  result = ((mixal::IODeviceLinePrinter const *)arg1)->pageSize();
+  {
+    resultobj = PyLong_FromLong(static_cast<long>(result));
+  }
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_IODeviceLinePrinter_pageOffsetAt(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  mixal::IODeviceLinePrinter *arg1 = (mixal::IODeviceLinePrinter *) 0 ;
+  int32_t arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject *swig_obj[2] ;
+  int32_t result;
+  
+  if (!SWIG_Python_UnpackTuple(args, "IODeviceLinePrinter_pageOffsetAt", 2, 2, swig_obj)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_mixal__IODeviceLinePrinter, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "IODeviceLinePrinter_pageOffsetAt" "', argument " "1"" of type '" "mixal::IODeviceLinePrinter const *""'"); 
+  }
+  arg1 = reinterpret_cast< mixal::IODeviceLinePrinter * >(argp1);
+  {
+    arg2 = static_cast<int32_t>(PyLong_AsLong(swig_obj[1]));
+  }
+  result = ((mixal::IODeviceLinePrinter const *)arg1)->pageOffsetAt(arg2);
+  {
+    resultobj = PyLong_FromLong(static_cast<long>(result));
+  }
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_IODeviceLinePrinter_line(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  mixal::IODeviceLinePrinter *arg1 = (mixal::IODeviceLinePrinter *) 0 ;
+  int32_t arg2 ;
+  int32_t arg3 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject *swig_obj[3] ;
+  std::string result;
+  
+  if (!SWIG_Python_UnpackTuple(args, "IODeviceLinePrinter_line", 3, 3, swig_obj)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_mixal__IODeviceLinePrinter, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "IODeviceLinePrinter_line" "', argument " "1"" of type '" "mixal::IODeviceLinePrinter const *""'"); 
+  }
+  arg1 = reinterpret_cast< mixal::IODeviceLinePrinter * >(argp1);
+  {
+    arg2 = static_cast<int32_t>(PyLong_AsLong(swig_obj[1]));
+  }
+  {
+    arg3 = static_cast<int32_t>(PyLong_AsLong(swig_obj[2]));
+  }
+  result = ((mixal::IODeviceLinePrinter const *)arg1)->line(arg2,arg3);
+  resultobj = SWIG_From_std_string(static_cast< std::string >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_delete_IODeviceLinePrinter(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  mixal::IODeviceLinePrinter *arg1 = (mixal::IODeviceLinePrinter *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject *swig_obj[1] ;
+  
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_mixal__IODeviceLinePrinter, SWIG_POINTER_DISOWN |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "delete_IODeviceLinePrinter" "', argument " "1"" of type '" "mixal::IODeviceLinePrinter *""'"); 
+  }
+  arg1 = reinterpret_cast< mixal::IODeviceLinePrinter * >(argp1);
+  delete arg1;
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *IODeviceLinePrinter_swigregister(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *obj;
+  if (!SWIG_Python_UnpackTuple(args, "swigregister", 1, 1, &obj)) return NULL;
+  SWIG_TypeNewClientData(SWIGTYPE_p_mixal__IODeviceLinePrinter, SWIG_NewClientData(obj));
+  return SWIG_Py_Void();
+}
+
+SWIGINTERN PyObject *IODeviceLinePrinter_swiginit(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  return SWIG_Python_InitShadowInstance(args);
+}
+
+SWIGINTERN PyObject *_wrap_new_IODeviceTypewriter__SWIG_0(PyObject *SWIGUNUSEDPARM(self), Py_ssize_t nobjs, PyObject **swig_obj) {
+  PyObject *resultobj = 0;
+  int32_t arg1 ;
+  mixal::IODeviceTypewriter *result = 0 ;
+  
+  if ((nobjs < 1) || (nobjs > 1)) SWIG_fail;
+  {
+    arg1 = static_cast<int32_t>(PyLong_AsLong(swig_obj[0]));
+  }
+  result = (mixal::IODeviceTypewriter *)new mixal::IODeviceTypewriter(arg1);
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_mixal__IODeviceTypewriter, SWIG_POINTER_NEW |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_new_IODeviceTypewriter__SWIG_1(PyObject *SWIGUNUSEDPARM(self), Py_ssize_t nobjs, PyObject **SWIGUNUSEDPARM(swig_obj)) {
+  PyObject *resultobj = 0;
+  mixal::IODeviceTypewriter *result = 0 ;
+  
+  if ((nobjs < 0) || (nobjs > 0)) SWIG_fail;
+  result = (mixal::IODeviceTypewriter *)new mixal::IODeviceTypewriter();
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_mixal__IODeviceTypewriter, SWIG_POINTER_NEW |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_new_IODeviceTypewriter(PyObject *self, PyObject *args) {
+  Py_ssize_t argc;
+  PyObject *argv[2] = {
+    0
+  };
+  
+  if (!(argc = SWIG_Python_UnpackTuple(args, "new_IODeviceTypewriter", 0, 1, argv))) SWIG_fail;
+  --argc;
+  if (argc == 0) {
+    return _wrap_new_IODeviceTypewriter__SWIG_1(self, argc, argv);
+  }
+  if (argc == 1) {
+    int _v;
+    {
+      _v = PyLong_Check(argv[0]);
+    }
+    if (_v) {
+      return _wrap_new_IODeviceTypewriter__SWIG_0(self, argc, argv);
+    }
+  }
+  
+fail:
+  SWIG_Python_RaiseOrModifyTypeError("Wrong number or type of arguments for overloaded function 'new_IODeviceTypewriter'.\n"
+    "  Possible C/C++ prototypes are:\n"
+    "    mixal::IODeviceTypewriter::IODeviceTypewriter(int32_t)\n"
+    "    mixal::IODeviceTypewriter::IODeviceTypewriter()\n");
+  return 0;
+}
+
+
+SWIGINTERN PyObject *_wrap_delete_IODeviceTypewriter(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  mixal::IODeviceTypewriter *arg1 = (mixal::IODeviceTypewriter *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject *swig_obj[1] ;
+  
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_mixal__IODeviceTypewriter, SWIG_POINTER_DISOWN |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "delete_IODeviceTypewriter" "', argument " "1"" of type '" "mixal::IODeviceTypewriter *""'"); 
+  }
+  arg1 = reinterpret_cast< mixal::IODeviceTypewriter * >(argp1);
+  delete arg1;
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *IODeviceTypewriter_swigregister(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *obj;
+  if (!SWIG_Python_UnpackTuple(args, "swigregister", 1, 1, &obj)) return NULL;
+  SWIG_TypeNewClientData(SWIGTYPE_p_mixal__IODeviceTypewriter, SWIG_NewClientData(obj));
+  return SWIG_Py_Void();
+}
+
+SWIGINTERN PyObject *IODeviceTypewriter_swiginit(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  return SWIG_Python_InitShadowInstance(args);
+}
+
+SWIGINTERN PyObject *_wrap_new_IODevicePaperTape__SWIG_0(PyObject *SWIGUNUSEDPARM(self), Py_ssize_t nobjs, PyObject **swig_obj) {
+  PyObject *resultobj = 0;
+  int32_t arg1 ;
+  mixal::IODevicePaperTape *result = 0 ;
+  
+  if ((nobjs < 1) || (nobjs > 1)) SWIG_fail;
+  {
+    arg1 = static_cast<int32_t>(PyLong_AsLong(swig_obj[0]));
+  }
+  result = (mixal::IODevicePaperTape *)new mixal::IODevicePaperTape(arg1);
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_mixal__IODevicePaperTape, SWIG_POINTER_NEW |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_new_IODevicePaperTape__SWIG_1(PyObject *SWIGUNUSEDPARM(self), Py_ssize_t nobjs, PyObject **SWIGUNUSEDPARM(swig_obj)) {
+  PyObject *resultobj = 0;
+  mixal::IODevicePaperTape *result = 0 ;
+  
+  if ((nobjs < 0) || (nobjs > 0)) SWIG_fail;
+  result = (mixal::IODevicePaperTape *)new mixal::IODevicePaperTape();
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_mixal__IODevicePaperTape, SWIG_POINTER_NEW |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_new_IODevicePaperTape(PyObject *self, PyObject *args) {
+  Py_ssize_t argc;
+  PyObject *argv[2] = {
+    0
+  };
+  
+  if (!(argc = SWIG_Python_UnpackTuple(args, "new_IODevicePaperTape", 0, 1, argv))) SWIG_fail;
+  --argc;
+  if (argc == 0) {
+    return _wrap_new_IODevicePaperTape__SWIG_1(self, argc, argv);
+  }
+  if (argc == 1) {
+    int _v;
+    {
+      _v = PyLong_Check(argv[0]);
+    }
+    if (_v) {
+      return _wrap_new_IODevicePaperTape__SWIG_0(self, argc, argv);
+    }
+  }
+  
+fail:
+  SWIG_Python_RaiseOrModifyTypeError("Wrong number or type of arguments for overloaded function 'new_IODevicePaperTape'.\n"
+    "  Possible C/C++ prototypes are:\n"
+    "    mixal::IODevicePaperTape::IODevicePaperTape(int32_t)\n"
+    "    mixal::IODevicePaperTape::IODevicePaperTape()\n");
+  return 0;
+}
+
+
+SWIGINTERN PyObject *_wrap_IODevicePaperTape_control(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  mixal::IODevicePaperTape *arg1 = (mixal::IODevicePaperTape *) 0 ;
+  int32_t arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject *swig_obj[2] ;
+  
+  if (!SWIG_Python_UnpackTuple(args, "IODevicePaperTape_control", 2, 2, swig_obj)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_mixal__IODevicePaperTape, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "IODevicePaperTape_control" "', argument " "1"" of type '" "mixal::IODevicePaperTape *""'"); 
+  }
+  arg1 = reinterpret_cast< mixal::IODevicePaperTape * >(argp1);
+  {
+    arg2 = static_cast<int32_t>(PyLong_AsLong(swig_obj[1]));
+  }
+  (arg1)->control(arg2);
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_delete_IODevicePaperTape(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  mixal::IODevicePaperTape *arg1 = (mixal::IODevicePaperTape *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject *swig_obj[1] ;
+  
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_mixal__IODevicePaperTape, SWIG_POINTER_DISOWN |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "delete_IODevicePaperTape" "', argument " "1"" of type '" "mixal::IODevicePaperTape *""'"); 
+  }
+  arg1 = reinterpret_cast< mixal::IODevicePaperTape * >(argp1);
+  delete arg1;
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *IODevicePaperTape_swigregister(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *obj;
+  if (!SWIG_Python_UnpackTuple(args, "swigregister", 1, 1, &obj)) return NULL;
+  SWIG_TypeNewClientData(SWIGTYPE_p_mixal__IODevicePaperTape, SWIG_NewClientData(obj));
+  return SWIG_Py_Void();
+}
+
+SWIGINTERN PyObject *IODevicePaperTape_swiginit(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   return SWIG_Python_InitShadowInstance(args);
 }
 
@@ -13810,11 +15407,13 @@ static PyMethodDef SwigMethods[] = {
 	 { "Computer_devices_set", _wrap_Computer_devices_set, METH_VARARGS, NULL},
 	 { "Computer_devices_get", _wrap_Computer_devices_get, METH_O, NULL},
 	 { "new_Computer", _wrap_new_Computer, METH_NOARGS, NULL},
+	 { "delete_Computer", _wrap_delete_Computer, METH_O, NULL},
 	 { "Computer_rI", _wrap_Computer_rI, METH_VARARGS, NULL},
 	 { "Computer_memoryAt", _wrap_Computer_memoryAt, METH_VARARGS, NULL},
 	 { "Computer_getDevice", _wrap_Computer_getDevice, METH_VARARGS, NULL},
 	 { "Computer_waitDevice", _wrap_Computer_waitDevice, METH_VARARGS, NULL},
 	 { "Computer_waitDevices", _wrap_Computer_waitDevices, METH_O, NULL},
+	 { "Computer_getDeviceWordAt", _wrap_Computer_getDeviceWordAt, METH_VARARGS, NULL},
 	 { "Computer_reset", _wrap_Computer_reset, METH_O, NULL},
 	 { "Computer_line", _wrap_Computer_line, METH_O, NULL},
 	 { "Computer_elapsed", _wrap_Computer_elapsed, METH_O, NULL},
@@ -13824,9 +15423,70 @@ static PyMethodDef SwigMethods[] = {
 	 { "Computer_executeSingle", _wrap_Computer_executeSingle, METH_VARARGS, NULL},
 	 { "Computer_executeSinglePesudo", _wrap_Computer_executeSinglePesudo, METH_VARARGS, NULL},
 	 { "Computer_loadCodes", _wrap_Computer_loadCodes, METH_VARARGS, NULL},
-	 { "delete_Computer", _wrap_delete_Computer, METH_O, NULL},
 	 { "Computer_swigregister", Computer_swigregister, METH_O, NULL},
 	 { "Computer_swiginit", Computer_swiginit, METH_VARARGS, NULL},
+	 { "delete_IODevice", _wrap_delete_IODevice, METH_O, NULL},
+	 { "IODevice_type", _wrap_IODevice_type, METH_O, NULL},
+	 { "IODevice_blockSize", _wrap_IODevice_blockSize, METH_O, NULL},
+	 { "IODevice_allowRead", _wrap_IODevice_allowRead, METH_O, NULL},
+	 { "IODevice_allowWrite", _wrap_IODevice_allowWrite, METH_O, NULL},
+	 { "IODevice_ready", _wrap_IODevice_ready, METH_VARARGS, NULL},
+	 { "IODevice_control", _wrap_IODevice_control, METH_VARARGS, NULL},
+	 { "IODevice_read", _wrap_IODevice_read, METH_VARARGS, NULL},
+	 { "IODevice_write", _wrap_IODevice_write, METH_VARARGS, NULL},
+	 { "IODevice_wordAt", _wrap_IODevice_wordAt, METH_VARARGS, NULL},
+	 { "IODevice_swigregister", IODevice_swigregister, METH_O, NULL},
+	 { "new_IODeviceStorage", _wrap_new_IODeviceStorage, METH_VARARGS, NULL},
+	 { "IODeviceStorage_ready", _wrap_IODeviceStorage_ready, METH_VARARGS, NULL},
+	 { "IODeviceStorage_read", _wrap_IODeviceStorage_read, METH_VARARGS, NULL},
+	 { "IODeviceStorage_write", _wrap_IODeviceStorage_write, METH_VARARGS, NULL},
+	 { "IODeviceStorage_wordAt", _wrap_IODeviceStorage_wordAt, METH_VARARGS, NULL},
+	 { "delete_IODeviceStorage", _wrap_delete_IODeviceStorage, METH_O, NULL},
+	 { "IODeviceStorage_swigregister", IODeviceStorage_swigregister, METH_O, NULL},
+	 { "IODeviceStorage_swiginit", IODeviceStorage_swiginit, METH_VARARGS, NULL},
+	 { "new_IODeviceTape", _wrap_new_IODeviceTape, METH_VARARGS, NULL},
+	 { "IODeviceTape_control", _wrap_IODeviceTape_control, METH_VARARGS, NULL},
+	 { "delete_IODeviceTape", _wrap_delete_IODeviceTape, METH_O, NULL},
+	 { "IODeviceTape_swigregister", IODeviceTape_swigregister, METH_O, NULL},
+	 { "IODeviceTape_swiginit", IODeviceTape_swiginit, METH_VARARGS, NULL},
+	 { "new_IODeviceDisk", _wrap_new_IODeviceDisk, METH_VARARGS, NULL},
+	 { "IODeviceDisk_control", _wrap_IODeviceDisk_control, METH_VARARGS, NULL},
+	 { "delete_IODeviceDisk", _wrap_delete_IODeviceDisk, METH_O, NULL},
+	 { "IODeviceDisk_swigregister", IODeviceDisk_swigregister, METH_O, NULL},
+	 { "IODeviceDisk_swiginit", IODeviceDisk_swiginit, METH_VARARGS, NULL},
+	 { "new_IODeviceSeqReader", _wrap_new_IODeviceSeqReader, METH_VARARGS, NULL},
+	 { "delete_IODeviceSeqReader", _wrap_delete_IODeviceSeqReader, METH_O, NULL},
+	 { "IODeviceSeqReader_swigregister", IODeviceSeqReader_swigregister, METH_O, NULL},
+	 { "IODeviceSeqReader_swiginit", IODeviceSeqReader_swiginit, METH_VARARGS, NULL},
+	 { "new_IODeviceSeqWriter", _wrap_new_IODeviceSeqWriter, METH_VARARGS, NULL},
+	 { "delete_IODeviceSeqWriter", _wrap_delete_IODeviceSeqWriter, METH_O, NULL},
+	 { "IODeviceSeqWriter_swigregister", IODeviceSeqWriter_swigregister, METH_O, NULL},
+	 { "IODeviceSeqWriter_swiginit", IODeviceSeqWriter_swiginit, METH_VARARGS, NULL},
+	 { "new_IODeviceCardReader", _wrap_new_IODeviceCardReader, METH_VARARGS, NULL},
+	 { "delete_IODeviceCardReader", _wrap_delete_IODeviceCardReader, METH_O, NULL},
+	 { "IODeviceCardReader_swigregister", IODeviceCardReader_swigregister, METH_O, NULL},
+	 { "IODeviceCardReader_swiginit", IODeviceCardReader_swiginit, METH_VARARGS, NULL},
+	 { "new_IODeviceCardPunch", _wrap_new_IODeviceCardPunch, METH_VARARGS, NULL},
+	 { "delete_IODeviceCardPunch", _wrap_delete_IODeviceCardPunch, METH_O, NULL},
+	 { "IODeviceCardPunch_swigregister", IODeviceCardPunch_swigregister, METH_O, NULL},
+	 { "IODeviceCardPunch_swiginit", IODeviceCardPunch_swiginit, METH_VARARGS, NULL},
+	 { "new_IODeviceLinePrinter", _wrap_new_IODeviceLinePrinter, METH_VARARGS, NULL},
+	 { "IODeviceLinePrinter_control", _wrap_IODeviceLinePrinter_control, METH_VARARGS, NULL},
+	 { "IODeviceLinePrinter_pageSize", _wrap_IODeviceLinePrinter_pageSize, METH_O, NULL},
+	 { "IODeviceLinePrinter_pageOffsetAt", _wrap_IODeviceLinePrinter_pageOffsetAt, METH_VARARGS, NULL},
+	 { "IODeviceLinePrinter_line", _wrap_IODeviceLinePrinter_line, METH_VARARGS, NULL},
+	 { "delete_IODeviceLinePrinter", _wrap_delete_IODeviceLinePrinter, METH_O, NULL},
+	 { "IODeviceLinePrinter_swigregister", IODeviceLinePrinter_swigregister, METH_O, NULL},
+	 { "IODeviceLinePrinter_swiginit", IODeviceLinePrinter_swiginit, METH_VARARGS, NULL},
+	 { "new_IODeviceTypewriter", _wrap_new_IODeviceTypewriter, METH_VARARGS, NULL},
+	 { "delete_IODeviceTypewriter", _wrap_delete_IODeviceTypewriter, METH_O, NULL},
+	 { "IODeviceTypewriter_swigregister", IODeviceTypewriter_swigregister, METH_O, NULL},
+	 { "IODeviceTypewriter_swiginit", IODeviceTypewriter_swiginit, METH_VARARGS, NULL},
+	 { "new_IODevicePaperTape", _wrap_new_IODevicePaperTape, METH_VARARGS, NULL},
+	 { "IODevicePaperTape_control", _wrap_IODevicePaperTape_control, METH_VARARGS, NULL},
+	 { "delete_IODevicePaperTape", _wrap_delete_IODevicePaperTape, METH_O, NULL},
+	 { "IODevicePaperTape_swigregister", IODevicePaperTape_swigregister, METH_O, NULL},
+	 { "IODevicePaperTape_swiginit", IODevicePaperTape_swiginit, METH_VARARGS, NULL},
 	 { NULL, NULL, 0, NULL }
 };
 
@@ -13837,7 +15497,80 @@ static PyMethodDef SwigMethods_proxydocs[] = {
 
 /* -------- TYPE CONVERSION AND EQUIVALENCE RULES (BEGIN) -------- */
 
+static void *_p_mixal__IODeviceSeqWriterTo_p_mixal__IODeviceStorage(void *x, int *SWIGUNUSEDPARM(newmemory)) {
+    return (void *)((mixal::IODeviceStorage *)  ((mixal::IODeviceSeqWriter *) x));
+}
+static void *_p_mixal__IODeviceLinePrinterTo_p_mixal__IODeviceStorage(void *x, int *SWIGUNUSEDPARM(newmemory)) {
+    return (void *)((mixal::IODeviceStorage *) (mixal::IODeviceSeqWriter *) ((mixal::IODeviceLinePrinter *) x));
+}
+static void *_p_mixal__IODeviceDiskTo_p_mixal__IODeviceStorage(void *x, int *SWIGUNUSEDPARM(newmemory)) {
+    return (void *)((mixal::IODeviceStorage *)  ((mixal::IODeviceDisk *) x));
+}
+static void *_p_mixal__IODeviceCardReaderTo_p_mixal__IODeviceStorage(void *x, int *SWIGUNUSEDPARM(newmemory)) {
+    return (void *)((mixal::IODeviceStorage *) (mixal::IODeviceSeqReader *) ((mixal::IODeviceCardReader *) x));
+}
+static void *_p_mixal__IODeviceSeqReaderTo_p_mixal__IODeviceStorage(void *x, int *SWIGUNUSEDPARM(newmemory)) {
+    return (void *)((mixal::IODeviceStorage *)  ((mixal::IODeviceSeqReader *) x));
+}
+static void *_p_mixal__IODeviceCardPunchTo_p_mixal__IODeviceStorage(void *x, int *SWIGUNUSEDPARM(newmemory)) {
+    return (void *)((mixal::IODeviceStorage *) (mixal::IODeviceSeqWriter *) ((mixal::IODeviceCardPunch *) x));
+}
+static void *_p_mixal__IODeviceTapeTo_p_mixal__IODeviceStorage(void *x, int *SWIGUNUSEDPARM(newmemory)) {
+    return (void *)((mixal::IODeviceStorage *)  ((mixal::IODeviceTape *) x));
+}
+static void *_p_mixal__IODeviceTypewriterTo_p_mixal__IODeviceStorage(void *x, int *SWIGUNUSEDPARM(newmemory)) {
+    return (void *)((mixal::IODeviceStorage *) (mixal::IODeviceSeqReader *) ((mixal::IODeviceTypewriter *) x));
+}
+static void *_p_mixal__IODevicePaperTapeTo_p_mixal__IODeviceStorage(void *x, int *SWIGUNUSEDPARM(newmemory)) {
+    return (void *)((mixal::IODeviceStorage *) (mixal::IODeviceSeqReader *) ((mixal::IODevicePaperTape *) x));
+}
+static void *_p_mixal__IODeviceSeqWriterTo_p_mixal__IODevice(void *x, int *SWIGUNUSEDPARM(newmemory)) {
+    return (void *)((mixal::IODevice *) (mixal::IODeviceStorage *) ((mixal::IODeviceSeqWriter *) x));
+}
+static void *_p_mixal__IODeviceLinePrinterTo_p_mixal__IODevice(void *x, int *SWIGUNUSEDPARM(newmemory)) {
+    return (void *)((mixal::IODevice *) (mixal::IODeviceStorage *)(mixal::IODeviceSeqWriter *) ((mixal::IODeviceLinePrinter *) x));
+}
+static void *_p_mixal__IODeviceDiskTo_p_mixal__IODevice(void *x, int *SWIGUNUSEDPARM(newmemory)) {
+    return (void *)((mixal::IODevice *) (mixal::IODeviceStorage *) ((mixal::IODeviceDisk *) x));
+}
+static void *_p_mixal__IODeviceCardReaderTo_p_mixal__IODevice(void *x, int *SWIGUNUSEDPARM(newmemory)) {
+    return (void *)((mixal::IODevice *) (mixal::IODeviceStorage *)(mixal::IODeviceSeqReader *) ((mixal::IODeviceCardReader *) x));
+}
+static void *_p_mixal__IODeviceStorageTo_p_mixal__IODevice(void *x, int *SWIGUNUSEDPARM(newmemory)) {
+    return (void *)((mixal::IODevice *)  ((mixal::IODeviceStorage *) x));
+}
+static void *_p_mixal__IODeviceSeqReaderTo_p_mixal__IODevice(void *x, int *SWIGUNUSEDPARM(newmemory)) {
+    return (void *)((mixal::IODevice *) (mixal::IODeviceStorage *) ((mixal::IODeviceSeqReader *) x));
+}
+static void *_p_mixal__IODeviceCardPunchTo_p_mixal__IODevice(void *x, int *SWIGUNUSEDPARM(newmemory)) {
+    return (void *)((mixal::IODevice *) (mixal::IODeviceStorage *)(mixal::IODeviceSeqWriter *) ((mixal::IODeviceCardPunch *) x));
+}
+static void *_p_mixal__IODeviceTapeTo_p_mixal__IODevice(void *x, int *SWIGUNUSEDPARM(newmemory)) {
+    return (void *)((mixal::IODevice *) (mixal::IODeviceStorage *) ((mixal::IODeviceTape *) x));
+}
+static void *_p_mixal__IODeviceTypewriterTo_p_mixal__IODevice(void *x, int *SWIGUNUSEDPARM(newmemory)) {
+    return (void *)((mixal::IODevice *) (mixal::IODeviceStorage *)(mixal::IODeviceSeqReader *) ((mixal::IODeviceTypewriter *) x));
+}
+static void *_p_mixal__IODevicePaperTapeTo_p_mixal__IODevice(void *x, int *SWIGUNUSEDPARM(newmemory)) {
+    return (void *)((mixal::IODevice *) (mixal::IODeviceStorage *)(mixal::IODeviceSeqReader *) ((mixal::IODevicePaperTape *) x));
+}
+static void *_p_mixal__IODeviceCardReaderTo_p_mixal__IODeviceSeqReader(void *x, int *SWIGUNUSEDPARM(newmemory)) {
+    return (void *)((mixal::IODeviceSeqReader *)  ((mixal::IODeviceCardReader *) x));
+}
+static void *_p_mixal__IODeviceTypewriterTo_p_mixal__IODeviceSeqReader(void *x, int *SWIGUNUSEDPARM(newmemory)) {
+    return (void *)((mixal::IODeviceSeqReader *)  ((mixal::IODeviceTypewriter *) x));
+}
+static void *_p_mixal__IODevicePaperTapeTo_p_mixal__IODeviceSeqReader(void *x, int *SWIGUNUSEDPARM(newmemory)) {
+    return (void *)((mixal::IODeviceSeqReader *)  ((mixal::IODevicePaperTape *) x));
+}
+static void *_p_mixal__IODeviceLinePrinterTo_p_mixal__IODeviceSeqWriter(void *x, int *SWIGUNUSEDPARM(newmemory)) {
+    return (void *)((mixal::IODeviceSeqWriter *)  ((mixal::IODeviceLinePrinter *) x));
+}
+static void *_p_mixal__IODeviceCardPunchTo_p_mixal__IODeviceSeqWriter(void *x, int *SWIGUNUSEDPARM(newmemory)) {
+    return (void *)((mixal::IODeviceSeqWriter *)  ((mixal::IODeviceCardPunch *) x));
+}
 static swig_type_info _swigt__p_ComparisonIndicator = {"_p_ComparisonIndicator", "ComparisonIndicator *", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_IODevice = {"_p_IODevice", "IODevice *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_ParsedResult = {"_p_ParsedResult", "ParsedResult *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_allocator_type = {"_p_allocator_type", "allocator_type *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_char = {"_p_char", "char *", 0, 0, (void*)0, 0};
@@ -13846,15 +15579,25 @@ static swig_type_info _swigt__p_int32_t = {"_p_int32_t", "int32_t *", 0, 0, (voi
 static swig_type_info _swigt__p_int8_t = {"_p_int8_t", "int8_t *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_mixal__Computer = {"_p_mixal__Computer", "mixal::Computer *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_mixal__ComputerWord = {"_p_mixal__ComputerWord", "mixal::ComputerWord *|mixal::Register5 *|mixal::InstructionWord *", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_mixal__IODevice = {"_p_mixal__IODevice", "mixal::IODevice *", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_mixal__IODeviceCardPunch = {"_p_mixal__IODeviceCardPunch", "mixal::IODeviceCardPunch *", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_mixal__IODeviceCardReader = {"_p_mixal__IODeviceCardReader", "mixal::IODeviceCardReader *", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_mixal__IODeviceDisk = {"_p_mixal__IODeviceDisk", "mixal::IODeviceDisk *", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_mixal__IODeviceLinePrinter = {"_p_mixal__IODeviceLinePrinter", "mixal::IODeviceLinePrinter *", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_mixal__IODevicePaperTape = {"_p_mixal__IODevicePaperTape", "mixal::IODevicePaperTape *", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_mixal__IODeviceSeqReader = {"_p_mixal__IODeviceSeqReader", "mixal::IODeviceSeqReader *", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_mixal__IODeviceSeqWriter = {"_p_mixal__IODeviceSeqWriter", "mixal::IODeviceSeqWriter *", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_mixal__IODeviceStorage = {"_p_mixal__IODeviceStorage", "mixal::IODeviceStorage *", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_mixal__IODeviceTape = {"_p_mixal__IODeviceTape", "mixal::IODeviceTape *", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_mixal__IODeviceTypewriter = {"_p_mixal__IODeviceTypewriter", "mixal::IODeviceTypewriter *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_mixal__Register2 = {"_p_mixal__Register2", "mixal::Register2 *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_p_PyObject = {"_p_p_PyObject", "PyObject **", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_size_type = {"_p_size_type", "size_type *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_std__allocatorT_int_t = {"_p_std__allocatorT_int_t", "std::vector< int >::allocator_type *|std::allocator< int > *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_std__allocatorT_std__string_t = {"_p_std__allocatorT_std__string_t", "std::vector< std::string >::allocator_type *|std::allocator< std::string > *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_std__invalid_argument = {"_p_std__invalid_argument", "std::invalid_argument *", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_std__shared_ptrT_IODevice_t = {"_p_std__shared_ptrT_IODevice_t", "std::shared_ptr< IODevice > *", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_std__vectorT_IODevice_p_std__allocatorT_mixal__IODevice_p_t_t = {"_p_std__vectorT_IODevice_p_std__allocatorT_mixal__IODevice_p_t_t", "std::vector< IODevice *,std::allocator< mixal::IODevice * > > *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_std__vectorT_int_std__allocatorT_int_t_t = {"_p_std__vectorT_int_std__allocatorT_int_t_t", "std::vector< int,std::allocator< int > > *|std::vector< int > *", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_std__vectorT_std__shared_ptrT_IODevice_t_std__allocatorT_std__shared_ptrT_IODevice_t_t_t = {"_p_std__vectorT_std__shared_ptrT_IODevice_t_std__allocatorT_std__shared_ptrT_IODevice_t_t_t", "std::vector< std::shared_ptr< IODevice >,std::allocator< std::shared_ptr< IODevice > > > *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_std__vectorT_std__string_std__allocatorT_std__string_t_t = {"_p_std__vectorT_std__string_std__allocatorT_std__string_t_t", "std::vector< std::string,std::allocator< std::string > > *|std::vector< std::string > *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_swig__SwigPyIterator = {"_p_swig__SwigPyIterator", "swig::SwigPyIterator *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_uint16_t = {"_p_uint16_t", "uint16_t *", 0, 0, (void*)0, 0};
@@ -13862,6 +15605,7 @@ static swig_type_info _swigt__p_value_type = {"_p_value_type", "value_type *", 0
 
 static swig_type_info *swig_type_initial[] = {
   &_swigt__p_ComparisonIndicator,
+  &_swigt__p_IODevice,
   &_swigt__p_ParsedResult,
   &_swigt__p_allocator_type,
   &_swigt__p_char,
@@ -13870,15 +15614,25 @@ static swig_type_info *swig_type_initial[] = {
   &_swigt__p_int8_t,
   &_swigt__p_mixal__Computer,
   &_swigt__p_mixal__ComputerWord,
+  &_swigt__p_mixal__IODevice,
+  &_swigt__p_mixal__IODeviceCardPunch,
+  &_swigt__p_mixal__IODeviceCardReader,
+  &_swigt__p_mixal__IODeviceDisk,
+  &_swigt__p_mixal__IODeviceLinePrinter,
+  &_swigt__p_mixal__IODevicePaperTape,
+  &_swigt__p_mixal__IODeviceSeqReader,
+  &_swigt__p_mixal__IODeviceSeqWriter,
+  &_swigt__p_mixal__IODeviceStorage,
+  &_swigt__p_mixal__IODeviceTape,
+  &_swigt__p_mixal__IODeviceTypewriter,
   &_swigt__p_mixal__Register2,
   &_swigt__p_p_PyObject,
   &_swigt__p_size_type,
   &_swigt__p_std__allocatorT_int_t,
   &_swigt__p_std__allocatorT_std__string_t,
   &_swigt__p_std__invalid_argument,
-  &_swigt__p_std__shared_ptrT_IODevice_t,
+  &_swigt__p_std__vectorT_IODevice_p_std__allocatorT_mixal__IODevice_p_t_t,
   &_swigt__p_std__vectorT_int_std__allocatorT_int_t_t,
-  &_swigt__p_std__vectorT_std__shared_ptrT_IODevice_t_std__allocatorT_std__shared_ptrT_IODevice_t_t_t,
   &_swigt__p_std__vectorT_std__string_std__allocatorT_std__string_t_t,
   &_swigt__p_swig__SwigPyIterator,
   &_swigt__p_uint16_t,
@@ -13886,6 +15640,7 @@ static swig_type_info *swig_type_initial[] = {
 };
 
 static swig_cast_info _swigc__p_ComparisonIndicator[] = {  {&_swigt__p_ComparisonIndicator, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_IODevice[] = {  {&_swigt__p_IODevice, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_ParsedResult[] = {  {&_swigt__p_ParsedResult, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_allocator_type[] = {  {&_swigt__p_allocator_type, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_char[] = {  {&_swigt__p_char, 0, 0, 0},{0, 0, 0, 0}};
@@ -13894,15 +15649,25 @@ static swig_cast_info _swigc__p_int32_t[] = {  {&_swigt__p_int32_t, 0, 0, 0},{0,
 static swig_cast_info _swigc__p_int8_t[] = {  {&_swigt__p_int8_t, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_mixal__Computer[] = {  {&_swigt__p_mixal__Computer, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_mixal__ComputerWord[] = {  {&_swigt__p_mixal__ComputerWord, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_mixal__IODevice[] = {  {&_swigt__p_mixal__IODeviceSeqWriter, _p_mixal__IODeviceSeqWriterTo_p_mixal__IODevice, 0, 0},  {&_swigt__p_mixal__IODeviceLinePrinter, _p_mixal__IODeviceLinePrinterTo_p_mixal__IODevice, 0, 0},  {&_swigt__p_mixal__IODeviceDisk, _p_mixal__IODeviceDiskTo_p_mixal__IODevice, 0, 0},  {&_swigt__p_mixal__IODeviceCardReader, _p_mixal__IODeviceCardReaderTo_p_mixal__IODevice, 0, 0},  {&_swigt__p_mixal__IODeviceStorage, _p_mixal__IODeviceStorageTo_p_mixal__IODevice, 0, 0},  {&_swigt__p_mixal__IODeviceSeqReader, _p_mixal__IODeviceSeqReaderTo_p_mixal__IODevice, 0, 0},  {&_swigt__p_mixal__IODeviceCardPunch, _p_mixal__IODeviceCardPunchTo_p_mixal__IODevice, 0, 0},  {&_swigt__p_mixal__IODeviceTape, _p_mixal__IODeviceTapeTo_p_mixal__IODevice, 0, 0},  {&_swigt__p_mixal__IODevice, 0, 0, 0},  {&_swigt__p_mixal__IODeviceTypewriter, _p_mixal__IODeviceTypewriterTo_p_mixal__IODevice, 0, 0},  {&_swigt__p_mixal__IODevicePaperTape, _p_mixal__IODevicePaperTapeTo_p_mixal__IODevice, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_mixal__IODeviceCardPunch[] = {  {&_swigt__p_mixal__IODeviceCardPunch, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_mixal__IODeviceCardReader[] = {  {&_swigt__p_mixal__IODeviceCardReader, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_mixal__IODeviceDisk[] = {  {&_swigt__p_mixal__IODeviceDisk, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_mixal__IODeviceLinePrinter[] = {  {&_swigt__p_mixal__IODeviceLinePrinter, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_mixal__IODevicePaperTape[] = {  {&_swigt__p_mixal__IODevicePaperTape, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_mixal__IODeviceSeqReader[] = {  {&_swigt__p_mixal__IODeviceCardReader, _p_mixal__IODeviceCardReaderTo_p_mixal__IODeviceSeqReader, 0, 0},  {&_swigt__p_mixal__IODeviceSeqReader, 0, 0, 0},  {&_swigt__p_mixal__IODeviceTypewriter, _p_mixal__IODeviceTypewriterTo_p_mixal__IODeviceSeqReader, 0, 0},  {&_swigt__p_mixal__IODevicePaperTape, _p_mixal__IODevicePaperTapeTo_p_mixal__IODeviceSeqReader, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_mixal__IODeviceSeqWriter[] = {  {&_swigt__p_mixal__IODeviceSeqWriter, 0, 0, 0},  {&_swigt__p_mixal__IODeviceLinePrinter, _p_mixal__IODeviceLinePrinterTo_p_mixal__IODeviceSeqWriter, 0, 0},  {&_swigt__p_mixal__IODeviceCardPunch, _p_mixal__IODeviceCardPunchTo_p_mixal__IODeviceSeqWriter, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_mixal__IODeviceStorage[] = {  {&_swigt__p_mixal__IODeviceSeqWriter, _p_mixal__IODeviceSeqWriterTo_p_mixal__IODeviceStorage, 0, 0},  {&_swigt__p_mixal__IODeviceLinePrinter, _p_mixal__IODeviceLinePrinterTo_p_mixal__IODeviceStorage, 0, 0},  {&_swigt__p_mixal__IODeviceDisk, _p_mixal__IODeviceDiskTo_p_mixal__IODeviceStorage, 0, 0},  {&_swigt__p_mixal__IODeviceCardReader, _p_mixal__IODeviceCardReaderTo_p_mixal__IODeviceStorage, 0, 0},  {&_swigt__p_mixal__IODeviceStorage, 0, 0, 0},  {&_swigt__p_mixal__IODeviceSeqReader, _p_mixal__IODeviceSeqReaderTo_p_mixal__IODeviceStorage, 0, 0},  {&_swigt__p_mixal__IODeviceCardPunch, _p_mixal__IODeviceCardPunchTo_p_mixal__IODeviceStorage, 0, 0},  {&_swigt__p_mixal__IODeviceTape, _p_mixal__IODeviceTapeTo_p_mixal__IODeviceStorage, 0, 0},  {&_swigt__p_mixal__IODeviceTypewriter, _p_mixal__IODeviceTypewriterTo_p_mixal__IODeviceStorage, 0, 0},  {&_swigt__p_mixal__IODevicePaperTape, _p_mixal__IODevicePaperTapeTo_p_mixal__IODeviceStorage, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_mixal__IODeviceTape[] = {  {&_swigt__p_mixal__IODeviceTape, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_mixal__IODeviceTypewriter[] = {  {&_swigt__p_mixal__IODeviceTypewriter, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_mixal__Register2[] = {  {&_swigt__p_mixal__Register2, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_p_PyObject[] = {  {&_swigt__p_p_PyObject, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_size_type[] = {  {&_swigt__p_size_type, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_std__allocatorT_int_t[] = {  {&_swigt__p_std__allocatorT_int_t, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_std__allocatorT_std__string_t[] = {  {&_swigt__p_std__allocatorT_std__string_t, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_std__invalid_argument[] = {  {&_swigt__p_std__invalid_argument, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_std__shared_ptrT_IODevice_t[] = {  {&_swigt__p_std__shared_ptrT_IODevice_t, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_std__vectorT_IODevice_p_std__allocatorT_mixal__IODevice_p_t_t[] = {  {&_swigt__p_std__vectorT_IODevice_p_std__allocatorT_mixal__IODevice_p_t_t, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_std__vectorT_int_std__allocatorT_int_t_t[] = {  {&_swigt__p_std__vectorT_int_std__allocatorT_int_t_t, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_std__vectorT_std__shared_ptrT_IODevice_t_std__allocatorT_std__shared_ptrT_IODevice_t_t_t[] = {  {&_swigt__p_std__vectorT_std__shared_ptrT_IODevice_t_std__allocatorT_std__shared_ptrT_IODevice_t_t_t, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_std__vectorT_std__string_std__allocatorT_std__string_t_t[] = {  {&_swigt__p_std__vectorT_std__string_std__allocatorT_std__string_t_t, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_swig__SwigPyIterator[] = {  {&_swigt__p_swig__SwigPyIterator, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_uint16_t[] = {  {&_swigt__p_uint16_t, 0, 0, 0},{0, 0, 0, 0}};
@@ -13910,6 +15675,7 @@ static swig_cast_info _swigc__p_value_type[] = {  {&_swigt__p_value_type, 0, 0, 
 
 static swig_cast_info *swig_cast_initial[] = {
   _swigc__p_ComparisonIndicator,
+  _swigc__p_IODevice,
   _swigc__p_ParsedResult,
   _swigc__p_allocator_type,
   _swigc__p_char,
@@ -13918,15 +15684,25 @@ static swig_cast_info *swig_cast_initial[] = {
   _swigc__p_int8_t,
   _swigc__p_mixal__Computer,
   _swigc__p_mixal__ComputerWord,
+  _swigc__p_mixal__IODevice,
+  _swigc__p_mixal__IODeviceCardPunch,
+  _swigc__p_mixal__IODeviceCardReader,
+  _swigc__p_mixal__IODeviceDisk,
+  _swigc__p_mixal__IODeviceLinePrinter,
+  _swigc__p_mixal__IODevicePaperTape,
+  _swigc__p_mixal__IODeviceSeqReader,
+  _swigc__p_mixal__IODeviceSeqWriter,
+  _swigc__p_mixal__IODeviceStorage,
+  _swigc__p_mixal__IODeviceTape,
+  _swigc__p_mixal__IODeviceTypewriter,
   _swigc__p_mixal__Register2,
   _swigc__p_p_PyObject,
   _swigc__p_size_type,
   _swigc__p_std__allocatorT_int_t,
   _swigc__p_std__allocatorT_std__string_t,
   _swigc__p_std__invalid_argument,
-  _swigc__p_std__shared_ptrT_IODevice_t,
+  _swigc__p_std__vectorT_IODevice_p_std__allocatorT_mixal__IODevice_p_t_t,
   _swigc__p_std__vectorT_int_std__allocatorT_int_t_t,
-  _swigc__p_std__vectorT_std__shared_ptrT_IODevice_t_std__allocatorT_std__shared_ptrT_IODevice_t_t_t,
   _swigc__p_std__vectorT_std__string_std__allocatorT_std__string_t_t,
   _swigc__p_swig__SwigPyIterator,
   _swigc__p_uint16_t,
@@ -14686,6 +16462,16 @@ SWIG_init(void) {
   SWIG_Python_SetConstant(d, "Computer_NUM_INDEX_REGISTER",SWIG_From_int(static_cast< int >(mixal::Computer::NUM_INDEX_REGISTER)));
   SWIG_Python_SetConstant(d, "Computer_NUM_MEMORY",SWIG_From_int(static_cast< int >(mixal::Computer::NUM_MEMORY)));
   SWIG_Python_SetConstant(d, "Computer_NUM_IO_DEVICE",SWIG_From_int(static_cast< int >(mixal::Computer::NUM_IO_DEVICE)));
+  SWIG_Python_SetConstant(d, "IODeviceType_TAPE",SWIG_From_int(static_cast< int >(mixal::IODeviceType::TAPE)));
+  SWIG_Python_SetConstant(d, "IODeviceType_DISK",SWIG_From_int(static_cast< int >(mixal::IODeviceType::DISK)));
+  SWIG_Python_SetConstant(d, "IODeviceType_CARD_READER",SWIG_From_int(static_cast< int >(mixal::IODeviceType::CARD_READER)));
+  SWIG_Python_SetConstant(d, "IODeviceType_CARD_PUNCH",SWIG_From_int(static_cast< int >(mixal::IODeviceType::CARD_PUNCH)));
+  SWIG_Python_SetConstant(d, "IODeviceType_LINE_PRINTER",SWIG_From_int(static_cast< int >(mixal::IODeviceType::LINE_PRINTER)));
+  SWIG_Python_SetConstant(d, "IODeviceType_TYPEWRITER",SWIG_From_int(static_cast< int >(mixal::IODeviceType::TYPEWRITER)));
+  SWIG_Python_SetConstant(d, "IODeviceType_PAPER_TAPE",SWIG_From_int(static_cast< int >(mixal::IODeviceType::PAPER_TAPE)));
+  SWIG_Python_SetConstant(d, "IODeviceStatus_READY",SWIG_From_int(static_cast< int >(mixal::IODeviceStatus::READY)));
+  SWIG_Python_SetConstant(d, "IODeviceStatus_BUSY_READ",SWIG_From_int(static_cast< int >(mixal::IODeviceStatus::BUSY_READ)));
+  SWIG_Python_SetConstant(d, "IODeviceStatus_BUSY_WRITE",SWIG_From_int(static_cast< int >(mixal::IODeviceStatus::BUSY_WRITE)));
 #if PY_VERSION_HEX >= 0x03000000
   return m;
 #else

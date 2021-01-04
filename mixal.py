@@ -62,7 +62,7 @@ class _SwigNonDynamicMeta(type):
 
 
 
-__version__ = '1.157.13'
+__version__ = '1.168.14'
 
 class SwigPyIterator(object):
     thisown = property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc="The membership flag")
@@ -467,6 +467,7 @@ class Computer(object):
 
     def __init__(self):
         _mixal.Computer_swiginit(self, _mixal.new_Computer())
+    __swig_destroy__ = _mixal.delete_Computer
 
     def rI(self, index):
         return _mixal.Computer_rI(self, index)
@@ -482,6 +483,9 @@ class Computer(object):
 
     def waitDevices(self):
         return _mixal.Computer_waitDevices(self)
+
+    def getDeviceWordAt(self, device, index):
+        return _mixal.Computer_getDeviceWordAt(self, device, index)
 
     def reset(self):
         return _mixal.Computer_reset(self)
@@ -509,10 +513,200 @@ class Computer(object):
 
     def loadCodes(self, *args):
         return _mixal.Computer_loadCodes(self, *args)
-    __swig_destroy__ = _mixal.delete_Computer
 
 # Register Computer in _mixal:
 _mixal.Computer_swigregister(Computer)
+
+IODeviceType_TAPE = _mixal.IODeviceType_TAPE
+IODeviceType_DISK = _mixal.IODeviceType_DISK
+IODeviceType_CARD_READER = _mixal.IODeviceType_CARD_READER
+IODeviceType_CARD_PUNCH = _mixal.IODeviceType_CARD_PUNCH
+IODeviceType_LINE_PRINTER = _mixal.IODeviceType_LINE_PRINTER
+IODeviceType_TYPEWRITER = _mixal.IODeviceType_TYPEWRITER
+IODeviceType_PAPER_TAPE = _mixal.IODeviceType_PAPER_TAPE
+IODeviceStatus_READY = _mixal.IODeviceStatus_READY
+IODeviceStatus_BUSY_READ = _mixal.IODeviceStatus_BUSY_READ
+IODeviceStatus_BUSY_WRITE = _mixal.IODeviceStatus_BUSY_WRITE
+class IODevice(object):
+    thisown = property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc="The membership flag")
+
+    def __init__(self, *args, **kwargs):
+        raise AttributeError("No constructor defined - class is abstract")
+    __repr__ = _swig_repr
+    __swig_destroy__ = _mixal.delete_IODevice
+
+    def type(self):
+        return _mixal.IODevice_type(self)
+
+    def blockSize(self):
+        return _mixal.IODevice_blockSize(self)
+
+    def allowRead(self):
+        return _mixal.IODevice_allowRead(self)
+
+    def allowWrite(self):
+        return _mixal.IODevice_allowWrite(self)
+
+    def ready(self, elapsed):
+        return _mixal.IODevice_ready(self, elapsed)
+
+    def control(self, arg2):
+        return _mixal.IODevice_control(self, arg2)
+
+    def read(self, memory, address):
+        return _mixal.IODevice_read(self, memory, address)
+
+    def write(self, memory, address):
+        return _mixal.IODevice_write(self, memory, address)
+
+    def wordAt(self, index):
+        return _mixal.IODevice_wordAt(self, index)
+
+# Register IODevice in _mixal:
+_mixal.IODevice_swigregister(IODevice)
+
+class IODeviceStorage(IODevice):
+    thisown = property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc="The membership flag")
+    __repr__ = _swig_repr
+
+    def __init__(self, *args):
+        _mixal.IODeviceStorage_swiginit(self, _mixal.new_IODeviceStorage(*args))
+
+    def ready(self, elapsed):
+        return _mixal.IODeviceStorage_ready(self, elapsed)
+
+    def read(self, memory, address):
+        return _mixal.IODeviceStorage_read(self, memory, address)
+
+    def write(self, memory, address):
+        return _mixal.IODeviceStorage_write(self, memory, address)
+
+    def wordAt(self, index):
+        return _mixal.IODeviceStorage_wordAt(self, index)
+    __swig_destroy__ = _mixal.delete_IODeviceStorage
+
+# Register IODeviceStorage in _mixal:
+_mixal.IODeviceStorage_swigregister(IODeviceStorage)
+
+class IODeviceTape(IODeviceStorage):
+    thisown = property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc="The membership flag")
+    __repr__ = _swig_repr
+
+    def __init__(self, storageSize=4096):
+        _mixal.IODeviceTape_swiginit(self, _mixal.new_IODeviceTape(storageSize))
+
+    def control(self, operation):
+        return _mixal.IODeviceTape_control(self, operation)
+    __swig_destroy__ = _mixal.delete_IODeviceTape
+
+# Register IODeviceTape in _mixal:
+_mixal.IODeviceTape_swigregister(IODeviceTape)
+
+class IODeviceDisk(IODeviceStorage):
+    thisown = property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc="The membership flag")
+    __repr__ = _swig_repr
+
+    def __init__(self, storageSize=4096):
+        _mixal.IODeviceDisk_swiginit(self, _mixal.new_IODeviceDisk(storageSize))
+
+    def control(self, operation):
+        return _mixal.IODeviceDisk_control(self, operation)
+    __swig_destroy__ = _mixal.delete_IODeviceDisk
+
+# Register IODeviceDisk in _mixal:
+_mixal.IODeviceDisk_swigregister(IODeviceDisk)
+
+class IODeviceSeqReader(IODeviceStorage):
+    thisown = property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc="The membership flag")
+    __repr__ = _swig_repr
+
+    def __init__(self, storageSize=4096):
+        _mixal.IODeviceSeqReader_swiginit(self, _mixal.new_IODeviceSeqReader(storageSize))
+    __swig_destroy__ = _mixal.delete_IODeviceSeqReader
+
+# Register IODeviceSeqReader in _mixal:
+_mixal.IODeviceSeqReader_swigregister(IODeviceSeqReader)
+
+class IODeviceSeqWriter(IODeviceStorage):
+    thisown = property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc="The membership flag")
+    __repr__ = _swig_repr
+
+    def __init__(self, storageSize=4096):
+        _mixal.IODeviceSeqWriter_swiginit(self, _mixal.new_IODeviceSeqWriter(storageSize))
+    __swig_destroy__ = _mixal.delete_IODeviceSeqWriter
+
+# Register IODeviceSeqWriter in _mixal:
+_mixal.IODeviceSeqWriter_swigregister(IODeviceSeqWriter)
+
+class IODeviceCardReader(IODeviceSeqReader):
+    thisown = property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc="The membership flag")
+    __repr__ = _swig_repr
+
+    def __init__(self, storageSize=4096):
+        _mixal.IODeviceCardReader_swiginit(self, _mixal.new_IODeviceCardReader(storageSize))
+    __swig_destroy__ = _mixal.delete_IODeviceCardReader
+
+# Register IODeviceCardReader in _mixal:
+_mixal.IODeviceCardReader_swigregister(IODeviceCardReader)
+
+class IODeviceCardPunch(IODeviceSeqWriter):
+    thisown = property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc="The membership flag")
+    __repr__ = _swig_repr
+
+    def __init__(self, storageSize=4096):
+        _mixal.IODeviceCardPunch_swiginit(self, _mixal.new_IODeviceCardPunch(storageSize))
+    __swig_destroy__ = _mixal.delete_IODeviceCardPunch
+
+# Register IODeviceCardPunch in _mixal:
+_mixal.IODeviceCardPunch_swigregister(IODeviceCardPunch)
+
+class IODeviceLinePrinter(IODeviceSeqWriter):
+    thisown = property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc="The membership flag")
+    __repr__ = _swig_repr
+
+    def __init__(self, storageSize=4096, pageSize=20):
+        _mixal.IODeviceLinePrinter_swiginit(self, _mixal.new_IODeviceLinePrinter(storageSize, pageSize))
+
+    def control(self, operation):
+        return _mixal.IODeviceLinePrinter_control(self, operation)
+
+    def pageSize(self):
+        return _mixal.IODeviceLinePrinter_pageSize(self)
+
+    def pageOffsetAt(self, index):
+        return _mixal.IODeviceLinePrinter_pageOffsetAt(self, index)
+
+    def line(self, pageNum, lineNum):
+        return _mixal.IODeviceLinePrinter_line(self, pageNum, lineNum)
+    __swig_destroy__ = _mixal.delete_IODeviceLinePrinter
+
+# Register IODeviceLinePrinter in _mixal:
+_mixal.IODeviceLinePrinter_swigregister(IODeviceLinePrinter)
+
+class IODeviceTypewriter(IODeviceSeqReader):
+    thisown = property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc="The membership flag")
+    __repr__ = _swig_repr
+
+    def __init__(self, storageSize=4096):
+        _mixal.IODeviceTypewriter_swiginit(self, _mixal.new_IODeviceTypewriter(storageSize))
+    __swig_destroy__ = _mixal.delete_IODeviceTypewriter
+
+# Register IODeviceTypewriter in _mixal:
+_mixal.IODeviceTypewriter_swigregister(IODeviceTypewriter)
+
+class IODevicePaperTape(IODeviceSeqReader):
+    thisown = property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc="The membership flag")
+    __repr__ = _swig_repr
+
+    def __init__(self, storageSize=4096):
+        _mixal.IODevicePaperTape_swiginit(self, _mixal.new_IODevicePaperTape(storageSize))
+
+    def control(self, operation):
+        return _mixal.IODevicePaperTape_control(self, operation)
+    __swig_destroy__ = _mixal.delete_IODevicePaperTape
+
+# Register IODevicePaperTape in _mixal:
+_mixal.IODevicePaperTape_swigregister(IODevicePaperTape)
 
 
 

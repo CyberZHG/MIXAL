@@ -25,6 +25,12 @@ Register2& Computer::rI(int index) {
     throw RuntimeError(_lineOffset, "Invalid offset for index register: " + std::to_string(index));
 }
 
+Computer::~Computer() {
+    for (size_t i = 0; i < devices.size(); ++i) {
+        delete devices[i];
+    }
+}
+
 const ComputerWord& Computer::memoryAt(int16_t index) const {
     return memory[index];
 }
@@ -351,6 +357,17 @@ void Computer::loadCodes(const std::vector<std::string>& codes, bool addHalt) {
                 expressions[result.rawLocation] = &result.address;
                 break;
             case Instructions::ORIG:
+                if (result.rawAddress.find('*') == std::string::npos) {
+                    if (!result.rawLocation.empty()) {
+                        expressions[result.rawLocation] = &result.address;
+                    }
+                } else {
+                     // When there is a `*` in the address, the location should equal to
+                     // the `*` value before the calculation.
+                    result.location = Expression::getConstOffsetExpression(lineBase, lineOffset);
+                    expressions[result.rawLocation] = &result.location;
+                    expressions[lineSymbol] = &result.location;
+                }
                 lineBase = getPesudoSymbolname();
                 expressions[lineBase] = &result.address;
                 lineOffset = 0;
@@ -468,8 +485,10 @@ void Computer::loadCodes(const std::vector<std::string>& codes, bool addHalt) {
         auto& symbol = tasks.begin()->second;
         auto& expression = expressions[symbol];
         if (tasks.begin()->first != 0 || !expression->evaluate(evaluated)) {
-            throw RuntimeError(0, "Unresolved symbol found while trying to calcuate: " +
-                                  tasks.begin()->second);
+            std::ostringstream oss;
+            oss << "Unresolved symbol found while trying to calcuate: ";
+            oss << tasks.begin()->second << "=" << *expression;
+            throw RuntimeError(0, oss.str());
         }
         evaluated[symbol] = expression->result();
         tasks.erase({0, symbol});
