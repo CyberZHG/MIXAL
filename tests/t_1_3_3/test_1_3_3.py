@@ -29,3 +29,15 @@ class TestSample(TestCase):
             output += self.computer.getDeviceWordAt(18, i).getCharacters()
         self.assertEqual('    (  A    D    G  )        (  C    E    B  )    ', output)
         print('Cost:', self.computer.elapsed())
+
+    def test_b_same_effects_as_a(self):
+        self.load_codes('b_same_effects_as_a')
+        input_text = '    (  A    C    F    G  )        (  B    C    D  )        (  A    E    D  )    ' \
+                     '    (  F    A    D    E  )        (  B    G    F    A    E  )                  ='
+        self.init_input_device(16, input_text)
+        self.computer.executeUntilHalt()
+        output = ''
+        for i in range(48, 58):
+            output += self.computer.getDeviceWordAt(18, i).getCharacters()
+        self.assertEqual('    (  C    E    B  )        (  D    G    A  )    ', output)
+        print('Cost:', self.computer.elapsed())

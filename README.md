@@ -80,7 +80,7 @@ print('Actual:', computer.rA.value())
 print('Compute Cost:', computer.elapsed())
 ```
 
-# IO Device
+# IO Devices
 
 There are several pre-defined IO devices in the environment. You can set the initial values of the input devices before the execution. Following is the code that reads one word from the input device and writes the same one to the output device.
 
@@ -94,12 +94,12 @@ computer = mixal.Computer()
 card_reader_index = 16
 card_punch_index = 17
 
-computer.loadCodes(f"""
+computer.loadCodes("""
         ORIG 3000
-        IN   100({card_reader_index})
-LIN     JBUS LIN({card_reader_index})
-        OUT  100({card_punch_index})
-LOUT    JBUS LOUT({card_punch_index})
+        IN   100(16)
+LIN     JBUS LIN(16)
+        OUT  100(17)
+LOUT    JBUS LOUT(17)
         """)
 # Set the initial value of input device
 computer.getDeviceWordAt(card_reader_index, 0).set('PRIME')

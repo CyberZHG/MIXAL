@@ -8,7 +8,7 @@ using namespace mixal;
 %}
 
 %pythoncode %{
-__version__ = '1.168.14'
+__version__ = '1.175.15'
 %}
 
 %typemap(typecheck) uint8_t {

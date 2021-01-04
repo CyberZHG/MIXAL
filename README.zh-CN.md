@@ -92,12 +92,12 @@ computer = mixal.Computer()
 card_reader_index = 16
 card_punch_index = 17
 
-computer.loadCodes(f"""
+computer.loadCodes("""
         ORIG 3000
-        IN   100({card_reader_index})
-LIN     JBUS LIN({card_reader_index})
-        OUT  100({card_punch_index})
-LOUT    JBUS LOUT({card_punch_index})
+        IN   100(16)
+LIN     JBUS LIN(16)
+        OUT  100(17)
+LOUT    JBUS LOUT(17)
         """)
 # 设置输入的初始值
 computer.getDeviceWordAt(card_reader_index, 0).set('PRIME')
