@@ -125,7 +125,7 @@ Sample</h1>
 <div class="line"># The units of time for executing the codes, exclude the halt operation.</div>
 <div class="line">print(&#39;Compute Cost:&#39;, computer.elapsed())</div>
 </div><!-- fragment --><h1><a class="anchor" id="autotoc_md2"></a>
-IO Device</h1>
+IO Devices</h1>
 <p>There are several pre-defined IO devices in the environment. You can set the initial values of the input devices before the execution. Following is the code that reads one word from the input device and writes the same one to the output device.</p>
 <div class="fragment"><div class="line">import mixal</div>
 <div class="line"> </div>
@@ -136,12 +136,12 @@ IO Device</h1>
 <div class="line">card_reader_index = 16</div>
 <div class="line">card_punch_index = 17</div>
 <div class="line"> </div>
-<div class="line">computer.loadCodes(f&quot;&quot;&quot;</div>
+<div class="line">computer.loadCodes(&quot;&quot;&quot;</div>
 <div class="line">        ORIG 3000</div>
-<div class="line">        IN   100({card_reader_index})</div>
-<div class="line">LIN     JBUS LIN({card_reader_index})</div>
-<div class="line">        OUT  100({card_punch_index})</div>
-<div class="line">LOUT    JBUS LOUT({card_punch_index})</div>
+<div class="line">        IN   100(16)</div>
+<div class="line">LIN     JBUS LIN(16)</div>
+<div class="line">        OUT  100(17)</div>
+<div class="line">LOUT    JBUS LOUT(17)</div>
 <div class="line">        &quot;&quot;&quot;)</div>
 <div class="line"># Set the initial value of input device</div>
 <div class="line">computer.getDeviceWordAt(card_reader_index, 0).set(&#39;PRIME&#39;)</div>
