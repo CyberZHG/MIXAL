@@ -30,8 +30,8 @@ function initDeviceMappingArray() {
     for (let i = 0; i <= 20; ++i) {
         if (i <= 8) {
             DEVICE_NAME_MAPPING[`magnetic_tape_${i}`] = i;
-            DEVICE_NAME_MAPPING[`disk_${i}`] = 8 + i;
-            DEVICE_NAME_MAPPING[`drum_${i}`] = 8 + i;
+            DEVICE_NAME_MAPPING[`disk_${8 + i}`] = 8 + i;
+            DEVICE_NAME_MAPPING[`drum_${8 + i}`] = 8 + i;
         }
         DEVICE_NAME_MAPPING[`device_${i}`] = i;
     }
