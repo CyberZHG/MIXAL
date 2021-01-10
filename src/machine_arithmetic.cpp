@@ -13,12 +13,12 @@ namespace mixal {
  * @see overflow
  */
 void Computer::executeADD(const InstructionWord& instruction) {
-    int32_t valueA = rA.value();
+    const int32_t valueA = rA.value();
     ComputerWord word;
-    int address = getIndexedAddress(instruction, true);
+    const int address = getIndexedAddress(instruction, true);
     copyToRegister5(instruction, memory[address], &word);
-    int32_t valueM = word.value();
-    int32_t result = valueA + valueM;
+    const int32_t valueM = word.value();
+    const int32_t result = valueA + valueM;
     rA.set(checkRange(result));
 }
 
@@ -27,13 +27,13 @@ void Computer::executeADD(const InstructionWord& instruction) {
  * @see overflow
  */
 void Computer::executeSUB(const InstructionWord& instruction) {
-    int32_t valueA = rA.value();
+    const int32_t valueA = rA.value();
     ComputerWord word;
-    int address = getIndexedAddress(instruction, true);
+    const int address = getIndexedAddress(instruction, true);
     copyToRegister5(instruction, memory[address], &word);
     word.negative = !word.negative;
-    int32_t valueM = word.value();
-    int32_t result = valueA + valueM;
+    const int32_t valueM = word.value();
+    const int32_t result = valueA + valueM;
     rA.set(checkRange(result));
 }
 
@@ -42,12 +42,12 @@ void Computer::executeSUB(const InstructionWord& instruction) {
  * Note that overflow will never be triggered.
  */
 void Computer::executeMUL(const InstructionWord& instruction) {
-    int32_t valueA = rA.value();
+    const int32_t valueA = rA.value();
     ComputerWord word;
-    int address = getIndexedAddress(instruction, true);
+    const int address = getIndexedAddress(instruction, true);
     copyToRegister5(instruction, memory[address], &word);
-    int32_t valueM = word.value();
-    int64_t result = static_cast<int64_t>(valueA) * static_cast<int64_t>(valueM);
+    const int32_t valueM = word.value();
+    const int64_t result = static_cast<int64_t>(valueA) * static_cast<int64_t>(valueM);
     rA.set(result / (1 << 30));
     rX.set(result % (1 << 30));
 }
@@ -61,16 +61,16 @@ void Computer::executeMUL(const InstructionWord& instruction) {
  * @throw mixal::RuntimeError When the divisor is 0.
  */
 void Computer::executeDIV(const InstructionWord& instruction) {
-    int32_t valueA = std::abs(rA.value());
-    int32_t valueX = std::abs(rX.value());
+    const int32_t valueA = std::abs(rA.value());
+    const int32_t valueX = std::abs(rX.value());
     int64_t dividend = (static_cast<int64_t>(valueA) << 30) + static_cast<int64_t>(valueX);
     if (rA.negative) {
         dividend = -dividend;
     }
     ComputerWord word;
-    int address = getIndexedAddress(instruction, true);
+    const int address = getIndexedAddress(instruction, true);
     copyToRegister5(instruction, memory[address], &word);
-    int32_t divisor = word.value();
+    const int32_t divisor = word.value();
     if (divisor == 0) {
         throw RuntimeError(_lineOffset, "Divisor cannot be 0");
     }
@@ -79,7 +79,7 @@ void Computer::executeDIV(const InstructionWord& instruction) {
         overflow = true;
         quotient %= (1 << 30);
     }
-    int32_t remainder = dividend % divisor;
+    const int32_t remainder = dividend % divisor;
     rA.set(static_cast<int32_t>(quotient));
     rX.set(remainder);
 }

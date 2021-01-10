@@ -10,8 +10,8 @@ namespace mixal {
 
 /** Shift left rA padded with zeros. */
 void Computer::executeSLA(const InstructionWord& instruction) {
-    int32_t address = getIndexedAddress(instruction);
-    int32_t shift = (address + 10000) % 5;
+    const int32_t address = getIndexedAddress(instruction);
+    const int32_t shift = (address + 10000) % 5;
     if (shift) {
         for (int i = 1; i <= (5 - shift); ++i) {
             rA[i] = rA[i + shift];
@@ -24,8 +24,8 @@ void Computer::executeSLA(const InstructionWord& instruction) {
 
 /** Shift right rA padded with zeros. */
 void Computer::executeSRA(const InstructionWord& instruction) {
-    int32_t address = getIndexedAddress(instruction);
-    int32_t shift = (address + 10000) % 5;
+    const int32_t address = getIndexedAddress(instruction);
+    const int32_t shift = (address + 10000) % 5;
     if (shift) {
         for (int i = 5; i > shift; --i) {
             rA[i] = rA[i - shift];
@@ -38,8 +38,8 @@ void Computer::executeSRA(const InstructionWord& instruction) {
 
 /** Shift left rA and rX padded with zeros. */
 void Computer::executeSLAX(const InstructionWord& instruction) {
-    int32_t address = getIndexedAddress(instruction);
-    int32_t shift = (address + 10000) % 10;
+    const int32_t address = getIndexedAddress(instruction);
+    const int32_t shift = (address + 10000) % 10;
     if (shift) {
         for (int i = 1; i <= (10 - shift); ++i) {
             setAX(i, getAX(i + shift));
@@ -52,8 +52,8 @@ void Computer::executeSLAX(const InstructionWord& instruction) {
 
 /** Shift right rA and rX padded with zeros. */
 void Computer::executeSRAX(const InstructionWord& instruction) {
-    int32_t address = getIndexedAddress(instruction);
-    int32_t shift = (address + 10000) % 10;
+    const int32_t address = getIndexedAddress(instruction);
+    const int32_t shift = (address + 10000) % 10;
     if (shift) {
         for (int i = 10; i > shift; --i) {
             setAX(i, getAX(i - shift));
@@ -66,16 +66,16 @@ void Computer::executeSRAX(const InstructionWord& instruction) {
 
 /** Shift left rA and rX circularly. */
 void Computer::executeSLC(const InstructionWord& instruction) {
-    int32_t address = getIndexedAddress(instruction);
-    int32_t shift = (address + 10000) % 10;
+    const int32_t address = getIndexedAddress(instruction);
+    const int32_t shift = (address + 10000) % 10;
     if (shift) {
         auto swap = [&](int start, int stop) {
-            int mid = start + (stop - start) / 2;
+            const int mid = start + (stop - start) / 2;
             for (int i = start; i < mid; ++i) {
-                int oppsite = stop - 1 - (i - start);
-                uint8_t temp = getAX(i);
-                setAX(i, getAX(oppsite));
-                setAX(oppsite, temp);
+                const int opposite = stop - 1 - (i - start);
+                const uint8_t temp = getAX(i);
+                setAX(i, getAX(opposite));
+                setAX(opposite, temp);
             }
         };
         swap(1, shift + 1);
@@ -86,16 +86,16 @@ void Computer::executeSLC(const InstructionWord& instruction) {
 
 /** Shift right rA and rX circularly. */
 void Computer::executeSRC(const InstructionWord& instruction) {
-    int32_t address = getIndexedAddress(instruction);
-    int32_t shift = (address + 10000) % 10;
+    const int32_t address = getIndexedAddress(instruction);
+    const int32_t shift = (address + 10000) % 10;
     if (shift) {
         auto swap = [&](int start, int stop) {
-            int mid = start + (stop - start) / 2;
+            const int mid = start + (stop - start) / 2;
             for (int i = start; i < mid; ++i) {
-                int oppsite = stop - 1 - (i - start);
-                uint8_t temp = getAX(i);
-                setAX(i, getAX(oppsite));
-                setAX(oppsite, temp);
+                const int opposite = stop - 1 - (i - start);
+                const uint8_t temp = getAX(i);
+                setAX(i, getAX(opposite));
+                setAX(opposite, temp);
             }
         };
         swap(1, 11 - shift);
@@ -110,13 +110,13 @@ void Computer::executeSRC(const InstructionWord& instruction) {
  * Nothing happens if the address is out of range.
  */
 void Computer::executeMOVE(const InstructionWord& instruction) {
-    int32_t originAddress = getIndexedAddress(instruction);
-    int32_t targetAddress = rI1.value();
-    uint8_t amount = instruction.field();
+    const int32_t originAddress = getIndexedAddress(instruction);
+    const int32_t targetAddress = rI1.value();
+    const uint8_t amount = instruction.field();
     for (uint8_t i = 0; i < amount; ++i) {
-        int32_t target = targetAddress + i;
-        int32_t origin = originAddress + i;
-        if (target < 0 || target >= NUM_MEMORY) {
+        const int32_t target = targetAddress + i;
+        const int32_t origin = originAddress + i;
+        if (origin < 0 || origin >= NUM_MEMORY || target < 0 || target >= NUM_MEMORY) {
             continue;
         }
         memory[target] = memory[origin];

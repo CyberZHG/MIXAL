@@ -25,7 +25,7 @@ enum class ParseState {
     ADDRESS,          /**< The base address. */
     BEFORE_INDEX,     /**< The comma. */
     INDEX,            /**< The index. */
-    FIELD_OPEN,       /**< The open bracket of the, field. */
+    FIELD_OPEN,       /**< The open bracket of the field. */
     FIELD,            /**< The field. */
     FIELD_CLOSE,      /**< The close bracket of the field. */
     BEFORE_COMMENT,   /**< The spaces before comment. */

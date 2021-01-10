@@ -20,7 +20,7 @@ void Computer::executeJMP(const InstructionWord& instruction) {
 
 /** Jump without updating rJ. */
 void Computer::executeJSJ(const InstructionWord& instruction) {
-    int32_t address = getIndexedAddress(instruction, true);
+    const int32_t address = getIndexedAddress(instruction, true);
     _lineOffset = address - 1;
 }
 
@@ -96,7 +96,7 @@ void Computer::executeJGE(const InstructionWord& instruction) {
  */
 void Computer::executeJNE(const InstructionWord& instruction) {
     if (comparison != ComparisonIndicator::EQUAL) {
-        int32_t address = getIndexedAddress(instruction, true);
+        const int32_t address = getIndexedAddress(instruction, true);
         rJ.set(_lineOffset + 1);
         _lineOffset = address - 1;
     }
@@ -156,8 +156,8 @@ void Computer::executeJNP(const InstructionWord& instruction, Register5* reg) {
 
 /** Jump when rI is negative. */
 void Computer::executeJiN(const InstructionWord& instruction) {
-    int registerIndex = instruction.operation() - Instructions::J1N + 1;
-    auto rIi = rI(registerIndex);
+    const int registerIndex = instruction.operation() - Instructions::J1N + 1;
+    const auto& rIi = rI(registerIndex);
     if (rIi.value() < 0) {
         this->executeJMP(instruction);
     }
@@ -165,8 +165,8 @@ void Computer::executeJiN(const InstructionWord& instruction) {
 
 /** Jump when rI is zero. */
 void Computer::executeJiZ(const InstructionWord& instruction) {
-    int registerIndex = instruction.operation() - Instructions::J1N + 1;
-    auto& rIi = rI(registerIndex);
+    const int registerIndex = instruction.operation() - Instructions::J1N + 1;
+    const auto& rIi = rI(registerIndex);
     if (rIi.value() == 0) {
         this->executeJMP(instruction);
     }
@@ -174,8 +174,8 @@ void Computer::executeJiZ(const InstructionWord& instruction) {
 
 /** Jump when rI is positive. */
 void Computer::executeJiP(const InstructionWord& instruction) {
-    int registerIndex = instruction.operation() - Instructions::J1N + 1;
-    auto& rIi = rI(registerIndex);
+    const int registerIndex = instruction.operation() - Instructions::J1N + 1;
+    const auto& rIi = rI(registerIndex);
     if (rIi.value() > 0) {
         this->executeJMP(instruction);
     }
@@ -183,8 +183,8 @@ void Computer::executeJiP(const InstructionWord& instruction) {
 
 /** Jump when rI is non-negative. */
 void Computer::executeJiNN(const InstructionWord& instruction) {
-    int registerIndex = instruction.operation() - Instructions::J1N + 1;
-    auto& rIi = rI(registerIndex);
+    const int registerIndex = instruction.operation() - Instructions::J1N + 1;
+    const auto& rIi = rI(registerIndex);
     if (rIi.value() >= 0) {
         this->executeJMP(instruction);
     }
@@ -192,8 +192,8 @@ void Computer::executeJiNN(const InstructionWord& instruction) {
 
 /** Jump when rI is not zero. */
 void Computer::executeJiNZ(const InstructionWord& instruction) {
-    int registerIndex = instruction.operation() - Instructions::J1N + 1;
-    auto& rIi = rI(registerIndex);
+    const int registerIndex = instruction.operation() - Instructions::J1N + 1;
+    const auto& rIi = rI(registerIndex);
     if (rIi.value() != 0) {
         this->executeJMP(instruction);
     }
@@ -201,8 +201,8 @@ void Computer::executeJiNZ(const InstructionWord& instruction) {
 
 /** Jump when rI is non-positive. */
 void Computer::executeJiNP(const InstructionWord& instruction) {
-    int registerIndex = instruction.operation() - Instructions::J1N + 1;
-    auto& rIi = rI(registerIndex);
+    const int registerIndex = instruction.operation() - Instructions::J1N + 1;
+    const auto& rIi = rI(registerIndex);
     if (rIi.value() <= 0) {
         this->executeJMP(instruction);
     }

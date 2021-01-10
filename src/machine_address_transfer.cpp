@@ -13,26 +13,24 @@ namespace mixal {
  * @see overflow
  */
 void Computer::executeINC(const InstructionWord& instruction, Register5* reg) {
-    int32_t value = reg->value();
-    int32_t address = getIndexedAddress(instruction);
-    value += address;
-    reg->set(checkRange(value));
+    const int32_t value = reg->value();
+    const int32_t address = getIndexedAddress(instruction);
+    reg->set(checkRange(value + address));
 }
 
 /** Decrease rA or rX by the address value.
- * 
+ *
  * @see overflow
  */
 void Computer::executeDEC(const InstructionWord& instruction, Register5* reg) {
-    int32_t value = reg->value();
-    int32_t address = getIndexedAddress(instruction);
-    value -= address;
-    reg->set(checkRange(value));
+    const int32_t value = reg->value();
+    const int32_t address = getIndexedAddress(instruction);
+    reg->set(checkRange(value - address));
 }
 
 /** Enter the immediate address value to rA or rX. */
 void Computer::executeENT(const InstructionWord& instruction, Register5* reg) {
-    int32_t address = getIndexedAddress(instruction);
+    const int32_t address = getIndexedAddress(instruction);
     reg->set(address);
     if (address == 0) {
         reg->negative = instruction.negative;
@@ -41,7 +39,7 @@ void Computer::executeENT(const InstructionWord& instruction, Register5* reg) {
 
 /** Enter the negative immediate address value to rA or rX. */
 void Computer::executeENN(const InstructionWord& instruction, Register5* reg) {
-    int32_t address = getIndexedAddress(instruction);
+    const int32_t address = getIndexedAddress(instruction);
     reg->set(-address);
     if (address == 0) {
         reg->negative = !instruction.negative;
@@ -50,29 +48,27 @@ void Computer::executeENN(const InstructionWord& instruction, Register5* reg) {
 
 /** Increase rI by the address value. */
 void Computer::executeINCi(const InstructionWord& instruction) {
-    int registerIndex = instruction.operation() - Instructions::INC1 + 1;
+    const int registerIndex = instruction.operation() - Instructions::INC1 + 1;
     auto& rIi = rI(registerIndex);
-    int16_t value = rIi.value();
-    int16_t address = getIndexedAddress(instruction);
-    value += address;
-    rIi.set(checkRange(value, 2));
+    const int16_t value = rIi.value();
+    const int16_t address = getIndexedAddress(instruction);
+    rIi.set(checkRange(value + address, 2));
 }
 
 /** Decrease rI by the address value. */
 void Computer::executeDECi(const InstructionWord& instruction) {
-    int registerIndex = instruction.operation() - Instructions::INC1 + 1;
+    const int registerIndex = instruction.operation() - Instructions::INC1 + 1;
     auto& rIi = rI(registerIndex);
-    int16_t value = rIi.value();
-    int16_t address = getIndexedAddress(instruction);
-    value -= address;
-    rIi.set(checkRange(value, 2));
+    const int16_t value = rIi.value();
+    const int16_t address = getIndexedAddress(instruction);
+    rIi.set(checkRange(value - address, 2));
 }
 
 /** Enter address value to rI. */
 void Computer::executeENTi(const InstructionWord& instruction) {
-    int registerIndex = instruction.operation() - Instructions::INC1 + 1;
+    const int registerIndex = instruction.operation() - Instructions::INC1 + 1;
     auto& rIi = rI(registerIndex);
-    int16_t address = getIndexedAddress(instruction);
+    const int16_t address = getIndexedAddress(instruction);
     rIi.set(checkRange(address, 2));
     if (address == 0) {
         rIi.negative = instruction.negative;
@@ -81,9 +77,9 @@ void Computer::executeENTi(const InstructionWord& instruction) {
 
 /** Enter negative address value to rI. */
 void Computer::executeENNi(const InstructionWord& instruction) {
-    int registerIndex = instruction.operation() - Instructions::INC1 + 1;
+    const int registerIndex = instruction.operation() - Instructions::INC1 + 1;
     auto& rIi = rI(registerIndex);
-    int16_t address = getIndexedAddress(instruction);
+    const int16_t address = getIndexedAddress(instruction);
     rIi.set(checkRange(-address, 2));
     if (address == 0) {
         rIi.negative = !instruction.negative;
