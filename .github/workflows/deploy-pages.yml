@@ -34,16 +34,15 @@ jobs:
           cd ../wasm
           npm run build
 
-      # - name: Run Tests
-      #   run: |
-      #     cd web
-      #     npm install
-      #     npm run test
+      - name: Run Tests
+        run: |
+          cd web
+          npm install
+          npm run test
 
       - name: Build Pages
         run: |
           cd web
-          npm install
           npm run build
 
       - name: Deploy to GitHub Pages

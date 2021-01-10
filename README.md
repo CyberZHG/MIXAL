@@ -1,6 +1,11 @@
 MIXAL Emulator
 ==============
 
+[![C++ Unit Tests](https://github.com/CyberZHG/MIXAL/actions/workflows/cpp-unit-tests.yml/badge.svg)](https://github.com/CyberZHG/MIXAL/actions/workflows/cpp-unit-tests.yml)
+[![Python Build & Test](https://github.com/CyberZHG/MIXAL/actions/workflows/python-build-test.yml/badge.svg)](https://github.com/CyberZHG/MIXAL/actions/workflows/python-build-test.yml)
+[![WASM Build & Test](https://github.com/CyberZHG/MIXAL/actions/workflows/wasm-build-test.yml/badge.svg)](https://github.com/CyberZHG/MIXAL/actions/workflows/wasm-build-test.yml)[![Deploy Pages](https://github.com/CyberZHG/MIXAL/actions/workflows/deploy-pages.yml/badge.svg)](https://github.com/CyberZHG/MIXAL/actions/workflows/deploy-pages.yml)
+[![Coverage Status](https://coveralls.io/repos/github/CyberZHG/MIXAL/badge.svg?branch=main)](https://coveralls.io/github/CyberZHG/MIXAL?branch=main)
+
 A [MIX](https://en.wikipedia.org/wiki/MIX) assembly language emulator.
 
 [Online MIXAL Emulator](https://cyberzhg.github.io/MIXAL/)
