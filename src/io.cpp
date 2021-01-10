@@ -130,25 +130,23 @@ IODeviceCardPunch::IODeviceCardPunch(int32_t storageSize) : IODeviceSeqWriter(st
     _readyRate = 0.1;
 }
 
-IODeviceLinePrinter::IODeviceLinePrinter(int32_t storageSize, int32_t pageSize) :
-    IODeviceSeqWriter(storageSize), _pageSize(pageSize) {
+IODeviceLinePrinter::IODeviceLinePrinter(const int32_t storageSize, const int32_t numLinesPerPage) :
+    IODeviceSeqWriter(storageSize), _numLinesPerPage(numLinesPerPage) {
     _type = IODeviceType::LINE_PRINTER;
     _blockSize = 24;
     _readyRate = 0.1;
 }
 
 void IODeviceLinePrinter::control(int32_t) {
-    _locator += (_pageSize - _locator / _blockSize % _pageSize) * _blockSize;
+    const auto numWordsPerPage = NUM_WORDS_PER_LINE * _numLinesPerPage;
+    const auto currentPage = _locator / numWordsPerPage;
+    _locator = (currentPage + 1) * numWordsPerPage;
 }
 
-int32_t IODeviceLinePrinter::pageOffsetAt(int32_t index) const {
-    return index * _pageSize * _blockSize;
-}
-
-std::string IODeviceLinePrinter::line(int32_t pageNum, int32_t lineNum) const {
-    int32_t offset = pageOffsetAt(pageNum) + lineNum * _blockSize;
+std::string IODeviceLinePrinter::line(const int32_t pageNum, const int32_t lineNum) const {
+    const int32_t offset = pageNum * NUM_WORDS_PER_LINE * _numLinesPerPage + lineNum * NUM_WORDS_PER_LINE;
     std::ostringstream out;
-    for (int i = 0; i < _blockSize; ++i) {
+    for (int i = 0; i < NUM_WORDS_PER_LINE; ++i) {
         out << _storage[offset + i].getCharacters();
     }
     return out.str();

@@ -77,7 +77,9 @@ void Computer::executeUntilSelfLoop() {
             throw RuntimeError(_lineOffset, "Invalid code line: " + std::to_string(_lineOffset));
         }
         executeSingle(memory[_lineOffset]);
-        if (lastOffset == _lineOffset) {
+        if (memory[_lineOffset].operation() != Instructions::JBUS
+            && memory[_lineOffset].operation() != Instructions::JRED
+            && lastOffset == _lineOffset) {
             break;
         }
         lastOffset = _lineOffset;
@@ -96,6 +98,28 @@ void Computer::executeUntilHalt() {
             break;
         }
         executeSingle(memory[_lineOffset]);
+    }
+    waitDevices();
+}
+
+void Computer::executeUntilHaltOrSelfLoop() {
+    int32_t lastOffset = _lineOffset;
+    while (true) {
+        if (_lineOffset < 0 || NUM_MEMORY <= _lineOffset) {
+            throw RuntimeError(_lineOffset, "Invalid code line: " + std::to_string(_lineOffset));
+        }
+        if (memory[_lineOffset].operation() == Instructions::HLT &&
+            memory[_lineOffset].field() == 2) {
+            ++_lineOffset;
+            break;
+        }
+        executeSingle(memory[_lineOffset]);
+        if (memory[_lineOffset].operation() != Instructions::JBUS
+            && memory[_lineOffset].operation() != Instructions::JRED
+            && lastOffset == _lineOffset) {
+            break;
+        }
+        lastOffset = _lineOffset;
     }
     waitDevices();
 }

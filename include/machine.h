@@ -81,6 +81,8 @@ class Computer {
     void executeUntilSelfLoop();
     /** Execute instructions until the HLT operation has been met. */
     void executeUntilHalt();
+    /** Execute instructions until the HLT operation has been met or there is a self loop. */
+    void executeUntilHaltOrSelfLoop();
     /** Execute a single instruction based on the given instruction. */
     void executeSingle(ParsedResult* instruction);
     /** Execute a single instruction based on the given instruction. */

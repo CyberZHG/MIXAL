@@ -775,3 +775,45 @@ TEST(TestMachineJump, test_j6np_on) {
     EXPECT_EQ(-5, machine.rI6.value());
     EXPECT_EQ(3004, machine.rJ.value());
 }
+
+TEST(TestMachineJump, test_self_loop_1) {
+    mixal::Computer machine;
+    machine.loadCodes(std::vector<std::string>{
+        "     ORIG 3000",
+        "EXIT JMP  *",
+    });
+    machine.executeUntilSelfLoop();
+    EXPECT_EQ(3001, machine.rJ.value());
+}
+
+TEST(TestMachineJump, test_self_loop_2) {
+    mixal::Computer machine;
+    machine.loadCodes(std::vector<std::string>{
+        "     ORIG 3000",
+        "EXIT JMP  *",
+    });
+    machine.executeUntilHaltOrSelfLoop();
+    EXPECT_EQ(3001, machine.rJ.value());
+}
+
+TEST(TestMachineJump, test_code_find_maximum) {
+    mixal::Computer machine;
+    machine.loadCodes(std::vector<std::string>{
+        "X        EQU   1000",
+        "         ORIG  3000",
+        "MAXIMUM  STJ   EXIT",
+        "INIT     ENT3  0,1",
+        "         JMP   CHANGEM",
+        "LOOP     CMPA  X,3",
+        "         JGE   *+3",
+        "CHANGEM  ENT2  0,3",
+        "         LDA   X,3",
+         "        DEC3  1",
+        "         J3P   LOOP",
+        "EXIT     JMP   *",
+    });
+    machine.registerI1().set(1);
+    machine.registerJ().set(3009);
+    machine.executeUntilSelfLoop();
+    EXPECT_EQ(3010, machine.rJ.value());
+}

@@ -128,7 +128,7 @@ function executeWithSpec(code, ioSpec) {
         }
     }
 
-    computer.executeUntilHalt();
+    computer.executeUntilHaltOrSelfLoop();
 
     let results = {
         "program-counter": computer.line(),
@@ -183,13 +183,14 @@ function executeWithSpec(code, ioSpec) {
                         }
                     } else if (dataType === "text") {
                         result["values"] = ""
+                        const autoWrap = outputData["auto-wrap"] ?? false
                         for (let i = 0; i < length; ++i) {
-                            if (i !== 0 && i % 16 === 0 && (AUTO_WRAP_DEVICES.includes(name))) {
+                            if (autoWrap && i !== 0 && i % 16 === 0 && (AUTO_WRAP_DEVICES.includes(name))) {
                                 result["values"] += "\n";
                             }
                             result["values"] += wordAt(offset + i).getCharacters();
                         }
-                        if (AUTO_WRAP_DEVICES.includes(name)) {
+                        if (autoWrap && AUTO_WRAP_DEVICES.includes(name)) {
                             if (result["values"].includes("\n")) {
                                 result["values"] = result["values"].split("\n");
                             }

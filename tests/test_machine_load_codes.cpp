@@ -290,11 +290,15 @@ TEST(TestMachineLoadCodes, test_load_codes_prime) {
     EXPECT_EQ(mixal::ComputerWord(false, 19,  5,  4,  0, 17), machine.memory[1998]);
     EXPECT_EQ(mixal::ComputerWord(false, 19,  9, 14,  5, 22), machine.memory[1999]);
 
-    machine.executeUntilHalt();
+    machine.executeUntilHaltOrSelfLoop();
     auto linePrinter = reinterpret_cast<mixal::IODeviceLinePrinter*>(machine.getDevice(18));
-    std::vector<std::string> outputs;
+    std::vector<std::string> outputs(51);
+    auto offset = mixal::IODeviceLinePrinter::NUM_WORDS_PER_LINE * linePrinter->numLinesPerPage();
     for (int i = 0; i < 51; ++i) {
-        outputs.push_back(linePrinter->line(1, i).substr(0, 55));
+        for (int j = 0; j < 11; ++j) {
+            outputs[i] += linePrinter->wordAt(offset + j).getCharacters();
+        }
+        offset += linePrinter->blockSize();
     }
     std::vector<std::string> expects {
         "FIRST FIVE HUNDRED PRIMES                              ",

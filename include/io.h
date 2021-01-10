@@ -165,17 +165,18 @@ class IODeviceCardPunch final : public IODeviceSeqWriter {
 /** Line printer. */
 class IODeviceLinePrinter final : public IODeviceSeqWriter {
  public:
-    explicit IODeviceLinePrinter(int32_t storageSize = 4096, int32_t pageSize = 20);
+    static constexpr int NUM_CHARACTERS_PER_LINE = 80;
+    static constexpr int NUM_WORDS_PER_LINE = NUM_CHARACTERS_PER_LINE / 5;
+
+    explicit IODeviceLinePrinter(int32_t storageSize = 4096, int32_t numLinesPerPage = 60);
     /** Skip the printer to the top of the following page. */
     void control(int32_t operation) override;
-    /** Number of lines/blocks in one page. */
-    [[nodiscard]] int32_t pageSize() const { return _pageSize; }
-    /** Get the beginning offset of the page based on the given page number. */
-    [[nodiscard]] int32_t pageOffsetAt(int32_t index) const;
     /** Get the printed line with the given page number and line number in the page. */
     [[nodiscard]] std::string line(int32_t pageNum, int32_t lineNum) const;
+
+    [[nodiscard]] int32_t numLinesPerPage() const { return _numLinesPerPage; }
  private:
-    int32_t _pageSize;  /**< Number of lines/blocks in one page. */
+    int32_t _numLinesPerPage;  /**< Number of lines in one page. */
 };
 
 /** Typewriter. */

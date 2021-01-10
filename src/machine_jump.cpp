@@ -13,7 +13,7 @@ namespace mixal {
  * rJ will be set to the next instruction if the jump has not been occured.
  */
 void Computer::executeJMP(const InstructionWord& instruction) {
-    int32_t address = getIndexedAddress(instruction, true);
+    const int32_t address = getIndexedAddress(instruction, true);
     rJ.set(_lineOffset + 1);
     _lineOffset = address - 1;
 }

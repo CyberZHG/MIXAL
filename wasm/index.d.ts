@@ -40,6 +40,7 @@ declare module 'mixal' {
         executeSingle(): void
         executeUntilSelfLoop(): void
         executeUntilHalt(): void
+        executeUntilHaltOrSelfLoop(): void
         getDeviceWordAt(device: number, index: number): ComputerWord
         line(): number
         elapsed(): number

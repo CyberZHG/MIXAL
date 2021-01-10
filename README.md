@@ -3,7 +3,21 @@ MIXAL Emulator
 
 A [MIX](https://en.wikipedia.org/wiki/MIX) assembly language emulator.
 
+[Online MIXAL Emulator](https://cyberzhg.github.io/MIXAL/)
+
 ## Install
+
+Python (requires `cmake`): 
+
+```bash
+pip install mixal
+```
+
+NPM:
+
+```bash
+node i mixal-emulator
+```
 
 ## Sample
 

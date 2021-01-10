@@ -53,6 +53,7 @@ PYBIND11_MODULE(_core, m, py::mod_gil_not_used()) {
         .def("execute_single", py::overload_cast<>(&Computer::executeSingle))
         .def("execute_until_self_loop", &Computer::executeUntilSelfLoop)
         .def("execute_until_halt", &Computer::executeUntilHalt)
+        .def("execute_until_half_or_self_loop", &Computer::executeUntilHaltOrSelfLoop)
         .def("get_device_word_at", &Computer::getDeviceWordAt, py::arg("device"), py::arg("index"), py::return_value_policy::reference_internal)
         .def("line", &Computer::line)
         .def("elapsed", &Computer::elapsed)

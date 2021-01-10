@@ -43,6 +43,7 @@ EMSCRIPTEN_BINDINGS(MixalWASM) {
         .function("executeSingle", select_overload<void()>(&Computer::executeSingle))
         .function("executeUntilSelfLoop", &Computer::executeUntilSelfLoop)
         .function("executeUntilHalt", &Computer::executeUntilHalt)
+        .function("executeUntilHaltOrSelfLoop", &Computer::executeUntilHaltOrSelfLoop)
         .function("getDeviceWordAt", &Computer::getDeviceWordAt, return_value_policy::reference())
         .function("line", &Computer::line)
         .function("elapsed", &Computer::elapsed)
