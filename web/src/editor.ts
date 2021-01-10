@@ -45,21 +45,40 @@ const MIXAL_PSEUDO_KEYWORDS = ["EQU", "ORIG", "CON", "ALF", "END"]
 const MIXAL_PSEUDO_KEYWORDS_REGEX = new RegExp(`\\b(${MIXAL_PSEUDO_KEYWORDS.join("|")})\\b`, "g")
 
 function highlightMIXAL(code: string) : string {
-    return code
+    const PLUS_PH = '\x00PLUS\x00'
+    const MINUS_PH = '\x00MINUS\x00'
+    const STAR_PH = '\x00STAR\x00'
+    const COMMENT_PH = '\x00COMMENT\x00'
+    const comments: string[] = []
+
+    let result = code
         .replace(/&/g, '&amp;')
         .replace(/</g, '&lt;')
         .replace(/>/g, '&gt;')
         .replace(/"/g, '&quot;')
         .replace(/'/g, '&#39;')
-        .replace(/^((?:\S+[ \t]+|[ \t]+)(?:\S+[ \t]+){2})(\S.*)$/gm, '$1<span class="text-gray-400 italic">$2</span>')
         .replace(/^\*.*$/gm, (match) => {
-            return `<span class="text-gray-400 italic">${match}</span>`
+            comments.push(match)
+            return COMMENT_PH
         })
+        .replace(/\+/g, PLUS_PH)
+        .replace(/-/g, MINUS_PH)
+        .replace(/\*/g, STAR_PH)
+        .replace(/^((?:\S+[ \t]+|[ \t]+)(?:\S+[ \t]+){2})(\S.*)$/gm, '$1<span class="text-gray-400 italic">$2</span>')
         .replace(MIXAL_KEYWORDS_REGEX, (match) => {
             return `<span class="text-blue-700 font-bold">${match}</span>`
         })
         .replace(MIXAL_PSEUDO_KEYWORDS_REGEX, (match) => {
             return `<span class="text-blue-600 font-bold">${match}</span>`
+        })
+
+    let commentIndex = 0
+    return result
+        .replace(new RegExp(PLUS_PH, 'g'), '<span class="text-red-600">+</span>')
+        .replace(new RegExp(MINUS_PH, 'g'), '<span class="text-red-600">-</span>')
+        .replace(new RegExp(STAR_PH, 'g'), '<span class="text-red-600">*</span>')
+        .replace(new RegExp(COMMENT_PH, 'g'), () => {
+            return `<span class="text-gray-400 italic">${comments[commentIndex++]}</span>`
         })
 }
 
@@ -146,6 +165,19 @@ ioSpecEditor.addEventListener('scroll', () => {
     ioSpecLineNumbers.scrollTop = ioSpecEditor.scrollTop
 })
 
+function insertText(textarea: HTMLTextAreaElement, text: string) {
+    textarea.focus()
+    document.execCommand('insertText', false, text)
+}
+
+function setTextareaValue(textarea: HTMLTextAreaElement, newValue: string, selStart: number, selEnd: number) {
+    textarea.focus()
+    textarea.select()
+    document.execCommand('insertText', false, newValue)
+    textarea.selectionStart = selStart
+    textarea.selectionEnd = selEnd
+}
+
 ioSpecEditor.addEventListener('keydown', (e: KeyboardEvent) => {
     const start = ioSpecEditor.selectionStart
     const end = ioSpecEditor.selectionEnd
@@ -153,32 +185,60 @@ ioSpecEditor.addEventListener('keydown', (e: KeyboardEvent) => {
     if (e.key == "Enter") {
         e.preventDefault()
         const before = value.slice(0, start)
-        const after = value.slice(end)
         const lineStart = before.lastIndexOf('\n') + 1
         const currentLine = before.slice(lineStart)
         const indentMatch = currentLine.match(/^\s*/)
         const currentIndent = indentMatch ? indentMatch[0] : ''
         const shouldIndent = currentLine.trim().endsWith('{') || currentLine.trim().endsWith('[')
         const newIndent = shouldIndent ? currentIndent + "  " : currentIndent
-        const insertText = '\n' + newIndent
-        ioSpecEditor.value = before + insertText + after
-        ioSpecEditor.selectionStart = ioSpecEditor.selectionEnd = start + insertText.length
+        const insertTextStr = '\n' + newIndent
+        insertText(ioSpecEditor, insertTextStr)
         ioSpecEditor.dispatchEvent(new Event('input'))
     } else if (e.key == "Tab") {
         e.preventDefault()
         const before = value.slice(0, start)
+        const selected = value.slice(start, end)
         const after = value.slice(end)
-        if (e.shiftKey) {
-            if (before.endsWith("  ")) {
-                ioSpecEditor.value = before.slice(0, -2) + after
-                ioSpecEditor.selectionStart = ioSpecEditor.selectionEnd = start - 2
-            } else if (before.endsWith(" ")) {
-                ioSpecEditor.value = before.slice(0, -1) + after
-                ioSpecEditor.selectionStart = ioSpecEditor.selectionEnd = start - 1
+
+        // Check if selection spans multiple lines
+        if (selected.includes('\n')) {
+            // Multi-line indentation
+            const lineStart = before.lastIndexOf('\n') + 1
+            const lineEnd = end + (after.indexOf('\n') === -1 ? after.length : after.indexOf('\n'))
+            const selectedLines = value.slice(lineStart, lineEnd)
+
+            let newLines: string
+            let newSelStart: number
+            let newSelEnd: number
+
+            if (e.shiftKey) {
+                // Dedent: remove up to 2 spaces from each line start
+                newLines = selectedLines.replace(/^( {1,2})/gm, '')
+                const firstLineReduction = selectedLines.match(/^( {1,2})/) ? selectedLines.match(/^( {1,2})/)![1].length : 0
+                newSelStart = Math.max(lineStart, start - firstLineReduction)
+                newSelEnd = lineStart + newLines.length - (after.indexOf('\n') === -1 ? after.length : after.indexOf('\n'))
+            } else {
+                // Indent: add 2 spaces to each line start
+                newLines = selectedLines.replace(/^/gm, '  ')
+                newSelStart = start + 2
+                newSelEnd = lineStart + newLines.length - (after.indexOf('\n') === -1 ? after.length : after.indexOf('\n'))
             }
+
+            const newValue = value.slice(0, lineStart) + newLines + value.slice(lineEnd)
+            setTextareaValue(ioSpecEditor, newValue, newSelStart, newSelEnd)
         } else {
-            ioSpecEditor.value = before + "  " + after
-            ioSpecEditor.selectionStart = ioSpecEditor.selectionEnd = start + 2
+            // Single line or no selection
+            if (e.shiftKey) {
+                if (before.endsWith("  ")) {
+                    const newValue = before.slice(0, -2) + selected + after
+                    setTextareaValue(ioSpecEditor, newValue, start - 2, end - 2)
+                } else if (before.endsWith(" ")) {
+                    const newValue = before.slice(0, -1) + selected + after
+                    setTextareaValue(ioSpecEditor, newValue, start - 1, end - 1)
+                }
+            } else {
+                insertText(ioSpecEditor, "  ")
+            }
         }
         ioSpecEditor.dispatchEvent(new Event('input'))
     } else if (e.key == '{' || e.key == '[') {
@@ -190,7 +250,8 @@ ioSpecEditor.addEventListener('keydown', (e: KeyboardEvent) => {
         const currentIndent = indentMatch ? indentMatch[0] : ''
         const pair = e.key === '{' ? '{}' : '[]'
         const insert = pair[0] + '\n' + currentIndent + '  \n' + currentIndent + pair[1]
-        ioSpecEditor.value = value.slice(0, start) + insert + value.slice(start)
+        insertText(ioSpecEditor, insert)
+        // Position cursor on the middle line
         ioSpecEditor.selectionStart = ioSpecEditor.selectionEnd = start + currentIndent.length + 4
         ioSpecEditor.dispatchEvent(new Event('input'))
     }
