@@ -1,0 +1,46 @@
+name: WASM Build & Test
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install CMake
+        uses: lukka/get-cmake@latest
+        with:
+          cmakeVersion: "latest"
+
+      - name: Install Emscripten SDK
+        run: |
+          git clone https://github.com/emscripten-core/emsdk.git
+          cd emsdk
+          ./emsdk install latest
+          ./emsdk activate latest
+          source ./emsdk_env.sh
+          emcc --version
+
+      - name: Build
+        run: |
+          cd emsdk
+          source ./emsdk_env.sh
+          cd ../wasm
+          npm run build
+
+      - name: Lint
+        run: |
+          cd wasm
+          npm install
+          npm run lint
+
+      - name: Test
+        run: |
+          cd wasm
+          npm test

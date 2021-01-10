@@ -1,0 +1,27 @@
+{
+  "name": "mixal-emulator",
+  "version": "2.0.0",
+  "type": "module",
+  "main": "index.js",
+  "types": "index.d.ts",
+  "files": [
+    "index.js",
+    "index.d.js",
+    "wasm/MixalWASM.js",
+    "wasm/Mixal.wasm"
+  ],
+  "devDependencies": {
+    "@eslint/js": "^9.39.1",
+    "chai": "^0.1.7",
+    "eslint": "^9.39.1",
+    "globals": "^16.5.0",
+    "mocha": "^11.7.5"
+  },
+  "scripts": {
+    "build": "bash build.sh",
+    "lint": "npx eslint index.js test/**/*.js",
+    "test": "mocha test/**/*.js"
+  },
+  "homepage": "https://cyberzhg.github.io/GraphLayout/",
+  "repository": "github:CyberZHG/GraphLayout"
+}

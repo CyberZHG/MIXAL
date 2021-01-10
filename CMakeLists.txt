@@ -166,5 +166,6 @@ if (MIXAL_BIND_ES)
             "-sMODULARIZE=1"
             "-sEXPORT_ES6=1"
             "-sEXPORT_NAME=ParsingToysWASMModule"
+            "-sNO_DISABLE_EXCEPTION_CATCHING"
     )
 endif ()

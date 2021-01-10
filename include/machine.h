@@ -42,6 +42,15 @@ class Computer {
     Computer();
     ~Computer();
 
+    Register5& registerA() { return rA; }
+    Register5& registerX() { return rX; }
+    Register2& registerI1() { return rI1; }
+    Register2& registerI2() { return rI2; }
+    Register2& registerI3() { return rI3; }
+    Register2& registerI4() { return rI4; }
+    Register2& registerI5() { return rI5; }
+    Register2& registerI6() { return rI6; }
+    Register2& registerJ() { return rJ; }
     /** Get the index register given the index of the register. */
     Register2& rI(int index);
     /** Get a word from the memory. */

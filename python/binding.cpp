@@ -19,7 +19,7 @@ PYBIND11_MODULE(_core, m, py::mod_gil_not_used()) {
         .def_readwrite("byte4", &ComputerWord::byte4)
         .def_readwrite("byte5", &ComputerWord::byte5)
         .def("set", py::overload_cast<int32_t>(&ComputerWord::set), py::arg("value"))
-        .def("set", py::overload_cast<const std::string&>(&ComputerWord::set), py::arg("value"))
+        .def("set", py::overload_cast<const string&>(&ComputerWord::set), py::arg("value"))
         .def("set", py::overload_cast<int, uint8_t>(&ComputerWord::set), py::arg("index"), py::arg("value"))
         .def("set", py::overload_cast<bool, uint8_t, uint8_t, uint8_t, uint8_t, uint8_t>(&ComputerWord::set), py::arg("sign"), py::arg("byte1"), py::arg("byte2"), py::arg("byte3"), py::arg("byte4"), py::arg("byte5"))
         .def("set", py::overload_cast<bool, uint16_t, uint8_t, uint8_t, uint8_t>(&ComputerWord::set), py::arg("sign"), py::arg("byte12"), py::arg("byte3"), py::arg("byte4"), py::arg("byte5"))
