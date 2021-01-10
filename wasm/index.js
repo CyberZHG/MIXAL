@@ -40,8 +40,25 @@ function executeWithSpec(code, ioSpec) {
     computer.executeUntilHalt();
 
     let results = {
-        "halt-at-line": computer.line(),
+        "halt-at-address": computer.line(),
         "execution-time": computer.elapsed(),
+        "A": {
+            "int": computer.registerA().value(),
+            "bytes": computer.registerA().getBytesString(),
+            "text": computer.registerA().getCharacters(),
+        },
+        "X": {
+            "int": computer.registerX().value(),
+            "bytes": computer.registerX().getBytesString(),
+            "text": computer.registerX().getCharacters(),
+        },
+        "J": computer.registerJ().value(),
+        "I1": computer.registerI1().value(),
+        "I2": computer.registerI2().value(),
+        "I3": computer.registerI3().value(),
+        "I4": computer.registerI4().value(),
+        "I5": computer.registerI5().value(),
+        "I6": computer.registerI6().value(),
     };
     if ("outputs" in ioSpec) {
         const outputSpec = ioSpec.outputs;
