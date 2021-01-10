@@ -22,7 +22,7 @@ end_point = 3500
 # Load the assembly codes.
 # Note that the location for register J is set to HLT
 # to make sure the codes halt eventually
-computer.loadCodes([
+computer.load_codes([
     'X       EQU  1000',
     '        ORIG 3000',
     'MAXIMUM STJ  EXIT',
@@ -47,10 +47,10 @@ computer.rJ.set(end_point)
 for i in range(1001, 1001 + num_numbers):
     val = random.randint(0, 100000)
     # Set random values to memory
-    computer.memoryAt(i).set(val)
+    computer.memory_at(i).set(val)
     max_val = max(max_val, val)
 # Execute until the HLT operation
-computer.executeUntilHalt()
+computer.execute_until_halt()
 print('Expected:', max_val)
 # Register A stores the final maximum value
 print('Actual:', computer.rA.value())
@@ -72,7 +72,7 @@ computer = mixal.Computer()
 card_reader_index = 16
 card_punch_index = 17
 
-computer.loadCodes("""
+computer.load_codes("""
         ORIG 3000
         IN   100(16)
 LIN     JBUS LIN(16)
@@ -80,9 +80,9 @@ LIN     JBUS LIN(16)
 LOUT    JBUS LOUT(17)
         """)
 # Set the initial value of input device
-computer.getDeviceWordAt(card_reader_index, 0).set('PRIME')
-computer.executeUntilHalt()
+computer.get_device_word_at(card_reader_index, 0).set('PRIME')
+computer.execute_until_halt()
 # Check the output text of the output device
-print(computer.getDeviceWordAt(card_punch_index, 0).getCharacters())
+print(computer.get_device_word_at(card_punch_index, 0).get_characters())
 ```
 
