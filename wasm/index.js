@@ -10,7 +10,71 @@ Computer.prototype.loadCodes = function(code, addHalt = true) {
     this._loadCodes(code, addHalt);
 };
 
+function executeWithSpec(code, ioSpec) {
+    const computer = new Computer();
+    computer.loadCodes(code);
+
+    if ("inputs" in ioSpec) {
+        const inputSpec = ioSpec.inputs;
+        if ("memory" in inputSpec) {
+            for (const inputData of inputSpec.memory) {
+                const offset = inputData.offset ?? 0;
+                const dataType = inputData.type ?? "int";
+                const values = inputData.values ?? [];
+                if (dataType === "int") {
+                    for (const [i, value] of values.entries()) {
+                        computer.memoryAt(offset + i).set(value);
+                    }
+                } else if (dataType === "text") {
+                    for (let i = 0; i < values.length; i += 5) {
+                        let chars = values.substring(i, i + 5);
+                        while (chars.length < 5) {
+                            chars += " ";
+                        }
+                        computer.memoryAt(offset + Math.floor(i / 5)).setCharacters(chars)
+                    }
+                }
+            }
+        }
+    }
+    computer.executeUntilHalt();
+
+    let results = {
+        "halt-at-line": computer.line(),
+        "execution-time": computer.elapsed(),
+    };
+    if ("outputs" in ioSpec) {
+        const outputSpec = ioSpec.outputs;
+        if ("memory" in outputSpec) {
+            results["memory"] = [];
+            for (const outputData of outputSpec.memory) {
+                const offset = outputData.offset ?? 0;
+                const length = outputData.length ?? 0;
+                const dataType = outputData.type ?? "int";
+                const result = {
+                    "offset": offset,
+                    "type": dataType,
+                };
+                if (dataType === "int") {
+                    result["values"] = []
+                    for (let i = 0; i < length; ++i) {
+                        result["values"].push(computer.memoryAt(offset + i).value());
+                    }
+                } else if (dataType === "text") {
+                    result["values"] = ""
+                    for (let i = 0; i < length; ++i) {
+                        result["values"] += computer.memoryAt(offset + i).getCharacters();
+                    }
+                }
+                results["memory"].push(result);
+            }
+        }
+    }
+    return results;
+}
+
 export {
+    executeWithSpec,
     ComputerWord,
     Register5,
     Register2,

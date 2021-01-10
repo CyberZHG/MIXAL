@@ -1,0 +1,18 @@
+<!-- Register I3 -->
+<div class="flex items-center gap-4">
+    <label class="block w-15 text-center">I3</label>
+    <label>
+        <input id="register-i3-value" name="register-i3-value" type="text" value="0" class="w-20 text-center rounded-md border border-gray-800 px-3 py-1 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"/>
+    </label>
+    <div class="flex items-center gap-1">
+        <label>
+            <input id="register-i3-sign" name="register-i3-sign" type="text" value="+" class="w-10 text-center rounded-md border border-gray-800 px-3 py-1 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"/>
+        </label>
+        <label>
+            <input id="register-i3-byte1" name="register-i3-byte1" type="text" value="0" class="w-10 text-center rounded-md border border-gray-800 px-3 py-1 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"/>
+        </label>
+        <label>
+            <input id="register-i3-byte2" name="register-i3-byte2" type="text" value="0" class="w-10 text-center rounded-md border border-gray-800 px-3 py-1 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"/>
+        </label>
+    </div>
+</div>

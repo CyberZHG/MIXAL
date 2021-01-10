@@ -1,0 +1,54 @@
+name: Deploy Pages
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install CMake
+        uses: lukka/get-cmake@latest
+        with:
+          cmakeVersion: "latest"
+
+      - name: Install Emscripten SDK
+        run: |
+          git clone https://github.com/emscripten-core/emsdk.git
+          cd emsdk
+          ./emsdk install latest
+          ./emsdk activate latest
+          source ./emsdk_env.sh
+          emcc --version
+
+      - name: Build WASM
+        run: |
+          cd emsdk
+          source ./emsdk_env.sh
+          cd ../wasm
+          npm run build
+
+      # - name: Run Tests
+      #   run: |
+      #     cd web
+      #     npm install
+      #     npm run test
+
+      - name: Build Pages
+        run: |
+          cd web
+          npm install
+          npm run build
+
+      - name: Deploy to GitHub Pages
+        if: github.event_name == 'push'
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: web/dist

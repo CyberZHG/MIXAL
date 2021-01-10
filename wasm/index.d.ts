@@ -33,7 +33,7 @@ declare module 'mixal' {
         registerJ(): Register2
         reset(): void
         _loadCodes(code: string, addHalt: boolean): void
-        loadCodes(code: string, addHalt: boolean): void
+        loadCodes(code: string, addHalt?: boolean): void
         memoryAt(index: number): ComputerWord
         executeSingle(): void
         executeUntilSelfLoop(): void
@@ -42,5 +42,7 @@ declare module 'mixal' {
         line(): number
         elapsed(): number
     }
+
+    export function executeWithSpec(code: string, ioSpec: Record<string, Record<string, any>>): Record<string, any>
 
 }

@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 4.0)
-project(ParsingToys)
+project(MIXAL)
 
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -165,7 +165,7 @@ if (MIXAL_BIND_ES)
             "--bind"
             "-sMODULARIZE=1"
             "-sEXPORT_ES6=1"
-            "-sEXPORT_NAME=ParsingToysWASMModule"
+            "-sEXPORT_NAME=MIXALWASMModule"
             "-sNO_DISABLE_EXCEPTION_CATCHING"
     )
 endif ()

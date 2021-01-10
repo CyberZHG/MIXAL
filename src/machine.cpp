@@ -8,12 +8,12 @@
 
 namespace mixal {
 
-Computer::Computer() : rA(), rX(), rI1(), rI2(), rI3(), rI4(), rI5(), rI6(), rJ(),
+Computer::Computer() :
       overflow(false), comparison(ComparisonIndicator::EQUAL), memory(),
       devices(NUM_IO_DEVICE, nullptr),
-      _pseudoVarIndex(), _lineOffset(), _elapsed(), _constants() {}
+      _pseudoVarIndex(), _lineOffset(), _elapsed() {}
 
-Register2& Computer::rI(int index) {
+Register2& Computer::rI(const int index) {
     switch (index) {
     case 1: return rI1;
     case 2: return rI2;
@@ -31,11 +31,11 @@ Computer::~Computer() {
     }
 }
 
-const ComputerWord& Computer::memoryAt(int16_t index) const {
+const ComputerWord& Computer::memoryAt(const int16_t index) const {
     return memory[index];
 }
 
-ComputerWord& Computer::memoryAt(int16_t index) {
+ComputerWord& Computer::memoryAt(const int16_t index) {
     return memory[index];
 }
 
