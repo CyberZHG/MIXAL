@@ -38,6 +38,7 @@ EMSCRIPTEN_BINDINGS(MixalWASM) {
         .function("reset", &Computer::reset)
         .function("_loadCodes", select_overload<void(const string&, bool)>(&Computer::loadCodes))
         .function("memoryAt", static_cast<ComputerWord&(Computer::*)(int16_t)>(&Computer::memoryAt), return_value_policy::reference())
+        .function("getDeviceWordAt", &Computer::getDeviceWordAt, return_value_policy::reference())
         .function("executeSingle", select_overload<void()>(&Computer::executeSingle))
         .function("executeUntilSelfLoop", &Computer::executeUntilSelfLoop)
         .function("executeUntilHalt", &Computer::executeUntilHalt)

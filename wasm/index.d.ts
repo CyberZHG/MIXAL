@@ -35,6 +35,7 @@ declare module 'mixal' {
         _loadCodes(code: string, addHalt: boolean): void
         loadCodes(code: string, addHalt?: boolean): void
         memoryAt(index: number): ComputerWord
+        getDeviceWordAt(device: number, index: number): ComputerWord
         executeSingle(): void
         executeUntilSelfLoop(): void
         executeUntilHalt(): void
