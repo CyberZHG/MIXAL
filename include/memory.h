@@ -155,7 +155,7 @@ struct ComputerWord {
     /** When representing an instruction, set the address value. */
     void setAddress(int16_t address);
     /** When representing an instruction, set the address value. */
-    void setAddress(bool negative, uint16_t address);
+    void setAddress(bool _negative, uint16_t address);
     /** When representing an instruction, set the index value. */
     void setIndex(const uint8_t index) { byte3 = index; }
     /** When representing an instruction, set the field value. */
@@ -205,36 +205,36 @@ struct ComputerWord {
      */
     void set(int index, uint8_t val);
     /** Set all the values. */
-    void set(bool negative, uint8_t byte1, uint8_t byte2, uint8_t byte3, uint8_t byte4, uint8_t byte5);
+    void set(bool _negative, uint8_t _byte1, uint8_t _byte2, uint8_t _byte3, uint8_t _byte4, uint8_t _byte5);
     /** Set all the values.
      * 
      * @throw std::runtime_error when the sign is neither '+' nor '-'.
      */
-    void set(char sign, uint8_t byte1, uint8_t byte2, uint8_t byte3, uint8_t byte4, uint8_t byte5);
+    void set(char sign, uint8_t _byte1, uint8_t _byte2, uint8_t _byte3, uint8_t _byte4, uint8_t _byte5);
     /**
      *  Set all the values.
      * 
-     * @param negative
+     * @param _negative
      * @param bytes12 Use the first two bytes to represent an integer within 4096.
      *                The behavior is undefined if the number can not be represented.
-     * @param byte3
-     * @param byte4
-     * @param byte5
+     * @param _byte3
+     * @param _byte4
+     * @param _byte5
      */
-    void set(bool negative, uint16_t bytes12, uint8_t byte3, uint8_t byte4, uint8_t byte5);
+    void set(bool _negative, uint16_t bytes12, uint8_t _byte3, uint8_t _byte4, uint8_t _byte5);
     /**
      *  Set all the values.
      * 
      * @param sign
      * @param bytes12 Use the first two bytes to represent an integer within 4096.
      *                The behavior is undefined if the number can not be represented.
-     * @param byte3
-     * @param byte4
-     * @param byte5
+     * @param _byte3
+     * @param _byte4
+     * @param _byte5
      *
      * @throw std::runtime_error when the sign is neither '+' nor '-'.
      */
-    void set(char sign, uint16_t bytes12, uint8_t byte3, uint8_t byte4, uint8_t byte5);
+    void set(char sign, uint16_t bytes12, uint8_t _byte3, uint8_t _byte4, uint8_t _byte5);
 };
 
 };  // namespace mixal

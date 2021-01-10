@@ -73,13 +73,34 @@ function executeWithSpec(code, ioSpec) {
             "bytes": computer.registerX().getBytesString(),
             "text": computer.registerX().getCharacters(),
         },
-        "J": computer.registerJ().value(),
-        "I1": computer.registerI1().value(),
-        "I2": computer.registerI2().value(),
-        "I3": computer.registerI3().value(),
-        "I4": computer.registerI4().value(),
-        "I5": computer.registerI5().value(),
-        "I6": computer.registerI6().value(),
+        "J": {
+            "int": computer.registerJ().value(),
+            "bytes": computer.registerJ().getBytesString(),
+        },
+        "I1": {
+            "int": computer.registerI1().value(),
+            "bytes": computer.registerI1().getBytesString(),
+        },
+        "I2": {
+            "int": computer.registerI2().value(),
+            "bytes": computer.registerI2().getBytesString(),
+        },
+        "I3": {
+            "int": computer.registerI3().value(),
+            "bytes": computer.registerI3().getBytesString(),
+        },
+        "I4": {
+            "int": computer.registerI4().value(),
+            "bytes": computer.registerI4().getBytesString(),
+        },
+        "I5": {
+            "int": computer.registerI5().value(),
+            "bytes": computer.registerI5().getBytesString(),
+        },
+        "I6": {
+            "int": computer.registerI6().value(),
+            "bytes": computer.registerI6().getBytesString(),
+        },
     };
     if ("outputs" in ioSpec) {
         const outputSpec = ioSpec.outputs;

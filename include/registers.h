@@ -55,6 +55,10 @@ struct Register2 {
     [[nodiscard]] uint16_t bytes12() const;
     /** Get the value represented by the register. */
     [[nodiscard]] int16_t value() const;
+    /** Get the string of bytes with padded spaces like:
+     * `-  3 49`
+     */
+    [[nodiscard]] std::string getBytesString() const;
 
     /**
      * Set the register with an integer.
@@ -77,12 +81,12 @@ struct Register2 {
      */
     void set(int index, int8_t val);
     /** Set all the values. */
-    void set(bool negative, uint8_t byte1, uint8_t byte2);
+    void set(bool _negative, uint8_t _byte1, uint8_t _byte2);
     /** Set all the values.
      * 
      * @throw std::runtime_error when the sign is neither '+' nor '-'.
      */
-    void set(char sign, uint8_t byte1, uint8_t byte2);
+    void set(char sign, uint8_t _byte1, uint8_t _byte2);
 };
 
 };  // namespace mixal

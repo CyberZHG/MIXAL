@@ -18,6 +18,7 @@ declare module 'mixal' {
         constructor()
         set(value: number): void
         value(): number
+        getBytesString(): string
     }
 
     export class Computer {
