@@ -90,6 +90,25 @@ editor.addEventListener('scroll', () => {
     lineNumbers.scrollTop = editor.scrollTop
 })
 
+editor.addEventListener('keydown', (e: KeyboardEvent) => {
+    const start = editor.selectionStart
+    const end = editor.selectionEnd
+    const value = editor.value
+    if (e.key == "Enter") {
+        e.preventDefault()
+        const before = value.slice(0, start)
+        const after = value.slice(end)
+        const lineStart = before.lastIndexOf('\n') + 1
+        const currentLine = before.slice(lineStart)
+        const indentMatch = currentLine.match(/^\S*(?:\s+)?/)
+        const currentIndent = indentMatch ? indentMatch[0] : ''
+        const insertText = '\n' + ' '.repeat(currentIndent.length)
+        editor.value = before + insertText + after
+        editor.selectionStart = editor.selectionEnd = start + insertText.length
+        editor.dispatchEvent(new Event('input'))
+    }
+})
+
 function highlightJSON(code: string): string {
     const escaped = code
         .replace(/&/g, '&amp;')
@@ -98,17 +117,15 @@ function highlightJSON(code: string): string {
     return escaped.replace(
         /("(\\u[\da-fA-F]{4}|\\[^u]|[^\\"])*"(?:\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d+)?(?:[eE][+-]?\d+)?)/g,
         (match) => {
-            let cls = 'text-gray-300'
+            let cls = "font-bold "
             if (/^"/.test(match)) {
-                cls = /:$/.test(match)
-                    ? 'text-blue-400'
-                    : 'text-green-400'
+                cls += /:$/.test(match) ? 'text-blue-800' : 'text-green-700'
             } else if (/true|false/.test(match)) {
-                cls = 'text-purple-400'
+                cls += 'text-purple-800'
             } else if (/null/.test(match)) {
-                cls = 'text-gray-400'
+                cls += 'text-gray-500'
             } else {
-                cls = 'text-yellow-400'
+                cls += 'text-yellow-600'
             }
             return `<span class="${cls}">${match}</span>`
         }
@@ -129,6 +146,56 @@ ioSpecEditor.addEventListener('scroll', () => {
     pre.scrollTop = ioSpecEditor.scrollTop
     pre.scrollLeft = ioSpecEditor.scrollLeft
     ioSpecLineNumbers.scrollTop = ioSpecEditor.scrollTop
+})
+
+ioSpecEditor.addEventListener('keydown', (e: KeyboardEvent) => {
+    const start = ioSpecEditor.selectionStart
+    const end = ioSpecEditor.selectionEnd
+    const value = ioSpecEditor.value
+    if (e.key == "Enter") {
+        e.preventDefault()
+        const before = value.slice(0, start)
+        const after = value.slice(end)
+        const lineStart = before.lastIndexOf('\n') + 1
+        const currentLine = before.slice(lineStart)
+        const indentMatch = currentLine.match(/^\s*/)
+        const currentIndent = indentMatch ? indentMatch[0] : ''
+        const shouldIndent = currentLine.trim().endsWith('{') || currentLine.trim().endsWith('[')
+        const newIndent = shouldIndent ? currentIndent + "  " : currentIndent
+        const insertText = '\n' + newIndent
+        ioSpecEditor.value = before + insertText + after
+        ioSpecEditor.selectionStart = ioSpecEditor.selectionEnd = start + insertText.length
+        ioSpecEditor.dispatchEvent(new Event('input'))
+    } else if (e.key == "Tab") {
+        e.preventDefault()
+        const before = value.slice(0, start)
+        const after = value.slice(end)
+        if (e.shiftKey) {
+            if (before.endsWith("  ")) {
+                ioSpecEditor.value = before.slice(0, -2) + after
+                ioSpecEditor.selectionStart = ioSpecEditor.selectionEnd = start - 2
+            } else if (before.endsWith(" ")) {
+                ioSpecEditor.value = before.slice(0, -1) + after
+                ioSpecEditor.selectionStart = ioSpecEditor.selectionEnd = start - 1
+            }
+        } else {
+            ioSpecEditor.value = before + "  " + after
+            ioSpecEditor.selectionStart = ioSpecEditor.selectionEnd = start + 2
+        }
+        ioSpecEditor.dispatchEvent(new Event('input'))
+    } else if (e.key == '{' || e.key == '[') {
+        e.preventDefault()
+        const before = value.slice(0, start)
+        const lineStart = before.lastIndexOf('\n') + 1
+        const currentLine = before.slice(lineStart)
+        const indentMatch = currentLine.match(/^\s*/)
+        const currentIndent = indentMatch ? indentMatch[0] : ''
+        const pair = e.key === '{' ? '{}' : '[]'
+        const insert = pair[0] + '\n' + currentIndent + '  \n' + currentIndent + pair[1]
+        ioSpecEditor.value = value.slice(0, start) + insert + value.slice(start)
+        ioSpecEditor.selectionStart = ioSpecEditor.selectionEnd = start + currentIndent.length + 4
+        ioSpecEditor.dispatchEvent(new Event('input'))
+    }
 })
 
 resultsEditor.addEventListener('input', () => {
