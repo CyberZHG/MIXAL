@@ -420,3 +420,15 @@ TEST(TestParse, test_output_parsed_result) {
     out << result;
     EXPECT_EQ("3000\tLDA\t1000,2(5)", out.str());
 }
+
+TEST(TestParse, test_output_parsed_type) {
+    std::stringstream out;
+    out << mixal::ParsedType::EMPTY;
+    EXPECT_EQ("EMPTY", out.str());
+    out.str("");
+    out << mixal::ParsedType::INSTRUCTION;
+    EXPECT_EQ("INSTRUCTION", out.str());
+    out.str("");
+    out << mixal::ParsedType::PSEUDO;
+    EXPECT_EQ("PSEUDO", out.str());
+}

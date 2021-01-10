@@ -57,9 +57,9 @@ std::string Register2::getBytesString() const {
 }
 
 void Register2::set(int16_t value) {
-    if (value >= 0) {
+    if (value > 0) {
         negative = false;
-    } else {
+    } else if (value < 0) {
         negative = true;
         value = -value;
     }

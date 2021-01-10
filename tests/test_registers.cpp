@@ -29,3 +29,13 @@ TEST(TestRegisters, test_value) {
     EXPECT_EQ(1, mixal::Register2(1).value());
     EXPECT_EQ(-1, mixal::Register2(true, 0, 1).value());
 }
+
+TEST(TestRegisters, test_get_bytes_string) {
+    EXPECT_EQ("+  0  0", mixal::Register2(0).getBytesString());
+    EXPECT_EQ("+  0  1", mixal::Register2(1).getBytesString());
+    EXPECT_EQ("-  0  1", mixal::Register2(-1).getBytesString());
+    EXPECT_EQ("+ 10 20", mixal::Register2('+', 10, 20).getBytesString());
+    EXPECT_EQ("- 63 63", mixal::Register2('-', 63, 63).getBytesString());
+    EXPECT_EQ("+  1  0", mixal::Register2(64).getBytesString());
+    EXPECT_EQ("+  9 63", mixal::Register2('+', 9, 63).getBytesString());
+}
