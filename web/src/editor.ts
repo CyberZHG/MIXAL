@@ -51,9 +51,7 @@ function highlightMIXAL(code: string) : string {
         .replace(/>/g, '&gt;')
         .replace(/"/g, '&quot;')
         .replace(/'/g, '&#39;')
-        .replace(/[+\-]/g, (match) => {
-            return `<span class="text-orange-700">${match}</span>`
-        })
+        .replace(/^((?:\S+[ \t]+|[ \t]+)(?:\S+[ \t]+){2})(\S.*)$/gm, '$1<span class="text-gray-400 italic">$2</span>')
         .replace(/^\*.*$/gm, (match) => {
             return `<span class="text-gray-400 italic">${match}</span>`
         })

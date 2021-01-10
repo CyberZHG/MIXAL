@@ -1,6 +1,7 @@
 import { loadState, saveState } from "./state.ts"
 // @ts-ignore
 import { executeWithSpec } from "../../wasm/index.js"
+import json5 from "json5"
 
 const editor = document.querySelector<HTMLTextAreaElement>("#mixal-editor")!
 const ioSpecEditor = document.querySelector<HTMLTextAreaElement>("#io-spec-editor")!
@@ -11,7 +12,7 @@ loadState()
 
 buttonExecute.addEventListener("click", () => {
     saveState()
-    const ioSpec = JSON.parse(ioSpecEditor.value)
+    const ioSpec = json5.parse(ioSpecEditor.value)
     try {
         let results = executeWithSpec(editor.value, ioSpec)
         resultsEditor.value = JSON.stringify(results, null, 2)
