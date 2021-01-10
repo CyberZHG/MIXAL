@@ -1,0 +1,89 @@
+MAXWDS  EQU  1200               Maximum length of input
+PERM    ORIG *+MAXWDS           The input permutation
+ANS     ORIG *+MAXWDS           Place for answer
+OUTBUF  ORIG *+24               Place for printing
+CARDS   EQU  16                 Unit number for card reader
+PRINTER EQU  18                 Unit number for printer
+BEGIN   IN   PERM(CARDS)        Read first card.
+        ENT2 0
+        LDA  EQUALS
+1H      JBUS *(CARDS)           Wait for cycle complete.
+        CMPA PERM+15,2
+        JE   *+2                Is it the last card?
+        IN   PERM+16,2(CARDS)   No, read another.
+        ENT1 OUTBUF
+        JBUS *(PRINTER)         Print a copy of
+        MOVE PERM,2(16)         the input card.
+        OUT  OUTBUF(PRINTER)
+        JE   1F
+        INC2 16
+        CMP2 =MAXWDS-16=
+        JLE  1B                 Repeat until input is complete.
+        HLT  666                Too much input!
+1H      INC2 15                 1 At this point, rI2 words of
+        ST2  SIZE               1 input are in PERM, PERM + 1, . . .
+        ENT3 0                  1 A1. First pass.
+2H      LDAN PERM,3             A Get next element of input.
+        CMPA LPREN(1:5)         A Is it ‘(’?
+        JNE  1F                 A
+        STA  PERM,3             B If so, tag it.
+        INC3 1                  B Put the next nonblank input symbol
+        LDXN PERM,3             B into rX.
+        JXZ  *-2                B
+1H      CMPA RPREN(1:5)         C
+        JNE  *+2                C
+        STX  PERM,3             D Replace ‘)’ by tagged rX.
+        INC3 1                  C
+        CMP3 SIZE               C Have all elements been processed?
+        JL   2B                 C
+        LDA  LPREN              1 Prepare for main program.
+        ENT1 ANS                1 rI1 = place to store next answer
+OPEN    ENT3 0                  E A2. Open.
+1H      LDXN PERM,3             F Look for untagged element.
+        JXN  GO                 F
+        INC3 1                  G
+        CMP3 SIZE               G
+        JL   1B                 G
+* All are tagged. Now comes the output.
+DONE    CMP1 =ANS=
+        JNE  *+2                Is answer the identity permutation?
+        MOVE LPREN(2)           If so, change to ‘()’.
+        MOVE =0=                Put 23 words of blanks after answer.
+        MOVE -1,1(22)
+        ENT3 0
+        OUT  ANS,3(PRINTER)
+        INC3 24
+        LDX  ANS,3              Print as many lines as necessary.
+        JXNZ *-3
+        HLT
+*
+LPREN   ALF      (              Constants used in the program
+RPREN   ALF  )
+EQUALS  ALF      =
+*
+GO      MOVE LPREN              H Open a cycle in the output.
+        MOVE PERM,3             H
+        STX  START              H
+SUCC    STX  PERM,3             J Tag an element.
+        INC3 1                  J Move one step to the right.
+        LDXN PERM,3(1:5)        J A3. Set CURRENT (namely rX).
+        JXN  1F                 J Skip past blanks.
+        JMP  *-3                0
+5H      STX  0,1                Q Output CURRENT.
+        INC1 1                  Q
+        ENT3 0                  Q Scan formula again.
+4H      CMPX PERM,3(1:5)        K A4. Scan formula.
+        JE   SUCC               K Element = CURRENT?
+1H      INC3 1                  L Move to right.
+        CMP3 SIZE               L End of formula?
+        JL   4B                 L
+        CMPX START(1:5)         P A5. CURRENT = START?
+        JNE  5B                 P
+CLOSE   MOVE RPREN              R A6. Close.
+        CMPA -3,1               R Note: rA = ‘(’.
+        JNE  OPEN               R
+        INC1 -3                 S Suppress singleton cycles.
+        JMP  OPEN               S
+        END  BEGIN
+START   CON  0
+SIZE    CON  0

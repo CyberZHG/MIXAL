@@ -1,0 +1,26 @@
+INVERT  ENN1 N                  1 J1. Negate all.
+        ST1  X+N+1,1(0:0)       N Set sign negative.
+        INC1 1                  N
+        J1N  *-2                N More?
+        ENT1 N                  1 m ← n.
+2H      ENN3 0,1                N J2. Initialize j. i ← m.
+        ENN2 0,3                A j ← i.
+        LD3N X,2                A J3. Find negative entry.
+        J3N  *-2                A i > 0?
+        LDA  X,3                N J4. Invert.
+        STA  X,2                N X[j] ← X[−i].
+        ST1  X,3                N X[−i] ← m.
+        DEC1 1                  N J5. Loop on m.
+        J1P  2B                 N To J2 if m > 0.
+        HLT
+
+N       EQU  6
+        ORIG 1000
+X       CON  0
+        CON  6
+        CON  2
+        CON  1
+        CON  5
+        CON  4
+        CON  3
+        END  INVERT

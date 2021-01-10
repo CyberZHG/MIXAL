@@ -12,8 +12,8 @@ loadState()
 
 buttonExecute.addEventListener("click", () => {
     saveState()
-    const ioSpec = json5.parse(ioSpecEditor.value)
     try {
+        const ioSpec = json5.parse(ioSpecEditor.value)
         let results = executeWithSpec(editor.value, ioSpec)
         resultsEditor.value = JSON.stringify(results, null, 2)
     } catch (error) {
