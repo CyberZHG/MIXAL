@@ -1,5 +1,6 @@
 import random
 from unittest import TestCase
+
 import mixal
 
 
@@ -9,7 +10,8 @@ class TestSample(TestCase):
         self.computer = mixal.Computer()
 
     def test_sample(self):
-        self.computer.load_codes("""
+        self.computer.load_codes(
+            """
 X       EQU  1000
         ORIG 3000
 MAXIMUM STJ  EXIT
@@ -24,7 +26,8 @@ CHANGEM ENT2 0,3
 EXIT    JMP  *
         ORIG 3500
         HLT
-        """)
+        """
+        )
 
         n, max_val = 100, 0
         self.computer.rI1.set(n)
@@ -42,13 +45,15 @@ EXIT    JMP  *
         card_reader_index = 16
         card_punch_index = 17
 
-        self.computer.load_codes(f"""
+        self.computer.load_codes(
+            f"""
         ORIG 3000
         IN   100({card_reader_index})
 LIN     JBUS LIN({card_reader_index})
         OUT  100({card_punch_index})
 LOUT    JBUS LOUT({card_punch_index})
-        """)
-        self.computer.get_device_word_at(card_reader_index, 0).set('PRIME')
+        """
+        )
+        self.computer.get_device_word_at(card_reader_index, 0).set("PRIME")
         self.computer.execute_until_halt()
         print(self.computer.get_device_word_at(card_punch_index, 0).get_chars())

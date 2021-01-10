@@ -1,8 +1,4 @@
-from ._core import (
-    ComputerWord,
-    Register2,
-    Computer
-)
+from ._core import Computer, ComputerWord, Register2
 
 Register5 = ComputerWord
 
