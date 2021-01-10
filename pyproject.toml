@@ -1,0 +1,51 @@
+[build-system]
+requires = ["scikit-build-core", "pybind11"]
+build-backend = "scikit_build_core.build"
+
+[project]
+name = "mixal"
+version = "2.0.0"
+description = "A MIX assembly language emulator.."
+requires-python = ">=3.8"
+readme = "README.md"
+license = { text = "MIT" }
+
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Programming Language :: C++",
+    "Operating System :: OS Independent",
+]
+
+[project.urls]
+Homepage = "https://github.com/CyberZHG/MIXAL"
+Repository = "https://github.com/CyberZHG/MIXAL"
+Issues = "https://github.com/CyberZHG/MIXAL/issues"
+Documentation = "https://cyberzhg.github.io/MIXAL/"
+
+[tool.scikit-build]
+build-dir = "../cmake-build-python/{wheel_tag}"
+build.verbose = true
+
+[tool.scikit-build.cmake.define]
+MIXAL_BIND_PYTHON = "ON"
+
+[tool.scikit-build.sdist]
+exclude = [
+    ".github",
+    ".gitignore",
+    "demo",
+    "docs",
+    "tests",
+    "wasm",
+]
+
+[project.optional-dependencies]
+test = [
+    "pytest",
+    "black",
+    "isort",
+    "flake8",
+]
+
+[tool.isort]
+profile = "black"

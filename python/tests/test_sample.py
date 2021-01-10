@@ -9,7 +9,7 @@ class TestSample(TestCase):
         self.computer = mixal.Computer()
 
     def test_sample(self):
-        self.computer.loadCodes("""
+        self.computer.load_codes("""
 X       EQU  1000
         ORIG 3000
 MAXIMUM STJ  EXIT
@@ -32,23 +32,23 @@ EXIT    JMP  *
         values = []
         for i in range(1001, 1001 + n):
             val = random.randint(0, 100000)
-            self.computer.memoryAt(i).set(val)
+            self.computer.memory_at(i).set(val)
             max_val = max(max_val, val)
             values.append(val)
-        self.computer.executeUntilHalt()
+        self.computer.execute_until_halt()
         self.assertEqual(max_val, self.computer.rA.value(), str(values))
 
     def test_basic_io(self):
         card_reader_index = 16
         card_punch_index = 17
 
-        self.computer.loadCodes(f"""
+        self.computer.load_codes(f"""
         ORIG 3000
         IN   100({card_reader_index})
 LIN     JBUS LIN({card_reader_index})
         OUT  100({card_punch_index})
 LOUT    JBUS LOUT({card_punch_index})
         """)
-        self.computer.getDeviceWordAt(card_reader_index, 0).set('PRIME')
-        self.computer.executeUntilHalt()
-        print(self.computer.getDeviceWordAt(card_punch_index, 0).getCharacters())
+        self.computer.get_device_word_at(card_reader_index, 0).set('PRIME')
+        self.computer.execute_until_halt()
+        print(self.computer.get_device_word_at(card_punch_index, 0).get_chars())

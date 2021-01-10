@@ -138,7 +138,7 @@ if(MIXAL_BIND_PYTHON)
     FetchContent_MakeAvailable(pybind11)
 
     pybind11_add_module(_core
-            python/bindings.cpp
+            python/binding.cpp
     )
     target_link_libraries(_core
             PRIVATE MIXAL
