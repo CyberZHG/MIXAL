@@ -1,8 +1,0 @@
-include README.md
-include README-zh-CN.md
-include CHANGELOG.md
-include requirements.txt
-include mixal.py
-recursive-include include *
-recursive-include deps/UChar/include *
-recursive-include deps/UChar/src *

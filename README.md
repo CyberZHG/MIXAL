@@ -1,31 +1,9 @@
-MIXAL
-=====
+MIXAL Emulator
+==============
 
-![Unit Tests](https://github.com/CyberZHG/MIXAL/workflows/Unit%20Tests/badge.svg)
-[![Deploy](https://github.com/CyberZHG/MIXAL/workflows/Deploy/badge.svg)](https://cyberzhg.github.io/MIXAL/)
-[![Build Status](https://travis-ci.org/CyberZHG/MIXAL.svg?branch=master)](https://travis-ci.org/CyberZHG/MIXAL)
-[![Coverage Status](https://coveralls.io/repos/github/CyberZHG/MIXAL/badge.svg?branch=master)](https://coveralls.io/github/CyberZHG/MIXAL?branch=travis)
-[![Version](https://img.shields.io/pypi/v/mixal.svg)](https://pypi.org/project/mixal/)
-![Downloads](https://img.shields.io/pypi/dm/mixal.svg)
-![License](https://img.shields.io/pypi/l/keras-bert.svg)
-
-\[[中文](https://github.com/CyberZHG/MIXAL/blob/master/README.zh-CN.md)|[English](https://github.com/CyberZHG/MIXAL/blob/master/README.md)\]
-
-A [MIX](https://en.wikipedia.org/wiki/MIX) assembly language simulator.
+A [MIX](https://en.wikipedia.org/wiki/MIX) assembly language emulator.
 
 ## Install
-
-Make sure you have a C++ 11 compiler and execute:
-
-```bash
-pip install mixal
-```
-
-For MacOS users, you may need to use:
-
-```bash
-MACOSX_DEPLOYMENT_TARGET=10.9 pip install mixal
-```
 
 ## Sample
 

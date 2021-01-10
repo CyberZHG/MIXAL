@@ -89,8 +89,8 @@ inline bool isOperationFirst(char ch) {
 void Expression::parse(const std::string& expression, const std::string& lineSymbol) {
     this->reset();
     const char END_CHAR = '#';  // The character that indicates the end of the input.
-    const int INIT_INDEX = -1;  // The uninitialized index value.
-    ExprParseState state = ExprParseState::START;
+    constexpr int INIT_INDEX = -1;  // The uninitialized index value.
+    auto state = ExprParseState::START;
     int lastAtomicStart = INIT_INDEX;     // The start index of the last atomic.
     int lastOperationStart = INIT_INDEX;  // The start index of the last operation.
 
@@ -135,8 +135,8 @@ void Expression::parse(const std::string& expression, const std::string& lineSym
                     throw ExpressionError(i,
                         "Invalid character found while trying to find an operation: " + std::string(1, ch));
                 }
-                bool negative = expression[lastAtomicStart] == '-';
-                _atomics.emplace_back(Atomic(AtomicType::ASTERISK, lineSymbol, negative));
+                const bool negative = expression[lastAtomicStart] == '-';
+                _atomics.emplace_back(AtomicType::ASTERISK, lineSymbol, negative);
                 _depends.insert(lineSymbol);
             } else if (isalnum(ch) ||
                 ((expression[lastAtomicStart] == '+' || expression[lastAtomicStart] == '-') &&
@@ -169,7 +169,7 @@ void Expression::parse(const std::string& expression, const std::string& lineSym
                         isInteger = false;
                         break;
                     }
-                    int32_t digit = expression[j] - '0';
+                    const int32_t digit = expression[j] - '0';
                     if (integerValue > (std::numeric_limits<int32_t>::max() - digit) / 10) {
                         throw ExpressionError(i, "The integer value is too large: " +
                             expression.substr(lastAtomicStart, i - lastAtomicStart));
@@ -177,10 +177,10 @@ void Expression::parse(const std::string& expression, const std::string& lineSym
                     integerValue = integerValue * 10 + digit;
                 }
                 if (isInteger) {
-                    _atomics.emplace_back(Atomic(AtomicType::INTEGER, integerValue, negative));
+                    _atomics.emplace_back(AtomicType::INTEGER, integerValue, negative);
                 } else {
                     auto symbol = expression.substr(lastAtomicStart, i - lastAtomicStart);
-                    _atomics.emplace_back(Atomic(AtomicType::SYMBOL, symbol, negative));
+                    _atomics.emplace_back(AtomicType::SYMBOL, symbol, negative);
                     _depends.insert(symbol);
                 }
             }
@@ -231,7 +231,7 @@ void Expression::parse(const std::string& expression, const std::string& lineSym
 }
 
 bool Expression::evaluate(const std::unordered_map<std::string, AtomicValue>& constants) {
-    if (_atomics.size() == 0) {
+    if (_atomics.empty()) {
         return false;
     }
     auto evalAtomic = [&constants](const Atomic& atomic, AtomicValue* result) -> bool {
@@ -311,7 +311,7 @@ void Expression::reset() {
     _operations.clear();
 }
 
-bool Expression::operator==(const Expression& expression) {
+bool Expression::operator==(const Expression& expression) const {
     if (_atomics.size() != expression._atomics.size()) {
         return false;
     }
@@ -328,7 +328,7 @@ bool Expression::operator==(const Expression& expression) {
     return true;
 }
 
-bool Expression::operator!=(const Expression& expression) {
+bool Expression::operator!=(const Expression& expression) const {
     return !((*this) == expression);
 }
 

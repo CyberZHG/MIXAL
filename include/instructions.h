@@ -175,13 +175,13 @@ class Instructions {
     };
 
     /** Whether the operation has extra arguments. */
-    static bool hasArguments(Instructions::Code code);
-    /** The the type from the name of the operation. */
-    static Instructions::Code getInstructionCode(const std::string& name);
+    static bool hasArguments(Code code);
+    /** The type from the name of the operation. */
+    static Code getInstructionCode(const std::string& name);
     /** Get default field value from the operation name. */
     static int getDefaultField(const std::string& name);
     /** Get the unit time needed for an instruction. */
-    static int getCost(Instructions::Code code, uint8_t field = 0);
+    static int getCost(Code code, uint8_t field = 0);
 };
 
 };  // namespace mixal

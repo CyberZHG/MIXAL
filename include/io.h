@@ -46,16 +46,16 @@ class IODevice {
      * @param allowWrite Whether the device can be wrote.
      */
     IODevice(int32_t blockSize, bool allowRead, bool allowWrite);
-    virtual ~IODevice() {}
+    virtual ~IODevice() = default;
 
     /** Get the type of the IO device. */
-    inline IODeviceType type() const { return _type; }
+    [[nodiscard]] IODeviceType type() const { return _type; }
     /** The number of bytes in one reading or writing. */
-    inline int blockSize() const { return _blockSize; }
+    [[nodiscard]] int blockSize() const { return _blockSize; }
     /** Whether the device can be read. */
-    inline bool allowRead() const { return _allowRead; }
+    [[nodiscard]] bool allowRead() const { return _allowRead; }
     /** Whether the device can be wrote. */
-    inline bool allowWrite() const { return _allowWrite; }
+    [[nodiscard]] bool allowWrite() const { return _allowWrite; }
 
     /** Whether the device is ready for reading or writing. */
     virtual bool ready(int32_t elapsed);
@@ -94,7 +94,7 @@ class IODeviceStorage : public IODevice {
     void read(ComputerWord* memory, int32_t address) override;
     void write(const ComputerWord* memory, int32_t address) override;
 
-    inline ComputerWord& wordAt(int32_t index) override { return _storage[index]; }
+    ComputerWord& wordAt(const int32_t index) override { return _storage[index]; }
  protected:
     IODeviceStatus _status;
     int32_t _address, _locator;
@@ -107,32 +107,32 @@ class IODeviceStorage : public IODevice {
 };
 
 /** Magnetic tape. */
-class IODeviceTape : public IODeviceStorage {
+class IODeviceTape final : public IODeviceStorage {
  public:
      explicit IODeviceTape(int32_t storageSize = 4096);
     /** If M = 0, the tape is rewound.
      * If M < 0 the tape is skipped backward −M blocks, or to the beginning of the tape.
      * If M > 0, the tape is skipped forward;
      */
-    void control(int32_t operation) final;
+    void control(int32_t operation) override;
 
  private:
-    void doRead() final;
-    void doWrite() final;
+    void doRead() override;
+    void doWrite() override;
 };
 
 /** Disk or drum.
  * 
  * @warning The documentation of the device is unclear yet.
  */
-class IODeviceDisk : public IODeviceStorage {
+class IODeviceDisk final : public IODeviceStorage {
  public:
     explicit IODeviceDisk(int32_t storageSize = 4096);
     /** Position the device according to the given value (rX). */
-    void control(int32_t operation) final;
+    void control(int32_t operation) override;
 };
 
-/** Read sequencially. */
+/** Read sequentially. */
 class IODeviceSeqReader : public IODeviceStorage {
  public:
     explicit IODeviceSeqReader(int32_t storageSize = 4096);
@@ -141,7 +141,7 @@ class IODeviceSeqReader : public IODeviceStorage {
     void doRead() override;
 };
 
-/** Write sequencially. */
+/** Write sequentially. */
 class IODeviceSeqWriter : public IODeviceStorage {
  public:
     explicit IODeviceSeqWriter(int32_t storageSize = 4096);
@@ -151,45 +151,45 @@ class IODeviceSeqWriter : public IODeviceStorage {
 };
 
 /** Card reader. */
-class IODeviceCardReader : public IODeviceSeqReader {
+class IODeviceCardReader final : public IODeviceSeqReader {
  public:
     explicit IODeviceCardReader(int32_t storageSize = 4096);
 };
 
 /** Card punch. */
-class IODeviceCardPunch : public IODeviceSeqWriter {
+class IODeviceCardPunch final : public IODeviceSeqWriter {
  public:
     explicit IODeviceCardPunch(int32_t storageSize = 4096);
 };
 
 /** Line printer. */
-class IODeviceLinePrinter : public IODeviceSeqWriter {
+class IODeviceLinePrinter final : public IODeviceSeqWriter {
  public:
     explicit IODeviceLinePrinter(int32_t storageSize = 4096, int32_t pageSize = 20);
     /** Skip the printer to the top of the following page. */
-    void control(int32_t operation) final;
+    void control(int32_t operation) override;
     /** Number of lines/blocks in one page. */
-    inline int32_t pageSize() const { return _pageSize; }
+    [[nodiscard]] int32_t pageSize() const { return _pageSize; }
     /** Get the beginning offset of the page based on the given page number. */
-    int32_t pageOffsetAt(int32_t index) const;
+    [[nodiscard]] int32_t pageOffsetAt(int32_t index) const;
     /** Get the printed line with the given page number and line number in the page. */
-    std::string line(int32_t pageNum, int32_t lineNum) const;
+    [[nodiscard]] std::string line(int32_t pageNum, int32_t lineNum) const;
  private:
     int32_t _pageSize;  /**< Number of lines/blocks in one page. */
 };
 
-/** Typewritter. */
-class IODeviceTypewriter : public IODeviceSeqReader {
+/** Typewriter. */
+class IODeviceTypewriter final : public IODeviceSeqReader {
  public:
     explicit IODeviceTypewriter(int32_t storageSize = 4096);
 };
 
 /** Paper tape. */
-class IODevicePaperTape : public IODeviceSeqReader {
+class IODevicePaperTape final : public IODeviceSeqReader {
  public:
     explicit IODevicePaperTape(int32_t storageSize = 4096);
     /** Rewind the tape. */
-    void control(int32_t operation) final;
+    void control(int32_t operation) override;
 };
 
 };  // namespace mixal

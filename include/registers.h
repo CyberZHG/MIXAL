@@ -41,7 +41,7 @@ struct Register2 {
     Register2(char sign, uint8_t _byte1, uint8_t _byte2);
 
     /** Reset the values in the register to 0. */
-    inline void reset() {
+    void reset() {
         negative = false;
         byte1 = byte2 = 0;
     }
@@ -52,15 +52,15 @@ struct Register2 {
      */
     uint8_t operator[](int index) const;
     /** Get the absolution value of the register. */
-    uint16_t bytes12() const;
+    [[nodiscard]] uint16_t bytes12() const;
     /** Get the value represented by the register. */
-    int16_t value() const;
+    [[nodiscard]] int16_t value() const;
 
     /**
      * Set the register with an integer.
      * 
      * The sign will be set only when the input is non-zero.
-     * Therefore to set the word to `-0` with this function,
+     * Therefore, to set the word to `-0` with this function,
      * one can set it with a negative value first, then set it to 0.
      * 
      * The least significant 12 bits will be saved to the word.
@@ -70,6 +70,7 @@ struct Register2 {
     /**
      * Set specific byte with the given index in [1, 2].
      * 
+     * @param index
      * @param val The behavior is undefined if it is greater than 63.
      * 
      * @throw std::runtime_error when the index is not in [1, 2].

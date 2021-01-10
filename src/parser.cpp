@@ -142,7 +142,7 @@ std::ostream& operator<<(std::ostream& out, const ParsedResult& result) {
 
 ParsedResult Parser::parseLine(const std::string& line, const std::string& lineSymbol, bool hasLocation) {
     const char END_CHAR = '#';
-    const int INIT_INDEX = -1;
+    constexpr int INIT_INDEX = -1;
     ParsedResult result;
     result.word.setField(5);  // For most of the operations, the default field value is (0:5) = 5.
     result.parsedType = ParsedType::INSTRUCTION;

@@ -34,13 +34,11 @@ struct Atomic {
     Atomic(AtomicType _type, int32_t _value, bool _negative = false);
     /** Initialize the atomic with a symbol. */
     Atomic(AtomicType _type, const std::string& _value, bool _negative = false);
-    /** Initialize the atomic with another atomic. */
-    Atomic(const Atomic& atomic);
 
     /** Whether two atomics are the same. */
-    bool operator==(const Atomic& atomic);
+    bool operator==(const Atomic& atomic) const;
     /** Whether two atomics are different. */
-    bool operator!=(const Atomic& atomic);
+    bool operator!=(const Atomic& atomic) const;
     /** Outputs the integer or the symbol based on the atomic type. */
     friend std::ostream& operator<<(std::ostream& out, const Atomic& atomic);
 
@@ -54,7 +52,7 @@ struct Atomic {
      * 
      * @see isLocalSymbol(const std::string&)
      */
-    bool isLocalSymbol() const;
+    [[nodiscard]] bool isLocalSymbol() const;
     /** Replace the symbol with the actual location.
      * 
      * If the symbol is `2B`, it should be replaced with the location of the nearest `2H`
@@ -63,9 +61,9 @@ struct Atomic {
      * If the symbol is `4F`, it should be replaced with the location of the nearest `4H`
      * after the current location.
      * 
-     * @param symbol A temporary name representing the location that should be replaced to.
+     * @param _symbol A temporary name representing the location that should be replaced to.
      */
-    void replaceSymbol(const std::string& symbol);
+    void replaceSymbol(const std::string& _symbol);
 };
 
 /** The evaluated value of an atomic.
@@ -141,19 +139,19 @@ class Expression {
     static bool isValidChar(char ch);
 
     /** Whether the expression has been evaluated. */
-    inline bool evaluated() const { return _evaluated; }
+    [[nodiscard]] bool evaluated() const { return _evaluated; }
     /** Get the evaluated atomic value. */
-    inline const AtomicValue& result() const { return _result; }
+    [[nodiscard]] const AtomicValue& result() const { return _result; }
 
     /** Whether this is a literal constant, which is surrounded by `=`. */
-    inline bool literalConstant() const { return _literalConstant; }
+    [[nodiscard]] bool literalConstant() const { return _literalConstant; }
 
     /** Get the symbols that should be evaluated before evaluating this expression. */
-    inline const std::unordered_set<std::string> depends() const { return _depends; }
+    [[nodiscard]] const std::unordered_set<std::string>& depends() const { return _depends; }
     /** Get the atomics in the expression. */
-    inline const std::vector<Atomic> atomics() const { return _atomics; }
+    [[nodiscard]] const std::vector<Atomic>& atomics() const { return _atomics; }
     /** Get the operations in the expression. */
-    inline const std::vector<Operation> operations() const { return _operations; }
+    [[nodiscard]] const std::vector<Operation>& operations() const { return _operations; }
 
     /** Try to parse an expression string.
      * 
@@ -185,9 +183,9 @@ class Expression {
     void reset();
 
     /** Whether two expressions are the same. */
-    bool operator==(const Expression& expression);
+    bool operator==(const Expression& expression) const;
     /** Whether two expressions are different. */
-    bool operator!=(const Expression& expression);
+    bool operator!=(const Expression& expression) const;
 
  private:
     bool _evaluated;      /**< Whether the expression has been evaluated. */

@@ -45,18 +45,12 @@ class ParsedResult {
     std::string comment;      /**< The comments. */
 
     /** Initialize the parsed result with empties. */
-    ParsedResult() : parsedType(ParsedType::EMPTY),
-        rawLocation(), location(),
-        operation(),
-        rawAddress(), address(),
-        rawIndex(), index(),
-        rawField(), field(),
-        word(), comment() {}
+    ParsedResult() : parsedType(ParsedType::EMPTY) {}
 
     /** Evaluate base address, index, and field expressions. */
     bool evaluate(const std::unordered_map<std::string, AtomicValue>& constants);
     /** Whether the instruction has been evaluated. */
-    bool evaluated() const;
+    [[nodiscard]] bool evaluated() const;
 
     friend Parser;
     /** Output the instruction. */

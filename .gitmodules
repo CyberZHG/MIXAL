@@ -1,6 +1,0 @@
-[submodule "deps/CppTesting"]
-	path = deps/CppTesting
-	url = https://github.com/CyberZHG/CppTesting.git
-[submodule "deps/UChar"]
-	path = deps/UChar
-	url = https://github.com/CyberZHG/UChar.git

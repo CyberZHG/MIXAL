@@ -10,14 +10,14 @@
 
 namespace mixal {
 
-/** The result of a comparision. */
+/** The result of a comparison. */
 enum class ComparisonIndicator {
     LESS = -1,
     EQUAL = 0,
     GREATER = 1,
 };
 
-/** Output the name of comparision. */
+/** Output the name of comparison. */
 std::ostream& operator<<(std::ostream& os, ComparisonIndicator c);
 
 };  // namespace mixal

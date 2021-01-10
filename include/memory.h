@@ -14,7 +14,7 @@ namespace mixal {
 class Instructions;
 
 extern uint16_t CHAR_CODES[];       /**< The mapping from a byte to the characters. */
-const int32_t CHAR_CODES_NUM = 56;  /**< The maximum number of characters in the mapping. */
+constexpr int32_t CHAR_CODES_NUM = 56;  /**< The maximum number of characters in the mapping. */
 
 /**
  * Basic definition of a word.
@@ -77,7 +77,7 @@ struct ComputerWord {
     /** Get the string of bytes with padded spaces like:
      * `-  0 12  3 43 49`
      */
-    std::string getBytesString() const;
+    [[nodiscard]] std::string getBytesString() const;
 
     /** Get the value with index in [1, 5].
      * 
@@ -91,32 +91,32 @@ struct ComputerWord {
     uint8_t& operator[](int index);
     /** Get the value that represented by the indices of two bytes.
      */
-    uint16_t bytes2(int index1, int index2) const;
+    [[nodiscard]] uint16_t bytes2(int index1, int index2) const;
     /** Get the value of the first two bytes.
      * 
      * @see bytes2(int, int)
      */
-    uint16_t bytes12() const;
+    [[nodiscard]] uint16_t bytes12() const;
     /** Get the value of the second and third bytes.
      * 
      * @see bytes2(int, int)
      */
-    uint16_t bytes23() const;
+    [[nodiscard]] uint16_t bytes23() const;
     /** Get the value of the third and fourth bytes.
      * 
      * @see bytes2(int, int)
      */
-    uint16_t bytes34() const;
+    [[nodiscard]] uint16_t bytes34() const;
     /** Get the value of the last two bytes.
      * 
      * @see bytes2(int, int)
      */
-    uint16_t bytes45() const;
+    [[nodiscard]] uint16_t bytes45() const;
     /** Get the value the word represents.
      * 
      * The range of the result should be [-1073741824, 1073741824].
      */
-    int32_t value() const;
+    [[nodiscard]] int32_t value() const;
 
     /** When representing an instruction,
      * the function returns the value represented by the first two bytes with the sign.
@@ -125,43 +125,43 @@ struct ComputerWord {
      * 
      * @return Note that `-0` can not be returned.
      */
-    int16_t addressValue() const;
+    [[nodiscard]] int16_t addressValue() const;
     /** When representing an instruction,
      * the function returns the value represented by the first two bytes without the sign.
      * 
      * @see bytes12
      */
-    inline uint16_t address() const { return bytes12(); }
+    [[nodiscard]] uint16_t address() const { return bytes12(); }
     /** When representing an instruction,
      * the function returns the index value of the instruction.
      * 
      * @return The value should be in [0, 6].
      */
-    inline uint8_t index() const { return byte3; }
+    [[nodiscard]] uint8_t index() const { return byte3; }
     /** When representing an instruction,
      * the function returns the field value of the instruction.
      * 
      * @return The value should be in [0, 63].
      *         For most of the operations the default field value is 5.
      */
-    inline uint8_t field() const { return byte4; }
+    [[nodiscard]] uint8_t field() const { return byte4; }
     /** When representing an instruction,
      * the function returns the type of operation of the instruction.
      * 
      * @return The value should be in [0, 63].
      */
-    inline uint8_t operation() const { return byte5; }
+    [[nodiscard]] uint8_t operation() const { return byte5; }
 
     /** When representing an instruction, set the address value. */
     void setAddress(int16_t address);
     /** When representing an instruction, set the address value. */
     void setAddress(bool negative, uint16_t address);
     /** When representing an instruction, set the index value. */
-    inline void setIndex(uint8_t index) { byte3 = index; }
+    void setIndex(const uint8_t index) { byte3 = index; }
     /** When representing an instruction, set the field value. */
-    inline void setField(uint8_t field) { byte4 = field; }
+    void setField(const uint8_t field) { byte4 = field; }
     /** When representing an instruction, set the type of operation. */
-    inline void setOperation(uint8_t operation) { byte5 = operation; }
+    void setOperation(const uint8_t operation) { byte5 = operation; }
 
     /** Get the value with index in [1, 5].
      * 
@@ -169,14 +169,14 @@ struct ComputerWord {
      * 
      * @throw std::runtime_error when the index is not in [1, 5].
      */
-    uint8_t getAt(int32_t index) const { return (*this)[index]; }
+    uint8_t getAt(const int32_t index) const { return (*this)[index]; }
     /** Get a UTF8 string represents the 5 characters in the word. */
-    std::string getCharacters() const;
+    [[nodiscard]] std::string getCharacters() const;
     /**
      * Set the word with an integer.
      * 
      * The sign will be set only when the input is non-zero.
-     * Therefore to set the word to `-0` with this function,
+     * Therefore, to set the word to `-0` with this function,
      * one can set it with a negative value first, then set it to 0.
      * 
      * The least significant 30 bits will be saved to the word.
@@ -186,7 +186,7 @@ struct ComputerWord {
     /**
      * Set the word with a UTF8 string.
      * 
-     * Only a subset of characters are allowed. The invalid characters with be replaced with spaces.
+     * Only a subset of characters is allowed. The invalid characters with be replaced with spaces.
      * 
      * The sign will always be `+`.
      * 
@@ -198,6 +198,7 @@ struct ComputerWord {
     /**
      * Set specific byte with the given index in [1, 5].
      * 
+     * @param index
      * @param val The behavior is undefined if it is greater than 63.
      * 
      * @throw std::runtime_error when the index is not in [1, 5].
@@ -213,16 +214,24 @@ struct ComputerWord {
     /**
      *  Set all the values.
      * 
+     * @param negative
      * @param bytes12 Use the first two bytes to represent an integer within 4096.
      *                The behavior is undefined if the number can not be represented.
+     * @param byte3
+     * @param byte4
+     * @param byte5
      */
     void set(bool negative, uint16_t bytes12, uint8_t byte3, uint8_t byte4, uint8_t byte5);
     /**
      *  Set all the values.
      * 
+     * @param sign
      * @param bytes12 Use the first two bytes to represent an integer within 4096.
      *                The behavior is undefined if the number can not be represented.
-     * 
+     * @param byte3
+     * @param byte4
+     * @param byte5
+     *
      * @throw std::runtime_error when the sign is neither '+' nor '-'.
      */
     void set(char sign, uint16_t bytes12, uint8_t byte3, uint8_t byte4, uint8_t byte5);

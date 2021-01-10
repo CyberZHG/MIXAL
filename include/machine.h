@@ -25,9 +25,9 @@ using InstructionWord = ComputerWord;
 
 class Computer {
  public:
-    static const int NUM_INDEX_REGISTER = 6;  /**< Number of index registers. */
-    static const int NUM_MEMORY = 4000;       /**< Number of words in memory. */
-    static const int NUM_IO_DEVICE = 21;      /**< Number of IO devices. */
+    static constexpr int NUM_INDEX_REGISTER = 6;  /**< Number of index registers. */
+    static constexpr int NUM_MEMORY = 4000;       /**< Number of words in memory. */
+    static constexpr int NUM_IO_DEVICE = 21;      /**< Number of IO devices. */
 
     Register5 rA, /**< Accumulator register. */ rX;  /**< Extension register. */
     Register2 rI1 /**< Index register. */, rI2, rI3, rI4, rI5, rI6, rJ;  /**< Jump address register. */
@@ -45,7 +45,7 @@ class Computer {
     /** Get the index register given the index of the register. */
     Register2& rI(int index);
     /** Get a word from the memory. */
-    const ComputerWord& memoryAt(int16_t index) const;
+    [[nodiscard]] const ComputerWord& memoryAt(int16_t index) const;
     /** Get a word from the memory. */
     ComputerWord& memoryAt(int16_t index);
     /** Get the device based on the index value. */
@@ -60,9 +60,9 @@ class Computer {
     /** Reset the machine to zeros. */
     void reset();
     /** Get the current executing line of the memory. */
-    inline int line() const { return _lineOffset; }
+    [[nodiscard]] int line() const { return _lineOffset; }
     /** Get elapsed unit time after executing the codes. */
-    inline int elapsed() const { return _elapsed; }
+    [[nodiscard]] int elapsed() const { return _elapsed; }
 
     /** Get a unique symbol name. */
     std::string getSingleLineSymbol();
@@ -76,8 +76,8 @@ class Computer {
     void executeSingle(ParsedResult* instruction);
     /** Execute a single instruction based on the given instruction. */
     void executeSingle(const InstructionWord& instruction);
-    /** Execute a single pesudo instruction. */
-    void executeSinglePesudo(ParsedResult* instruction);
+    /** Execute a single pseudo instruction. */
+    void executeSinglePseudo(ParsedResult* instruction);
 
     /** Parse and load codes to memory. */
     void loadCodes(const std::string& codes, bool addHalt = true);
@@ -85,28 +85,28 @@ class Computer {
     void loadCodes(const std::vector<std::string>& codes, bool addHalt = true);
 
  private:
-    int32_t _pesudoVarIndex;  /**< Used to generate unique symbol name. */
+    int32_t _pseudoVarIndex;  /**< Used to generate unique symbol name. */
     int32_t _lineOffset;      /**< The line of memory that is currently executing. */
     int32_t _elapsed;         /**< The number of unit time that has been elapsed. */
     /** The constants after executing the single line codes. */
     std::unordered_map<std::string, AtomicValue> _constants;
 
     /** Get a unique symbol name. */
-    std::string getPesudoSymbolname();
+    std::string getPseudoSymbolName();
 
     /** Get the address based on the base address and the index register. */
     int32_t getIndexedAddress(const InstructionWord& instruction, bool checkRange = false);
     /** Copy values considered the field value. */
-    void copyToRegister5(const InstructionWord& instruction, const ComputerWord& word, Register5* reg);
+    void copyToRegister5(const InstructionWord& instruction, const ComputerWord& word, Register5* reg) const;
     /** Copy values considered the field value. */
-    void copyFromRegister5(const InstructionWord& instruction, const Register5& reg, ComputerWord* word);
+    void copyFromRegister5(const InstructionWord& instruction, const Register5& reg, ComputerWord* word) const;
     /** Copy values considered the field value. */
-    void copyToRegister2(const InstructionWord& instruction, const ComputerWord& word, Register2* reg);
+    void copyToRegister2(const InstructionWord& instruction, const ComputerWord& word, Register2* reg) const;
 
     int32_t checkRange(int32_t value, int bytes = 5);
 
     /** Get one byte from the unit value of rA and rX. */
-    uint8_t getAX(int index) const;
+    [[nodiscard]] uint8_t getAX(int index) const;
     /** Set one byte to the unit value of rA and rX. */
     void setAX(int index, uint8_t value);
 

@@ -11,7 +11,7 @@ namespace mixal {
 Computer::Computer() : rA(), rX(), rI1(), rI2(), rI3(), rI4(), rI5(), rI6(), rJ(),
       overflow(false), comparison(ComparisonIndicator::EQUAL), memory(),
       devices(NUM_IO_DEVICE, nullptr),
-      _pesudoVarIndex(), _lineOffset(), _elapsed(), _constants() {}
+      _pseudoVarIndex(), _lineOffset(), _elapsed(), _constants() {}
 
 Register2& Computer::rI(int index) {
     switch (index) {
@@ -54,14 +54,14 @@ void Computer::reset() {
     for (size_t i = 0; i < NUM_IO_DEVICE; ++i) {
         devices[i] = nullptr;
     }
-    _pesudoVarIndex = 0;
+    _pseudoVarIndex = 0;
     _lineOffset = 0;
     _elapsed = 0;
     _constants.clear();
 }
 
 std::string Computer::getSingleLineSymbol() {
-    std::string symbolName = getPesudoSymbolname();
+    std::string symbolName = getPseudoSymbolName();
     _constants[symbolName] = AtomicValue(_lineOffset);
     return symbolName;
 }
@@ -114,7 +114,7 @@ void Computer::executeSingle(ParsedResult* instruction) {
         }
         executeSingle(instruction->word);
     } else if (instruction->parsedType == ParsedType::PSEUDO) {
-        executeSinglePesudo(instruction);
+        executeSinglePseudo(instruction);
     }
 }
 
@@ -312,7 +312,7 @@ void Computer::executeSingle(const InstructionWord& instruction) {
                                       instruction.field());
 }
 
-void Computer::executeSinglePesudo(ParsedResult* instruction) {
+void Computer::executeSinglePseudo(ParsedResult* instruction) {
     switch (instruction->word.operation() + Instructions::PSEUDO) {
     case Instructions::EQU:
         executeEQU(instruction);
@@ -342,13 +342,13 @@ void Computer::loadCodes(const std::vector<std::string>& codes, bool addHalt) {
     std::unordered_map<std::string, AtomicValue> evaluated;
     std::unordered_map<std::string, Expression*> expressions;
     std::vector<std::tuple<std::string, Expression, Expression>> constants;  // (name, address, value)
-    std::string lineBase = getPesudoSymbolname();
+    std::string lineBase = getPseudoSymbolName();
     evaluated[lineBase] = AtomicValue(0);
     int32_t lineOffset = 0, endIndex = -1;
     for (size_t codeIndex = 0; codeIndex < codes.size(); ++codeIndex) {
-        auto code = codes[codeIndex];
+        const auto& code = codes[codeIndex];
         auto& result = results[codeIndex];
-        auto lineSymbol = getPesudoSymbolname();
+        auto lineSymbol = getPseudoSymbolName();
         result = Parser::parseLine(code, lineSymbol, true);
         if (result.parsedType == ParsedType::PSEUDO) {
             int32_t operation = result.word.operation() + Instructions::PSEUDO;
@@ -368,7 +368,7 @@ void Computer::loadCodes(const std::vector<std::string>& codes, bool addHalt) {
                     expressions[result.rawLocation] = &result.location;
                     expressions[lineSymbol] = &result.location;
                 }
-                lineBase = getPesudoSymbolname();
+                lineBase = getPseudoSymbolName();
                 expressions[lineBase] = &result.address;
                 lineOffset = 0;
                 break;
@@ -377,10 +377,10 @@ void Computer::loadCodes(const std::vector<std::string>& codes, bool addHalt) {
                 if (!result.rawLocation.empty()) {
                     lineSymbol = result.rawLocation;
                 }
-                constants.push_back(std::make_tuple(
+                constants.emplace_back(
                     lineSymbol,
                     Expression::getConstOffsetExpression(lineBase, lineOffset++),
-                    result.address));
+                    result.address);
                 break;
             case Instructions::END:
                 endIndex = codeIndex;
@@ -388,9 +388,9 @@ void Computer::loadCodes(const std::vector<std::string>& codes, bool addHalt) {
             }
         } else if (result.parsedType == ParsedType::INSTRUCTION) {
             bool usedLineSymbol = !result.rawLocation.empty() ||
-                                (!result.rawAddress.empty() && result.address.depends().count(lineSymbol)) ||
-                                (!result.rawIndex.empty() && result.index.depends().count(lineSymbol)) ||
-                                (!result.rawField.empty() && result.field.depends().count(lineSymbol));
+                                (!result.rawAddress.empty() && result.address.depends().contains(lineSymbol)) ||
+                                (!result.rawIndex.empty() && result.index.depends().contains(lineSymbol)) ||
+                                (!result.rawField.empty() && result.field.depends().contains(lineSymbol));
             result.location = Expression::getConstOffsetExpression(lineBase, lineOffset);
             if (!result.rawLocation.empty()) {
                 if (!(Atomic::isLocalSymbol(result.rawLocation) && result.rawLocation[1] == 'H')) {
@@ -407,7 +407,7 @@ void Computer::loadCodes(const std::vector<std::string>& codes, bool addHalt) {
     std::unordered_map<std::string, std::string> localSymbolMapping;
     for (auto& result : results) {
         if (!result.rawLocation.empty() && Atomic::isLocalSymbol(result.rawLocation) && result.rawLocation[1] == 'H') {
-            auto lineSymbol = getPesudoSymbolname();
+            auto lineSymbol = getPseudoSymbolName();
             result.rawLocation[1] = 'B';
             localSymbolMapping[result.rawLocation] = lineSymbol;
             result.rawLocation[1] = 'H';
@@ -418,7 +418,7 @@ void Computer::loadCodes(const std::vector<std::string>& codes, bool addHalt) {
     for (int i = static_cast<int>(results.size()) - 1; i >= 0; --i) {
         auto& result = results[i];
         if (!result.rawLocation.empty() && Atomic::isLocalSymbol(result.rawLocation) && result.rawLocation[1] == 'H') {
-            auto lineSymbol = getPesudoSymbolname();
+            auto lineSymbol = getPseudoSymbolName();
             result.rawLocation[1] = 'F';
             localSymbolMapping[result.rawLocation] = lineSymbol;
             result.rawLocation[1] = 'H';
@@ -428,44 +428,44 @@ void Computer::loadCodes(const std::vector<std::string>& codes, bool addHalt) {
     }
     // Add halt
     if (addHalt) {
-        auto lineSymbol = getPesudoSymbolname();
+        auto lineSymbol = getPseudoSymbolName();
         auto haltCommand = Parser::parseLine("HLT", lineSymbol, false);
-        constants.push_back(std::make_tuple(
+        constants.emplace_back(
             lineSymbol,
              Expression::getConstOffsetExpression(lineBase, lineOffset++),
-             Expression::getConstExpression(AtomicValue(haltCommand.word.value()))));
+             Expression::getConstExpression(AtomicValue(haltCommand.word.value())));
     }
     // Add expressions and literal constants
     for (auto& result : results) {
         if (!result.rawAddress.empty()) {
             if (result.address.literalConstant()) {
-                auto lineSymbol = getPesudoSymbolname();
-                constants.push_back(std::make_tuple(
+                auto lineSymbol = getPseudoSymbolName();
+                constants.emplace_back(
                     lineSymbol,
                     Expression::getConstOffsetExpression(lineBase, lineOffset++),
-                    result.address));
+                    result.address);
                 result.address = Expression::getConstExpression(lineSymbol);
             }
-            expressions[getPesudoSymbolname()] = &result.address;
+            expressions[getPseudoSymbolName()] = &result.address;
         }
         if (!result.rawIndex.empty()) {
-            expressions[getPesudoSymbolname()] = &result.index;
+            expressions[getPseudoSymbolName()] = &result.index;
         }
         if (!result.rawField.empty()) {
-            expressions[getPesudoSymbolname()] = &result.field;
+            expressions[getPseudoSymbolName()] = &result.field;
         }
     }
     if (endIndex != -1) {
-        auto lineSymbol = results[endIndex].rawLocation.empty() ? getPesudoSymbolname() : results[endIndex].rawLocation;
-        constants.push_back(std::make_tuple(
+        auto lineSymbol = results[endIndex].rawLocation.empty() ? getPseudoSymbolName() : results[endIndex].rawLocation;
+        constants.emplace_back(
             lineSymbol,
             Expression::getConstOffsetExpression(lineBase, lineOffset++),
-            results[endIndex].address));
+            results[endIndex].address);
     }
     // Add collected constants to expressions
     for (auto& it : constants) {
         expressions[std::get<0>(it)] = &std::get<1>(it);
-        expressions[getPesudoSymbolname()] = &std::get<2>(it);
+        expressions[getPseudoSymbolName()] = &std::get<2>(it);
     }
     // Try to solve all the expressions
     std::unordered_map<std::string, int> dependNums;
@@ -475,24 +475,24 @@ void Computer::loadCodes(const std::vector<std::string>& codes, bool addHalt) {
         dependNums[it.first] = static_cast<int>(it.second->depends().size());
         for (auto& depend : it.second->depends()) {
             solves[depend].insert(it.first);
-            if (evaluated.find(depend) != evaluated.end()) {
+            if (evaluated.contains(depend)) {
                 --dependNums[it.first];
             }
         }
         tasks.insert({dependNums[it.first], it.first});
     }
     while (!tasks.empty()) {
-        auto& symbol = tasks.begin()->second;
+        auto symbol = tasks.begin()->second;
         auto& expression = expressions[symbol];
         if (tasks.begin()->first != 0 || !expression->evaluate(evaluated)) {
             std::ostringstream oss;
-            oss << "Unresolved symbol found while trying to calcuate: ";
+            oss << "Unresolved symbol found while trying to calculate: ";
             oss << tasks.begin()->second << "=" << *expression;
             throw RuntimeError(0, oss.str());
         }
         evaluated[symbol] = expression->result();
         tasks.erase({0, symbol});
-        for (auto& solve : solves[symbol]) {
+        for (const auto& solve : solves[symbol]) {
             tasks.erase({dependNums[solve], solve});
             tasks.insert({--dependNums[solve], solve});
         }
@@ -532,17 +532,17 @@ void Computer::loadCodes(const std::vector<std::string>& codes, bool addHalt) {
     }
 }
 
-std::string Computer::getPesudoSymbolname() {
-    return "#" + std::to_string(_pesudoVarIndex++);
+std::string Computer::getPseudoSymbolName() {
+    return "#" + std::to_string(_pseudoVarIndex++);
 }
 
 int32_t Computer::getIndexedAddress(const InstructionWord& instruction, bool checkRange) {
     int32_t offset = 0;
     if (instruction.index() != 0) {
-        auto& rIi = rI(instruction.index());
+        const auto& rIi = rI(instruction.index());
         offset = static_cast<int32_t>(rIi.value());
     }
-    int32_t address = static_cast<int32_t>(instruction.addressValue()) + offset;
+    const int32_t address = static_cast<int32_t>(instruction.addressValue()) + offset;
     if (checkRange && !(0 <= address && address < NUM_MEMORY)) {
         throw RuntimeError(_lineOffset, "Invalid address in instruction '" + instruction.getBytesString() +
                                         "': " + std::to_string(address));
@@ -550,7 +550,7 @@ int32_t Computer::getIndexedAddress(const InstructionWord& instruction, bool che
     return address;
 }
 
-void Computer::copyToRegister5(const InstructionWord& instruction, const ComputerWord& word, Register5* reg) {
+void Computer::copyToRegister5(const InstructionWord& instruction, const ComputerWord& word, Register5* reg) const {
     int32_t start = instruction.field() / 8;
     int32_t stop = instruction.field() % 8;
     reg->reset();
@@ -567,7 +567,7 @@ void Computer::copyToRegister5(const InstructionWord& instruction, const Compute
     }
 }
 
-void Computer::copyFromRegister5(const InstructionWord& instruction, const Register5& reg, ComputerWord* word) {
+void Computer::copyFromRegister5(const InstructionWord& instruction, const Register5& reg, ComputerWord* word) const {
     int32_t start = instruction.field() / 8;
     int32_t stop = instruction.field() % 8;
     if (start > stop || stop > 5) {
@@ -583,7 +583,7 @@ void Computer::copyFromRegister5(const InstructionWord& instruction, const Regis
     }
 }
 
-void Computer::copyToRegister2(const InstructionWord& instruction, const ComputerWord& word, Register2* reg) {
+void Computer::copyToRegister2(const InstructionWord& instruction, const ComputerWord& word, Register2* reg) const {
     int32_t start = instruction.field() / 8;
     int32_t stop = instruction.field() % 8;
     if (start > stop || stop > 5) {
@@ -602,10 +602,10 @@ void Computer::copyToRegister2(const InstructionWord& instruction, const Compute
 
 /** Check whether the given value can be fitted into the given number of bytes.
  * 
- * Overflow will be triggered if it the value can not be fitted into 5 bytes.
+ * Overflow will be triggered if the value can not be fitted into 5 bytes.
  * (Which means rI will not trigger overflow.)
  */
-int32_t Computer::checkRange(int32_t value, int bytes) {
+int32_t Computer::checkRange(int32_t value, const int bytes) {
     int32_t range = 1 << (6 * bytes);
     if (std::abs(value) >= range) {
         if (bytes == 5) {
@@ -616,12 +616,12 @@ int32_t Computer::checkRange(int32_t value, int bytes) {
     return value;
 }
 
-uint8_t Computer::getAX(int index) const {
+uint8_t Computer::getAX(const int index) const {
     assert(1 <= index && index <= 10);
     return index <= 5 ? rA[index] : rX[index - 5];
 }
 
-void Computer::setAX(int index, uint8_t value) {
+void Computer::setAX(const int index, const uint8_t value) {
     assert(1 <= index && index <= 10);
     if (index <= 5) {
         rA[index] = value;
