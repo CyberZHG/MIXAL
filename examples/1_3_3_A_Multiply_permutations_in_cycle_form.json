@@ -1,0 +1,14 @@
+{
+  "card-reader": {
+    "values": [
+      "    (  A    C    F    G  )        (  B    C    D  )        (  A    E    D  )    ",
+      "    (  F    A    D    E  )        (  B    G    F    A    E  )                  ="
+    ]
+  },
+  "outputs": {
+    "line-printer": {
+      "offset": 48,
+      "length": 10
+    }
+  }
+}

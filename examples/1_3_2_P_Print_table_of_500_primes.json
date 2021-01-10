@@ -1,0 +1,34 @@
+{
+  "outputs": {
+    "line-printer": [
+      {
+        "offset": 960,
+        "length": 11
+      },
+      {
+        "offset": 984,
+        "length": 11
+      },
+      {
+        "offset": 1008,
+        "length": 11
+      },
+      {
+        "offset": 1032,
+        "length": 11
+      },
+      {
+        "offset": 1056,
+        "length": 11
+      },
+      {
+        "offset": 1080,
+        "length": 11
+      },
+      {
+        "offset": 2160,
+        "length": 11
+      }
+    ]
+  }
+}
