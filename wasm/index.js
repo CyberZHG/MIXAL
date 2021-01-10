@@ -58,10 +58,11 @@ function executeWithSpec(code, ioSpec) {
             }
         }
     }
+
     computer.executeUntilHalt();
 
     let results = {
-        "halt-at-address": computer.line(),
+        "program-counter": computer.line(),
         "execution-time": computer.elapsed(),
         "A": {
             "int": computer.registerA().value(),

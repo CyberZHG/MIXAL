@@ -34,6 +34,7 @@ PYBIND11_MODULE(_core, m, py::mod_gil_not_used()) {
         .def_readwrite("byte2", &Register2::byte2)
         .def("set", py::overload_cast<int16_t>(&Register2::set))
         .def("value", &Register2::value)
+        .def("get_bytes_str", &Register2::getBytesString)
     ;
     py::class_<Computer>(m, "Computer")
         .def(py::init<>())
