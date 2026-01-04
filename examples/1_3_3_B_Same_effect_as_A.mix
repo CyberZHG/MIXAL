@@ -1,0 +1,85 @@
+MAXWDS  EQU  1200               Maximum length of input
+X       ORIG *+MAXWDS           The table of names
+T       ORIG *+MAXWDS           The auxiliary state table
+PERM    ORIG *+MAXWDS           The input permutation
+ANS     EQU  PERM               Place for answer
+OUTBUF  ORIG *+24               Place for printing
+CARDS   EQU  16                 Unit number for card reader
+PRINTER EQU  18                 Unit number for printer
+BEGIN   IN   PERM(CARDS)        Read first card.
+        ENT2 0
+        LDA  EQUALS
+1H      JBUS *(CARDS)           Wait for cycle complete.
+        CMPA PERM+15,2
+        JE   *+2                Is it the last card?
+        IN   PERM+16,2(CARDS)   No, read another.
+        ENT1 OUTBUF
+        JBUS *(PRINTER)         Print a copy of
+        MOVE PERM,2(16)         the input card.
+        OUT  OUTBUF(PRINTER)
+        JE   1F
+        INC2 16
+        CMP2 =MAXWDS-16=
+        JLE  1B                 Repeat until input is complete.
+        HLT  666                At this point, rI2 words of
+1H      INC2 15                 1 input are in PERM, PERM + 1, . . .
+        ENT3 0                  1 and we haven’t seen any names yet.
+RIGHT   ENTX 0                  A Set Z ← 0.
+SCAN    DEC2 1                  B B2. Next element.
+        LDA  PERM,2             B
+        JAZ  CYCLE              B Skip over blanks.
+        CMPA RPREN              C
+        JE   RIGHT              C Is the next element “)”?
+        CMPA LPREN              D
+        JE   LEFT               D Is it “(”?
+        ENT4 1,3                E Prepare for the search.
+        STA  X                  E Store at beginning of table.
+2H      DEC4 1                  F Search through names table.
+        CMPA X,4                F
+        JNE  2B                 F Repeat until match found.
+        J4P  FOUND              G Has the name appeared before?
+        INC3 1                  H No; increase the table size.
+        STA  X,3                H Insert the new name xn.
+        ST3  T,3                H Set T[n] ← n,
+        ENT4 0,3                H i ← n.
+FOUND   LDA  T,4                J B3. Change T[i].
+        STX  T,4                J Store Z.
+        SRC  5                  J Set Z.
+        JANZ SCAN               J
+        ENT1 0,4                K If Z was zero, set j ← i.
+        JMP  SCAN               K
+LEFT    STX  T,1                L B4. Change T[j].
+CYCLE   J2P  SCAN               P Return to B2, unless finished.
+*
+OUTPUT  ENT1 ANS                1 All input has been scanned.
+        J3Z  DONE               1 The x and T tables contain the answer.
+1H      LDAN X,3                Q Now we construct cycle notation.
+        JAP  SKIP               Q Has name been tagged?
+        CMP3 T,3                R Is there a singleton cycle?
+        JE   SKIP               R
+        MOVE LPREN              S Open a cycle.
+2H      MOVE X,3                T
+        STA  X,3                T Tag the name.
+        LD3  T,3                T Find successor of element.
+        LDAN X,3                T
+        JAN  2B                 T Is it already tagged?
+        MOVE RPREN              W Yes, cycle closes.
+SKIP    DEC3 1                  Z Move to next name.
+        J3P  1B                 Z
+*
+DONE    CMP1 =ANS=
+        JNE  *+2                Is answer the identity permutation?
+        MOVE LPREN(2)           If so, change to ‘()’.
+        MOVE =0=                Put 23 words of blanks after answer.
+        MOVE -1,1(22)
+        ENT3 0
+        OUT  ANS,3(PRINTER)
+        INC3 24
+        LDX  ANS,3              Print as many lines as necessary.
+        JXNZ *-3
+        HLT
+*
+LPREN   ALF      (              Constants used in the program
+RPREN   ALF  )
+EQUALS  ALF      =
+        END  BEGIN
