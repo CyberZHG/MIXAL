@@ -7,7 +7,8 @@
   },
   "outputs": {
     "line-printer": {
-      "length": 58
+      "offset": 48,
+      "length": 10
     }
   }
 }
