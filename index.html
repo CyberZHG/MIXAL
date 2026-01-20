@@ -1,40 +1,58 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" class="dark">
 <head>
   <meta charset="UTF-8" />
   <link rel="icon" type="image/svg+xml" href="/MIXAL/favicon.svg">
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Online MIXAL Emulator</title>
-  <script type="module" crossorigin src="/MIXAL/assets/main-AlVaLPge.js"></script>
-  <link rel="stylesheet" crossorigin href="/MIXAL/assets/__vite-browser-external-DqHThK3L.css">
+  <script>
+    (function() {
+      const theme = localStorage.getItem('theme');
+      if (theme === 'light') {
+        document.documentElement.classList.remove('dark');
+      }
+    })();
+  </script>
+  <script type="module" crossorigin src="/MIXAL/assets/main-Dg7HON6O.js"></script>
+  <link rel="modulepreload" crossorigin href="/MIXAL/assets/__vite-browser-external-C7Q-FbNt.js">
+  <link rel="stylesheet" crossorigin href="/MIXAL/assets/__vite-browser-external-BAgq56yE.css">
 </head>
-<body class="h-screen flex flex-col">
+<body class="h-screen flex flex-col bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100">
   <!-- Top Navigation -->
-  <nav class="bg-gray-50 border-b border-gray-200">
+  <nav class="bg-gray-50 dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
     <div class="max-w-7xl mx-auto px-4">
       <div class="flex h-16 items-center justify-between">
         <div class="flex items-center">
-            <span class="text-xl font-bold text-gray-700">
+            <span class="text-xl font-bold text-gray-700 dark:text-gray-200">
               <a href="/MIXAL">Online MIXAL Emulator</a>
             </span>
         </div>
-        <div class="hidden md:flex space-x-6">
+        <div class="hidden md:flex space-x-6 items-center">
           <a href="https://github.com/CyberZHG/MIXAL/wiki/IO-Specification-for-Online-MIXAL-Emulator"
-             class="flex items-center gap-2 text-gray-700 hover:text-blue-600">
+             class="flex items-center gap-2 text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400">
             IO Specification
           </a>
           <a href="/MIXAL/examples.html"
-             class="flex items-center gap-2 text-gray-700 hover:text-blue-600">
+             class="flex items-center gap-2 text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400">
             Examples
           </a>
           <a href="https://github.com/CyberZHG/MIXAL"
-             class="flex items-center gap-2 text-gray-700 hover:text-blue-600">
+             class="flex items-center gap-2 text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400">
             GitHub
           </a>
           <a href="https://github.com/CyberZHG/MIXAL/issues"
-             class="flex items-center gap-2 text-gray-700 hover:text-blue-600">
+             class="flex items-center gap-2 text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400">
             Issues
           </a>
+          <!-- Theme Toggle Button -->
+          <button id="theme-toggle" class="p-2 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700" title="Toggle theme">
+            <svg id="theme-icon-dark" class="w-5 h-5 hidden dark:block" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z"/>
+            </svg>
+            <svg id="theme-icon-light" class="w-5 h-5 block dark:hidden" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"/>
+            </svg>
+          </button>
         </div>
       </div>
     </div>
@@ -59,12 +77,12 @@
               <div class="relative w-full h-full min-h-0">
                 <!-- Highlight Layer -->
                 <pre class="absolute inset-0 p-2 pr-4 pointer-events-none text-sm font-mono
-                      whitespace-pre break-words text-gray-900 overflow-hidden"><code id="mixal-editor-highlighted"></code></pre>
+                      whitespace-pre break-words text-gray-900 dark:text-gray-100 overflow-hidden"><code id="mixal-editor-highlighted"></code></pre>
                 <!-- Code area -->
                 <textarea id="mixal-editor"
                     spellcheck="false"
                     class="relative w-full h-full min-h-0 p-2 pr-4 bg-transparent
-                       text-transparent caret-gray-950 resize-none
+                       text-transparent caret-gray-950 dark:caret-gray-100 resize-none
                        outline-none whitespace-pre text-sm font-mono
                        overflow-auto"></textarea>
               </div>
@@ -74,7 +92,7 @@
       </div>
 
       <!-- Right Panel -->
-      <div class="flex-1 min-h-0 bg-white p-2 flex flex-col">
+      <div class="flex-1 min-h-0 bg-white dark:bg-gray-900 p-2 flex flex-col">
         <!-- IO Specification -->
         <div class="flex flex-col gap-2 pt-4">
           <label class="block font-bold text-lg">IO Specification</label>
@@ -91,12 +109,12 @@
                 <div class="relative w-full h-full min-h-0">
                   <!-- Highlight Layer -->
                   <pre class="absolute inset-0 p-2 pr-4 pointer-events-none text-sm font-mono
-                      whitespace-pre break-words text-gray-900 overflow-hidden"><code id="io-spec-highlighted"></code></pre>
+                      whitespace-pre break-words text-gray-900 dark:text-gray-100 overflow-hidden"><code id="io-spec-highlighted"></code></pre>
                   <!-- Code area -->
                   <textarea id="io-spec-editor"
                             spellcheck="false"
                             class="relative w-full h-full min-h-0 p-2 pr-4 bg-transparent
-                       text-transparent caret-gray-950 resize-none
+                       text-transparent caret-gray-950 dark:caret-gray-100 resize-none
                        outline-none whitespace-pre text-sm font-mono
                        overflow-auto"></textarea>
                 </div>
@@ -125,12 +143,12 @@
                 <div class="relative w-full h-full min-h-0">
                   <!-- Highlight Layer -->
                   <pre class="absolute inset-0 p-2 pr-4 pointer-events-none text-sm font-mono
-                        whitespace-pre break-words text-gray-900 overflow-hidden"><code id="results-highlighted"></code></pre>
+                        whitespace-pre break-words text-gray-900 dark:text-gray-100 overflow-hidden"><code id="results-highlighted"></code></pre>
                   <!-- Code area -->
                   <textarea id="results-editor"
                             spellcheck="false"
                             class="relative w-full h-full min-h-0 p-2 pr-4 bg-transparent
-                         text-transparent caret-gray-950 resize-none
+                         text-transparent caret-gray-950 dark:caret-gray-100 resize-none
                          outline-none whitespace-pre text-sm font-mono
                          overflow-auto" disabled></textarea>
                 </div>
