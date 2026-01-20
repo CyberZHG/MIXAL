@@ -66,17 +66,17 @@ function highlightMIXAL(code: string) : string {
         .replace(/\*/g, STAR_PH)
         .replace(/^((?:\S+[ \t]+|[ \t]+)(?:\S+[ \t]+){2})(\S.*)$/gm, '$1<span class="text-gray-400 italic">$2</span>')
         .replace(MIXAL_KEYWORDS_REGEX, (match) => {
-            return `<span class="text-blue-700 font-bold">${match}</span>`
+            return `<span class="text-blue-700 dark:text-blue-500 font-bold">${match}</span>`
         })
         .replace(MIXAL_PSEUDO_KEYWORDS_REGEX, (match) => {
-            return `<span class="text-blue-600 font-bold">${match}</span>`
+            return `<span class="text-blue-600 dark:text-blue-400 font-bold">${match}</span>`
         })
 
     let commentIndex = 0
     return result
-        .replace(new RegExp(PLUS_PH, 'g'), '<span class="text-red-600">+</span>')
-        .replace(new RegExp(MINUS_PH, 'g'), '<span class="text-red-600">-</span>')
-        .replace(new RegExp(STAR_PH, 'g'), '<span class="text-red-600">*</span>')
+        .replace(new RegExp(PLUS_PH, 'g'), '<span class="text-red-600 dark:text-red-400">+</span>')
+        .replace(new RegExp(MINUS_PH, 'g'), '<span class="text-red-600 dark:text-red-400">-</span>')
+        .replace(new RegExp(STAR_PH, 'g'), '<span class="text-red-600 dark:text-red-400">*</span>')
         .replace(new RegExp(COMMENT_PH, 'g'), () => {
             return `<span class="text-gray-400 italic">${comments[commentIndex++]}</span>`
         })
@@ -136,13 +136,13 @@ function highlightJSON(code: string): string {
         (match) => {
             let cls = "font-bold "
             if (/^"/.test(match)) {
-                cls += /:$/.test(match) ? 'text-blue-800' : 'text-green-700'
+                cls += /:$/.test(match) ? 'text-blue-800 dark:text-blue-400' : 'text-green-700 dark:text-green-400'
             } else if (/true|false/.test(match)) {
-                cls += 'text-purple-800'
+                cls += 'text-purple-800 dark:text-purple-400'
             } else if (/null/.test(match)) {
-                cls += 'text-gray-500'
+                cls += 'text-gray-500 dark:text-gray-400'
             } else {
-                cls += 'text-yellow-600'
+                cls += 'text-yellow-600 dark:text-yellow-500'
             }
             return `<span class="${cls}">${match}</span>`
         }
