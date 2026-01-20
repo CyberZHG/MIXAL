@@ -3,6 +3,7 @@
 #include <tuple>
 #include <sstream>
 #include <cassert>
+#include <ranges>
 #include "machine.h"
 #include "parser.h"
 
@@ -26,8 +27,8 @@ Register2& Computer::rI(const int index) {
 }
 
 Computer::~Computer() {
-    for (size_t i = 0; i < devices.size(); ++i) {
-        delete devices[i];
+    for (const auto& device : devices) {
+        delete device;
     }
 }
 
@@ -576,7 +577,7 @@ int32_t Computer::getIndexedAddress(const InstructionWord& instruction, bool che
 
 void Computer::copyToRegister5(const InstructionWord& instruction, const ComputerWord& word, Register5* reg) const {
     int32_t start = instruction.field() / 8;
-    int32_t stop = instruction.field() % 8;
+    const int32_t stop = instruction.field() % 8;
     reg->reset();
     if (start > stop || stop > 5) {
         throw RuntimeError(_lineOffset, "Invalid field value: ("
@@ -593,7 +594,7 @@ void Computer::copyToRegister5(const InstructionWord& instruction, const Compute
 
 void Computer::copyFromRegister5(const InstructionWord& instruction, const Register5& reg, ComputerWord* word) const {
     int32_t start = instruction.field() / 8;
-    int32_t stop = instruction.field() % 8;
+    const int32_t stop = instruction.field() % 8;
     if (start > stop || stop > 5) {
         throw RuntimeError(_lineOffset, "Invalid field value: ("
                                         + std::to_string(start) + ":" + std::to_string(stop) + ")");
@@ -609,7 +610,7 @@ void Computer::copyFromRegister5(const InstructionWord& instruction, const Regis
 
 void Computer::copyToRegister2(const InstructionWord& instruction, const ComputerWord& word, Register2* reg) const {
     int32_t start = instruction.field() / 8;
-    int32_t stop = instruction.field() % 8;
+    const int32_t stop = instruction.field() % 8;
     if (start > stop || stop > 5) {
         throw RuntimeError(_lineOffset, "Invalid field value: ("
                                         + std::to_string(start) + ":" + std::to_string(stop) + ")");
@@ -630,8 +631,7 @@ void Computer::copyToRegister2(const InstructionWord& instruction, const Compute
  * (Which means rI will not trigger overflow.)
  */
 int32_t Computer::checkRange(int32_t value, const int bytes) {
-    int32_t range = 1 << (6 * bytes);
-    if (std::abs(value) >= range) {
+    if (int32_t range = 1 << (6 * bytes); std::abs(value) >= range) {
         if (bytes == 5) {
             overflow = true;
         }
@@ -654,4 +654,4 @@ void Computer::setAX(const int index, const uint8_t value) {
     }
 }
 
-};  // namespace mixal
+}  // namespace mixal

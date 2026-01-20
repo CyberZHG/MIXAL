@@ -124,4 +124,4 @@ void Computer::executeMOVE(const InstructionWord& instruction) {
     rI1.set(targetAddress + amount);
 }
 
-};  // namespace mixal
+}  // namespace mixal

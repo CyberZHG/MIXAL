@@ -184,7 +184,7 @@ class Instructions {
     static int getCost(Code code, uint8_t field = 0);
 };
 
-};  // namespace mixal
+}  // namespace mixal
 
 
 #endif  // INCLUDE_INSTRUCTIONS_H_

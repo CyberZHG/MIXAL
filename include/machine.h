@@ -192,7 +192,7 @@ class Computer {
     void executeCON(ParsedResult* instruction);
 };
 
-};  // namespace mixal
+}  // namespace mixal
 
 
 #endif  // INCLUDE_MACHINE_H_

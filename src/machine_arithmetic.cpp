@@ -84,4 +84,4 @@ void Computer::executeDIV(const InstructionWord& instruction) {
     rX.set(remainder);
 }
 
-};  // namespace mixal
+}  // namespace mixal

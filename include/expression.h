@@ -198,7 +198,7 @@ class Expression {
     std::vector<Operation> _operations;        /**< The operations in the expression. */
 };
 
-};  // namespace mixal
+}  // namespace mixal
 
 
 #endif  // INCLUDE_EXPRESSION_H_

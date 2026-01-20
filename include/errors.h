@@ -65,7 +65,7 @@ class RuntimeError final : public std::exception {
     std::string _message;  /**< The error information. */
 };
 
-};  // namespace mixal
+}  // namespace mixal
 
 
 #endif  // INCLUDE_ERRORS_H_

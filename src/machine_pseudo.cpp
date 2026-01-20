@@ -25,9 +25,9 @@ void Computer::executeORIG(ParsedResult* instruction) {
             throw RuntimeError(_lineOffset, "Unresolved symbol found while parsing ORIG: " + instruction->rawAddress);
         }
     }
-    int lineOffset = _lineOffset;
+    const int lineOffset = _lineOffset;
     _lineOffset = instruction->address.result().value;
-    if (instruction->rawLocation.length() > 0) {
+    if (!instruction->rawLocation.empty()) {
         if (instruction->rawAddress.find('*') == std::string::npos) {
             if (!instruction->rawLocation.empty()) {
                 _constants[instruction->rawLocation] = AtomicValue(instruction->address.result().value);
@@ -37,7 +37,7 @@ void Computer::executeORIG(ParsedResult* instruction) {
             _constants[instruction->rawLocation] = AtomicValue(lineOffset);
         }
     } else {
-        std::string symbol = getPseudoSymbolName();
+        const std::string symbol = getPseudoSymbolName();
         _constants[symbol] = AtomicValue(instruction->address.result().value);
     }
 }
@@ -56,4 +56,4 @@ void Computer::executeCON(ParsedResult* instruction) {
     ++_lineOffset;
 }
 
-};  // namespace mixal
+}  // namespace mixal

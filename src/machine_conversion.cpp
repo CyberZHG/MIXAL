@@ -42,4 +42,4 @@ void Computer::executeCHAR() {
     }
 }
 
-};  // namespace mixal
+}  // namespace mixal

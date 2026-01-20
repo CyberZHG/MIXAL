@@ -89,7 +89,7 @@ struct Register2 {
     void set(char sign, uint8_t _byte1, uint8_t _byte2);
 };
 
-};  // namespace mixal
+}  // namespace mixal
 
 
 #endif  // INCLUDE_REGISTERS_H_

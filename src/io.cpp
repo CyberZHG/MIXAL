@@ -7,23 +7,23 @@
 
 namespace mixal {
 
-IODevice::IODevice(int32_t blockSize, bool allowRead, bool allowWrite) : _type(IODeviceType::TAPE),
+IODevice::IODevice(const int32_t blockSize, const bool allowRead, const bool allowWrite) : _type(IODeviceType::TAPE),
         _blockSize(blockSize), _allowRead(allowRead), _allowWrite(allowWrite),
         _timestamp(), _readyRate(1.0) {}
 
-bool IODevice::ready(int32_t timestamp) {
-    int32_t elapsed = std::max(0, timestamp - _timestamp);
+bool IODevice::ready(const int32_t timestamp) {
+    const int32_t elapsed = std::max(0, timestamp - _timestamp);
     _timestamp = timestamp;
-    double r = static_cast<double>(rand()) / RAND_MAX;
-    double successRate = 1.0 - pow(1.0 - _readyRate, elapsed);
+    const double r = static_cast<double>(rand()) / RAND_MAX;
+    const double successRate = 1.0 - pow(1.0 - _readyRate, elapsed);
     return r <= successRate;
 }
 
-IODeviceStorage::IODeviceStorage(int32_t storageSize) : IODevice(100, true, true),
+IODeviceStorage::IODeviceStorage(const int32_t storageSize) : IODevice(100, true, true),
         _status(IODeviceStatus::READY), _address(0), _locator(0), _memory(nullptr),
         _buffer(100), _storage(storageSize) {}
 
-bool IODeviceStorage::ready(int32_t elapsed) {
+bool IODeviceStorage::ready(const int32_t elapsed) {
     bool state = IODevice::ready(elapsed);
     if (state) {
         if (_status == IODeviceStatus::BUSY_READ) {
@@ -35,7 +35,7 @@ bool IODeviceStorage::ready(int32_t elapsed) {
     return state;
 }
 
-void IODeviceStorage::read(ComputerWord* memory, int32_t address) {
+void IODeviceStorage::read(ComputerWord* memory, const int32_t address) {
     _status = IODeviceStatus::BUSY_READ;
     _address = address;
     _memory = memory;
@@ -67,12 +67,12 @@ void IODeviceStorage::doWrite() {
     _status = IODeviceStatus::READY;
 }
 
-IODeviceTape::IODeviceTape(int32_t storageSize) : IODeviceStorage(storageSize) {
+IODeviceTape::IODeviceTape(const int32_t storageSize) : IODeviceStorage(storageSize) {
     _type = IODeviceType::TAPE;
     _readyRate = 0.1;
 }
 
-void IODeviceTape::control(int32_t operation) {
+void IODeviceTape::control(const int32_t operation) {
     if (operation == 0) {
         _locator = 0;
     } else {
@@ -91,16 +91,16 @@ void IODeviceTape::doWrite() {
     _locator += _blockSize;
 }
 
-IODeviceDisk::IODeviceDisk(int32_t storageSize) : IODeviceStorage(storageSize) {
+IODeviceDisk::IODeviceDisk(const int32_t storageSize) : IODeviceStorage(storageSize) {
     _type = IODeviceType::DISK;
     _readyRate = 0.5;
 }
 
-void IODeviceDisk::control(int32_t operation) {
+void IODeviceDisk::control(const int32_t operation) {
     _locator = operation;
 }
 
-IODeviceSeqReader::IODeviceSeqReader(int32_t storageSize) : IODeviceStorage(storageSize) {
+IODeviceSeqReader::IODeviceSeqReader(const int32_t storageSize) : IODeviceStorage(storageSize) {
     _allowWrite = false;
 }
 
@@ -109,7 +109,7 @@ void IODeviceSeqReader::doRead() {
     _locator += _blockSize;
 }
 
-IODeviceSeqWriter::IODeviceSeqWriter(int32_t storageSize) : IODeviceStorage(storageSize) {
+IODeviceSeqWriter::IODeviceSeqWriter(const int32_t storageSize) : IODeviceStorage(storageSize) {
     _allowRead = false;
 }
 
@@ -118,13 +118,13 @@ void IODeviceSeqWriter::doWrite() {
     _locator += _blockSize;
 }
 
-IODeviceCardReader::IODeviceCardReader(int32_t storageSize) : IODeviceSeqReader(storageSize) {
+IODeviceCardReader::IODeviceCardReader(const int32_t storageSize) : IODeviceSeqReader(storageSize) {
     _type = IODeviceType::CARD_READER;
     _blockSize = 16;
     _readyRate = 0.2;
 }
 
-IODeviceCardPunch::IODeviceCardPunch(int32_t storageSize) : IODeviceSeqWriter(storageSize) {
+IODeviceCardPunch::IODeviceCardPunch(const int32_t storageSize) : IODeviceSeqWriter(storageSize) {
     _type = IODeviceType::CARD_PUNCH;
     _blockSize = 16;
     _readyRate = 0.1;
@@ -152,13 +152,13 @@ std::string IODeviceLinePrinter::line(const int32_t pageNum, const int32_t lineN
     return out.str();
 }
 
-IODeviceTypewriter::IODeviceTypewriter(int32_t storageSize) : IODeviceSeqReader(storageSize) {
+IODeviceTypewriter::IODeviceTypewriter(const int32_t storageSize) : IODeviceSeqReader(storageSize) {
     _type = IODeviceType::TYPEWRITER;
     _blockSize = 14;
     _readyRate = 0.2;
 }
 
-IODevicePaperTape::IODevicePaperTape(int32_t storageSize) : IODeviceSeqReader(storageSize) {
+IODevicePaperTape::IODevicePaperTape(const int32_t storageSize) : IODeviceSeqReader(storageSize) {
     _type = IODeviceType::PAPER_TAPE;
     _blockSize = 14;
     _readyRate = 0.2;
@@ -168,4 +168,4 @@ void IODevicePaperTape::control(int32_t) {
     _locator = 0;
 }
 
-};  // namespace mixal
+}  // namespace mixal

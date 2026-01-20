@@ -37,4 +37,4 @@ void Computer::executeLDiN(const InstructionWord& instruction) {
     rIi.negative = !rIi.negative;
 }
 
-};  // namespace mixal
+}  // namespace mixal

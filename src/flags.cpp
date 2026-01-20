@@ -11,4 +11,4 @@ std::ostream& operator<<(std::ostream& os, ComparisonIndicator c) {
     return os;
 }
 
-};  // namespace mixal
+}  // namespace mixal

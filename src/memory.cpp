@@ -256,4 +256,4 @@ void ComputerWord::set(const char sign, const uint16_t bytes12, const uint8_t _b
     this->byte5 = _byte5;
 }
 
-};  // namespace mixal
+}  // namespace mixal

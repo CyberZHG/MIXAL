@@ -10,13 +10,11 @@
 
 namespace mixal {
 
-Expression::Expression() : _evaluated(false), _result(), _literalConstant(false),
-    _depends(), _atomics(), _operations() {
+Expression::Expression() : _evaluated(false), _literalConstant(false) {
 }
 
 Expression::Expression(const std::string& expression, const std::string& lineSymbol) :
-    _evaluated(false), _result(), _literalConstant(false),
-    _depends(), _atomics(), _operations() {
+    _evaluated(false), _literalConstant(false) {
     parse(expression, lineSymbol);
 }
 
@@ -24,13 +22,13 @@ Expression Expression::getConstExpression(const AtomicValue& value) {
     auto expr = Expression();
     expr._evaluated = true;
     expr._result = value;
-    expr._atomics.emplace_back(Atomic(AtomicType::INTEGER, value.value));
+    expr._atomics.emplace_back(AtomicType::INTEGER, value.value);
     return expr;
 }
 
 Expression Expression::getConstExpression(const std::string& symbol) {
     auto expr = Expression();
-    expr._atomics.emplace_back(Atomic(AtomicType::SYMBOL, symbol));
+    expr._atomics.emplace_back(AtomicType::SYMBOL, symbol);
     expr._depends.insert(symbol);
     return expr;
 }
@@ -214,7 +212,7 @@ void Expression::parse(const std::string& expression, const std::string& lineSym
                         break;
                     }
                 } else {
-                    // TODO(admin): Add float division.
+                    // TODO: Add float division.
                     throw ExpressionError(i, "Unknown binary operator found");
                 }
             }
@@ -344,7 +342,7 @@ std::ostream& operator<<(std::ostream& out, Operation operation) {
 }
 
 std::ostream& operator<<(std::ostream& out, const Expression& expression) {
-    if (expression._atomics.size() > 0) {
+    if (!expression._atomics.empty()) {
         out << expression._atomics[0];
     }
     for (size_t i = 0; i < expression._operations.size(); ++i) {
@@ -354,4 +352,4 @@ std::ostream& operator<<(std::ostream& out, const Expression& expression) {
     return out;
 }
 
-};  // namespace mixal
+}  // namespace mixal

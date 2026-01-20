@@ -2,13 +2,13 @@
 
 namespace mixal {
 
-bool Instructions::hasArguments(Instructions::Code code) {
-    return !(code == Instructions::NOP || code == Instructions::HLT);
+bool Instructions::hasArguments(const Code code) {
+    return !(code == NOP || code == HLT);
 }
 
 Instructions::Code Instructions::getInstructionCode(const std::string& name) {
-    auto charAt = [&name] (size_t index) -> char {
-        return index < name.length() ? std::toupper(name[index]) : '#';
+    auto charAt = [&name] (const size_t index) -> char {
+        return index < name.length() ? static_cast<char>(std::toupper(name[index])) : '#';
     };
     switch (charAt(0)) {
     case 'A':
@@ -18,7 +18,7 @@ Instructions::Code Instructions::getInstructionCode(const std::string& name) {
             case 'D':
                 switch (charAt(3)) {
                 case '#':
-                    return Instructions::ADD;
+                    return ADD;
                 }
                 break;
             }
@@ -28,7 +28,7 @@ Instructions::Code Instructions::getInstructionCode(const std::string& name) {
             case 'F':
                 switch (charAt(3)) {
                 case '#':
-                    return Instructions::ALF;
+                    return ALF;
                 }
                 break;
             }
@@ -44,7 +44,7 @@ Instructions::Code Instructions::getInstructionCode(const std::string& name) {
                 case 'R':
                     switch (charAt(4)) {
                     case '#':
-                        return Instructions::CHAR;
+                        return CHAR;
                     }
                     break;
                 }
@@ -58,49 +58,49 @@ Instructions::Code Instructions::getInstructionCode(const std::string& name) {
                 case '1':
                     switch (charAt(4)) {
                     case '#':
-                        return Instructions::CMP1;
+                        return CMP1;
                     }
                     break;
                 case '2':
                     switch (charAt(4)) {
                     case '#':
-                        return Instructions::CMP2;
+                        return CMP2;
                     }
                     break;
                 case '3':
                     switch (charAt(4)) {
                     case '#':
-                        return Instructions::CMP3;
+                        return CMP3;
                     }
                     break;
                 case '4':
                     switch (charAt(4)) {
                     case '#':
-                        return Instructions::CMP4;
+                        return CMP4;
                     }
                     break;
                 case '5':
                     switch (charAt(4)) {
                     case '#':
-                        return Instructions::CMP5;
+                        return CMP5;
                     }
                     break;
                 case '6':
                     switch (charAt(4)) {
                     case '#':
-                        return Instructions::CMP6;
+                        return CMP6;
                     }
                     break;
                 case 'A':
                     switch (charAt(4)) {
                     case '#':
-                        return Instructions::CMPA;
+                        return CMPA;
                     }
                     break;
                 case 'X':
                     switch (charAt(4)) {
                     case '#':
-                        return Instructions::CMPX;
+                        return CMPX;
                     }
                     break;
                 }
@@ -112,7 +112,7 @@ Instructions::Code Instructions::getInstructionCode(const std::string& name) {
             case 'N':
                 switch (charAt(3)) {
                 case '#':
-                    return Instructions::CON;
+                    return CON;
                 }
                 break;
             }
@@ -128,49 +128,49 @@ Instructions::Code Instructions::getInstructionCode(const std::string& name) {
                 case '1':
                     switch (charAt(4)) {
                     case '#':
-                        return Instructions::DEC1;
+                        return DEC1;
                     }
                     break;
                 case '2':
                     switch (charAt(4)) {
                     case '#':
-                        return Instructions::DEC2;
+                        return DEC2;
                     }
                     break;
                 case '3':
                     switch (charAt(4)) {
                     case '#':
-                        return Instructions::DEC3;
+                        return DEC3;
                     }
                     break;
                 case '4':
                     switch (charAt(4)) {
                     case '#':
-                        return Instructions::DEC4;
+                        return DEC4;
                     }
                     break;
                 case '5':
                     switch (charAt(4)) {
                     case '#':
-                        return Instructions::DEC5;
+                        return DEC5;
                     }
                     break;
                 case '6':
                     switch (charAt(4)) {
                     case '#':
-                        return Instructions::DEC6;
+                        return DEC6;
                     }
                     break;
                 case 'A':
                     switch (charAt(4)) {
                     case '#':
-                        return Instructions::DECA;
+                        return DECA;
                     }
                     break;
                 case 'X':
                     switch (charAt(4)) {
                     case '#':
-                        return Instructions::DECX;
+                        return DECX;
                     }
                     break;
                 }
@@ -182,7 +182,7 @@ Instructions::Code Instructions::getInstructionCode(const std::string& name) {
             case 'V':
                 switch (charAt(3)) {
                 case '#':
-                    return Instructions::DIV;
+                    return DIV;
                 }
                 break;
             }
@@ -196,7 +196,7 @@ Instructions::Code Instructions::getInstructionCode(const std::string& name) {
             case 'D':
                 switch (charAt(3)) {
                 case '#':
-                    return Instructions::END;
+                    return END;
                 }
                 break;
             case 'N':
@@ -204,49 +204,49 @@ Instructions::Code Instructions::getInstructionCode(const std::string& name) {
                 case '1':
                     switch (charAt(4)) {
                     case '#':
-                        return Instructions::ENN1;
+                        return ENN1;
                     }
                     break;
                 case '2':
                     switch (charAt(4)) {
                     case '#':
-                        return Instructions::ENN2;
+                        return ENN2;
                     }
                     break;
                 case '3':
                     switch (charAt(4)) {
                     case '#':
-                        return Instructions::ENN3;
+                        return ENN3;
                     }
                     break;
                 case '4':
                     switch (charAt(4)) {
                     case '#':
-                        return Instructions::ENN4;
+                        return ENN4;
                     }
                     break;
                 case '5':
                     switch (charAt(4)) {
                     case '#':
-                        return Instructions::ENN5;
+                        return ENN5;
                     }
                     break;
                 case '6':
                     switch (charAt(4)) {
                     case '#':
-                        return Instructions::ENN6;
+                        return ENN6;
                     }
                     break;
                 case 'A':
                     switch (charAt(4)) {
                     case '#':
-                        return Instructions::ENNA;
+                        return ENNA;
                     }
                     break;
                 case 'X':
                     switch (charAt(4)) {
                     case '#':
-                        return Instructions::ENNX;
+                        return ENNX;
                     }
                     break;
                 }
@@ -256,49 +256,49 @@ Instructions::Code Instructions::getInstructionCode(const std::string& name) {
                 case '1':
                     switch (charAt(4)) {
                     case '#':
-                        return Instructions::ENT1;
+                        return ENT1;
                     }
                     break;
                 case '2':
                     switch (charAt(4)) {
                     case '#':
-                        return Instructions::ENT2;
+                        return ENT2;
                     }
                     break;
                 case '3':
                     switch (charAt(4)) {
                     case '#':
-                        return Instructions::ENT3;
+                        return ENT3;
                     }
                     break;
                 case '4':
                     switch (charAt(4)) {
                     case '#':
-                        return Instructions::ENT4;
+                        return ENT4;
                     }
                     break;
                 case '5':
                     switch (charAt(4)) {
                     case '#':
-                        return Instructions::ENT5;
+                        return ENT5;
                     }
                     break;
                 case '6':
                     switch (charAt(4)) {
                     case '#':
-                        return Instructions::ENT6;
+                        return ENT6;
                     }
                     break;
                 case 'A':
                     switch (charAt(4)) {
                     case '#':
-                        return Instructions::ENTA;
+                        return ENTA;
                     }
                     break;
                 case 'X':
                     switch (charAt(4)) {
                     case '#':
-                        return Instructions::ENTX;
+                        return ENTX;
                     }
                     break;
                 }
@@ -310,7 +310,7 @@ Instructions::Code Instructions::getInstructionCode(const std::string& name) {
             case 'U':
                 switch (charAt(3)) {
                 case '#':
-                    return Instructions::EQU;
+                    return EQU;
                 }
                 break;
             }
@@ -326,7 +326,7 @@ Instructions::Code Instructions::getInstructionCode(const std::string& name) {
                 case 'D':
                     switch (charAt(4)) {
                     case '#':
-                        return Instructions::FADD;
+                        return FADD;
                     }
                     break;
                 }
@@ -340,7 +340,7 @@ Instructions::Code Instructions::getInstructionCode(const std::string& name) {
                 case 'P':
                     switch (charAt(4)) {
                     case '#':
-                        return Instructions::FCMP;
+                        return FCMP;
                     }
                     break;
                 }
@@ -354,7 +354,7 @@ Instructions::Code Instructions::getInstructionCode(const std::string& name) {
                 case 'V':
                     switch (charAt(4)) {
                     case '#':
-                        return Instructions::FDIV;
+                        return FDIV;
                     }
                     break;
                 }
@@ -368,7 +368,7 @@ Instructions::Code Instructions::getInstructionCode(const std::string& name) {
                 case 'L':
                     switch (charAt(4)) {
                     case '#':
-                        return Instructions::FMUL;
+                        return FMUL;
                     }
                     break;
                 }
@@ -382,7 +382,7 @@ Instructions::Code Instructions::getInstructionCode(const std::string& name) {
                 case 'B':
                     switch (charAt(4)) {
                     case '#':
-                        return Instructions::FSUB;
+                        return FSUB;
                     }
                     break;
                 }
@@ -398,7 +398,7 @@ Instructions::Code Instructions::getInstructionCode(const std::string& name) {
             case 'T':
                 switch (charAt(3)) {
                 case '#':
-                    return Instructions::HLT;
+                    return HLT;
                 }
                 break;
             }
@@ -410,55 +410,55 @@ Instructions::Code Instructions::getInstructionCode(const std::string& name) {
         case 'N':
             switch (charAt(2)) {
             case '#':
-                return Instructions::IN;
+                return IN;
             case 'C':
                 switch (charAt(3)) {
                 case '1':
                     switch (charAt(4)) {
                     case '#':
-                        return Instructions::INC1;
+                        return INC1;
                     }
                     break;
                 case '2':
                     switch (charAt(4)) {
                     case '#':
-                        return Instructions::INC2;
+                        return INC2;
                     }
                     break;
                 case '3':
                     switch (charAt(4)) {
                     case '#':
-                        return Instructions::INC3;
+                        return INC3;
                     }
                     break;
                 case '4':
                     switch (charAt(4)) {
                     case '#':
-                        return Instructions::INC4;
+                        return INC4;
                     }
                     break;
                 case '5':
                     switch (charAt(4)) {
                     case '#':
-                        return Instructions::INC5;
+                        return INC5;
                     }
                     break;
                 case '6':
                     switch (charAt(4)) {
                     case '#':
-                        return Instructions::INC6;
+                        return INC6;
                     }
                     break;
                 case 'A':
                     switch (charAt(4)) {
                     case '#':
-                        return Instructions::INCA;
+                        return INCA;
                     }
                     break;
                 case 'X':
                     switch (charAt(4)) {
                     case '#':
-                        return Instructions::INCX;
+                        return INCX;
                     }
                     break;
                 }
@@ -470,7 +470,7 @@ Instructions::Code Instructions::getInstructionCode(const std::string& name) {
             case 'C':
                 switch (charAt(3)) {
                 case '#':
-                    return Instructions::IOC;
+                    return IOC;
                 }
                 break;
             }
@@ -484,23 +484,23 @@ Instructions::Code Instructions::getInstructionCode(const std::string& name) {
             case 'N':
                 switch (charAt(3)) {
                 case '#':
-                    return Instructions::J1N;
+                    return J1N;
                 case 'N':
                     switch (charAt(4)) {
                     case '#':
-                        return Instructions::J1NN;
+                        return J1NN;
                     }
                     break;
                 case 'P':
                     switch (charAt(4)) {
                     case '#':
-                        return Instructions::J1NP;
+                        return J1NP;
                     }
                     break;
                 case 'Z':
                     switch (charAt(4)) {
                     case '#':
-                        return Instructions::J1NZ;
+                        return J1NZ;
                     }
                     break;
                 }
@@ -508,13 +508,13 @@ Instructions::Code Instructions::getInstructionCode(const std::string& name) {
             case 'P':
                 switch (charAt(3)) {
                 case '#':
-                    return Instructions::J1P;
+                    return J1P;
                 }
                 break;
             case 'Z':
                 switch (charAt(3)) {
                 case '#':
-                    return Instructions::J1Z;
+                    return J1Z;
                 }
                 break;
             }
@@ -524,23 +524,23 @@ Instructions::Code Instructions::getInstructionCode(const std::string& name) {
             case 'N':
                 switch (charAt(3)) {
                 case '#':
-                    return Instructions::J2N;
+                    return J2N;
                 case 'N':
                     switch (charAt(4)) {
                     case '#':
-                        return Instructions::J2NN;
+                        return J2NN;
                     }
                     break;
                 case 'P':
                     switch (charAt(4)) {
                     case '#':
-                        return Instructions::J2NP;
+                        return J2NP;
                     }
                     break;
                 case 'Z':
                     switch (charAt(4)) {
                     case '#':
-                        return Instructions::J2NZ;
+                        return J2NZ;
                     }
                     break;
                 }
@@ -548,13 +548,13 @@ Instructions::Code Instructions::getInstructionCode(const std::string& name) {
             case 'P':
                 switch (charAt(3)) {
                 case '#':
-                    return Instructions::J2P;
+                    return J2P;
                 }
                 break;
             case 'Z':
                 switch (charAt(3)) {
                 case '#':
-                    return Instructions::J2Z;
+                    return J2Z;
                 }
                 break;
             }
@@ -564,23 +564,23 @@ Instructions::Code Instructions::getInstructionCode(const std::string& name) {
             case 'N':
                 switch (charAt(3)) {
                 case '#':
-                    return Instructions::J3N;
+                    return J3N;
                 case 'N':
                     switch (charAt(4)) {
                     case '#':
-                        return Instructions::J3NN;
+                        return J3NN;
                     }
                     break;
                 case 'P':
                     switch (charAt(4)) {
                     case '#':
-                        return Instructions::J3NP;
+                        return J3NP;
                     }
                     break;
                 case 'Z':
                     switch (charAt(4)) {
                     case '#':
-                        return Instructions::J3NZ;
+                        return J3NZ;
                     }
                     break;
                 }
@@ -588,13 +588,13 @@ Instructions::Code Instructions::getInstructionCode(const std::string& name) {
             case 'P':
                 switch (charAt(3)) {
                 case '#':
-                    return Instructions::J3P;
+                    return J3P;
                 }
                 break;
             case 'Z':
                 switch (charAt(3)) {
                 case '#':
-                    return Instructions::J3Z;
+                    return J3Z;
                 }
                 break;
             }
@@ -604,23 +604,23 @@ Instructions::Code Instructions::getInstructionCode(const std::string& name) {
             case 'N':
                 switch (charAt(3)) {
                 case '#':
-                    return Instructions::J4N;
+                    return J4N;
                 case 'N':
                     switch (charAt(4)) {
                     case '#':
-                        return Instructions::J4NN;
+                        return J4NN;
                     }
                     break;
                 case 'P':
                     switch (charAt(4)) {
                     case '#':
-                        return Instructions::J4NP;
+                        return J4NP;
                     }
                     break;
                 case 'Z':
                     switch (charAt(4)) {
                     case '#':
-                        return Instructions::J4NZ;
+                        return J4NZ;
                     }
                     break;
                 }
@@ -628,13 +628,13 @@ Instructions::Code Instructions::getInstructionCode(const std::string& name) {
             case 'P':
                 switch (charAt(3)) {
                 case '#':
-                    return Instructions::J4P;
+                    return J4P;
                 }
                 break;
             case 'Z':
                 switch (charAt(3)) {
                 case '#':
-                    return Instructions::J4Z;
+                    return J4Z;
                 }
                 break;
             }
@@ -644,23 +644,23 @@ Instructions::Code Instructions::getInstructionCode(const std::string& name) {
             case 'N':
                 switch (charAt(3)) {
                 case '#':
-                    return Instructions::J5N;
+                    return J5N;
                 case 'N':
                     switch (charAt(4)) {
                     case '#':
-                        return Instructions::J5NN;
+                        return J5NN;
                     }
                     break;
                 case 'P':
                     switch (charAt(4)) {
                     case '#':
-                        return Instructions::J5NP;
+                        return J5NP;
                     }
                     break;
                 case 'Z':
                     switch (charAt(4)) {
                     case '#':
-                        return Instructions::J5NZ;
+                        return J5NZ;
                     }
                     break;
                 }
@@ -668,13 +668,13 @@ Instructions::Code Instructions::getInstructionCode(const std::string& name) {
             case 'P':
                 switch (charAt(3)) {
                 case '#':
-                    return Instructions::J5P;
+                    return J5P;
                 }
                 break;
             case 'Z':
                 switch (charAt(3)) {
                 case '#':
-                    return Instructions::J5Z;
+                    return J5Z;
                 }
                 break;
             }
@@ -684,23 +684,23 @@ Instructions::Code Instructions::getInstructionCode(const std::string& name) {
             case 'N':
                 switch (charAt(3)) {
                 case '#':
-                    return Instructions::J6N;
+                    return J6N;
                 case 'N':
                     switch (charAt(4)) {
                     case '#':
-                        return Instructions::J6NN;
+                        return J6NN;
                     }
                     break;
                 case 'P':
                     switch (charAt(4)) {
                     case '#':
-                        return Instructions::J6NP;
+                        return J6NP;
                     }
                     break;
                 case 'Z':
                     switch (charAt(4)) {
                     case '#':
-                        return Instructions::J6NZ;
+                        return J6NZ;
                     }
                     break;
                 }
@@ -708,13 +708,13 @@ Instructions::Code Instructions::getInstructionCode(const std::string& name) {
             case 'P':
                 switch (charAt(3)) {
                 case '#':
-                    return Instructions::J6P;
+                    return J6P;
                 }
                 break;
             case 'Z':
                 switch (charAt(3)) {
                 case '#':
-                    return Instructions::J6Z;
+                    return J6Z;
                 }
                 break;
             }
@@ -724,23 +724,23 @@ Instructions::Code Instructions::getInstructionCode(const std::string& name) {
             case 'N':
                 switch (charAt(3)) {
                 case '#':
-                    return Instructions::JAN;
+                    return JAN;
                 case 'N':
                     switch (charAt(4)) {
                     case '#':
-                        return Instructions::JANN;
+                        return JANN;
                     }
                     break;
                 case 'P':
                     switch (charAt(4)) {
                     case '#':
-                        return Instructions::JANP;
+                        return JANP;
                     }
                     break;
                 case 'Z':
                     switch (charAt(4)) {
                     case '#':
-                        return Instructions::JANZ;
+                        return JANZ;
                     }
                     break;
                 }
@@ -748,13 +748,13 @@ Instructions::Code Instructions::getInstructionCode(const std::string& name) {
             case 'P':
                 switch (charAt(3)) {
                 case '#':
-                    return Instructions::JAP;
+                    return JAP;
                 }
                 break;
             case 'Z':
                 switch (charAt(3)) {
                 case '#':
-                    return Instructions::JAZ;
+                    return JAZ;
                 }
                 break;
             }
@@ -766,7 +766,7 @@ Instructions::Code Instructions::getInstructionCode(const std::string& name) {
                 case 'S':
                     switch (charAt(4)) {
                     case '#':
-                        return Instructions::JBUS;
+                        return JBUS;
                     }
                     break;
                 }
@@ -776,17 +776,17 @@ Instructions::Code Instructions::getInstructionCode(const std::string& name) {
         case 'E':
             switch (charAt(2)) {
             case '#':
-                return Instructions::JE;
+                return JE;
             }
             break;
         case 'G':
             switch (charAt(2)) {
             case '#':
-                return Instructions::JG;
+                return JG;
             case 'E':
                 switch (charAt(3)) {
                 case '#':
-                    return Instructions::JGE;
+                    return JGE;
                 }
                 break;
             }
@@ -794,11 +794,11 @@ Instructions::Code Instructions::getInstructionCode(const std::string& name) {
         case 'L':
             switch (charAt(2)) {
             case '#':
-                return Instructions::JL;
+                return JL;
             case 'E':
                 switch (charAt(3)) {
                 case '#':
-                    return Instructions::JLE;
+                    return JLE;
                 }
                 break;
             }
@@ -808,7 +808,7 @@ Instructions::Code Instructions::getInstructionCode(const std::string& name) {
             case 'P':
                 switch (charAt(3)) {
                 case '#':
-                    return Instructions::JMP;
+                    return JMP;
                 }
                 break;
             }
@@ -818,7 +818,7 @@ Instructions::Code Instructions::getInstructionCode(const std::string& name) {
             case 'E':
                 switch (charAt(3)) {
                 case '#':
-                    return Instructions::JNE;
+                    return JNE;
                 }
                 break;
             case 'O':
@@ -826,7 +826,7 @@ Instructions::Code Instructions::getInstructionCode(const std::string& name) {
                 case 'V':
                     switch (charAt(4)) {
                     case '#':
-                        return Instructions::JNOV;
+                        return JNOV;
                     }
                     break;
                 }
@@ -838,7 +838,7 @@ Instructions::Code Instructions::getInstructionCode(const std::string& name) {
             case 'V':
                 switch (charAt(3)) {
                 case '#':
-                    return Instructions::JOV;
+                    return JOV;
                 }
                 break;
             }
@@ -850,7 +850,7 @@ Instructions::Code Instructions::getInstructionCode(const std::string& name) {
                 case 'D':
                     switch (charAt(4)) {
                     case '#':
-                        return Instructions::JRED;
+                        return JRED;
                     }
                     break;
                 }
@@ -862,7 +862,7 @@ Instructions::Code Instructions::getInstructionCode(const std::string& name) {
             case 'J':
                 switch (charAt(3)) {
                 case '#':
-                    return Instructions::JSJ;
+                    return JSJ;
                 }
                 break;
             }
@@ -872,23 +872,23 @@ Instructions::Code Instructions::getInstructionCode(const std::string& name) {
             case 'N':
                 switch (charAt(3)) {
                 case '#':
-                    return Instructions::JXN;
+                    return JXN;
                 case 'N':
                     switch (charAt(4)) {
                     case '#':
-                        return Instructions::JXNN;
+                        return JXNN;
                     }
                     break;
                 case 'P':
                     switch (charAt(4)) {
                     case '#':
-                        return Instructions::JXNP;
+                        return JXNP;
                     }
                     break;
                 case 'Z':
                     switch (charAt(4)) {
                     case '#':
-                        return Instructions::JXNZ;
+                        return JXNZ;
                     }
                     break;
                 }
@@ -896,13 +896,13 @@ Instructions::Code Instructions::getInstructionCode(const std::string& name) {
             case 'P':
                 switch (charAt(3)) {
                 case '#':
-                    return Instructions::JXP;
+                    return JXP;
                 }
                 break;
             case 'Z':
                 switch (charAt(3)) {
                 case '#':
-                    return Instructions::JXZ;
+                    return JXZ;
                 }
                 break;
             }
@@ -916,11 +916,11 @@ Instructions::Code Instructions::getInstructionCode(const std::string& name) {
             case '1':
                 switch (charAt(3)) {
                 case '#':
-                    return Instructions::LD1;
+                    return LD1;
                 case 'N':
                     switch (charAt(4)) {
                     case '#':
-                        return Instructions::LD1N;
+                        return LD1N;
                     }
                     break;
                 }
@@ -928,11 +928,11 @@ Instructions::Code Instructions::getInstructionCode(const std::string& name) {
             case '2':
                 switch (charAt(3)) {
                 case '#':
-                    return Instructions::LD2;
+                    return LD2;
                 case 'N':
                     switch (charAt(4)) {
                     case '#':
-                        return Instructions::LD2N;
+                        return LD2N;
                     }
                     break;
                 }
@@ -940,11 +940,11 @@ Instructions::Code Instructions::getInstructionCode(const std::string& name) {
             case '3':
                 switch (charAt(3)) {
                 case '#':
-                    return Instructions::LD3;
+                    return LD3;
                 case 'N':
                     switch (charAt(4)) {
                     case '#':
-                        return Instructions::LD3N;
+                        return LD3N;
                     }
                     break;
                 }
@@ -952,11 +952,11 @@ Instructions::Code Instructions::getInstructionCode(const std::string& name) {
             case '4':
                 switch (charAt(3)) {
                 case '#':
-                    return Instructions::LD4;
+                    return LD4;
                 case 'N':
                     switch (charAt(4)) {
                     case '#':
-                        return Instructions::LD4N;
+                        return LD4N;
                     }
                     break;
                 }
@@ -964,11 +964,11 @@ Instructions::Code Instructions::getInstructionCode(const std::string& name) {
             case '5':
                 switch (charAt(3)) {
                 case '#':
-                    return Instructions::LD5;
+                    return LD5;
                 case 'N':
                     switch (charAt(4)) {
                     case '#':
-                        return Instructions::LD5N;
+                        return LD5N;
                     }
                     break;
                 }
@@ -976,11 +976,11 @@ Instructions::Code Instructions::getInstructionCode(const std::string& name) {
             case '6':
                 switch (charAt(3)) {
                 case '#':
-                    return Instructions::LD6;
+                    return LD6;
                 case 'N':
                     switch (charAt(4)) {
                     case '#':
-                        return Instructions::LD6N;
+                        return LD6N;
                     }
                     break;
                 }
@@ -988,11 +988,11 @@ Instructions::Code Instructions::getInstructionCode(const std::string& name) {
             case 'A':
                 switch (charAt(3)) {
                 case '#':
-                    return Instructions::LDA;
+                    return LDA;
                 case 'N':
                     switch (charAt(4)) {
                     case '#':
-                        return Instructions::LDAN;
+                        return LDAN;
                     }
                     break;
                 }
@@ -1000,11 +1000,11 @@ Instructions::Code Instructions::getInstructionCode(const std::string& name) {
             case 'X':
                 switch (charAt(3)) {
                 case '#':
-                    return Instructions::LDX;
+                    return LDX;
                 case 'N':
                     switch (charAt(4)) {
                     case '#':
-                        return Instructions::LDXN;
+                        return LDXN;
                     }
                     break;
                 }
@@ -1022,7 +1022,7 @@ Instructions::Code Instructions::getInstructionCode(const std::string& name) {
                 case 'E':
                     switch (charAt(4)) {
                     case '#':
-                        return Instructions::MOVE;
+                        return MOVE;
                     }
                     break;
                 }
@@ -1034,7 +1034,7 @@ Instructions::Code Instructions::getInstructionCode(const std::string& name) {
             case 'L':
                 switch (charAt(3)) {
                 case '#':
-                    return Instructions::MUL;
+                    return MUL;
                 }
                 break;
             }
@@ -1048,7 +1048,7 @@ Instructions::Code Instructions::getInstructionCode(const std::string& name) {
             case 'P':
                 switch (charAt(3)) {
                 case '#':
-                    return Instructions::NOP;
+                    return NOP;
                 }
                 break;
             }
@@ -1058,7 +1058,7 @@ Instructions::Code Instructions::getInstructionCode(const std::string& name) {
             case 'M':
                 switch (charAt(3)) {
                 case '#':
-                    return Instructions::NUM;
+                    return NUM;
                 }
                 break;
             }
@@ -1074,7 +1074,7 @@ Instructions::Code Instructions::getInstructionCode(const std::string& name) {
                 case 'G':
                     switch (charAt(4)) {
                     case '#':
-                        return Instructions::ORIG;
+                        return ORIG;
                     }
                     break;
                 }
@@ -1086,7 +1086,7 @@ Instructions::Code Instructions::getInstructionCode(const std::string& name) {
             case 'T':
                 switch (charAt(3)) {
                 case '#':
-                    return Instructions::OUT;
+                    return OUT;
                 }
                 break;
             }
@@ -1100,11 +1100,11 @@ Instructions::Code Instructions::getInstructionCode(const std::string& name) {
             case 'A':
                 switch (charAt(3)) {
                 case '#':
-                    return Instructions::SLA;
+                    return SLA;
                 case 'X':
                     switch (charAt(4)) {
                     case '#':
-                        return Instructions::SLAX;
+                        return SLAX;
                     }
                     break;
                 }
@@ -1112,7 +1112,7 @@ Instructions::Code Instructions::getInstructionCode(const std::string& name) {
             case 'C':
                 switch (charAt(3)) {
                 case '#':
-                    return Instructions::SLC;
+                    return SLC;
                 }
                 break;
             }
@@ -1122,11 +1122,11 @@ Instructions::Code Instructions::getInstructionCode(const std::string& name) {
             case 'A':
                 switch (charAt(3)) {
                 case '#':
-                    return Instructions::SRA;
+                    return SRA;
                 case 'X':
                     switch (charAt(4)) {
                     case '#':
-                        return Instructions::SRAX;
+                        return SRAX;
                     }
                     break;
                 }
@@ -1134,7 +1134,7 @@ Instructions::Code Instructions::getInstructionCode(const std::string& name) {
             case 'C':
                 switch (charAt(3)) {
                 case '#':
-                    return Instructions::SRC;
+                    return SRC;
                 }
                 break;
             }
@@ -1144,61 +1144,61 @@ Instructions::Code Instructions::getInstructionCode(const std::string& name) {
             case '1':
                 switch (charAt(3)) {
                 case '#':
-                    return Instructions::ST1;
+                    return ST1;
                 }
                 break;
             case '2':
                 switch (charAt(3)) {
                 case '#':
-                    return Instructions::ST2;
+                    return ST2;
                 }
                 break;
             case '3':
                 switch (charAt(3)) {
                 case '#':
-                    return Instructions::ST3;
+                    return ST3;
                 }
                 break;
             case '4':
                 switch (charAt(3)) {
                 case '#':
-                    return Instructions::ST4;
+                    return ST4;
                 }
                 break;
             case '5':
                 switch (charAt(3)) {
                 case '#':
-                    return Instructions::ST5;
+                    return ST5;
                 }
                 break;
             case '6':
                 switch (charAt(3)) {
                 case '#':
-                    return Instructions::ST6;
+                    return ST6;
                 }
                 break;
             case 'A':
                 switch (charAt(3)) {
                 case '#':
-                    return Instructions::STA;
+                    return STA;
                 }
                 break;
             case 'J':
                 switch (charAt(3)) {
                 case '#':
-                    return Instructions::STJ;
+                    return STJ;
                 }
                 break;
             case 'X':
                 switch (charAt(3)) {
                 case '#':
-                    return Instructions::STX;
+                    return STX;
                 }
                 break;
             case 'Z':
                 switch (charAt(3)) {
                 case '#':
-                    return Instructions::STZ;
+                    return STZ;
                 }
                 break;
             }
@@ -1208,7 +1208,7 @@ Instructions::Code Instructions::getInstructionCode(const std::string& name) {
             case 'B':
                 switch (charAt(3)) {
                 case '#':
-                    return Instructions::SUB;
+                    return SUB;
                 }
                 break;
             }
@@ -1216,7 +1216,7 @@ Instructions::Code Instructions::getInstructionCode(const std::string& name) {
         }
         break;
     }
-    return Instructions::INVALID;
+    return INVALID;
 }
 
 int Instructions::getDefaultField(const std::string& name) {
@@ -2042,81 +2042,81 @@ int Instructions::getDefaultField(const std::string& name) {
     return -1;
 }
 
-int Instructions::getCost(Instructions::Code code, uint8_t field) {
+int Instructions::getCost(const Code code, const uint8_t field) {
     switch (code) {
-    case Instructions::NOP: return 1;
-    case Instructions::ADD: return 2;
-    case Instructions::SUB: return 2;
-    case Instructions::MUL: return 10;
-    case Instructions::DIV: return 12;
-    case Instructions::NUM: return 10;
-    case Instructions::SLA: return 2;
-    case Instructions::MOVE: return 1 + field * 2;
+    case NOP: return 1;
+    case ADD: return 2;
+    case SUB: return 2;
+    case MUL: return 10;
+    case DIV: return 12;
+    case NUM: return 10;
+    case SLA: return 2;
+    case MOVE: return 1 + field * 2;
 
-    case Instructions::LDA: return 2;
-    case Instructions::LD1: return 2;
-    case Instructions::LD2: return 2;
-    case Instructions::LD3: return 2;
-    case Instructions::LD4: return 2;
-    case Instructions::LD5: return 2;
-    case Instructions::LD6: return 2;
-    case Instructions::LDX: return 2;
+    case LDA: return 2;
+    case LD1: return 2;
+    case LD2: return 2;
+    case LD3: return 2;
+    case LD4: return 2;
+    case LD5: return 2;
+    case LD6: return 2;
+    case LDX: return 2;
 
-    case Instructions::LDAN: return 2;
-    case Instructions::LD1N: return 2;
-    case Instructions::LD2N: return 2;
-    case Instructions::LD3N: return 2;
-    case Instructions::LD4N: return 2;
-    case Instructions::LD5N: return 2;
-    case Instructions::LD6N: return 2;
-    case Instructions::LDXN: return 2;
+    case LDAN: return 2;
+    case LD1N: return 2;
+    case LD2N: return 2;
+    case LD3N: return 2;
+    case LD4N: return 2;
+    case LD5N: return 2;
+    case LD6N: return 2;
+    case LDXN: return 2;
 
-    case Instructions::STA: return 2;
-    case Instructions::ST1: return 2;
-    case Instructions::ST2: return 2;
-    case Instructions::ST3: return 2;
-    case Instructions::ST4: return 2;
-    case Instructions::ST5: return 2;
-    case Instructions::ST6: return 2;
-    case Instructions::STX: return 2;
+    case STA: return 2;
+    case ST1: return 2;
+    case ST2: return 2;
+    case ST3: return 2;
+    case ST4: return 2;
+    case ST5: return 2;
+    case ST6: return 2;
+    case STX: return 2;
 
-    case Instructions::STJ: return 2;
-    case Instructions::STZ: return 2;
-    case Instructions::JBUS: return 1;
-    case Instructions::IOC: return 1;
-    case Instructions::IN: return 1;
-    case Instructions::OUT: return 1;
-    case Instructions::JRED: return 1;
-    case Instructions::JMP: return 1;
+    case STJ: return 2;
+    case STZ: return 2;
+    case JBUS: return 1;
+    case IOC: return 1;
+    case IN: return 1;
+    case OUT: return 1;
+    case JRED: return 1;
+    case JMP: return 1;
 
-    case Instructions::JAN: return 1;
-    case Instructions::J1N: return 1;
-    case Instructions::J2N: return 1;
-    case Instructions::J3N: return 1;
-    case Instructions::J4N: return 1;
-    case Instructions::J5N: return 1;
-    case Instructions::J6N: return 1;
-    case Instructions::JXN: return 1;
+    case JAN: return 1;
+    case J1N: return 1;
+    case J2N: return 1;
+    case J3N: return 1;
+    case J4N: return 1;
+    case J5N: return 1;
+    case J6N: return 1;
+    case JXN: return 1;
 
-    case Instructions::INCA: return 1;
-    case Instructions::INC1: return 1;
-    case Instructions::INC2: return 1;
-    case Instructions::INC3: return 1;
-    case Instructions::INC4: return 1;
-    case Instructions::INC5: return 1;
-    case Instructions::INC6: return 1;
-    case Instructions::INCX: return 1;
+    case INCA: return 1;
+    case INC1: return 1;
+    case INC2: return 1;
+    case INC3: return 1;
+    case INC4: return 1;
+    case INC5: return 1;
+    case INC6: return 1;
+    case INCX: return 1;
 
-    case Instructions::CMPA: return 2;
-    case Instructions::CMP1: return 2;
-    case Instructions::CMP2: return 2;
-    case Instructions::CMP3: return 2;
-    case Instructions::CMP4: return 2;
-    case Instructions::CMP5: return 2;
-    case Instructions::CMP6: return 2;
-    case Instructions::CMPX: return 2;
+    case CMPA: return 2;
+    case CMP1: return 2;
+    case CMP2: return 2;
+    case CMP3: return 2;
+    case CMP4: return 2;
+    case CMP5: return 2;
+    case CMP6: return 2;
+    case CMPX: return 2;
     default: return 0;
     }
 }
 
-};  // namespace mixal
+}  // namespace mixal
