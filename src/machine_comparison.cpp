@@ -49,4 +49,4 @@ void Computer::executeCMPi(const InstructionWord& instruction) {
     }
 }
 
-};  // namespace mixal
+}  // namespace mixal

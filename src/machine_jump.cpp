@@ -10,7 +10,7 @@ namespace mixal {
 
 /** Unconditional jump.
  * 
- * rJ will be set to the next instruction if the jump has not been occured.
+ * rJ will be set to the next instruction if the jump has not been occurred.
  */
 void Computer::executeJMP(const InstructionWord& instruction) {
     const int32_t address = getIndexedAddress(instruction, true);
@@ -208,4 +208,4 @@ void Computer::executeJiNP(const InstructionWord& instruction) {
     }
 }
 
-};  // namespace mixal
+}  // namespace mixal

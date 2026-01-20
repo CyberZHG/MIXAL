@@ -18,7 +18,7 @@ void Computer::executeST(const InstructionWord& instruction, Register5* reg) {
 void Computer::executeSTi(const InstructionWord& instruction) {
     const int address = getIndexedAddress(instruction, true);
     const int registerIndex = instruction.operation() - Instructions::ST1 + 1;
-    auto& rIi = rI(registerIndex);
+    const auto& rIi = rI(registerIndex);
     const ComputerWord word(rIi.negative, 0, 0, 0, rIi[1], rIi[2]);
     copyFromRegister5(instruction, word, &memory[address]);
 }
@@ -37,4 +37,4 @@ void Computer::executeSTZ(const InstructionWord& instruction) {
     copyFromRegister5(instruction, word, &memory[address]);
 }
 
-};  // namespace mixal
+}  // namespace mixal

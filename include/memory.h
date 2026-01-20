@@ -237,7 +237,7 @@ struct ComputerWord {
     void set(char sign, uint16_t bytes12, uint8_t _byte3, uint8_t _byte4, uint8_t _byte5);
 };
 
-};  // namespace mixal
+}  // namespace mixal
 
 
 #endif  // INCLUDE_MEMORY_H_

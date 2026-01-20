@@ -8,7 +8,7 @@
 
 namespace mixal {
 
-IODevice* Computer::getDevice(int32_t index) {
+IODevice* Computer::getDevice(const int32_t index) {
     if (devices[index] == nullptr) {
         switch (index) {
         case 0: case 1: case 2: case 3:
@@ -53,7 +53,7 @@ void Computer::waitDevices() {
     }
 }
 
-ComputerWord& Computer::getDeviceWordAt(int32_t device, int32_t index) {
+ComputerWord& Computer::getDeviceWordAt(const int32_t device, const int32_t index) {
     return this->getDevice(device)->wordAt(index);
 }
 
@@ -103,7 +103,7 @@ void Computer::executeIN(const InstructionWord& instruction) {
  * 
  * The field value indicates the device.
  * 
- * @throw mixal::Runtime When the device cannot be wrote.
+ * @throw mixal::Runtime When the device cannot be written.
  */
 void Computer::executeOUT(const InstructionWord& instruction) {
     auto device = getDevice(instruction.field());
@@ -126,4 +126,4 @@ void Computer::executeJRED(const InstructionWord& instruction) {
     }
 }
 
-};  // namespace mixal
+}  // namespace mixal

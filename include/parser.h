@@ -76,6 +76,6 @@ class Parser {
     static ParsedResult parseLine(const std::string& line, const std::string& lineSymbol, bool hasLocation = true);
 };
 
-};  // namespace mixal
+}  // namespace mixal
 
 #endif  // INCLUDE_PARSER_H_

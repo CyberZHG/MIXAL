@@ -86,4 +86,4 @@ void Computer::executeENNi(const InstructionWord& instruction) {
     }
 }
 
-};  // namespace mixal
+}  // namespace mixal

@@ -39,7 +39,7 @@ uint16_t Register2::bytes12() const {
 }
 
 int16_t Register2::value() const {
-    const int16_t val = static_cast<int16_t>(bytes12());
+    const auto val = static_cast<int16_t>(bytes12());
     return negative ? -val : val;
 }
 
@@ -92,4 +92,4 @@ void Register2::set(const char sign, const uint8_t _byte1, const uint8_t _byte2)
     this->byte2 = _byte2;
 }
 
-};  // namespace mixal
+}  // namespace mixal

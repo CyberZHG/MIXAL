@@ -63,4 +63,4 @@ AtomicValue::AtomicValue(const AtomicValue& atomicValue) = default;
 
 AtomicValue& AtomicValue::operator=(const AtomicValue& atomicValue) = default;
 
-};  // namespace mixal
+}  // namespace mixal

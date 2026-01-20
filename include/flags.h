@@ -20,7 +20,7 @@ enum class ComparisonIndicator {
 /** Output the name of comparison. */
 std::ostream& operator<<(std::ostream& os, ComparisonIndicator c);
 
-};  // namespace mixal
+}  // namespace mixal
 
 
 #endif  // INCLUDE_FLAGS_H_

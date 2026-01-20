@@ -43,13 +43,13 @@ std::ostream& operator<<(std::ostream& os, ParsedType c) {
 }
 
 bool ParsedResult::evaluate(const std::unordered_map<std::string, AtomicValue>& constants) {
-    if (rawAddress.length() > 0 && !evaluateAddress(constants)) {
+    if (!rawAddress.empty() && !evaluateAddress(constants)) {
         return false;
     }
-    if (rawIndex.length() > 0 && !evaluateIndex(constants)) {
+    if (!rawIndex.empty() && !evaluateIndex(constants)) {
         return false;
     }
-    if (rawField.length() > 0 && !evaluateField(constants)) {
+    if (!rawField.empty() && !evaluateField(constants)) {
         return false;
     }
     return true;
@@ -59,7 +59,7 @@ bool ParsedResult::evaluateAddress(const std::unordered_map<std::string, AtomicV
     if (!address.evaluated() && !address.evaluate(constants)) {
         return false;
     }
-    int32_t value = address.result().value;
+    const int32_t value = address.result().value;
     if (parsedType == ParsedType::INSTRUCTION && !address.literalConstant() && std::abs(value) >= 4096) {
         throw ParseError(index, "Address can not be represented in 2 bytes: " + std::to_string(value));
     }
@@ -71,7 +71,7 @@ bool ParsedResult::evaluateIndex(const std::unordered_map<std::string, AtomicVal
     if (!index.evaluated() && !index.evaluate(constants)) {
         return false;
     }
-    int32_t value = index.result().value;
+    const int32_t value = index.result().value;
     if (value < 0 || 6 < value) {
         throw ParseError(column, "Invalid index value: " + std::to_string(value));
     }
@@ -83,8 +83,8 @@ bool ParsedResult::evaluateField(const std::unordered_map<std::string, AtomicVal
     if (!field.evaluated() && !field.evaluate(constants)) {
         return false;
     }
-    int32_t value = field.result().value;
-    int32_t defaultField = Instructions::getDefaultField(operation);
+    const int32_t value = field.result().value;
+    const int32_t defaultField = Instructions::getDefaultField(operation);
     if (defaultField >= 0 && value != defaultField) {
         throw ParseError(index, "The given field value does not match the default one: " +
                                 std::to_string(value) + " != " + std::to_string(defaultField));
@@ -97,13 +97,13 @@ bool ParsedResult::evaluateField(const std::unordered_map<std::string, AtomicVal
 }
 
 bool ParsedResult::evaluated() const {
-    if (rawAddress.length() > 0 && !address.evaluated()) {
+    if (!rawAddress.empty() && !address.evaluated()) {
         return false;
     }
-    if (rawIndex.length() > 0 && !index.evaluated()) {
+    if (!rawIndex.empty() && !index.evaluated()) {
         return false;
     }
-    if (rawField.length() > 0 && !field.evaluated()) {
+    if (!rawField.empty() && !field.evaluated()) {
         return false;
     }
     return true;
@@ -141,7 +141,7 @@ std::ostream& operator<<(std::ostream& out, const ParsedResult& result) {
 }
 
 ParsedResult Parser::parseLine(const std::string& line, const std::string& lineSymbol, bool hasLocation) {
-    const char END_CHAR = '#';
+    constexpr static char END_CHAR = '#';
     constexpr int INIT_INDEX = -1;
     ParsedResult result;
     result.word.setField(5);  // For most of the operations, the default field value is (0:5) = 5.
@@ -156,7 +156,7 @@ ParsedResult Parser::parseLine(const std::string& line, const std::string& lineS
         defaultField = INIT_INDEX;
     std::unordered_map<std::string, AtomicValue> emptyDict;
     for (int i = 0; i <= static_cast<int>(line.size()); ++i) {
-        char ch = i < static_cast<int>(line.size()) ? line[i] : END_CHAR;
+        const char ch = i < static_cast<int>(line.size()) ? line[i] : END_CHAR;
         switch (state) {
         case ParseState::START:
             if (ch == ' ') {
@@ -191,7 +191,8 @@ ParsedResult Parser::parseLine(const std::string& line, const std::string& lineS
         case ParseState::BEFORE_OP:
             if (ch == ' ') {
                 continue;
-            } else if (ch == END_CHAR) {
+            }
+            if (ch == END_CHAR) {
                 if (locationStart != INIT_INDEX) {
                     throw ParseError(i, "No operation found after location");
                 }
@@ -208,7 +209,7 @@ ParsedResult Parser::parseLine(const std::string& line, const std::string& lineS
         case ParseState::OP:
             if (ch == ' ' || ch == END_CHAR) {
                 result.operation = line.substr(operationStart, i - operationStart);
-                int32_t operation = static_cast<int>(Instructions::getInstructionCode(result.operation));
+                auto operation = static_cast<int>(Instructions::getInstructionCode(result.operation));
                 if (ch == ' ') {
                     if (Instructions::hasArguments(static_cast<Instructions::Code>(operation))) {
                         state = ParseState::BEFORE_ADDRESS;
@@ -220,7 +221,8 @@ ParsedResult Parser::parseLine(const std::string& line, const std::string& lineS
                 }
                 if (operation == Instructions::INVALID) {
                     throw ParseError(i, "Unknown operation: " + result.operation);
-                } else if (operation <= Instructions::LAST) {
+                }
+                if (operation <= Instructions::LAST) {
                     result.word.setOperation(static_cast<uint8_t>(operation));
                     defaultField = Instructions::getDefaultField(result.operation);
                 } else {
@@ -250,7 +252,8 @@ ParsedResult Parser::parseLine(const std::string& line, const std::string& lineS
         case ParseState::BEFORE_ADDRESS:
             if (ch == ' ') {
                 continue;
-            } else if (ch == END_CHAR) {
+            }
+            if (ch == END_CHAR) {
                 state = ParseState::END;
             } else if (Expression::isValidFirst(ch)) {
                 state = ParseState::ADDRESS;
@@ -388,4 +391,4 @@ ParsedResult Parser::parseLine(const std::string& line, const std::string& lineS
     return result;
 }
 
-};  // namespace mixal
+}  // namespace mixal

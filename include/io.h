@@ -58,7 +58,7 @@ class IODevice {
     [[nodiscard]] bool allowWrite() const { return _allowWrite; }
 
     /** Whether the device is ready for reading or writing. */
-    virtual bool ready(int32_t elapsed);
+    virtual bool ready(int32_t timestamp);
     /** Special control of the device. */
     virtual void control(int32_t) {}
     /** Read one block from the device. */
@@ -193,6 +193,6 @@ class IODevicePaperTape final : public IODeviceSeqReader {
     void control(int32_t operation) override;
 };
 
-};  // namespace mixal
+}  // namespace mixal
 
 #endif  // INCLUDE_IO_H_
