@@ -134,6 +134,19 @@ int32_t ComputerWord::value() const {
     return negative ? -value : value;
 }
 
+double ComputerWord::floatValue() const {
+    const int32_t exp = byte1;
+    const uint32_t fraction = (static_cast<uint32_t>(byte2) << 18) |
+                              (static_cast<uint32_t>(byte3) << 12) |
+                              (static_cast<uint32_t>(byte4) << 6) |
+                              static_cast<uint32_t>(byte5);
+    if (fraction == 0) {
+        return 0.0;
+    }
+    const double value = static_cast<double>(fraction) * std::pow(64.0, exp - ComputerWord::MIX_FLOAT_BIAS - 4);
+    return negative ? -value : value;
+}
+
 int16_t ComputerWord::addressValue() const {
     auto value = static_cast<int16_t>(this->bytes12());
     if (negative) {
@@ -182,6 +195,46 @@ void ComputerWord::set(int32_t value) {
         set(i, static_cast<uint8_t>(value & ((1 << 6) - 1)));
         value >>= 6;
     }
+}
+
+bool ComputerWord::set(double value) {
+    bool overflow = false;
+    reset();
+    if (value == 0.0) {
+        return overflow;
+    }
+    if (value < 0.0) {
+        negative = true;
+        value = -value;
+    }
+    int32_t exp = MIX_FLOAT_BIAS;
+    constexpr double MIN_FRAC = 64.0 * 64.0 * 64.0;
+    constexpr double MAX_FRAC = 64.0 * 64.0 * 64.0 * 64.0;
+    double fraction = value * MAX_FRAC;
+    while (fraction >= MAX_FRAC && exp < 63) {
+        fraction /= 64;
+        ++exp;
+    }
+    while (fraction < MIN_FRAC && exp > 0) {
+        fraction *= 64;
+        --exp;
+    }
+    if (fraction >= MAX_FRAC) {
+        exp = 63;
+        fraction = MAX_FRAC - 1;
+        overflow = true;
+    }
+    if (fraction < 1.0) {
+        fraction = 0.0;
+        overflow = true;
+    }
+    const auto frac = static_cast<uint32_t>(std::round(fraction));
+    byte1 = static_cast<uint8_t>(exp);
+    byte2 = static_cast<uint8_t>((frac >> 18) & 0b00111111);
+    byte3 = static_cast<uint8_t>((frac >> 12) & 0b00111111);
+    byte4 = static_cast<uint8_t>((frac >> 6) & 0b00111111);
+    byte5 = static_cast<uint8_t>(frac & 0b00111111);
+    return overflow;
 }
 
 void ComputerWord::set(const std::string& chars) {

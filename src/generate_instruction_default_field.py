@@ -3,7 +3,7 @@ FIELDS = {
     'FSUB': 6,
     'FMUL': 6,
     'FDIV': 6,
-    'NUM': 0, 'CHAR': 1, 'HLT': 2,
+    'NUM': 0, 'CHAR': 1, 'HLT': 2, 'FLOT': 6, 'FIX': 7,
     'SLA': 0, 'SRA': 1, 'SLAX': 2, 'SRAX': 3, 'SLC': 4, 'SRC': 5,
     'STJ': 2,
     'JMP': 0, 'JSJ': 1, 'JOV': 2, 'JNOV': 3, 'JL': 4, 'JE': 5, 'JG': 6, 'JGE': 7, 'JNE': 8, 'JLE': 9,
