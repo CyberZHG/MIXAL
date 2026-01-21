@@ -6,6 +6,8 @@ const ComputerWord = MixalWASM.ComputerWord;
 const Register5 = ComputerWord;
 const Register2 = MixalWASM.Register2;
 const Computer = MixalWASM.Computer;
+const Parser = MixalWASM.Parser;
+const ParsedType = MixalWASM.ParsedType;
 Computer.prototype.loadCodes = function(code, addHalt = true) {
     this._loadCodes(code, addHalt);
 };
@@ -222,4 +224,6 @@ export {
     Register5,
     Register2,
     Computer,
+    Parser,
+    ParsedType,
 };

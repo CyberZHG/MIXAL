@@ -1,6 +1,7 @@
 #include <functional>
 
 #include "machine.h"
+#include "parser.h"
 #include <string>
 #include <emscripten/bind.h>
 using namespace std;
@@ -8,6 +9,35 @@ using namespace emscripten;
 using namespace mixal;
 
 EMSCRIPTEN_BINDINGS(MixalWASM) {
+    enum_<ParsedType>("ParsedType")
+        .value("EMPTY", ParsedType::EMPTY)
+        .value("INSTRUCTION", ParsedType::INSTRUCTION)
+        .value("PSEUDO", ParsedType::PSEUDO)
+    ;
+    value_object<TokenSpan>("TokenSpan")
+        .field("start", &TokenSpan::start)
+        .field("end", &TokenSpan::end)
+    ;
+    class_<ParsedResult>("ParsedResult")
+        .constructor<>()
+        .property("parsedType", &ParsedResult::parsedType)
+        .property("rawLocation", &ParsedResult::rawLocation)
+        .property("operation", &ParsedResult::operation)
+        .property("rawAddress", &ParsedResult::rawAddress)
+        .property("rawIndex", &ParsedResult::rawIndex)
+        .property("rawField", &ParsedResult::rawField)
+        .property("comment", &ParsedResult::comment)
+        .property("locationSpan", &ParsedResult::locationSpan)
+        .property("operationSpan", &ParsedResult::operationSpan)
+        .property("addressSpan", &ParsedResult::addressSpan)
+        .property("indexSpan", &ParsedResult::indexSpan)
+        .property("fieldSpan", &ParsedResult::fieldSpan)
+        .property("commentSpan", &ParsedResult::commentSpan)
+    ;
+    class_<Parser>("Parser")
+        .constructor<>()
+        .class_function("parseLine", &Parser::parseLine)
+    ;
     class_<ComputerWord>("ComputerWord")
         .constructor<>()
         .function("set", select_overload<void(int32_t)>(&ComputerWord::set))

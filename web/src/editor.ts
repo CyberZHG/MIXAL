@@ -1,3 +1,6 @@
+// @ts-ignore
+import { Parser, ParsedType } from "../../wasm/index.js"
+
 // Editor
 const editor = document.querySelector<HTMLTextAreaElement>("#mixal-editor")!
 const highlighted = document.querySelector<HTMLElement>("#mixal-editor-highlighted")!
@@ -9,77 +12,94 @@ const resultsEditor = document.querySelector<HTMLTextAreaElement>("#results-edit
 const resultsHighlighted = document.querySelector<HTMLElement>("#results-highlighted")!
 const resultsLineNumbers = document.querySelector<HTMLDivElement>("#results-line-numbers")!
 
-const MIXAL_KEYWORDS = [
-    "NOP", "ADD", "FADD", "SUB", "FSUB",
-    "MUL", "FMUL", "DIV", "FDIV", "NUM",
-    "CHAR", "HLT", "SLA", "SRA", "SLAX",
-    "SRAX", "SLC", "SRC", "MOVE", "LDA",
-    "LD1", "LD2", "LD3", "LD4", "LD5",
-    "LD6", "LDX", "LDAN", "LD1N", "LD2N",
-    "LD3N", "LD4N", "LD5N", "LD6N", "LDXN",
-    "STA", "ST1", "ST2", "ST3", "ST4",
-    "ST5", "ST6", "STX", "STJ", "STZ",
-    "JBUS", "IOC", "IN", "OUT", "JRED",
-    "JMP", "JSJ", "JOV", "JNOV", "JL",
-    "JE", "JG", "JGE", "JNE", "JLE", "JAN",
-    "JAZ", "JAP", "JANN", "JANZ", "JANP",
-    "J1N", "J1Z", "J1P", "J1NN", "J1NZ",
-    "J1NP", "J2N", "J2Z", "J2P", "J2NN",
-    "J2NZ", "J2NP", "J3N", "J3Z", "J3P",
-    "J3NN", "J3NZ", "J3NP", "J4N", "J4Z",
-    "J4P", "J4NN", "J4NZ", "J4NP", "J5N",
-    "J5Z", "J5P", "J5NN", "J5NZ", "J5NP",
-    "J6N", "J6Z", "J6P", "J6NN", "J6NZ",
-    "J6NP", "JXN", "JXZ", "JXP", "JXNN",
-    "JXNZ", "JXNP", "INCA", "DECA", "ENTA",
-    "ENNA", "INC1", "DEC1", "ENT1", "ENN1",
-    "INC2", "DEC2", "ENT2", "ENN2", "INC3",
-    "DEC3", "ENT3", "ENN3", "INC4", "DEC4",
-    "ENT4", "ENN4", "INC5", "DEC5", "ENT5",
-    "ENN5", "INC6", "DEC6", "ENT6", "ENN6",
-    "INCX", "DECX", "ENTX", "ENNX", "CMPA",
-    "FCMP", "CMP1", "CMP2", "CMP3", "CMP4",
-    "CMP5", "CMP6", "CMPX"]
-const MIXAL_KEYWORDS_REGEX = new RegExp(`\\b(${MIXAL_KEYWORDS.join("|")})\\b`, "g")
-const MIXAL_PSEUDO_KEYWORDS = ["EQU", "ORIG", "CON", "ALF", "END"]
-const MIXAL_PSEUDO_KEYWORDS_REGEX = new RegExp(`\\b(${MIXAL_PSEUDO_KEYWORDS.join("|")})\\b`, "g")
+const PSEUDO_OPS = new Set(["EQU", "ORIG", "CON", "ALF", "END"])
 
-function highlightMIXAL(code: string) : string {
-    const PLUS_PH = '\x00PLUS\x00'
-    const MINUS_PH = '\x00MINUS\x00'
-    const STAR_PH = '\x00STAR\x00'
-    const COMMENT_PH = '\x00COMMENT\x00'
-    const comments: string[] = []
-
-    let result = code
+function escapeHtml(text: string): string {
+    return text
         .replace(/&/g, '&amp;')
         .replace(/</g, '&lt;')
         .replace(/>/g, '&gt;')
         .replace(/"/g, '&quot;')
         .replace(/'/g, '&#39;')
-        .replace(/^\*.*$/gm, (match) => {
-            comments.push(match)
-            return COMMENT_PH
-        })
-        .replace(/\+/g, PLUS_PH)
-        .replace(/-/g, MINUS_PH)
-        .replace(/\*/g, STAR_PH)
-        .replace(/^((?:\S+[ \t]+|[ \t]+)(?:\S+[ \t]+){2})(\S.*)$/gm, '$1<span class="text-gray-400 italic">$2</span>')
-        .replace(MIXAL_KEYWORDS_REGEX, (match) => {
-            return `<span class="text-blue-700 dark:text-blue-500 font-bold">${match}</span>`
-        })
-        .replace(MIXAL_PSEUDO_KEYWORDS_REGEX, (match) => {
-            return `<span class="text-blue-600 dark:text-blue-400 font-bold">${match}</span>`
-        })
+}
 
-    let commentIndex = 0
-    return result
-        .replace(new RegExp(PLUS_PH, 'g'), '<span class="text-red-600 dark:text-red-400">+</span>')
-        .replace(new RegExp(MINUS_PH, 'g'), '<span class="text-red-600 dark:text-red-400">-</span>')
-        .replace(new RegExp(STAR_PH, 'g'), '<span class="text-red-600 dark:text-red-400">*</span>')
-        .replace(new RegExp(COMMENT_PH, 'g'), () => {
-            return `<span class="text-gray-400 italic">${comments[commentIndex++]}</span>`
-        })
+function highlightMIXALLine(line: string): string {
+    try {
+        const result = Parser.parseLine(line, "", true)
+        if (result.parsedType.value === ParsedType.EMPTY.value && result.commentSpan.start >= 0) {
+            return `<span class="text-gray-500 dark:text-gray-400 italic">${escapeHtml(line)}</span>`
+        }
+        if (result.parsedType.value === ParsedType.EMPTY.value) {
+            return escapeHtml(line)
+        }
+        const spans: { start: number; end: number; cls: string }[] = []
+        if (result.locationSpan.start >= 0) {
+            spans.push({
+                start: result.locationSpan.start,
+                end: result.locationSpan.end,
+                cls: "text-purple-700 dark:text-purple-400"
+            })
+        }
+        if (result.operationSpan.start >= 0) {
+            const isPseudo = PSEUDO_OPS.has(result.operation)
+            spans.push({
+                start: result.operationSpan.start,
+                end: result.operationSpan.end,
+                cls: isPseudo
+                    ? "text-blue-600 dark:text-blue-400 font-bold"
+                    : "text-blue-700 dark:text-blue-500 font-bold"
+            })
+        }
+        if (result.addressSpan.start >= 0) {
+            spans.push({
+                start: result.addressSpan.start,
+                end: result.addressSpan.end,
+                cls: "text-green-700 dark:text-green-400"
+            })
+        }
+        if (result.indexSpan.start >= 0) {
+            spans.push({
+                start: result.indexSpan.start,
+                end: result.indexSpan.end,
+                cls: "text-yellow-700 dark:text-yellow-400"
+            })
+        }
+        if (result.fieldSpan.start >= 0) {
+            spans.push({
+                start: result.fieldSpan.start,
+                end: result.fieldSpan.end,
+                cls: "text-orange-600 dark:text-orange-400"
+            })
+        }
+        if (result.commentSpan.start >= 0) {
+            spans.push({
+                start: result.commentSpan.start,
+                end: result.commentSpan.end,
+                cls: "text-gray-500 dark:text-gray-400 italic"
+            })
+        }
+        spans.sort((a, b) => a.start - b.start)
+        let output = ""
+        let pos = 0
+        for (const span of spans) {
+            if (pos < span.start) {
+                output += escapeHtml(line.substring(pos, span.start))
+            }
+            const text = escapeHtml(line.substring(span.start, span.end))
+            output += `<span class="${span.cls}">${text}</span>`
+            pos = span.end
+        }
+        if (pos < line.length) {
+            output += escapeHtml(line.substring(pos))
+        }
+        return output
+    } catch {
+        return escapeHtml(line)
+    }
+}
+
+function highlightMIXAL(code: string): string {
+    return code.split('\n').map(highlightMIXALLine).join('\n')
 }
 
 function updateLineNumbers(editor: HTMLTextAreaElement, element: HTMLDivElement) {

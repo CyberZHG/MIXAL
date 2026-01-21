@@ -1,6 +1,7 @@
 #ifndef INCLUDE_PARSER_H_
 #define INCLUDE_PARSER_H_
 
+#include <cstdint>
 #include <string>
 #include <stdexcept>
 #include <unordered_map>
@@ -23,6 +24,18 @@ enum class ParsedType {
     PSEUDO,        /**< Pseudo instruction that can not be converted to a operation field. */
 };
 
+/** A span representing a token's position in the source line. */
+struct TokenSpan {
+    int32_t start;  /**< Start index (inclusive). -1 if not present. */
+    int32_t end;    /**< End index (exclusive). -1 if not present. */
+
+    TokenSpan() : start(-1), end(-1) {}
+    TokenSpan(const int32_t s, const int32_t e) : start(s), end(e) {}
+
+    /** Whether this span is valid (token exists). */
+    [[nodiscard]] bool valid() const { return start >= 0 && end >= 0; }
+};
+
 /** Output the name of a parsed type. */
 std::ostream& operator<<(std::ostream& os, ParsedType c);
 
@@ -43,6 +56,14 @@ class ParsedResult {
     Expression field;         /**< The parsed field expression. */
     ComputerWord word;        /**< The converted computer word that represents the instruction. */
     std::string comment;      /**< The comments. */
+
+    // Token spans for syntax highlighting
+    TokenSpan locationSpan;   /**< Span of the location token. */
+    TokenSpan operationSpan;  /**< Span of the operation token. */
+    TokenSpan addressSpan;    /**< Span of the address token. */
+    TokenSpan indexSpan;      /**< Span of the index token. */
+    TokenSpan fieldSpan;      /**< Span of the field token (including parentheses). */
+    TokenSpan commentSpan;    /**< Span of the comment. */
 
     /** Initialize the parsed result with empties. */
     ParsedResult() : parsedType(ParsedType::EMPTY) {}
