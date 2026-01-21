@@ -1,5 +1,42 @@
 declare module 'mixal' {
 
+    export interface TokenSpan {
+        start: number
+        end: number
+    }
+
+    export interface ParsedTypeEnum {
+        value: number
+    }
+
+    export interface ParsedTypeConstructor {
+        EMPTY: ParsedTypeEnum
+        INSTRUCTION: ParsedTypeEnum
+        PSEUDO: ParsedTypeEnum
+    }
+
+    export const ParsedType: ParsedTypeConstructor
+
+    export interface ParsedResult {
+        parsedType: ParsedTypeEnum
+        rawLocation: string
+        operation: string
+        rawAddress: string
+        rawIndex: string
+        rawField: string
+        comment: string
+        locationSpan: TokenSpan
+        operationSpan: TokenSpan
+        addressSpan: TokenSpan
+        indexSpan: TokenSpan
+        fieldSpan: TokenSpan
+        commentSpan: TokenSpan
+    }
+
+    export class Parser {
+        static parseLine(line: string, lineSymbol: string, hasLocation: boolean): ParsedResult
+    }
+
     export class ComputerWord {
         constructor()
         set(value: number): void

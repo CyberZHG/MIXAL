@@ -140,7 +140,7 @@ std::ostream& operator<<(std::ostream& out, const ParsedResult& result) {
     return out;
 }
 
-ParsedResult Parser::parseLine(const std::string& line, const std::string& lineSymbol, bool hasLocation) {
+ParsedResult Parser::parseLine(const std::string& line, const std::string& lineSymbol, const bool hasLocation) {
     constexpr static char END_CHAR = '#';
     constexpr int INIT_INDEX = -1;
     ParsedResult result;
@@ -183,6 +183,7 @@ ParsedResult Parser::parseLine(const std::string& line, const std::string& lineS
             if (ch == ' ') {
                 state = ParseState::BEFORE_OP;
                 result.rawLocation = line.substr(locationStart, i - locationStart);
+                result.locationSpan = TokenSpan(locationStart, i);
             } else if (!isalnum(ch)) {
                 throw ParseError(i, "Unexpected character encountered while parsing location: " + std::string(1, ch));
             }
@@ -209,6 +210,7 @@ ParsedResult Parser::parseLine(const std::string& line, const std::string& lineS
         case ParseState::OP:
             if (ch == ' ' || ch == END_CHAR) {
                 result.operation = line.substr(operationStart, i - operationStart);
+                result.operationSpan = TokenSpan(operationStart, i);
                 auto operation = static_cast<int>(Instructions::getInstructionCode(result.operation));
                 if (ch == ' ') {
                     if (Instructions::hasArguments(static_cast<Instructions::Code>(operation))) {
@@ -235,7 +237,7 @@ ParsedResult Parser::parseLine(const std::string& line, const std::string& lineS
                         for (int shift = 0; shift < 5 && i < static_cast<int>(line.size()); ++shift) {
                             result.rawAddress[shift] = line[++i];
                         }
-                        int32_t charsValue = ComputerWord(result.rawAddress).value();
+                        const int32_t charsValue = ComputerWord(result.rawAddress).value();
                         result.address = Expression::getConstExpression(AtomicValue(charsValue));
                         if (i < static_cast<int>(line.size())) {
                             state = ParseState::BEFORE_COMMENT;
@@ -275,6 +277,7 @@ ParsedResult Parser::parseLine(const std::string& line, const std::string& lineS
                     state = ParseState::END;
                 }
                 result.rawAddress = line.substr(addressStart, i - addressStart);
+                result.addressSpan = TokenSpan(addressStart, i);
                 try {
                     result.address.parse(result.rawAddress, lineSymbol);
                 } catch (const ExpressionError& e) {
@@ -307,6 +310,7 @@ ParsedResult Parser::parseLine(const std::string& line, const std::string& lineS
                     state = ParseState::END;
                 }
                 result.rawIndex = line.substr(indexStart, i - indexStart);
+                result.indexSpan = TokenSpan(indexStart, i);
                 try {
                     result.index.parse(result.rawIndex, lineSymbol);
                 } catch (const ExpressionError& e) {
@@ -332,6 +336,7 @@ ParsedResult Parser::parseLine(const std::string& line, const std::string& lineS
             if (ch == ')') {
                 state = ParseState::FIELD_CLOSE;
                 result.rawField = line.substr(fieldStart, i - fieldStart);
+                result.fieldSpan = TokenSpan(fieldStart - 1, i + 1);
                 try {
                     result.field.parse(result.rawField, lineSymbol);
                 } catch (const ExpressionError& e) {
@@ -368,6 +373,7 @@ ParsedResult Parser::parseLine(const std::string& line, const std::string& lineS
             if (ch == END_CHAR) {
                 state = ParseState::END;
                 result.comment = line.substr(commentStart, i - commentStart);
+                result.commentSpan = TokenSpan(commentStart, i);
             }
             break;
 
