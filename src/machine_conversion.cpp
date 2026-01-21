@@ -1,4 +1,6 @@
 #include <iostream>
+#include <cmath>
+#include <limits>
 #include "machine.h"
 
 /**
@@ -20,12 +22,12 @@ void Computer::executeNUM() {
     for (int i = 1; i <= 5; ++i) {
         num = num * 10 + rX[i] % 10;
     }
-    bool negative = rA.negative;
+    const bool negative = rA.negative;
     if (num >= (1 << 30)) {
         overflow = true;
         num %= (1 << 30);
     }
-    rA.set(num);
+    rA.set(static_cast<int32_t>(num));
     rA.negative = negative;
 }
 
@@ -40,6 +42,26 @@ void Computer::executeCHAR() {
         rA[i] = 30 + num % 10;
         num /= 10;
     }
+}
+
+void Computer::executeFLOT() {
+    rA.set(static_cast<double>(rA.value()));
+}
+
+void Computer::executeFIX() {
+    const double value = rA.floatValue();
+    if (value < static_cast<double>(std::numeric_limits<int32_t>::min())) {
+        overflow = true;
+        rA.set('+', 63, 63, 63, 63, 63);
+        return;
+    }
+    if (value > static_cast<double>(std::numeric_limits<int32_t>::max())) {
+        overflow = true;
+        rA.set('-', 63, 63, 63, 63, 63);
+        return;
+    }
+    rA.set(static_cast<int32_t>(round(rA.floatValue())));
+    checkRange(rA.value());
 }
 
 }  // namespace mixal

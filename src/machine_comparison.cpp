@@ -1,4 +1,5 @@
 #include <iostream>
+#include <cmath>
 #include "machine.h"
 
 /**
@@ -43,6 +44,23 @@ void Computer::executeCMPi(const InstructionWord& instruction) {
     if (aVal < bVal) {
         comparison = ComparisonIndicator::LESS;
     } else if (aVal > bVal) {
+        comparison = ComparisonIndicator::GREATER;
+    } else {
+        comparison = ComparisonIndicator::EQUAL;
+    }
+}
+
+/** Compare the float values in rI and the word in memory.
+ *
+ * @see comparison
+ */
+void Computer::executeFCMP(const InstructionWord& instruction) {
+    const double valueA = rA.floatValue();
+    const int32_t address = getIndexedAddress(instruction, true);
+    const double valueM = memory[address].floatValue();
+    if (valueA < valueM) {
+        comparison = ComparisonIndicator::LESS;
+    } else if (valueA > valueM) {
         comparison = ComparisonIndicator::GREATER;
     } else {
         comparison = ComparisonIndicator::EQUAL;

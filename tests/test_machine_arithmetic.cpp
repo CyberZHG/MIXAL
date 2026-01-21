@@ -225,3 +225,110 @@ TEST(TestMachineArithmetic, test_div_zero) {
         EXPECT_EQ(std::string("Divisor cannot be 0"), std::string(error.what()));
     }
 }
+
+TEST(TestMachineArithmetic, mix_float_to_double_conversion) {
+    mixal::Computer machine;
+    for (int i = -100; i <= 100; ++i) {
+        const auto di = static_cast<double>(i);
+        machine.rA.set(di);
+        EXPECT_EQ(di, machine.rA.floatValue());
+        for (int j = -100; j <= 100; ++j) {
+            if (j == 0) {
+                continue;
+            }
+            const auto dj = i / static_cast<double>(j);
+            machine.rA.set(dj);
+            EXPECT_NEAR(dj, machine.rA.floatValue(), 1e-5);
+        }
+    }
+    EXPECT_TRUE(machine.rA.set(1e300));
+    EXPECT_TRUE(machine.rA.set(1e-300));
+}
+
+TEST(TestMachineArithmetic, float_add) {
+    mixal::Computer machine;
+    machine.rA.set(1.2);
+    machine.memory[1000].set(4.8);
+    const auto result = mixal::Parser::parseLine("FADD 1000", "", false);
+    machine.executeSingle(result.word);
+    EXPECT_EQ(0, machine.rA.negative);
+    EXPECT_NEAR(6.0, machine.rA.floatValue(), 1e-5);
+    EXPECT_FALSE(machine.overflow);
+}
+
+TEST(TestMachineArithmetic, float_add_overflow) {
+    mixal::Computer machine;
+    machine.rA.set('+', 63, 63, 63, 63, 63);
+    machine.memory[1000].set('+', 63, 63, 63, 63, 63);
+    const auto result = mixal::Parser::parseLine("FADD 1000", "", false);
+    machine.executeSingle(result.word);
+    EXPECT_TRUE(machine.overflow);
+}
+
+TEST(TestMachineArithmetic, float_sub) {
+    mixal::Computer machine;
+    machine.rA.set(1.2);
+    machine.memory[1000].set(4.8);
+    const auto result = mixal::Parser::parseLine("FSUB 1000", "", false);
+    machine.executeSingle(result.word);
+    EXPECT_EQ(1, machine.rA.negative);
+    EXPECT_NEAR(-3.6, machine.rA.floatValue(), 1e-5);
+    EXPECT_FALSE(machine.overflow);
+}
+
+TEST(TestMachineArithmetic, float_sub_overflow) {
+    mixal::Computer machine;
+    machine.rA.set('-', 63, 63, 63, 63, 63);
+    machine.memory[1000].set('+', 63, 63, 63, 63, 63);
+    const auto result = mixal::Parser::parseLine("FSUB 1000", "", false);
+    machine.executeSingle(result.word);
+    EXPECT_TRUE(machine.overflow);
+}
+
+TEST(TestMachineArithmetic, float_mul) {
+    mixal::Computer machine;
+    machine.rA.set(1.2);
+    machine.memory[1000].set(4.8);
+    const auto result = mixal::Parser::parseLine("FMUL 1000", "", false);
+    machine.executeSingle(result.word);
+    EXPECT_EQ(0, machine.rA.negative);
+    EXPECT_NEAR(5.76, machine.rA.floatValue(), 1e-5);
+    EXPECT_FALSE(machine.overflow);
+}
+
+TEST(TestMachineArithmetic, float_mul_overflow) {
+    mixal::Computer machine;
+    machine.rA.set('-', 63, 63, 63, 63, 63);
+    machine.memory[1000].set('+', 63, 63, 63, 63, 63);
+    const auto result = mixal::Parser::parseLine("FMUL 1000", "", false);
+    machine.executeSingle(result.word);
+    EXPECT_TRUE(machine.overflow);
+}
+
+TEST(TestMachineArithmetic, float_div) {
+    mixal::Computer machine;
+    machine.rA.set(1.2);
+    machine.memory[1000].set(4.8);
+    const auto result = mixal::Parser::parseLine("FDIV 1000", "", false);
+    machine.executeSingle(result.word);
+    EXPECT_EQ(0, machine.rA.negative);
+    EXPECT_NEAR(0.25, machine.rA.floatValue(), 1e-5);
+    EXPECT_FALSE(machine.overflow);
+}
+
+TEST(TestMachineArithmetic, float_div_overflow) {
+    mixal::Computer machine;
+    machine.rA.set('-', 0, 32, 0, 0, 0);
+    machine.memory[1000].set('+', 63, 63, 63, 63, 63);
+    const auto result = mixal::Parser::parseLine("FDIV 1000", "", false);
+    machine.executeSingle(result.word);
+    EXPECT_TRUE(machine.overflow);
+}
+
+TEST(TestMachineArithmetic, float_div_runtime_error) {
+    mixal::Computer machine;
+    machine.rA.set(1.0);
+    machine.memory[1000].set(0.0);
+    const auto result = mixal::Parser::parseLine("FDIV 1000", "", false);
+    ASSERT_THROW(machine.executeSingle(result.word), mixal::RuntimeError);
+}

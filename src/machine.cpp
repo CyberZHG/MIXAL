@@ -146,21 +146,39 @@ void Computer::executeSingle(ParsedResult* instruction) {
 void Computer::executeSingle(const InstructionWord& instruction) {
     switch (instruction.operation()) {
     case Instructions::ADD:
-        executeADD(instruction);
+        if (instruction.field() == 6) {
+            executeFADD(instruction);
+        } else {
+            executeADD(instruction);
+        }
         break;
     case Instructions::SUB:
-        executeSUB(instruction);
+        if (instruction.field() == 6) {
+            executeFSUB(instruction);
+        } else {
+            executeSUB(instruction);
+        }
         break;
     case Instructions::MUL:
-        executeMUL(instruction);
+        if (instruction.field() == 6) {
+            executeFMUL(instruction);
+        } else {
+            executeMUL(instruction);
+        }
         break;
     case Instructions::DIV:
-        executeDIV(instruction);
+        if (instruction.field() == 6) {
+            executeFDIV(instruction);
+        } else {
+            executeDIV(instruction);
+        }
         break;
     case Instructions::HLT:
         switch (instruction.field()) {
         case 0: executeNUM(); break;
         case 1: executeCHAR(); break;
+        case 6: executeFLOT(); break;
+        case 7: executeFIX(); break;
         }
         break;
     case Instructions::SLA:
@@ -318,7 +336,11 @@ void Computer::executeSingle(const InstructionWord& instruction) {
         }
         break;
     case Instructions::CMPA:
-        executeCMP(instruction, &rA);
+        if (instruction.field() == 6) {
+            executeFCMP(instruction);
+        } else {
+            executeCMP(instruction, &rA);
+        }
         break;
     case Instructions::CMP1:
     case Instructions::CMP2:
@@ -631,7 +653,7 @@ void Computer::copyToRegister2(const InstructionWord& instruction, const Compute
  * (Which means rI will not trigger overflow.)
  */
 int32_t Computer::checkRange(int32_t value, const int bytes) {
-    if (int32_t range = 1 << (6 * bytes); std::abs(value) >= range) {
+    if (const int32_t range = 1 << (6 * bytes); std::abs(value) >= range) {
         if (bytes == 5) {
             overflow = true;
         }

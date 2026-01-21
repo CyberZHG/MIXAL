@@ -125,9 +125,15 @@ class Computer {
     void executeSUB(const InstructionWord& instruction);
     void executeMUL(const InstructionWord& instruction);
     void executeDIV(const InstructionWord& instruction);
+    void executeFADD(const InstructionWord& instruction);
+    void executeFSUB(const InstructionWord& instruction);
+    void executeFMUL(const InstructionWord& instruction);
+    void executeFDIV(const InstructionWord& instruction);
 
     void executeNUM();
     void executeCHAR();
+    void executeFLOT();
+    void executeFIX();
 
     void executeSLA(const InstructionWord& instruction);
     void executeSRA(const InstructionWord& instruction);
@@ -186,6 +192,7 @@ class Computer {
 
     void executeCMP(const InstructionWord& instruction, Register5* reg);
     void executeCMPi(const InstructionWord& instruction);
+    void executeFCMP(const InstructionWord& instruction);
 
     void executeEQU(ParsedResult* instruction);
     void executeORIG(ParsedResult* instruction);

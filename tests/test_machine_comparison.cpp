@@ -45,3 +45,20 @@ TEST(TestMachineComparison, test_cmpi) {
     machine.executeSingle(result.word);
     EXPECT_EQ(mixal::ComparisonIndicator::EQUAL, machine.comparison);
 }
+
+TEST(TestMachineComparison, test_fcmp) {
+    mixal::Computer machine;
+    machine.rA.set(1e5);
+    machine.memory[1000].set(1e5);
+    auto result = mixal::Parser::parseLine("FCMP 1000", "", false);
+    machine.executeSingle(result.word);
+    EXPECT_EQ(mixal::ComparisonIndicator::EQUAL, machine.comparison);
+    machine.memory[1000].set(2e4);
+    result = mixal::Parser::parseLine("FCMP 1000", "", false);
+    machine.executeSingle(result.word);
+    EXPECT_EQ(mixal::ComparisonIndicator::GREATER, machine.comparison);
+    machine.memory[1000].set(3e6);
+    result = mixal::Parser::parseLine("FCMP 1000", "", false);
+    machine.executeSingle(result.word);
+    EXPECT_EQ(mixal::ComparisonIndicator::LESS, machine.comparison);
+}

@@ -361,6 +361,30 @@ Instructions::Code Instructions::getInstructionCode(const std::string& name) {
                 break;
             }
             break;
+        case 'I':
+            switch (charAt(2)) {
+            case 'X':
+                switch (charAt(3)) {
+                case '#':
+                    return NUM;
+                }
+                break;
+            }
+            break;
+        case 'L':
+            switch (charAt(2)) {
+            case 'O':
+                switch (charAt(3)) {
+                case 'T':
+                    switch (charAt(4)) {
+                    case '#':
+                        return NUM;
+                    }
+                    break;
+                }
+                break;
+            }
+            break;
         case 'M':
             switch (charAt(2)) {
             case 'U':
@@ -1449,6 +1473,30 @@ int Instructions::getDefaultField(const std::string& name) {
             case 'I':
                 switch (charAt(3)) {
                 case 'V':
+                    switch (charAt(4)) {
+                    case '#':
+                        return 6;
+                    }
+                    break;
+                }
+                break;
+            }
+            break;
+        case 'I':
+            switch (charAt(2)) {
+            case 'X':
+                switch (charAt(3)) {
+                case '#':
+                    return 7;
+                }
+                break;
+            }
+            break;
+        case 'L':
+            switch (charAt(2)) {
+            case 'O':
+                switch (charAt(3)) {
+                case 'T':
                     switch (charAt(4)) {
                     case '#':
                         return 6;

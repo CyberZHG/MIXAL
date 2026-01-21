@@ -10,7 +10,8 @@ TEST(TestMemory, test_invalid_get) {
     EXPECT_THROW(word[0], std::runtime_error);
     EXPECT_THROW(word[6], std::runtime_error);
     const auto& ref = word;
-    EXPECT_THROW(ref.getAt(-1), std::runtime_error);
+    const auto wrapper = [&] { return ref.getAt(-1); };
+    EXPECT_THROW(wrapper(), std::runtime_error);
 }
 
 TEST(TestMemory, test_invalid_set) {

@@ -4,7 +4,7 @@ OPS = [
     'SUB', 'FSUB',
     'MUL', 'FMUL',
     'DIV', 'FDIV',
-    'NUM', 'CHAR', 'HLT',
+    'NUM', 'CHAR', 'HLT', 'FLOT', 'FIX',
     'SLA', 'SRA', 'SLAX', 'SRAX', 'SLC', 'SRC',
     'MOVE',
     'LDA',

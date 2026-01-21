@@ -30,6 +30,8 @@ struct ComputerWord {
     uint8_t byte4;
     uint8_t byte5;
 
+    static constexpr int MIX_FLOAT_BIAS = 32;
+
     /** Initialize with 0s. The default sign is '+'. */
     ComputerWord();
     /** Initialize with integer value.
@@ -117,6 +119,10 @@ struct ComputerWord {
      * The range of the result should be [-1073741824, 1073741824].
      */
     [[nodiscard]] int32_t value() const;
+    /**
+     * Get the float-pointing number of this word.
+     */
+    [[nodiscard]] double floatValue() const;
 
     /** When representing an instruction,
      * the function returns the value represented by the first two bytes with the sign.
@@ -169,7 +175,7 @@ struct ComputerWord {
      * 
      * @throw std::runtime_error when the index is not in [1, 5].
      */
-    uint8_t getAt(const int32_t index) const { return (*this)[index]; }
+    [[nodiscard]] uint8_t getAt(const int32_t index) const { return (*this)[index]; }
     /** Get a UTF8 string represents the 5 characters in the word. */
     [[nodiscard]] std::string getCharacters() const;
     /**
@@ -183,6 +189,14 @@ struct ComputerWord {
      * Each byte contains 6 bits. The byte5 will contain the least significant 6 bits. 
      */
     void set(int32_t value);
+    /**
+     * Set the word with a floating-point number.
+     *
+     * The first byte will contain the exponent and the reset bytes contain the fraction.
+     *
+     * @return Overflow
+     */
+    bool set(double value);
     /**
      * Set the word with a UTF8 string.
      * 

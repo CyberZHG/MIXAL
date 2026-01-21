@@ -1,4 +1,5 @@
 #include <iostream>
+#include <cmath>
 #include "machine.h"
 
 /**
@@ -48,8 +49,8 @@ void Computer::executeMUL(const InstructionWord& instruction) {
     copyToRegister5(instruction, memory[address], &word);
     const int32_t valueM = word.value();
     const int64_t result = static_cast<int64_t>(valueA) * static_cast<int64_t>(valueM);
-    rA.set(result / (1 << 30));
-    rX.set(result % (1 << 30));
+    rA.set(static_cast<int32_t>(result / (1 << 30)));
+    rX.set(static_cast<int32_t>(result % (1 << 30)));
 }
 
 /** Divide the value of rA and rX with the value of the word in the memory.
@@ -82,6 +83,69 @@ void Computer::executeDIV(const InstructionWord& instruction) {
     const int32_t remainder = dividend % divisor;
     rA.set(static_cast<int32_t>(quotient));
     rX.set(remainder);
+}
+
+/** Add the float values of rA and the word in the memory into rA.
+ *
+ * @see overflow
+ */
+void Computer::executeFADD(const InstructionWord& instruction) {
+    const double valueA = rA.floatValue();
+    const int address = getIndexedAddress(instruction, true);
+    const double valueM = memory[address].floatValue();
+    const double result = valueA + valueM;
+    if (rA.set(result)) {
+        overflow = true;
+    }
+}
+
+/** Subtract the float values of rA and the word in the memory into rA.
+ *
+ * @see overflow
+ */
+void Computer::executeFSUB(const InstructionWord& instruction) {
+    const double valueA = rA.floatValue();
+    const int address = getIndexedAddress(instruction, true);
+    const double valueM = memory[address].floatValue();
+    const double result = valueA - valueM;
+    if (rA.set(result)) {
+        overflow = true;
+    }
+}
+
+/** Multiply the float values of rA and the word in the memory into rA and rX.
+ *
+ * @see overflow
+ */
+void Computer::executeFMUL(const InstructionWord& instruction) {
+    const double valueA = rA.floatValue();
+    const int address = getIndexedAddress(instruction, true);
+    const double valueM = memory[address].floatValue();
+    const double result = valueA * valueM;
+    if (rA.set(result)) {
+        overflow = true;
+    }
+}
+
+/** Divide the float values of rA and rX with the value of the word in the memory.
+ *
+ * The quotient will be placed in rA and the remainder will be placed in rX.
+ *
+ * @see overflow
+ *
+ * @throw mixal::RuntimeError When the divisor is 0.
+ */
+void Computer::executeFDIV(const InstructionWord& instruction) {
+    const double valueA = rA.floatValue();
+    const int address = getIndexedAddress(instruction, true);
+    const double valueM = memory[address].floatValue();
+    if (valueM == 0.0) {
+        throw RuntimeError(_lineOffset, "Floating-point divisor cannot be 0");
+    }
+    const double result = valueA / valueM;
+    if (rA.set(result)) {
+        overflow = true;
+    }
 }
 
 }  // namespace mixal
