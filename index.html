@@ -13,14 +13,14 @@
       }
     })();
   </script>
-  <script type="module" crossorigin src="/MIXAL/assets/main-uw-VzcZr.js"></script>
-  <link rel="modulepreload" crossorigin href="/MIXAL/assets/__vite-browser-external-C7Q-FbNt.js">
-  <link rel="stylesheet" crossorigin href="/MIXAL/assets/__vite-browser-external-BAgq56yE.css">
+  <script type="module" crossorigin src="/MIXAL/assets/main-BTzXNfdZ.js"></script>
+  <link rel="modulepreload" crossorigin href="/MIXAL/assets/__vite-browser-external-CL70wQ89.js">
+  <link rel="stylesheet" crossorigin href="/MIXAL/assets/__vite-browser-external-B95rlk__.css">
 </head>
 <body class="h-screen flex flex-col bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100">
   <!-- Top Navigation -->
   <nav class="bg-gray-50 dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
-    <div class="max-w-7xl mx-auto px-4">
+    <div class="w-full mx-auto px-4">
       <div class="flex h-16 items-center justify-between">
         <div class="flex items-center">
             <span class="text-xl font-bold text-gray-700 dark:text-gray-200">
@@ -59,99 +59,94 @@
   </nav>
 
   <!-- App -->
-  <div id="app" class="flex-1 min-h-0 mx-auto max-w-7xl">
+  <div id="app" class="flex-1 min-h-0 w-full">
     <div class="flex h-full min-h-0">
       <!-- Left Editor -->
-      <div class="w-[40rem] h-full min-h-0 p-4">
-        <div class="flex flex-col w-full h-full min-h-0 gap-2">
-          <div class="flex flex-col gap-2 pt-4">
-            <label class="block font-bold text-lg">MIXAL Code</label>
-          </div>
-          <div class="flex flex-1 min-h-0 border border-gray-700 rounded">
-            <!-- Line Numbers -->
-            <div id="mixal-editor-line-numbers"
-                 class="bg-gray-700 text-gray-300 text-right p-2 w-10
-                 select-none font-mono text-sm overflow-hidden">1</div>
-            <!-- Editor Container -->
-            <div class="relative flex-1 min-h-0">
-              <div class="relative w-full h-full min-h-0">
-                <!-- Highlight Layer -->
-                <pre class="absolute inset-0 p-2 pr-4 pointer-events-none text-sm font-mono
-                      whitespace-pre break-words text-gray-900 dark:text-gray-100 overflow-hidden"><code id="mixal-editor-highlighted"></code></pre>
-                <!-- Code area -->
-                <textarea id="mixal-editor"
-                    spellcheck="false"
-                    class="relative w-full h-full min-h-0 p-2 pr-4 bg-transparent
-                       text-transparent caret-gray-950 dark:caret-gray-100 resize-none
-                       outline-none whitespace-pre text-sm font-mono
-                       overflow-auto"></textarea>
-              </div>
+      <div class="w-1/2 h-full min-h-0 flex flex-col border-r border-gray-200 dark:border-gray-700">
+        <div class="px-3 py-2 border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800">
+          <label class="block font-bold text-sm">MIXAL Code</label>
+        </div>
+        <div class="flex flex-1 min-h-0">
+          <!-- Line Numbers -->
+          <div id="mixal-editor-line-numbers"
+               class="bg-gray-100 dark:bg-gray-800 text-gray-500 dark:text-gray-400 text-right p-2 w-10
+               select-none font-mono text-sm overflow-hidden border-r border-gray-200 dark:border-gray-700">1</div>
+          <!-- Editor Container -->
+          <div class="relative flex-1 min-h-0">
+            <div class="relative w-full h-full min-h-0">
+              <!-- Highlight Layer -->
+              <pre class="absolute inset-0 p-2 pr-4 pointer-events-none text-sm font-mono
+                    whitespace-pre break-words text-gray-900 dark:text-gray-100 overflow-hidden"><code id="mixal-editor-highlighted"></code></pre>
+              <!-- Code area -->
+              <textarea id="mixal-editor"
+                  spellcheck="false"
+                  class="relative w-full h-full min-h-0 p-2 pr-4 bg-transparent
+                     text-transparent caret-gray-950 dark:caret-gray-100 resize-none
+                     outline-none whitespace-pre text-sm font-mono
+                     overflow-auto"></textarea>
             </div>
           </div>
         </div>
       </div>
 
       <!-- Right Panel -->
-      <div class="flex-1 min-h-0 bg-white dark:bg-gray-900 p-2 flex flex-col">
+      <div class="w-1/2 h-full min-h-0 flex flex-col">
         <!-- IO Specification -->
-        <div class="flex flex-col gap-2 pt-4">
-          <label class="block font-bold text-lg">IO Specification</label>
-        </div>
-        <div class="w-128 h-full min-h-0 p-4">
-          <div class="flex flex-col w-full h-full min-h-0 gap-2">
-            <div class="flex flex-1 min-h-0 border border-gray-700 rounded">
-              <!-- Line Numbers -->
-              <div id="io-spec-line-numbers"
-                   class="bg-gray-700 text-gray-300 text-right p-2 w-10
-                 select-none font-mono text-sm overflow-hidden">1</div>
-              <!-- Editor Container -->
-              <div class="relative flex-1 min-h-0">
-                <div class="relative w-full h-full min-h-0">
-                  <!-- Highlight Layer -->
-                  <pre class="absolute inset-0 p-2 pr-4 pointer-events-none text-sm font-mono
-                      whitespace-pre break-words text-gray-900 dark:text-gray-100 overflow-hidden"><code id="io-spec-highlighted"></code></pre>
-                  <!-- Code area -->
-                  <textarea id="io-spec-editor"
-                            spellcheck="false"
-                            class="relative w-full h-full min-h-0 p-2 pr-4 bg-transparent
-                       text-transparent caret-gray-950 dark:caret-gray-100 resize-none
-                       outline-none whitespace-pre text-sm font-mono
-                       overflow-auto"></textarea>
-                </div>
+        <div class="flex flex-col flex-1 min-h-0">
+          <div class="px-3 py-2 border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800">
+            <label class="block font-bold text-sm">IO Specification</label>
+          </div>
+          <div class="flex flex-1 min-h-0">
+            <!-- Line Numbers -->
+            <div id="io-spec-line-numbers"
+                 class="bg-gray-100 dark:bg-gray-800 text-gray-500 dark:text-gray-400 text-right p-2 w-10
+                 select-none font-mono text-sm overflow-hidden border-r border-gray-200 dark:border-gray-700">1</div>
+            <!-- Editor Container -->
+            <div class="relative flex-1 min-h-0">
+              <div class="relative w-full h-full min-h-0">
+                <!-- Highlight Layer -->
+                <pre class="absolute inset-0 p-2 pr-4 pointer-events-none text-sm font-mono
+                    whitespace-pre break-words text-gray-900 dark:text-gray-100 overflow-hidden"><code id="io-spec-highlighted"></code></pre>
+                <!-- Code area -->
+                <textarea id="io-spec-editor"
+                          spellcheck="false"
+                          class="relative w-full h-full min-h-0 p-2 pr-4 bg-transparent
+                     text-transparent caret-gray-950 dark:caret-gray-100 resize-none
+                     outline-none whitespace-pre text-sm font-mono
+                     overflow-auto"></textarea>
               </div>
             </div>
           </div>
         </div>
-        <div class="flex flex-col gap-2 pt-4">
-          <div class="flex mt-2">
-            <button id="button-execute" class="w-full py-2 bg-blue-700 hover:bg-blue-800 rounded font-semibold text-white text-sm">Execute Until Halt</button>
-          </div>
+
+        <!-- Execute Button -->
+        <div class="flex items-center justify-center px-3 py-2 border-y border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800">
+          <button id="button-execute" class="w-full py-2 bg-blue-600 hover:bg-blue-700 rounded font-semibold text-white text-sm">Execute Until Halt</button>
         </div>
+
         <!-- Results -->
-        <div class="flex flex-col gap-2 pt-4">
-          <label class="block font-bold text-lg">Results</label>
-        </div>
-        <div class="w-128 h-full min-h-0 p-4">
-          <div class="flex flex-col w-full h-full min-h-0 gap-2">
-            <div class="flex flex-1 min-h-0 border border-gray-700 rounded">
-              <!-- Line Numbers -->
-              <div id="results-line-numbers"
-                   class="bg-gray-700 text-gray-300 text-right p-2 w-10
-                   select-none font-mono text-sm overflow-hidden">1</div>
-              <!-- Editor Container -->
-              <div class="relative flex-1 min-h-0">
-                <div class="relative w-full h-full min-h-0">
-                  <!-- Highlight Layer -->
-                  <pre class="absolute inset-0 p-2 pr-4 pointer-events-none text-sm font-mono
-                        whitespace-pre break-words text-gray-900 dark:text-gray-100 overflow-hidden"><code id="results-highlighted"></code></pre>
-                  <!-- Code area -->
-                  <textarea id="results-editor"
-                            spellcheck="false"
-                            class="relative w-full h-full min-h-0 p-2 pr-4 bg-transparent
-                         text-transparent caret-gray-950 dark:caret-gray-100 resize-none
-                         outline-none whitespace-pre text-sm font-mono
-                         overflow-auto" disabled></textarea>
-                </div>
+        <div class="flex flex-col flex-1 min-h-0">
+          <div class="px-3 py-2 border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800">
+            <label class="block font-bold text-sm">Results</label>
+          </div>
+          <div class="flex flex-1 min-h-0">
+            <!-- Line Numbers -->
+            <div id="results-line-numbers"
+                 class="bg-gray-100 dark:bg-gray-800 text-gray-500 dark:text-gray-400 text-right p-2 w-10
+                 select-none font-mono text-sm overflow-hidden border-r border-gray-200 dark:border-gray-700">1</div>
+            <!-- Editor Container -->
+            <div class="relative flex-1 min-h-0">
+              <div class="relative w-full h-full min-h-0">
+                <!-- Highlight Layer -->
+                <pre class="absolute inset-0 p-2 pr-4 pointer-events-none text-sm font-mono
+                      whitespace-pre break-words text-gray-900 dark:text-gray-100 overflow-hidden"><code id="results-highlighted"></code></pre>
+                <!-- Code area -->
+                <textarea id="results-editor"
+                          spellcheck="false"
+                          class="relative w-full h-full min-h-0 p-2 pr-4 bg-transparent
+                       text-transparent caret-gray-950 dark:caret-gray-100 resize-none
+                       outline-none whitespace-pre text-sm font-mono
+                       overflow-auto" disabled></textarea>
               </div>
             </div>
           </div>
