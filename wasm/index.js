@@ -141,6 +141,7 @@ function executeWithSpec(code, ioSpec) {
         const register = computer[`register${registerName}`]();
         results[registerName] = {
             "int": register.value(),
+            "float": register.floatValue(),
             "bytes": register.getBytesString(),
             "text": register.getCharacters(),
         };

@@ -41,11 +41,13 @@ EMSCRIPTEN_BINDINGS(MixalWASM) {
     class_<ComputerWord>("ComputerWord")
         .constructor<>()
         .function("set", select_overload<void(int32_t)>(&ComputerWord::set))
+        .function("setFloat", select_overload<bool(double)>(&ComputerWord::set))
         .function("setCharacters", select_overload<void(const string&)>(&ComputerWord::set))
         .function("setByteAt", select_overload<void(int, uint8_t)>(&ComputerWord::set))
         .function("setBytes", select_overload<void(bool, uint8_t, uint8_t, uint8_t, uint8_t, uint8_t)>(&ComputerWord::set))
         .function("setMergedBytes", select_overload<void(bool, uint16_t, uint8_t, uint8_t, uint8_t)>(&ComputerWord::set))
         .function("value", &ComputerWord::value)
+        .function("floatValue", &ComputerWord::floatValue)
         .function("getCharacters", &ComputerWord::getCharacters)
         .function("getBytesString", &ComputerWord::getBytesString)
     ;
