@@ -40,11 +40,13 @@ declare module 'mixal' {
     export class ComputerWord {
         constructor()
         set(value: number): void
+        setFloat(value: number): boolean
         setCharacters(value: string): void
         setByteAt(index: number, value: number): void
         setBytes(negative: boolean, byte1: number, byte2: number, byte3: number, byte4: number, byte5: number): void
         setMergedBytes(negative: boolean, byte12: number, byte3: number, byte4: number, byte5: number): void
         value(): number
+        floatValue(): number
         getCharacters(): string
         getBytesString(): string
     }
