@@ -33,7 +33,7 @@ jobs:
         run: |
           black python/wrapper python/tests
           isort python/wrapper python/tests
-          flake8 python/wrapper python/tests
+          flake8 --max-line-length=120 python/wrapper python/tests
 
       - name: Test
         run: |

@@ -4,10 +4,10 @@ build-backend = "scikit_build_core.build"
 
 [project]
 name = "mixal"
-version = "2.3.0"
+version = "2.3.1"
 description = "A MIX assembly language emulator.."
 requires-python = ">=3.8"
-readme = "README.md"
+readme = "python/README.md"
 license = { text = "MIT" }
 
 classifiers = [
