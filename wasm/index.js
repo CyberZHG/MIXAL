@@ -205,6 +205,11 @@ function executeWithSpec(code, ioSpec) {
                         for (let i = 0; i < length; ++i) {
                             result["values"].push(wordAt(offset + i).getBytesString());
                         }
+                    } else if (dataType === "float") {
+                        result["values"] = []
+                        for (let i = 0; i < length; ++i) {
+                            result["values"].push(wordAt(offset + i).floatValue());
+                        }
                     }
                     if (singleValue) {
                         result["value"] = result["values"][0];

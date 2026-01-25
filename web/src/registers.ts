@@ -374,93 +374,70 @@ function writeRegister2ToUI(name: string, state: Register2State) {
     updateRegister2InputVisibility(name, state.type)
 }
 
-export function initRegistersTab(): void {
-    const tabCodes = document.getElementById("tab-codes")!
-    const tabRegisters = document.getElementById("tab-registers")!
-    const panelCodes = document.getElementById("panel-codes")!
-    const panelRegisters = document.getElementById("panel-registers")!
+function syncFromIOSpec() {
+    const state = readRegistersFromIOSpec()
+    for (const name of ["A", "X"] as const) {
+        writeRegister5ToUI(name, state[name])
+    }
+    for (const name of ["I1", "I2", "I3", "I4", "I5", "I6", "J"] as const) {
+        writeRegister2ToUI(name, state[name])
+    }
+}
 
-    function switchToTab(tab: "codes" | "registers") {
-        if (tab === "codes") {
-            tabCodes.classList.add("border-blue-500", "text-blue-600", "dark:text-blue-400")
-            tabCodes.classList.remove("border-transparent", "text-gray-500", "dark:text-gray-400")
-            tabRegisters.classList.remove("border-blue-500", "text-blue-600", "dark:text-blue-400")
-            tabRegisters.classList.add("border-transparent", "text-gray-500", "dark:text-gray-400")
-            panelCodes.classList.remove("hidden")
-            panelRegisters.classList.add("hidden")
+function syncToIOSpec() {
+    const state = getDefaultState()
+    for (const name of ["A", "X"] as const) {
+        state[name] = readRegister5FromUI(name)
+    }
+    for (const name of ["I1", "I2", "I3", "I4", "I5", "I6", "J"] as const) {
+        state[name] = readRegister2FromUI(name)
+    }
+    writeRegistersToIOSpec(state)
+}
+
+function syncResultsDisplay() {
+    const results = readResultsRegisters()
+    for (const name of ["A", "X"]) {
+        const intEl = document.getElementById(`result-${name}-int`)!
+        const floatEl = document.getElementById(`result-${name}-float`)!
+        const bytesEl = document.getElementById(`result-${name}-bytes`)!
+        const textEl = document.getElementById(`result-${name}-text`)!
+        if (results[name]) {
+            intEl.textContent = String(results[name].int ?? "")
+            floatEl.textContent = String(results[name].float ?? "")
+            bytesEl.textContent = results[name].bytes ?? ""
+            textEl.textContent = results[name].text ?? ""
         } else {
-            tabRegisters.classList.add("border-blue-500", "text-blue-600", "dark:text-blue-400")
-            tabRegisters.classList.remove("border-transparent", "text-gray-500", "dark:text-gray-400")
-            tabCodes.classList.remove("border-blue-500", "text-blue-600", "dark:text-blue-400")
-            tabCodes.classList.add("border-transparent", "text-gray-500", "dark:text-gray-400")
-            panelRegisters.classList.remove("hidden")
-            panelCodes.classList.add("hidden")
-            syncFromIOSpec()
-            syncResultsDisplay()
+            intEl.textContent = ""
+            floatEl.textContent = ""
+            bytesEl.textContent = ""
+            textEl.textContent = ""
         }
     }
-
-    function syncFromIOSpec() {
-        const state = readRegistersFromIOSpec()
-        for (const name of ["A", "X"] as const) {
-            writeRegister5ToUI(name, state[name])
-        }
-        for (const name of ["I1", "I2", "I3", "I4", "I5", "I6", "J"] as const) {
-            writeRegister2ToUI(name, state[name])
-        }
-    }
-
-    function syncToIOSpec() {
-        const state = getDefaultState()
-        for (const name of ["A", "X"] as const) {
-            state[name] = readRegister5FromUI(name)
-        }
-        for (const name of ["I1", "I2", "I3", "I4", "I5", "I6", "J"] as const) {
-            state[name] = readRegister2FromUI(name)
-        }
-        writeRegistersToIOSpec(state)
-    }
-
-    function syncResultsDisplay() {
-        const results = readResultsRegisters()
-        for (const name of ["A", "X"]) {
-            const intEl = document.getElementById(`result-${name}-int`)!
-            const floatEl = document.getElementById(`result-${name}-float`)!
-            const bytesEl = document.getElementById(`result-${name}-bytes`)!
-            const textEl = document.getElementById(`result-${name}-text`)!
-            if (results[name]) {
-                intEl.textContent = String(results[name].int ?? "")
-                floatEl.textContent = String(results[name].float ?? "")
-                bytesEl.textContent = results[name].bytes ?? ""
-                textEl.textContent = results[name].text ?? ""
-            } else {
-                intEl.textContent = ""
-                floatEl.textContent = ""
-                bytesEl.textContent = ""
-                textEl.textContent = ""
-            }
-        }
-        for (const name of ["I1", "I2", "I3", "I4", "I5", "I6", "J"]) {
-            const intEl = document.getElementById(`result-${name}-int`)!
-            const bytesEl = document.getElementById(`result-${name}-bytes`)!
-            if (results[name]) {
-                intEl.textContent = String(results[name].int ?? "")
-                bytesEl.textContent = results[name].bytes ?? ""
-            } else {
-                intEl.textContent = ""
-                bytesEl.textContent = ""
-            }
+    for (const name of ["I1", "I2", "I3", "I4", "I5", "I6", "J"]) {
+        const intEl = document.getElementById(`result-${name}-int`)!
+        const bytesEl = document.getElementById(`result-${name}-bytes`)!
+        if (results[name]) {
+            intEl.textContent = String(results[name].int ?? "")
+            bytesEl.textContent = results[name].bytes ?? ""
+        } else {
+            intEl.textContent = ""
+            bytesEl.textContent = ""
         }
     }
+}
 
-    tabCodes.addEventListener("click", () => {
-        syncToIOSpec()
-        switchToTab("codes")
-    })
+export function onRegistersTabEnter(): void {
+    syncFromIOSpec()
+    syncResultsDisplay()
+}
 
-    tabRegisters.addEventListener("click", () => {
-        switchToTab("registers")
-    })
+export function onRegistersTabLeave(): void {
+    syncToIOSpec()
+}
+
+export function initRegistersTab(): void {
+    const panelRegisters = document.getElementById("panel-registers")!
 
     for (const name of ["A", "X"]) {
         const typeSelect = document.getElementById(`reg-${name}-type`) as HTMLSelectElement
