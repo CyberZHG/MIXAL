@@ -81,6 +81,8 @@ function executeWithSpec(code, ioSpec) {
             const inputData = ioSpec[registerName];
             if (typeof inputData === "number") {
                 register.set(inputData);
+            } else if (Object.prototype.toString.call(inputData) === '[object Array]' && inputData.length === 3) {
+                register.setBytes(inputData[0], inputData[1], inputData[2]);
             }
         }
     }

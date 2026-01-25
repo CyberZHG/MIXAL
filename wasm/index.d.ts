@@ -56,6 +56,7 @@ declare module 'mixal' {
     export class Register2 {
         constructor()
         set(value: number): void
+        setBytes(negative: boolean, byte1: number, byte2: number): void
         value(): number
         getBytesString(): string
     }

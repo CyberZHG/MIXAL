@@ -54,6 +54,7 @@ EMSCRIPTEN_BINDINGS(MixalWASM) {
     class_<Register2>("Register2")
         .constructor<>()
         .function("set", select_overload<void(int16_t)>(&Register2::set))
+        .function("setBytes", select_overload<void(bool, uint8_t, uint8_t)>(&Register2::set))
         .function("value", &Register2::value)
         .function("getBytesString", &Register2::getBytesString)
     ;
