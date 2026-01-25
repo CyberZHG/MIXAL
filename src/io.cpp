@@ -152,7 +152,7 @@ std::string IODeviceLinePrinter::line(const int32_t pageNum, const int32_t lineN
     return out.str();
 }
 
-IODeviceTypewriter::IODeviceTypewriter(const int32_t storageSize) : IODeviceSeqReader(storageSize) {
+IODeviceTypewriter::IODeviceTypewriter(const int32_t storageSize) : IODeviceStorage(storageSize) {
     _type = IODeviceType::TYPEWRITER;
     _blockSize = 14;
     _readyRate = 0.2;

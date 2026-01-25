@@ -90,6 +90,7 @@
         <button id="tab-codes" class="py-3 px-1 border-b-2 border-blue-500 text-blue-600 dark:text-blue-400 font-medium text-sm">Codes</button>
         <button id="tab-registers" class="py-3 px-1 border-b-2 border-transparent text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 font-medium text-sm">Registers</button>
         <button id="tab-memory" class="py-3 px-1 border-b-2 border-transparent text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 font-medium text-sm">Memory</button>
+        <button id="tab-devices" class="py-3 px-1 border-b-2 border-transparent text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 font-medium text-sm">IO Devices</button>
       </nav>
     </div>
 
@@ -496,6 +497,35 @@
         </div>
         <div id="memory-results-container" class="flex-1 overflow-auto p-3">
           <p class="text-gray-500 text-sm">No results</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Panel: IO Devices -->
+    <div id="panel-devices" class="flex-1 min-h-0 flex hidden">
+      <!-- Left: Device Blocks -->
+      <div class="w-1/2 h-full min-h-0 flex flex-col border-r border-gray-200 dark:border-gray-700">
+        <div class="px-3 py-2 border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 flex items-center justify-between">
+          <label class="block font-bold text-sm">Device Blocks</label>
+          <button id="add-device-block" class="px-2 py-1 text-xs bg-blue-600 hover:bg-blue-700 text-white rounded">+ Add Block</button>
+        </div>
+        <div id="device-blocks-container" class="flex-1 overflow-auto p-3 space-y-3">
+        </div>
+      </div>
+
+      <!-- Right: Output Config & Results -->
+      <div class="w-1/2 h-full min-h-0 flex flex-col">
+        <div class="px-3 py-2 border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 flex items-center justify-between">
+          <label class="block font-bold text-sm">Output Config</label>
+          <button id="add-device-output" class="px-2 py-1 text-xs bg-blue-600 hover:bg-blue-700 text-white rounded">+ Add Output</button>
+        </div>
+        <div id="device-outputs-container" class="overflow-auto p-3 space-y-2 max-h-48 border-b border-gray-200 dark:border-gray-700">
+        </div>
+        <div class="px-3 py-2 border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800">
+          <label class="block font-bold text-sm">Results</label>
+        </div>
+        <div id="device-results-container" class="flex-1 overflow-auto p-3">
+          <p class="text-gray-500 text-sm">No device output</p>
         </div>
       </div>
     </div>
