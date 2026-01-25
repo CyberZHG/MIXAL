@@ -1,4 +1,5 @@
 import { loadState, saveState } from "./state.ts"
+import { initRegistersTab } from "./registers.ts"
 // @ts-ignore
 import { executeWithSpec } from "../../wasm/index.js"
 import json5 from "json5"
@@ -9,6 +10,7 @@ const resultsEditor = document.querySelector<HTMLTextAreaElement>("#results-edit
 const buttonExecute = document.querySelector<HTMLButtonElement>("#button-execute")!
 
 loadState()
+initRegistersTab()
 
 buttonExecute.addEventListener("click", () => {
     saveState()
