@@ -1,5 +1,6 @@
 import json5 from "json5"
 import { onRegistersTabEnter, onRegistersTabLeave } from "./registers"
+import { onDevicesTabEnter, onDevicesTabLeave } from "./io_devices"
 
 type WordType = "int" | "text" | "bytes" | "merged-bytes"
 
@@ -466,13 +467,16 @@ export function initMemoryTab(): void {
     const tabCodes = document.getElementById("tab-codes")!
     const tabRegisters = document.getElementById("tab-registers")!
     const tabMemory = document.getElementById("tab-memory")!
+    const tabDevices = document.getElementById("tab-devices")!
     const panelCodes = document.getElementById("panel-codes")!
     const panelRegisters = document.getElementById("panel-registers")!
     const panelMemory = document.getElementById("panel-memory")!
+    const panelDevices = document.getElementById("panel-devices")!
 
-    function switchToTab(tab: "codes" | "registers" | "memory") {
+    function switchToTab(tab: "codes" | "registers" | "memory" | "devices") {
         const wasRegisters = !panelRegisters.classList.contains("hidden")
         const wasMemory = !panelMemory.classList.contains("hidden")
+        const wasDevices = !panelDevices.classList.contains("hidden")
 
         if (wasRegisters && tab !== "registers") {
             onRegistersTabLeave()
@@ -480,12 +484,15 @@ export function initMemoryTab(): void {
         if (wasMemory && tab !== "memory") {
             syncToIOSpec()
         }
+        if (wasDevices && tab !== "devices") {
+            onDevicesTabLeave()
+        }
 
-        [tabCodes, tabRegisters, tabMemory].forEach(t => {
+        [tabCodes, tabRegisters, tabMemory, tabDevices].forEach(t => {
             t.classList.remove("border-blue-500", "text-blue-600", "dark:text-blue-400")
             t.classList.add("border-transparent", "text-gray-500", "dark:text-gray-400")
         })
-        ;[panelCodes, panelRegisters, panelMemory].forEach(p => p.classList.add("hidden"))
+        ;[panelCodes, panelRegisters, panelMemory, panelDevices].forEach(p => p.classList.add("hidden"))
 
         if (tab === "codes") {
             tabCodes.classList.add("border-blue-500", "text-blue-600", "dark:text-blue-400")
@@ -496,12 +503,17 @@ export function initMemoryTab(): void {
             tabRegisters.classList.remove("border-transparent", "text-gray-500", "dark:text-gray-400")
             panelRegisters.classList.remove("hidden")
             onRegistersTabEnter()
-        } else {
+        } else if (tab === "memory") {
             tabMemory.classList.add("border-blue-500", "text-blue-600", "dark:text-blue-400")
             tabMemory.classList.remove("border-transparent", "text-gray-500", "dark:text-gray-400")
             panelMemory.classList.remove("hidden")
             syncFromIOSpec()
             renderResults()
+        } else if (tab === "devices") {
+            tabDevices.classList.add("border-blue-500", "text-blue-600", "dark:text-blue-400")
+            tabDevices.classList.remove("border-transparent", "text-gray-500", "dark:text-gray-400")
+            panelDevices.classList.remove("hidden")
+            onDevicesTabEnter()
         }
     }
 
@@ -524,6 +536,7 @@ export function initMemoryTab(): void {
     tabCodes.addEventListener("click", () => switchToTab("codes"))
     tabRegisters.addEventListener("click", () => switchToTab("registers"))
     tabMemory.addEventListener("click", () => switchToTab("memory"))
+    tabDevices.addEventListener("click", () => switchToTab("devices"))
 
     document.getElementById("add-memory-block")?.addEventListener("click", () => {
         syncBlocksFromDOM()

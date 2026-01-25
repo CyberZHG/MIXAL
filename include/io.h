@@ -180,7 +180,7 @@ class IODeviceLinePrinter final : public IODeviceSeqWriter {
 };
 
 /** Typewriter. */
-class IODeviceTypewriter final : public IODeviceSeqReader {
+class IODeviceTypewriter final : public IODeviceStorage {
  public:
     explicit IODeviceTypewriter(int32_t storageSize = 4096);
 };
