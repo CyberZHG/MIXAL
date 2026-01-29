@@ -44,3 +44,7 @@ jobs:
         run: |
           cd wasm
           npm test
+
+      - name: NPM
+        run: |
+          npm i online-mixal-emulator
