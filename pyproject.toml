@@ -4,7 +4,7 @@ build-backend = "scikit_build_core.build"
 
 [project]
 name = "mixal"
-version = "2.3.1"
+version = "2.3.2"
 description = "A MIX assembly language emulator.."
 requires-python = ">=3.8"
 readme = "python/README.md"
@@ -31,12 +31,18 @@ MIXAL_BIND_PYTHON = "ON"
 
 [tool.scikit-build.sdist]
 exclude = [
-    ".github",
-    ".gitignore",
-    "demo",
-    "docs",
+    ".*",
+    "build*",
+    "cmake-build*",
+    "dist",
     "tests",
     "wasm",
+    "web",
+    "*.md",
+    "python/tests",
+]
+include = [
+    "python/README.md",
 ]
 
 [project.optional-dependencies]

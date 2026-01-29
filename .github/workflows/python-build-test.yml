@@ -38,3 +38,7 @@ jobs:
       - name: Test
         run: |
           pytest -v python/tests
+
+      - name: PyPI
+        run: |
+          pip uninstall -y mixal && pip install mixal
