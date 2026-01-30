@@ -79,11 +79,11 @@ class ParsedResult {
 
  private:
     /** Evaluate the base address expression. */
-    bool evaluateAddress(const std::unordered_map<std::string, AtomicValue>& constants, int32_t index = 0);
+    bool evaluateAddress(const std::unordered_map<std::string, AtomicValue>& constants, int32_t _index = 0);
     /** Evaluate the index expression. */
-    bool evaluateIndex(const std::unordered_map<std::string, AtomicValue>& constants, int32_t index = 0);
+    bool evaluateIndex(const std::unordered_map<std::string, AtomicValue>& constants, int32_t _index = 0);
     /** Evaluate the field expression. */
-    bool evaluateField(const std::unordered_map<std::string, AtomicValue>& constants, int32_t index = 0);
+    bool evaluateField(const std::unordered_map<std::string, AtomicValue>& constants, int32_t _index = 0);
 };
 
 class Parser {
