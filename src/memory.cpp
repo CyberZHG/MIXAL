@@ -2,7 +2,7 @@
 #include <string>
 #include <iostream>
 #include "memory.h"
-#include "unicode_char.h"
+#include "unicode_utils.h"
 
 namespace mixal {
 
@@ -176,7 +176,7 @@ std::string ComputerWord::getCharacters() const {
     for (int i = 1; i <= 5; ++i) {
         if (getAt(i) < CHAR_CODES_NUM) {
             const uint16_t code = CHAR_CODES[getAt(i)];
-            chars += unicode::toUTF8(code);
+            chars += unicode_utils::codepointsToUtf8({static_cast<int32_t>(code)});
         } else {
             chars += ' ';
         }
@@ -238,7 +238,7 @@ bool ComputerWord::set(double value) {
 }
 
 void ComputerWord::set(const std::string& chars) {
-    const auto codes = unicode::fromUTF8(chars);
+    const auto codes = unicode_utils::utf8ToCodepoints(chars);
     if (codes.size() != 5) {
         throw std::runtime_error("Invalid length of characters for a word: " + chars);
     }

@@ -2,6 +2,7 @@
 #include <iostream>
 #include "parser.h"
 #include "instructions.h"
+#include "grapheme_break.h"
 
 /**
  * @file
@@ -33,7 +34,7 @@ enum class ParseState {
     END,              /**< The end state. */
 };
 
-std::ostream& operator<<(std::ostream& os, ParsedType c) {
+std::ostream& operator<<(std::ostream& os, const ParsedType c) {
     switch (c) {
     case ParsedType::EMPTY: os << "EMPTY"; break;
     case ParsedType::INSTRUCTION: os << "INSTRUCTION"; break;
@@ -55,42 +56,42 @@ bool ParsedResult::evaluate(const std::unordered_map<std::string, AtomicValue>& 
     return true;
 }
 
-bool ParsedResult::evaluateAddress(const std::unordered_map<std::string, AtomicValue>& constants, int32_t index) {
+bool ParsedResult::evaluateAddress(const std::unordered_map<std::string, AtomicValue>& constants, const int32_t _index) {
     if (!address.evaluated() && !address.evaluate(constants)) {
         return false;
     }
     const int32_t value = address.result().value;
     if (parsedType == ParsedType::INSTRUCTION && !address.literalConstant() && std::abs(value) >= 4096) {
-        throw ParseError(index, "Address can not be represented in 2 bytes: " + std::to_string(value));
+        throw ParseError(_index, "Address can not be represented in 2 bytes: " + std::to_string(value));
     }
     word.setAddress(address.result().negative, static_cast<uint16_t>(std::abs(value)));
     return true;
 }
 
-bool ParsedResult::evaluateIndex(const std::unordered_map<std::string, AtomicValue>& constants, int32_t column) {
+bool ParsedResult::evaluateIndex(const std::unordered_map<std::string, AtomicValue>& constants, const int32_t _index) {
     if (!index.evaluated() && !index.evaluate(constants)) {
         return false;
     }
     const int32_t value = index.result().value;
     if (value < 0 || 6 < value) {
-        throw ParseError(column, "Invalid index value: " + std::to_string(value));
+        throw ParseError(_index, "Invalid index value: " + std::to_string(value));
     }
     word.setIndex(static_cast<uint8_t>(value));
     return true;
 }
 
-bool ParsedResult::evaluateField(const std::unordered_map<std::string, AtomicValue>& constants, int32_t index) {
+bool ParsedResult::evaluateField(const std::unordered_map<std::string, AtomicValue>& constants, const int32_t _index) {
     if (!field.evaluated() && !field.evaluate(constants)) {
         return false;
     }
     const int32_t value = field.result().value;
     const int32_t defaultField = Instructions::getDefaultField(operation);
     if (defaultField >= 0 && value != defaultField) {
-        throw ParseError(index, "The given field value does not match the default one: " +
+        throw ParseError(_index, "The given field value does not match the default one: " +
                                 std::to_string(value) + " != " + std::to_string(defaultField));
     }
     if (value < 0 || 64 <= value) {
-        throw ParseError(index, "Invalid field value: " + std::to_string(value));
+        throw ParseError(_index, "Invalid field value: " + std::to_string(value));
     }
     word.setField(static_cast<uint8_t>(value));
     return true;
@@ -154,8 +155,8 @@ ParsedResult Parser::parseLine(const std::string& line, const std::string& lineS
         fieldStart = INIT_INDEX,
         commentStart = INIT_INDEX,
         defaultField = INIT_INDEX;
-    std::unordered_map<std::string, AtomicValue> emptyDict;
     for (int i = 0; i <= static_cast<int>(line.size()); ++i) {
+        std::unordered_map<std::string, AtomicValue> emptyDict;
         const char ch = i < static_cast<int>(line.size()) ? line[i] : END_CHAR;
         switch (state) {
         case ParseState::START:
@@ -234,8 +235,19 @@ ParsedResult Parser::parseLine(const std::string& line, const std::string& lineS
                         // The "address" in ALF starts exactly two characters after the operation.
                         result.rawAddress = "     ";
                         ++i;
-                        for (int shift = 0; shift < 5 && i < static_cast<int>(line.size()); ++shift) {
-                            result.rawAddress[shift] = line[++i];
+                        if (i < static_cast<int>(line.size())) {
+                            ++i;
+                            const std::string remaining = line.substr(i);
+                            const auto clusters = grapheme_break::segmentGraphemeClusters(remaining);
+                            int bytesConsumed = 0;
+                            for (size_t shift = 0; shift < 5 && shift < clusters.size(); ++shift) {
+                                const auto& cluster = clusters[shift];
+                                if (!cluster.empty()) {
+                                    result.rawAddress[shift] = cluster[0];
+                                }
+                                bytesConsumed += static_cast<int>(cluster.size());
+                            }
+                            i += bytesConsumed - 1;
                         }
                         const int32_t charsValue = ComputerWord(result.rawAddress).value();
                         result.address = Expression::getConstExpression(AtomicValue(charsValue));

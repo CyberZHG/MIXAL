@@ -1,6 +1,6 @@
 {
   "name": "mixal-emulator",
-  "version": "2.3.1",
+  "version": "2.4.0",
   "type": "module",
   "main": "index.js",
   "types": "index.d.ts",

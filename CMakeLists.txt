@@ -19,12 +19,11 @@ endif()
 include(FetchContent)
 
 FetchContent_Declare(
-        UChar
-        GIT_REPOSITORY https://github.com/CyberZHG/UChar.git
+        GraphemeClusterBreak
+        GIT_REPOSITORY https://github.com/CyberZHG/GraphemeClusterBreak.git
         GIT_TAG v1.1.0
 )
-
-FetchContent_MakeAvailable(UChar)
+FetchContent_MakeAvailable(GraphemeClusterBreak)
 
 if(MIXAL_ENABLE_STRICT)
     if(CMAKE_CXX_COMPILER_ID MATCHES "Clang|GNU")
@@ -83,7 +82,7 @@ target_include_directories(MIXAL
 )
 
 target_link_libraries(MIXAL
-        PRIVATE UChar
+        PRIVATE GraphemeClusterBreak
 )
 
 if(MIXAL_ENABLE_TESTS)
