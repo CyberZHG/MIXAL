@@ -11,13 +11,8 @@
   },
   "devDependencies": {
     "typescript": "~5.9.3",
-<<<<<<< Updated upstream
-    "vite": "^7.3.3",
-    "vitest": "^4.0.16"
-=======
     "vite": "^8.3.4",
     "vitest": "^4.1.11"
->>>>>>> Stashed changes
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.3.3",
