@@ -5,10 +5,10 @@ import tailwindcss from '@tailwindcss/vite'
 export default defineConfig({
     base: "/MIXAL",
     build: {
-        rollupOptions: {
+        rolldownOptions: {
             input: {
-                main: resolve(__dirname, 'index.html'),
-                examples: resolve(__dirname, 'examples.html'),
+                main: resolve(import.meta.dirname, 'index.html'),
+                examples: resolve(import.meta.dirname, 'examples.html'),
             }
         }
     },
@@ -19,17 +19,5 @@ export default defineConfig({
         fs: {
             allow: ['..']
         }
-    },
-    esbuild: {
-        supported: {
-            'top-level-await': true
-        },
-    },
-    optimizeDeps: {
-        esbuildOptions: {
-            supported: {
-                "top-level-await": true
-            },
-        },
     },
 })
