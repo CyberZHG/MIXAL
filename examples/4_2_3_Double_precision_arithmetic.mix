@@ -1,0 +1,198 @@
+* PROGRAM A
+ABS      EQU   1:5           Field definition for absolute value
+SIGN     EQU   0:0           Field definition for sign
+EXPD     EQU   1:2           Double-precision exponent field
+DFSUB    STA   TEMP          Double-precision subtraction:
+         LDAN  TEMP          Change sign of v.
+DFADD    STJ   EXITDF        Double-precision addition:
+         CMPA  ACC(ABS)      Compare |v| with |u|.
+         JG    1F
+         JL    2F
+         CMPX  ACCX(ABS)
+         JLE   2F
+1H       STA   ARG           If |v| > |u|, interchange u ↔ v.
+         STX   ARGX
+         LDA   ACC
+         LDX   ACCX
+         ENT1  ACC           (ACC and ACCX are in consecutive
+         MOVE  ARG(2)          locations.)
+2H       STA   TEMP
+         LD1N  TEMP(EXPD)    rI1 ← −ev.
+         LD2   ACC(EXPD)     rI2 ← eu.
+         INC1  0,2           rI1 ← eu − ev.
+         SLAX  2             Remove exponent.
+         SRAX  1,1           Scale right.
+         STA   ARG           0 v1 v2 v3 v4
+         STX   ARGX                    v5 v6 v7 v8 v9
+         STA   ARGX(SIGN)    Store true sign of v in both halves.
+         LDA   ACC           (We know that u has the sign of the answer.)
+         LDX   ACCX          rAX ← u.
+         SLAX  2             Remove exponent.
+         STA   ACC           u1 u2 u3 u4 u5
+         SLAX  4
+         ENTX  1
+         STX   EXPO          EXPO ← 1 (see below).
+         SRC   1             1 u5 u6 u7 u8
+         STA   1F(SIGN)      A trick, see comments in text.
+         ADD   ARGX(0:4)     Add 0 v5 v6 v7 v8.
+         SRAX  4
+1H       DECA  1             Recover from inserted 1. (Sign varies)
+         ADD   ACC(0:4)      Add most significant halves.
+         ADD   ARG           (Overflow cannot occur)
+DNORM    JANZ  1F            Normalization routine:
+         JXNZ  1F            fw in rAX, ew = EXPO + rI2.
+DZERO    STA   ACC           If fw = 0, set ew ← 0.
+         JMP   9F
+2H       SLAX  1             Normalize to the left.
+         DEC2  1
+1H       CMPA  =0=(1:1)      Is the leading byte zero?
+         JE    2B
+         SRAX  2             (Rounding omitted)
+         STA   ACC
+         LDA   EXPO          Compute final exponent.
+         INCA  0,2
+         JAN   EXPUND        Is it negative?
+         STA   ACC(EXPD)
+         CMPA  =1(3:3)=      Is it more than two bytes?
+         JL    8F
+EXPOVD   HLT   20
+EXPUND   HLT   10
+8H       LDA   ACC           Bring answer into rA.
+9H       STX   ACCX
+EXITDF   JMP   *             Exit from subroutine.
+ARG      CON   0
+ARGX     CON   0
+ACC      CON   0             Floating point accumulator
+ACCX     CON   0
+EXPO     CON   0             Part of “raw exponent”
+* PROGRAM M
+BYTE     EQU   1(4:4)        Byte size
+QQ       EQU   BYTE*BYTE/2   Excess of double-precision exponent
+DFMUL    STJ   EXITDF        Double-precision multiplication:
+         STA   TEMP
+         SLAX  2             Remove exponent.
+         STA   ARG           vm
+         STX   ARGX          vl
+         LDA   TEMP(EXPD)
+         ADD   ACC(EXPD)
+         STA   EXPO          EXPO ← eu + ev.
+         ENT2  -QQ           rI2 ← −QQ.
+         LDA   ACC
+         LDX   ACCX
+         SLAX  2             Remove exponent.
+         STA   ACC           um
+         STX   ACCX          ul
+         MUL   ARGX          um × vl
+         STA   TEMP
+         LDA   ARG(ABS)
+         MUL   ACCX(ABS)     |vm × ul|
+         SRA   1             0 x x x x
+         ADD   TEMP(1:4)     (Overflow cannot occur)
+         STA   TEMP
+         LDA   ARG
+         MUL   ACC           vm × um
+         STA   TEMP(SIGN)    Store true sign of result.
+         STA   ACC           Now prepare to add all the
+         STX   ACCX            partial products together.
+         LDA   ACCX(0:4)     0 x x x x
+         ADD   TEMP          (Overflow cannot occur)
+         SRAX  4
+         ADD   ACC           (Overflow cannot occur)
+         JMP   DNORM         Normalize and exit.
+* PROGRAM D
+DFDIV    STJ   EXITDF        Double-precision division:
+         JOV   OFLO          Ensure that overflow is off.
+         STA   TEMP
+         SLAX  2             Remove exponent.
+         STA   ARG           vm
+         STX   ARGX          vl
+         LDA   ACC(EXPD)
+         SUB   TEMP(EXPD)
+         STA   EXPO          EXPO ← eu − ev.
+         ENT2  QQ+1          rI2 ← QQ + 1.
+         LDA   ACC
+         LDX   ACCX
+         SLAX  2             Remove exponent.
+         SRAX  1             (See Algorithm 4.2.1M)
+         DIV   ARG           If overflow, it is detected below.
+         STA   ACC           wm
+         SLAX  5             Use remainder in further division.
+         DIV   ARG
+         STA   ACCX          ±wl
+         LDA   ARGX(1:4)
+         ENTX  0
+         DIV   ARG(ABS)      rA ← ⌊|b^4 vl/vm|⌋/b^5.
+         JOV   DVZROD        Did division cause overflow?
+         MUL   ACC(ABS)      rAX ← |wm vl/b vm|, approximately.
+         SRAX  4             Multiply by b, and save
+         SLC   5               the leading byte in rX.
+         SUB   ACCX(ABS)     Subtract |wl|.
+         DECA  1             Force minus sign.
+         SUB   WM1
+         JOV   *+2           If no overflow, carry one more
+         INCX  1               to upper half.
+         SLC   5             (Now rA ≤ 0)
+         ADD   ACC(ABS)      rA ← |wm| − |rA|.
+         STA   ACC(ABS)      (Now rA ≥ 0)
+         LDA   ACC           rA ← wm with correct sign.
+         JMP   DNORM         Normalize and exit.
+DVZROD   HLT   30            Unnormalized or zero divisor
+1H       EQU   1(1:1)
+WM1      CON   1B-1,BYTE-1(1:1)  Word size minus one
+*
+OFLO     HLT   4
+TEMP     CON   0
+U        CON   2049(1:2),3(3:3),9(4:4),3(5:5)
+         CON   61(1:1),47(2:2),0(3:3),36(4:4),15(5:5)
+V        CON   -2048(0:2),21(3:3),21(4:4),21(5:5)
+         CON   21(1:1),21(2:2),21(3:3),21(4:4),21(5:5)
+X        CON   2049(1:2),3(3:3),9(4:4),3(5:5)
+         CON   61(1:1),47(2:2),0(3:3),36(4:4),20(5:5)
+W        EQU   1000
+START    LDA   U
+         LDX   U+1
+         STA   ACC
+         STX   ACCX
+         LDA   V
+         LDX   V+1
+         JMP   DFADD
+         STA   W+0
+         STX   W+1
+         LDA   U
+         LDX   U+1
+         STA   ACC
+         STX   ACCX
+         LDA   V
+         LDX   V+1
+         JMP   DFSUB
+         STA   W+2
+         STX   W+3
+         LDA   U
+         LDX   U+1
+         STA   ACC
+         STX   ACCX
+         LDA   V
+         LDX   V+1
+         JMP   DFMUL
+         STA   W+4
+         STX   W+5
+         LDA   U
+         LDX   U+1
+         STA   ACC
+         STX   ACCX
+         LDA   V
+         LDX   V+1
+         JMP   DFDIV
+         STA   W+6
+         STX   W+7
+         LDA   U
+         LDX   U+1
+         STA   ACC
+         STX   ACCX
+         LDA   X
+         LDX   X+1
+         JMP   DFSUB
+         STA   W+8
+         STX   W+9
+         HLT
+         END   START

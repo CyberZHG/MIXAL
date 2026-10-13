@@ -1,0 +1,19 @@
+ROOT     EQU   1100
+K        EQU   1050
+         ORIG  3000
+START    LDX   K           T1. Initialize.
+         ENT1  ROOT        P ← pointer to root of trie.
+2H       SLAX  1           T2. Branch.
+         STA   *+1(2:2)    Extract next character, k.
+         ENT2  0,1         Q ← P + k.
+         LD1N  0,2(0:2)    P ← LINK(Q).
+         J1P   2B          T3. Advance. To T2 if P is a link ≠ Λ.
+         LDA   0,2         T4. Compare. rA ← KEY(Q).
+         CMPA  K
+         JE    SUCCESS     Exit successfully if rA = K.
+FAILURE  EQU   *           Exit if not in the trie.
+         ENTA  0
+         HLT
+SUCCESS  ENTA  0,2
+         HLT
+         END   START

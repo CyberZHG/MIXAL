@@ -1,0 +1,31 @@
+N        EQU   16
+INPUT    EQU   1000
+OUT      EQU   1100
+KEY      EQU   0:3
+LINK     EQU   4:5
+         ORIG  3000
+START    ENT1  N           L1. Loop on j. j ← N.
+         ST1   INPUT(LINK)  L0 ← N.
+         STZ   INPUT+N(LINK)  LN ← 0.
+         JMP   6F          Go to decrease j.
+2H       LD2   INPUT(LINK)  L2. Set up p, q, K. p ← L0.
+         ENT3  0           q ← 0.
+         LDA   INPUT,1     K ← Kj.
+3H       CMPA  INPUT,2(KEY)  L3. Compare K : Kp.
+         JLE   5F          To L5 if K ≤ Kp.
+4H       ENT3  0,2         L4. Bump p, q. q ← p.
+         LD2   INPUT,3(LINK)  p ← Lq.
+         J2P   3B          To L3 if p > 0.
+5H       ST1   INPUT,3(LINK)  L5. Insert into list. Lq ← j.
+         ST2   INPUT,1(LINK)  Lj ← p.
+6H       DEC1  1
+         J1P   2B          N > j ≥ 1.
+         ENT2  0
+         LD1   INPUT(LINK)
+WALK     LDA   INPUT,1(KEY)
+         STA   OUT,2
+         INC2  1
+         LD1   INPUT,1(LINK)
+         J1P   WALK
+         HLT
+         END   START

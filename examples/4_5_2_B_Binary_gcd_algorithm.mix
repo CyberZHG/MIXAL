@@ -1,0 +1,29 @@
+ABS      EQU   1:5
+         ORIG  3000
+B1       ENT1  0         B1. Find power of 2.
+         LDX   U         rX ← u.
+         LDAN  V         rA ← −v.
+         JMP   1F
+2H       SRB   1         Halve rA, rX.
+         INC1  1         k ← k + 1.
+         STX   U         u ← u/2.
+         STA   V(ABS)    v ← v/2.
+1H       JXO   B4        To B4 with t ← −v if u is odd.
+B2       JAE   2B        B2. Initialize.
+         LDA   U         t ← u.
+B3       SRB   1         B3. Halve t.
+B4       JAE   B3        B4. Is t even?
+B5       JAN   1F        B5. Reset max(u, v).
+         STA   U         If t > 0, set u ← t.
+         SUB   V         t ← u − v.
+         JMP   2F
+1H       STA   V(ABS)    If t < 0, set v ← −t.
+B6       ADD   U         B6. Subtract.
+2H       JANZ  B3        To B3 if t ≠ 0.
+         LDA   U         rA ← u.
+         ENTX  0         rX ← 0.
+         SLB   0,1       rA ← 2^k · rA.
+         HLT
+U        CON   40902
+V        CON   24140
+         END   B1

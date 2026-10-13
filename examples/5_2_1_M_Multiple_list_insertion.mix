@@ -1,0 +1,43 @@
+N        EQU   16
+M        EQU   4
+INPUT    EQU   1000
+HEAD     EQU   1050
+OUT      EQU   1100
+KEY      EQU   1:3
+LINK     EQU   4:5
+         ORIG  3000
+START    ENT2  M
+         STZ   HEAD,2      HEAD[p] ← Λ.
+         DEC2  1
+         J2P   *-2         M ≥ p ≥ 1.
+         ENT1  N           j ← N.
+2H       LDA   INPUT,1(KEY)
+         MUL   =M(1:3)=    rA ← ⌊M·Kj/BYTESIZE^3⌋.
+         STA   *+1(1:2)
+         ENT4  0           rI4 ← rA.
+         ENT3  HEAD+1-INPUT,4  q ← LOC(HEAD[rA]).
+         LDA   INPUT,1     K ← Kj.
+         JMP   4F          Jump to set p.
+3H       CMPA  INPUT,2(KEY)
+         JLE   5F          Jump to insert, if K ≤ KEY(p).
+         ENT3  0,2         q ← p.
+4H       LD2   INPUT,3(LINK)  p ← LINK(q).
+         J2P   3B          Jump if not end of list.
+5H       ST1   INPUT,3(LINK)  LINK(q) ← LOC(Rj).
+         ST2   INPUT,1(LINK)  LINK(LOC(Rj)) ← p.
+6H       DEC1  1
+         J1P   2B          N ≥ j ≥ 1.
+         ENT5  0
+         ENT4  1
+NEXTL    LD1   HEAD,4(LINK)
+         J1Z   ENDL
+WALK     LDA   INPUT,1(KEY)
+         STA   OUT,5
+         INC5  1
+         LD1   INPUT,1(LINK)
+         J1P   WALK
+ENDL     INC4  1
+         CMP4  =M=
+         JLE   NEXTL
+         HLT
+         END   START

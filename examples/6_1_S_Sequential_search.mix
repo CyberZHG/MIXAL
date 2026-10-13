@@ -1,0 +1,17 @@
+N        EQU   16
+KEY      EQU   1000
+INFO     EQU   1100
+K        EQU   1200
+         ORIG  3000
+START    LDA   K           S1. Initialize.
+         ENT1  1-N         i ← 1.
+2H       CMPA  KEY+N,1     S2. Compare.
+         JE    SUCCESS     Exit if K = Ki.
+         INC1  1           S3. Advance.
+         J1NP  2B          S4. End of file?
+FAILURE  EQU   *           Exit if not in table.
+         ENTA  0
+         HLT
+SUCCESS  LDA   INFO+N,1
+         HLT
+         END   START

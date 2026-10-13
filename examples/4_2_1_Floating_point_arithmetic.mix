@@ -1,0 +1,144 @@
+* PROGRAM A
+BYTE     EQU  1(4:4)          Byte size b
+EXP      EQU  1:1             Definition of exponent field
+FSUB     STA  TEMP            Floating point subtraction subroutine:
+         LDAN TEMP            Change sign of operand.
+FADD     STJ  EXITF           Floating point addition subroutine:
+         JOV  OFLO            Ensure that overflow is off.
+         STA  TEMP            TEMP ← v.
+         LDX  ACC             rX ← u.
+         CMPA ACC(EXP)        Steps A1, A2, A3 are combined here:
+         JGE  1F              Jump if ev ≥ eu.
+         STX  FU(0:4)         FU ← ± f f f f 0.
+         LD2  ACC(EXP)        rI2 ← ew.
+         STA  FV(0:4)
+         LD1N TEMP(EXP)       rI1 ← −ev.
+         JMP  4F
+1H       STA  FU(0:4)         FU ← ± f f f f 0 (u, v interchanged).
+         LD2  TEMP(EXP)       rI2 ← ew.
+         STX  FV(0:4)
+         LD1N ACC(EXP)        rI1 ← −ev.
+4H       INC1 0,2             rI1 ← eu − ev. (Step A4 unnecessary.)
+5H       LDA  FV              A5. Scale right.
+         ENTX 0               Clear rX.
+         SRAX 0,1             Shift right eu − ev places.
+6H       ADD  FU              A6. Add.
+         JOV  N4              A7. Normalize. Jump if fraction overflow.
+         JXZ  NORM            Easy case?
+         LD1  FV(0:1)         Check for opposite signs.
+         JAP  1F
+         J1N  N2              If not, normalize.
+         JMP  2F
+1H       J1P  N2
+2H       SRC  5               |rX| ↔ |rA|.
+         DECX 1               (rX is positive.)
+         STA  TEMP            (The operands had opposite signs;
+         STA  HALF(0:0)         we must adjust the registers
+         LDAN TEMP              before rounding and normalization.)
+         ADD  HALF
+         ADD  HALF            Complement the least significant portion.
+         SRC  5               Jump into normalization routine.
+         JMP  N2
+HALF     CON  1//2            One half the word size (Sign varies)
+FU       CON  0               Fraction part fu
+FV       CON  0               Fraction part fv
+NORM     JAZ  ZRO             N1. Test f.
+N2       CMPA =0=(1:1)        N2. Is f normalized?
+         JNE  N5              To N5 if leading byte nonzero.
+N3       SLAX 1               N3. Scale left.
+         DEC2 1               Decrease e by 1.
+         JMP  N2              Return to N2.
+N4       ENTX 1               N4. Scale right.
+         SRC  1               Shift right, insert “1” with proper sign.
+         INC2 1               Increase e by 1.
+N5       CMPA =BYTE/2=(5:5)   N5. Round.
+         JL   N6              Is |tail| < 1/2 b?
+         JG   5F
+         JXNZ 5F              Is |tail| > 1/2 b?
+         STA  TEMP            |tail| = 1/2 b; round to odd.
+         LDX  TEMP(4:4)
+         JXO  N6              To N6 if rX is odd.
+5H       STA  *+1(0:0)        Store sign of rA.
+         INCA BYTE            Add b^−4 to |f|. (Sign varies)
+         JOV  N4              Check for rounding overflow.
+N6       J2N  EXPUN           N6. Check e. Underflow if e < 0.
+N7       ENTX 0,2             N7. Pack. rX ← e.
+         SRC  1
+ZRO      DEC2 BYTE            rI2 ← e − b.
+8H       STA  ACC
+EXITF    J2N  *               Exit, unless e ≥ b.
+EXPOV    HLT  2               Exponent overflow detected
+EXPUN    HLT  1               Exponent underflow detected
+ACC      CON  0               Floating point accumulator
+* PROGRAM M
+Q        EQU  BYTE/2          q is half the byte size
+FMUL     STJ  EXITF           Floating point multiplication subroutine:
+         JOV  OFLO            Ensure that overflow is off.
+         STA  TEMP            TEMP ← v.
+         LDX  ACC             rX ← u.
+         STX  FU(0:4)         FU ← ± f f f f 0.
+         LD1  TEMP(EXP)
+         LD2  ACC(EXP)
+         INC2 -Q,1            rI2 ← eu + ev − q.
+         SLA  1
+         MUL  FU              Multiply fu times fv.
+         JMP  NORM            Normalize, round, and exit.
+FDIV     STJ  EXITF           Floating point division subroutine:
+         JOV  OFLO            Ensure that overflow is off.
+         STA  TEMP            TEMP ← v.
+         STA  FV(0:4)         FV ← ± f f f f 0.
+         LD1  TEMP(EXP)
+         LD2  ACC(EXP)
+         DEC2 -Q,1            rI2 ← eu − ev + q.
+         ENTX 0
+         LDA  ACC
+         SLA  1               rA ← fu.
+         CMPA FV(1:5)
+         JL   *+3             Jump if |fu| < |fv|.
+         SRA  1               Otherwise, scale fu right
+         INC2 1                 and increase rI2 by 1.
+         DIV  FV              Divide.
+         JNOV NORM            Normalize, round, and exit.
+DVZRO    HLT  3               Unnormalized or zero divisor
+* FIX-TO-FLOAT
+FLOT     STJ  EXITF           Assume that rA = u, an integer.
+         JOV  OFLO            Ensure that overflow is off.
+         ENT2 Q+5             Set raw exponent.
+         ENTX 0
+         JMP  NORM            Normalize, round, and exit.
+*
+OFLO     HLT  4
+TEMP     CON  0
+W        EQU  1000
+START    ENTA 3
+         JMP  FLOT
+         STA  W
+         ENTA 1
+         JMP  FLOT
+         LDA  W
+         JMP  FDIV
+         STA  W+1
+         ENTA 113
+         JMP  FLOT
+         STA  W+2
+         ENTA 355
+         JMP  FLOT
+         LDA  W+2
+         JMP  FDIV
+         STA  W+3
+         LDA  W+2
+         JMP  FMUL
+         STA  W+4
+         LDA  W+1
+         JMP  FSUB
+         STA  W+5
+         LDA  W+3
+         JMP  FADD
+         STA  W+6
+         ENTA -1000
+         JMP  FLOT
+         LDA  W+1
+         JMP  FADD
+         STA  W+7
+         HLT
+         END  START

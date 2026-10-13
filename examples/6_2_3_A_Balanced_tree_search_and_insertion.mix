@@ -1,0 +1,116 @@
+N        EQU   16
+KEYS     EQU   1000
+HEAD     EQU   1100
+AVAIL    EQU   1102
+K        EQU   1103
+B        EQU   0:1
+LLINK    EQU   2:3
+RLINK    EQU   4:5
+         ORIG  3000
+BEGIN    ENT6  2
+LOOP     LDA   KEYS,6
+         STA   K
+START    LDA   K           A1. Initialize.
+         ENT5  HEAD        T ← HEAD.
+         LD2   0,5(RLINK)  Q ← RLINK(HEAD).
+         JMP   2F          To A2 with S ← P ← Q.
+4H       LD2   0,1(RLINK)  A4. Move right. Q ← RLINK(P).
+         J2Z   5F          To A5 if Q = Λ.
+1H       LDX   0,2(B)      rX ← B(Q).
+         JXZ   *+3         Jump if B(Q) = 0.
+         ENT5  0,1         T ← P.
+2H       ENT4  0,2         S ← Q.
+         ENT1  0,2         P ← Q.
+         CMPA  1,1         A2. Compare.
+         JG    4B          To A4 if K > KEY(P).
+         JE    SUCCESS     Exit if K = KEY(P).
+         LD2   0,1(LLINK)  A3. Move left. Q ← LLINK(P).
+         J2NZ  1B          Jump if Q ≠ Λ.
+5H       LD2   AVAIL       A5. Insert.
+         J2Z   OVERFLOW
+         LDX   0,2(RLINK)
+         STX   AVAIL       Q ⇐ AVAIL.
+         STA   1,2         KEY(Q) ← K.
+         STZ   0,2         LLINK(Q) ← RLINK(Q) ← Λ, B(Q) ← 0.
+         JL    1F          Was K < KEY(P)?
+         ST2   0,1(RLINK)  RLINK(P) ← Q.
+         JMP   *+2
+1H       ST2   0,1(LLINK)  LLINK(P) ← Q.
+6H       CMPA  1,4         A6. Adjust balance factors.
+         JL    *+3         Jump if K < KEY(S).
+         LD3   0,4(RLINK)  R ← RLINK(S).
+         JMP   *+2
+         LD3   0,4(LLINK)  R ← LLINK(S).
+         ENT1  0,3         P ← R.
+         ENTX  -1          rX ← −1.
+         JMP   1F          To comparison loop.
+4H       JE    7F          To A7 if K = KEY(P).
+         STX   0,1(1:1)    B(P) ← +1 (it was +0).
+         LD1   0,1(RLINK)  P ← RLINK(P).
+1H       CMPA  1,1
+         JGE   4B          Jump if K ≥ KEY(P).
+         STX   0,1(B)      B(P) ← −1.
+         LD1   0,1(LLINK)  P ← LLINK(P).
+         JMP   1B          To comparison loop.
+7H       LD2   0,4(B)      A7. Balancing act. rI2 ← B(S).
+         STZ   0,4(B)      B(S) ← 0.
+         CMPA  1,4
+         JG    A7R         To a = +1 routine if K > KEY(S).
+A7L      J2P   DONE        Exit if rI2 = −a.
+         J2Z   7F          Jump if B(S) was zero.
+         ENT1  0,3         P ← R.
+         LD2   0,3(B)      rI2 ← B(R).
+         J2N   A8L         To A8 if rI2 = a.
+A9L      LD1   0,3(RLINK)  A9. Double rotation.
+         LDX   0,1(LLINK)  LINK(a,P ← LINK(−a,R))
+         STX   0,3(RLINK)    LINK(−a,R) ← LINK(a,P).
+         ST3   0,1(LLINK)  LINK(a,P) ← R.
+         LD2   0,1(B)      rI2 ← B(P).
+         LDX   T1,2        −a, 0, or 0
+         STX   0,4(B)        → B(S).
+         LDX   T2,2        0, 0, or a
+         STX   0,3(B)        → B(R).
+A8L      LDX   0,1(RLINK)  A8. Single rotation.
+         STX   0,4(LLINK)  LINK(a,S) ← LINK(−a,P).
+         ST4   0,1(RLINK)  LINK(−a,P) ← S.
+         JMP   8F          Join up with the other branch.
+A7R      J2N   DONE        Exit if rI2 = −a.
+         J2Z   6F          Jump if B(S) was zero.
+         ENT1  0,3         P ← R.
+         LD2   0,3(B)      rI2 ← B(R).
+         J2P   A8R         To A8 if rI2 = a.
+A9R      LD1   0,3(LLINK)  A9. Double rotation.
+         LDX   0,1(RLINK)  LINK(a,P ← LINK(−a,R))
+         STX   0,3(LLINK)    LINK(−a,R) ← LINK(a,P).
+         ST3   0,1(RLINK)  LINK(a,P) ← R.
+         LD2   0,1(B)      rI2 ← B(P).
+         LDX   T2,2        −a, 0, or 0
+         STX   0,4(B)        → B(S).
+         LDX   T1,2        0, 0, or a
+         STX   0,3(B)        → B(R).
+A8R      LDX   0,1(LLINK)  A8. Single rotation.
+         STX   0,4(RLINK)  LINK(a,S) ← LINK(−a,P).
+         ST4   0,1(LLINK)  LINK(−a,P) ← S.
+8H       STZ   0,1(B)      B(P) ← 0.
+A10      CMP4  0,5(RLINK)  A10. Finishing touch.
+         JNE   *+3         Jump if RLINK(T) ≠ S.
+         ST1   0,5(RLINK)  RLINK(T) ← P.
+         JMP   DONE        Exit.
+         ST1   0,5(LLINK)  LLINK(T) ← P.
+         JMP   DONE        Exit.
+         CON   +1
+T1       CON   0           Table for (3).
+T2       CON   0
+         CON   -1
+6H       ENTX  +1          rX ← +1.
+7H       STX   0,4(B)      B(S) ← a.
+         LDX   HEAD(LLINK)  LLINK(HEAD)
+         INCX  1             + 1
+         STX   HEAD(LLINK)   → LLINK(HEAD).
+DONE     EQU   *           Insertion is complete.
+SUCCESS  INC6  1
+         CMP6  =N=
+         JLE   LOOP
+         HLT
+OVERFLOW HLT   1
+         END   BEGIN

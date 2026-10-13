@@ -1,0 +1,52 @@
+N        EQU   16
+M        EQU   10
+INPUT    EQU   1000
+PILES    EQU   1050
+OUT      EQU   1100
+LINK     EQU   4:5
+TOP      EQU   1:2
+         ORIG  3000
+START    ENT1  N           R1. Loop on k. P ← LOC(RN).
+         ENT3  2           k ← 1.
+2H       ENT2  M-1         R2. Set piles empty.
+         ENTA  PILES-INPUT,2  LOC(BOTM[i])
+         STA   PILES,2(TOP)  → TOP[i].
+         STZ   PILES,2(LINK)  BOTM[i] ← Λ.
+         DEC2  1
+         J2NN  *-4         M > i ≥ 0.
+         LDA   R3SW,3
+         STA   3F          Modify instructions for pass k.
+         LDA   R5SW,3
+         STA   5F
+3H       LD2   INPUT,1(3:3)  R3. Extract kth digit of key.
+4H       LD4   PILES,2(TOP)  R4. Adjust links.
+         ST1   INPUT,4(LINK)  LINK(TOP[i]) ← P.
+         ST1   PILES,2(TOP)  TOP[i] ← P.
+5H       DEC1  1           R5. Step to next record.
+         J1NZ  3B          To R3 if not end of pass.
+6H       ENN2  M           R6. Do Algorithm H.
+         JMP   7F          To H2 with i ← 0.
+R3SW     LD2   INPUT,1(1:1)  Instruction for R3 when k = 3.
+         LD2   INPUT,1(2:2)  Instruction for R3 when k = 2.
+         LD2   INPUT,1(3:3)  Instruction for R3 when k = 1.
+R5SW     LD1   INPUT,1(LINK)  Instruction for R5 when k = 3.
+         LD1   INPUT,1(LINK)  Instruction for R5 when k = 2.
+         DEC1  1           Instruction for R5 when k = 1.
+9H       LDA   PILES+M,2(LINK)  H4. Is pile empty?
+         JAZ   8F          To H3 if BOTM[i] = Λ.
+         STA   INPUT,1(LINK)  H5. Tie piles together.
+7H       LD1   PILES+M,2(TOP)  H2. Point to top of pile.
+8H       INC2  1           H3. Next pile. i ← i + 1.
+         J2NZ  9B          To H4 if i ≠ M.
+         STZ   INPUT,1(LINK)  LINK(P) ← Λ.
+         LD1   PILES(LINK)  P ← BOTM[0].
+         DEC3  1
+         J3NN  2B          Loop for 1 ≤ k ≤ 3.
+         ENT2  0
+WALK     LDA   INPUT,1(1:3)
+         STA   OUT,2
+         INC2  1
+         LD1   INPUT,1(LINK)
+         J1P   WALK
+         HLT
+         END   START

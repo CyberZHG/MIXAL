@@ -1,0 +1,41 @@
+N        EQU   20
+FK       EQU   13
+FK1      EQU   8
+FK2      EQU   5
+KEY      EQU   1000
+K        EQU   1200
+         ORIG  3000
+START    LDA   K           F1. Initialize.
+         ENT1  FK          i ← Fk.
+         ENT2  FK1-1       p ← Fk−1.
+         ENT3  FK2-1       q ← Fk−2.
+         JMP   F2A         To step F2.
+F4A      INC1  1,3         F4. Increase i. i ← i + q.
+         DEC2  1,3         p ← p − q.
+         DEC3  1,2         q ← q − p.
+F2A      CMPA  KEY,1       F2. Compare.
+         JL    F3A         To F3 if K < Ki.
+         JE    SUCCESS     Exit if K = Ki.
+         J2NZ  F4A         To F4 if p ≠ 1.
+         JMP   FAILURE     Exit if not in table.
+F3A      DEC1  1,3         F3. Decrease i. i ← i − q.
+         DEC2  1,3         p ← p − q.
+         J3NN  F2B         Swap registers if q > 0.
+         JMP   FAILURE     Exit if not in table.
+F4B      INC1  1,2         (Lines 18–29 are parallel to 06–17.)
+         DEC3  1,2
+         DEC2  1,3
+F2B      CMPA  KEY,1
+         JL    F3B
+         JE    SUCCESS
+         J3NZ  F4B
+         JMP   FAILURE
+F3B      DEC1  1,2
+         DEC3  1,2
+         J2NN  F2A
+         JMP   FAILURE
+FAILURE  ENTA  0
+         HLT
+SUCCESS  ENTA  0,1
+         HLT
+         END   START

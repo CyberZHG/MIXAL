@@ -1,0 +1,16 @@
+{
+  "outputs": {
+    "memory": [
+      {
+        "offset": 1023,
+        "length": 3,
+        "type": "int"
+      },
+      {
+        "offset": 1033,
+        "length": 3,
+        "type": "bytes"
+      }
+    ]
+  }
+}

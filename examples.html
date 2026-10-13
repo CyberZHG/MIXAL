@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>MIXAL Examples - Online MIXAL Emulator</title>
-  <meta name="description" content="Collection of MIXAL program examples from The Art of Computer Programming by Donald Knuth. Includes programs for finding maximum, printing primes, and permutation operations.">
+  <meta name="description" content="Collection of MIXAL program examples from The Art of Computer Programming by Donald Knuth. Includes programs for finding maximum, printing primes, permutation operations, coroutines, tracing, topological sorting, polynomial addition, binary tree traversal, random numbers, floating point and multiple-precision arithmetic, greatest common divisors, sorting, and searching.">
   <link rel="icon" type="image/svg+xml" href="/MIXAL/favicon.svg">
   <link rel="canonical" href="https://cyberzhg.github.io/MIXAL/examples.html">
   <meta property="og:title" content="MIXAL Examples - Online MIXAL Emulator">
@@ -36,8 +36,8 @@
       }
     })();
   </script>
-  <script type="module" crossorigin src="/MIXAL/assets/__vite-browser-external-BLYCKd8t.js"></script>
-  <link rel="stylesheet" crossorigin href="/MIXAL/assets/__vite-browser-external-C92OJ4cJ.css">
+  <script type="module" crossorigin src="/MIXAL/assets/__vite-browser-external-CAa_0vbD.js"></script>
+  <link rel="stylesheet" crossorigin href="/MIXAL/assets/__vite-browser-external-Ds8BMUcw.css">
 </head>
 <body class="h-screen flex flex-col bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100">
 <!-- Top Navigation -->
@@ -144,6 +144,411 @@
       </div>
       <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">
         Chapter 1.3.3 | Program J
+      </p>
+    </a>
+    <a href="/MIXAL?example=1_4_2_Coroutines_Translate_code" class="group block rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-6 hover:shadow-lg transition">
+      <div class="flex items-center gap-3">
+        <h2 class="text-lg font-semibold group-hover:text-blue-600 dark:group-hover:text-blue-400">
+          Translate code with coroutines
+        </h2>
+      </div>
+      <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">
+        Chapter 1.4.2 | Coroutines
+      </p>
+    </a>
+    <a href="/MIXAL?example=1_4_3_2_Trace_routine" class="group block rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-6 hover:shadow-lg transition">
+      <div class="flex items-center gap-3">
+        <h2 class="text-lg font-semibold group-hover:text-blue-600 dark:group-hover:text-blue-400">
+          Trace routine
+        </h2>
+      </div>
+      <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">
+        Chapter 1.4.3.2 | Trace routine
+      </p>
+    </a>
+  </section>
+  <header class="mt-12 mb-10">
+    <h1 class="text-3xl font-bold">Chapter 2</h1>
+  </header>
+  <section class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+    <a href="/MIXAL?example=2_2_3_T_Topological_sort" class="group block rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-6 hover:shadow-lg transition">
+      <div class="flex items-center gap-3">
+        <h2 class="text-lg font-semibold group-hover:text-blue-600 dark:group-hover:text-blue-400">
+          Topological sort
+        </h2>
+      </div>
+      <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">
+        Chapter 2.2.3 | Program T
+      </p>
+    </a>
+    <a href="/MIXAL?example=2_2_4_A_Addition_of_polynomials" class="group block rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-6 hover:shadow-lg transition">
+      <div class="flex items-center gap-3">
+        <h2 class="text-lg font-semibold group-hover:text-blue-600 dark:group-hover:text-blue-400">
+          Addition of polynomials
+        </h2>
+      </div>
+      <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">
+        Chapter 2.2.4 | Program A
+      </p>
+    </a>
+    <a href="/MIXAL?example=2_3_1_T_Traverse_binary_tree_in_inorder" class="group block rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-6 hover:shadow-lg transition">
+      <div class="flex items-center gap-3">
+        <h2 class="text-lg font-semibold group-hover:text-blue-600 dark:group-hover:text-blue-400">
+          Traverse binary tree in inorder
+        </h2>
+      </div>
+      <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">
+        Chapter 2.3.1 | Program T
+      </p>
+    </a>
+    <a href="/MIXAL?example=2_3_1_S_Traverse_threaded_binary_tree" class="group block rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-6 hover:shadow-lg transition">
+      <div class="flex items-center gap-3">
+        <h2 class="text-lg font-semibold group-hover:text-blue-600 dark:group-hover:text-blue-400">
+          Traverse threaded binary tree in inorder
+        </h2>
+      </div>
+      <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">
+        Chapter 2.3.1 | Program S
+      </p>
+    </a>
+  </section>
+  <header class="mt-12 mb-10">
+    <h1 class="text-3xl font-bold">Chapter 3</h1>
+  </header>
+  <section class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+    <a href="/MIXAL?example=3_2_2_A_Additive_number_generator" class="group block rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-6 hover:shadow-lg transition">
+      <div class="flex items-center gap-3">
+        <h2 class="text-lg font-semibold group-hover:text-blue-600 dark:group-hover:text-blue-400">
+          Additive number generator
+        </h2>
+      </div>
+      <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">
+        Chapter 3.2.2 | Program A
+      </p>
+    </a>
+  </section>
+  <header class="mt-12 mb-10">
+    <h1 class="text-3xl font-bold">Chapter 4</h1>
+  </header>
+  <section class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+    <a href="/MIXAL?example=4_2_1_Floating_point_arithmetic" class="group block rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-6 hover:shadow-lg transition">
+      <div class="flex items-center gap-3">
+        <h2 class="text-lg font-semibold group-hover:text-blue-600 dark:group-hover:text-blue-400">
+          Floating point arithmetic
+        </h2>
+      </div>
+      <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">
+        Chapter 4.2.1 | Programs A and M
+      </p>
+    </a>
+    <a href="/MIXAL?example=4_2_3_Double_precision_arithmetic" class="group block rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-6 hover:shadow-lg transition">
+      <div class="flex items-center gap-3">
+        <h2 class="text-lg font-semibold group-hover:text-blue-600 dark:group-hover:text-blue-400">
+          Double-precision arithmetic
+        </h2>
+      </div>
+      <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">
+        Chapter 4.2.3 | Programs A, M, and D
+      </p>
+    </a>
+    <a href="/MIXAL?example=4_3_1_A_Addition_of_nonnegative_integers" class="group block rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-6 hover:shadow-lg transition">
+      <div class="flex items-center gap-3">
+        <h2 class="text-lg font-semibold group-hover:text-blue-600 dark:group-hover:text-blue-400">
+          Addition of nonnegative integers
+        </h2>
+      </div>
+      <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">
+        Chapter 4.3.1 | Program A
+      </p>
+    </a>
+    <a href="/MIXAL?example=4_3_1_S_Subtraction_of_nonnegative_integers" class="group block rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-6 hover:shadow-lg transition">
+      <div class="flex items-center gap-3">
+        <h2 class="text-lg font-semibold group-hover:text-blue-600 dark:group-hover:text-blue-400">
+          Subtraction of nonnegative integers
+        </h2>
+      </div>
+      <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">
+        Chapter 4.3.1 | Program S
+      </p>
+    </a>
+    <a href="/MIXAL?example=4_3_1_M_Multiplication_of_nonnegative_integers" class="group block rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-6 hover:shadow-lg transition">
+      <div class="flex items-center gap-3">
+        <h2 class="text-lg font-semibold group-hover:text-blue-600 dark:group-hover:text-blue-400">
+          Multiplication of nonnegative integers
+        </h2>
+      </div>
+      <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">
+        Chapter 4.3.1 | Program M
+      </p>
+    </a>
+    <a href="/MIXAL?example=4_5_2_A_Euclids_algorithm" class="group block rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-6 hover:shadow-lg transition">
+      <div class="flex items-center gap-3">
+        <h2 class="text-lg font-semibold group-hover:text-blue-600 dark:group-hover:text-blue-400">
+          Euclid’s algorithm
+        </h2>
+      </div>
+      <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">
+        Chapter 4.5.2 | Program A
+      </p>
+    </a>
+    <a href="/MIXAL?example=4_5_2_B_Binary_gcd_algorithm" class="group block rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-6 hover:shadow-lg transition">
+      <div class="flex items-center gap-3">
+        <h2 class="text-lg font-semibold group-hover:text-blue-600 dark:group-hover:text-blue-400">
+          Binary gcd algorithm
+        </h2>
+      </div>
+      <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">
+        Chapter 4.5.2 | Program B
+      </p>
+    </a>
+  </section>
+  <header class="mt-12 mb-10">
+    <h1 class="text-3xl font-bold">Chapter 5</h1>
+  </header>
+  <section class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+    <a href="/MIXAL?example=5_2_C_Comparison_counting" class="group block rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-6 hover:shadow-lg transition">
+      <div class="flex items-center gap-3">
+        <h2 class="text-lg font-semibold group-hover:text-blue-600 dark:group-hover:text-blue-400">
+          Comparison counting
+        </h2>
+      </div>
+      <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">
+        Chapter 5.2 | Program C
+      </p>
+    </a>
+    <a href="/MIXAL?example=5_2_1_S_Straight_insertion_sort" class="group block rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-6 hover:shadow-lg transition">
+      <div class="flex items-center gap-3">
+        <h2 class="text-lg font-semibold group-hover:text-blue-600 dark:group-hover:text-blue-400">
+          Straight insertion sort
+        </h2>
+      </div>
+      <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">
+        Chapter 5.2.1 | Program S
+      </p>
+    </a>
+    <a href="/MIXAL?example=5_2_1_D_Shellsort" class="group block rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-6 hover:shadow-lg transition">
+      <div class="flex items-center gap-3">
+        <h2 class="text-lg font-semibold group-hover:text-blue-600 dark:group-hover:text-blue-400">
+          Shellsort
+        </h2>
+      </div>
+      <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">
+        Chapter 5.2.1 | Program D
+      </p>
+    </a>
+    <a href="/MIXAL?example=5_2_1_L_List_insertion" class="group block rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-6 hover:shadow-lg transition">
+      <div class="flex items-center gap-3">
+        <h2 class="text-lg font-semibold group-hover:text-blue-600 dark:group-hover:text-blue-400">
+          List insertion
+        </h2>
+      </div>
+      <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">
+        Chapter 5.2.1 | Program L
+      </p>
+    </a>
+    <a href="/MIXAL?example=5_2_1_M_Multiple_list_insertion" class="group block rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-6 hover:shadow-lg transition">
+      <div class="flex items-center gap-3">
+        <h2 class="text-lg font-semibold group-hover:text-blue-600 dark:group-hover:text-blue-400">
+          Multiple list insertion
+        </h2>
+      </div>
+      <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">
+        Chapter 5.2.1 | Program M
+      </p>
+    </a>
+    <a href="/MIXAL?example=5_2_2_B_Bubble_sort" class="group block rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-6 hover:shadow-lg transition">
+      <div class="flex items-center gap-3">
+        <h2 class="text-lg font-semibold group-hover:text-blue-600 dark:group-hover:text-blue-400">
+          Bubble sort
+        </h2>
+      </div>
+      <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">
+        Chapter 5.2.2 | Program B
+      </p>
+    </a>
+    <a href="/MIXAL?example=5_2_2_Q_Quicksort" class="group block rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-6 hover:shadow-lg transition">
+      <div class="flex items-center gap-3">
+        <h2 class="text-lg font-semibold group-hover:text-blue-600 dark:group-hover:text-blue-400">
+          Quicksort
+        </h2>
+      </div>
+      <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">
+        Chapter 5.2.2 | Program Q
+      </p>
+    </a>
+    <a href="/MIXAL?example=5_2_2_R_Radix_exchange_sort" class="group block rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-6 hover:shadow-lg transition">
+      <div class="flex items-center gap-3">
+        <h2 class="text-lg font-semibold group-hover:text-blue-600 dark:group-hover:text-blue-400">
+          Radix exchange sort
+        </h2>
+      </div>
+      <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">
+        Chapter 5.2.2 | Program R
+      </p>
+    </a>
+    <a href="/MIXAL?example=5_2_3_S_Straight_selection_sort" class="group block rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-6 hover:shadow-lg transition">
+      <div class="flex items-center gap-3">
+        <h2 class="text-lg font-semibold group-hover:text-blue-600 dark:group-hover:text-blue-400">
+          Straight selection sort
+        </h2>
+      </div>
+      <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">
+        Chapter 5.2.3 | Program S
+      </p>
+    </a>
+    <a href="/MIXAL?example=5_2_3_H_Heapsort" class="group block rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-6 hover:shadow-lg transition">
+      <div class="flex items-center gap-3">
+        <h2 class="text-lg font-semibold group-hover:text-blue-600 dark:group-hover:text-blue-400">
+          Heapsort
+        </h2>
+      </div>
+      <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">
+        Chapter 5.2.3 | Program H
+      </p>
+    </a>
+    <a href="/MIXAL?example=5_2_4_L_List_merge_sort" class="group block rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-6 hover:shadow-lg transition">
+      <div class="flex items-center gap-3">
+        <h2 class="text-lg font-semibold group-hover:text-blue-600 dark:group-hover:text-blue-400">
+          List merge sort
+        </h2>
+      </div>
+      <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">
+        Chapter 5.2.4 | Program L
+      </p>
+    </a>
+    <a href="/MIXAL?example=5_2_5_R_Radix_list_sort" class="group block rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-6 hover:shadow-lg transition">
+      <div class="flex items-center gap-3">
+        <h2 class="text-lg font-semibold group-hover:text-blue-600 dark:group-hover:text-blue-400">
+          Radix list sort
+        </h2>
+      </div>
+      <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">
+        Chapter 5.2.5 | Program R
+      </p>
+    </a>
+  </section>
+  <header class="mt-12 mb-10">
+    <h1 class="text-3xl font-bold">Chapter 6</h1>
+  </header>
+  <section class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+    <a href="/MIXAL?example=6_1_S_Sequential_search" class="group block rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-6 hover:shadow-lg transition">
+      <div class="flex items-center gap-3">
+        <h2 class="text-lg font-semibold group-hover:text-blue-600 dark:group-hover:text-blue-400">
+          Sequential search
+        </h2>
+      </div>
+      <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">
+        Chapter 6.1 | Program S
+      </p>
+    </a>
+    <a href="/MIXAL?example=6_1_Q_Quick_sequential_search" class="group block rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-6 hover:shadow-lg transition">
+      <div class="flex items-center gap-3">
+        <h2 class="text-lg font-semibold group-hover:text-blue-600 dark:group-hover:text-blue-400">
+          Quick sequential search
+        </h2>
+      </div>
+      <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">
+        Chapter 6.1 | Program Q
+      </p>
+    </a>
+    <a href="/MIXAL?example=6_1_Qprime_Quicker_sequential_search" class="group block rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-6 hover:shadow-lg transition">
+      <div class="flex items-center gap-3">
+        <h2 class="text-lg font-semibold group-hover:text-blue-600 dark:group-hover:text-blue-400">
+          Quicker sequential search
+        </h2>
+      </div>
+      <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">
+        Chapter 6.1 | Program Q′
+      </p>
+    </a>
+    <a href="/MIXAL?example=6_2_1_B_Binary_search" class="group block rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-6 hover:shadow-lg transition">
+      <div class="flex items-center gap-3">
+        <h2 class="text-lg font-semibold group-hover:text-blue-600 dark:group-hover:text-blue-400">
+          Binary search
+        </h2>
+      </div>
+      <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">
+        Chapter 6.2.1 | Program B
+      </p>
+    </a>
+    <a href="/MIXAL?example=6_2_1_C_Uniform_binary_search" class="group block rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-6 hover:shadow-lg transition">
+      <div class="flex items-center gap-3">
+        <h2 class="text-lg font-semibold group-hover:text-blue-600 dark:group-hover:text-blue-400">
+          Uniform binary search
+        </h2>
+      </div>
+      <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">
+        Chapter 6.2.1 | Program C
+      </p>
+    </a>
+    <a href="/MIXAL?example=6_2_1_F_Fibonaccian_search" class="group block rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-6 hover:shadow-lg transition">
+      <div class="flex items-center gap-3">
+        <h2 class="text-lg font-semibold group-hover:text-blue-600 dark:group-hover:text-blue-400">
+          Fibonaccian search
+        </h2>
+      </div>
+      <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">
+        Chapter 6.2.1 | Program F
+      </p>
+    </a>
+    <a href="/MIXAL?example=6_2_2_T_Tree_search_and_insertion" class="group block rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-6 hover:shadow-lg transition">
+      <div class="flex items-center gap-3">
+        <h2 class="text-lg font-semibold group-hover:text-blue-600 dark:group-hover:text-blue-400">
+          Tree search and insertion
+        </h2>
+      </div>
+      <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">
+        Chapter 6.2.2 | Program T
+      </p>
+    </a>
+    <a href="/MIXAL?example=6_2_3_A_Balanced_tree_search_and_insertion" class="group block rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-6 hover:shadow-lg transition">
+      <div class="flex items-center gap-3">
+        <h2 class="text-lg font-semibold group-hover:text-blue-600 dark:group-hover:text-blue-400">
+          Balanced tree search and insertion
+        </h2>
+      </div>
+      <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">
+        Chapter 6.2.3 | Program A
+      </p>
+    </a>
+    <a href="/MIXAL?example=6_3_T_Trie_search" class="group block rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-6 hover:shadow-lg transition">
+      <div class="flex items-center gap-3">
+        <h2 class="text-lg font-semibold group-hover:text-blue-600 dark:group-hover:text-blue-400">
+          Trie search
+        </h2>
+      </div>
+      <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">
+        Chapter 6.3 | Program T
+      </p>
+    </a>
+    <a href="/MIXAL?example=6_4_C_Chained_hash_table_search_and_insertion" class="group block rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-6 hover:shadow-lg transition">
+      <div class="flex items-center gap-3">
+        <h2 class="text-lg font-semibold group-hover:text-blue-600 dark:group-hover:text-blue-400">
+          Chained hash table search and insertion
+        </h2>
+      </div>
+      <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">
+        Chapter 6.4 | Program C
+      </p>
+    </a>
+    <a href="/MIXAL?example=6_4_L_Linear_probing_and_insertion" class="group block rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-6 hover:shadow-lg transition">
+      <div class="flex items-center gap-3">
+        <h2 class="text-lg font-semibold group-hover:text-blue-600 dark:group-hover:text-blue-400">
+          Linear probing and insertion
+        </h2>
+      </div>
+      <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">
+        Chapter 6.4 | Program L
+      </p>
+    </a>
+    <a href="/MIXAL?example=6_4_D_Open_addressing_with_double_hashing" class="group block rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-6 hover:shadow-lg transition">
+      <div class="flex items-center gap-3">
+        <h2 class="text-lg font-semibold group-hover:text-blue-600 dark:group-hover:text-blue-400">
+          Open addressing with double hashing
+        </h2>
+      </div>
+      <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">
+        Chapter 6.4 | Program D
       </p>
     </a>
   </section>

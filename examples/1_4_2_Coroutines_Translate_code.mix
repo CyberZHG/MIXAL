@@ -1,0 +1,65 @@
+* SUBROUTINE FOR CHARACTER INPUT
+READER    EQU   16               Unit number of card reader
+INPUT     ORIG  *+16             Place for input cards
+NEXTCHAR  STJ   9F               Entrance to subroutine
+          JXNZ  3F               Initially rX = 0
+1H        J6N   2F               Initially rI6 = 0
+          IN    INPUT(READER)    Read next card.
+          JBUS  *(READER)        Wait for completion.
+          ENN6  16               Let rI6 point to the first word.
+2H        LDX   INPUT+16,6       Get the next word of input.
+          INC6  1                Advance pointer.
+3H        ENTA  0
+          SLAX  1                Next character → rA.
+9H        JANZ  *                Skip blanks.
+          JMP   NEXTCHAR+1
+* FIRST COROUTINE
+2H        INCA  30               Nondigit found
+          JMP   OUT              Send it to OUT coroutine.
+IN1       JMP   NEXTCHAR         Get character.
+          DECA  30
+          JAN   2B               Is it a letter?
+          CMPA  =10=
+          JGE   2B               Is it a special character?
+          STA   *+1(0:2)         Digit n found
+          ENT5  *                rI5 ← n.
+          JMP   NEXTCHAR         Get next character.
+          JMP   OUT              Send it to OUT coroutine.
+          DEC5  1                Decrease n by 1.
+          J5NN  *-2              Repeat if necessary.
+          JMP   IN1              Begin new cycle.
+* SECOND COROUTINE
+          ALF                    Constant used for blanking
+OUTPUT    ORIG  *+16             Buffer area for answers
+PUNCH     EQU   17               Unit number for card punch
+OUT1      ENT4  -16              Start new output card.
+          ENT1  OUTPUT
+          MOVE  -1,1(16)         Set output area to blanks.
+1H        JMP   IN               Get next translated character.
+          STA   OUTPUT+16,4(1:1) Store it in the (1:1) field.
+          CMPA  PERIOD           Is it ‘.’?
+          JE    9F
+          JMP   IN               If not, get another character.
+          STA   OUTPUT+16,4(2:2) Store it in the (2:2) field.
+          CMPA  PERIOD           Is it ‘.’?
+          JE    9F
+          JMP   IN               If not, get another character.
+          STA   OUTPUT+16,4(3:3) Store it in the (3:3) field.
+          CMPA  PERIOD           Is it ‘.’?
+          JE    9F
+          INC4  1                Move to next word in output buffer.
+          J4N   1B               End of card?
+9H        OUT   OUTPUT(PUNCH)    If so, punch it.
+          JBUS  *(PUNCH)         Wait for completion.
+          JNE   OUT1             Return for more, unless
+          HLT                    ‘.’ was sensed.
+PERIOD    ALF      .
+* INITIALIZATION AND LINKAGE
+START     ENT6  0                Initialize rI6 for NEXTCHAR.
+          ENTX  0                Initialize rX for NEXTCHAR.
+          JMP   OUT1             Start with OUT (see exercise 2).
+OUT       STJ   INX              Coroutine linkage
+OUTX      JMP   OUT1
+IN        STJ   OUTX
+INX       JMP   IN1
+          END   START

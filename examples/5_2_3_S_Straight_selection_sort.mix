@@ -1,0 +1,20 @@
+N        EQU   16
+INPUT    EQU   1000
+         ORIG  3000
+START    ENT1  N-1         S1. Loop on j. j ← N.
+2H       ENT2  0,1         S2. Find max(K1, . . . , Kj). k ← j − 1.
+         ENT3  1,1         i ← j.
+         LDA   INPUT,3     rA ← Ki.
+8H       CMPA  INPUT,2
+         JGE   *+3         Jump if Ki ≥ Kk.
+         ENT3  0,2         Otherwise set i ← k,
+         LDA   INPUT,3       rA ← Ki.
+         DEC2  1           k ← k − 1.
+         J2P   8B          Repeat if k > 0.
+         LDX   INPUT+1,1   S3. Exchange with Rj.
+         STX   INPUT,3     Ri ← Rj.
+         STA   INPUT+1,1   Rj ← rA.
+         DEC1  1
+         J1P   2B          N > j > 1.
+         HLT
+         END   START

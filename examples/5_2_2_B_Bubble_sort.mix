@@ -1,0 +1,21 @@
+N        EQU   16
+INPUT    EQU   1000
+         ORIG  3000
+START    ENT1  N           B1. Initialize BOUND. t ← N.
+1H       ST1   BOUND(1:2)  BOUND ← t.
+         ENT2  1           B2. Loop on j. j ← 1.
+         ENT1  0           t ← 0.
+         JMP   BOUND       Exit if j ≥ BOUND.
+3H       LDA   INPUT,2     B3. Compare/exchange Rj : Rj+1.
+         CMPA  INPUT+1,2
+         JLE   2F          No exchange if Kj ≤ Kj+1.
+         LDX   INPUT+1,2   Rj+1
+         STX   INPUT,2       → Rj.
+         STA   INPUT+1,2   (old Rj) → Rj+1.
+         ENT1  0,2         t ← j.
+2H       INC2  1           j ← j + 1.
+BOUND    ENTX  -*,2        rX ← j − BOUND. [Instruction modified]
+         JXN   3B          Do step B3 for 1 ≤ j < BOUND.
+4H       J1P   1B          B4. Any exchanges? To B2 if t > 0.
+         HLT
+         END   START
