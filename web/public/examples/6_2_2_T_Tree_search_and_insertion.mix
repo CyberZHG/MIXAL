@@ -1,0 +1,39 @@
+N        EQU   16
+KEYS     EQU   1000
+ROOT     EQU   1100
+AVAIL    EQU   1101
+K        EQU   1102
+LLINK    EQU   2:3
+RLINK    EQU   4:5
+         ORIG  3000
+BEGIN    ENT6  2
+LOOP     LDA   KEYS,6
+         STA   K
+START    LDA   K           T1. Initialize.
+         LD1   ROOT        P ← ROOT.
+         JMP   2F
+4H       LD2   0,1(RLINK)  T4. Move right. Q ← RLINK(P).
+         J2Z   5F          To T5 if Q = Λ.
+1H       ENT1  0,2         P ← Q.
+2H       CMPA  1,1         T2. Compare.
+         JG    4B          To T4 if K > KEY(P).
+         JE    SUCCESS     Exit if K = KEY(P).
+         LD2   0,1(LLINK)  T3. Move left. Q ← LLINK(P).
+         J2NZ  1B          To T2 if Q ≠ Λ.
+5H       LD2   AVAIL       T5. Insert into tree.
+         J2Z   OVERFLOW
+         LDX   0,2(RLINK)
+         STX   AVAIL       Q ⇐ AVAIL.
+         STA   1,2         KEY(Q) ← K.
+         STZ   0,2         LLINK(Q) ← RLINK(Q) ← Λ.
+         JL    1F          Was K < KEY(P)?
+         ST2   0,1(RLINK)  RLINK(P) ← Q.
+         JMP   *+2
+1H       ST2   0,1(LLINK)  LLINK(P) ← Q.
+DONE     EQU   *           Exit after insertion.
+SUCCESS  INC6  1
+         CMP6  =N=
+         JLE   LOOP
+         HLT
+OVERFLOW HLT   1
+         END   BEGIN

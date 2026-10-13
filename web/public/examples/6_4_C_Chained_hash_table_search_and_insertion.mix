@@ -1,0 +1,45 @@
+N        EQU   16
+M        EQU   19
+KEYS     EQU   1000
+TABLE    EQU   1100
+R        EQU   1050
+K        EQU   1051
+KEY      EQU   3:5
+LINK     EQU   0:2
+         ORIG  3000
+BEGIN    ENT6  1
+LOOP     LDA   KEYS,6
+         STA   K
+START    LDX   K           C1. Hash.
+         ENTA  0
+         DIV   =M=
+         STX   *+1(0:2)
+         ENT1  *           i ← h(K)
+         INC1  1                   + 1.
+         LDA   K
+         LD2   TABLE,1(LINK)  C2. Is there a list?
+         J2N   6F          To C6 if TABLE[i] empty.
+         CMPA  TABLE,1(KEY)  C3. Compare.
+         JE    SUCCESS     Exit if K = KEY[i].
+         J2Z   5F          To C5 if LINK[i] = 0.
+4H       ENT1  0,2         C4. Advance to next.
+         CMPA  TABLE,1(KEY)  C3. Compare.
+         JE    SUCCESS     Exit if K = KEY[i].
+         LD2   TABLE,1(LINK)
+         J2NZ  4B          Advance if LINK[i] ≠ 0.
+5H       LD2   R           C5. Find empty node.
+         DEC2  1           R ← R − 1.
+         LDX   TABLE,2
+         JXNN  *-2         Repeat until TABLE[R] empty.
+         J2Z   OVERFLOW    Exit if no empty nodes left.
+         ST2   TABLE,1(LINK)  LINK[i] ← R.
+         ENT1  0,2         i ← R.
+         ST2   R           Update R in memory.
+6H       STZ   TABLE,1(LINK)  C6. Insert new key. LINK[i] ← 0.
+         STA   TABLE,1(KEY)  KEY[i] ← K.
+SUCCESS  INC6  1
+         CMP6  =N=
+         JLE   LOOP
+         HLT
+OVERFLOW HLT   1
+         END   BEGIN

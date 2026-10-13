@@ -1,4 +1,7 @@
 #include <iostream>
+#include <string>
+#include <tuple>
+#include <vector>
 #include <gtest/gtest.h>
 #include "machine.h"
 #include "parser.h"
@@ -816,4 +819,26 @@ TEST(TestMachineJump, test_code_find_maximum) {
     machine.registerJ().set(3009);
     machine.executeUntilSelfLoop();
     EXPECT_EQ(3010, machine.rJ.value());
+}
+
+TEST(TestMachineJump, test_jump_even_odd) {
+    const std::vector<std::tuple<std::string, int32_t, int32_t, bool>> cases = {
+        {"JAE", -4, 0, true}, {"JAE", 3, 0, false}, {"JAE", 0, 1, true},
+        {"JAO", -3, 0, true}, {"JAO", 4, 1, false},
+        {"JXE", 1, 6, true}, {"JXE", 0, 5, false},
+        {"JXO", 0, -5, true}, {"JXO", 1, 0, false},
+    };
+    for (const auto& [op, a, x, jumped] : cases) {
+        mixal::Computer machine;
+        machine.loadCodes({
+            "     ORIG 3000",
+            "     " + op + "  EXIT",
+            "     ENT1 1",
+            "EXIT HLT",
+        });
+        machine.rA.set(a);
+        machine.rX.set(x);
+        machine.executeUntilHalt();
+        EXPECT_EQ(jumped ? 0 : 1, machine.rI1.value()) << op << " " << a << " " << x;
+    }
 }

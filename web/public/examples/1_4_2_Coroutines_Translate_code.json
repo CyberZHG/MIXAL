@@ -1,0 +1,14 @@
+{
+  "card-reader": {
+    "values": [
+      "A2B5E3426FG0ZYW3210PQ89R."
+    ]
+  },
+  "outputs": {
+    "card-punch": {
+      "offset": 0,
+      "length": 16,
+      "type": "text"
+    }
+  }
+}

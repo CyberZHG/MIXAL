@@ -1,0 +1,24 @@
+N        EQU   3
+U        EQU   1000
+V        EQU   1010
+W        EQU   1020
+         ORIG  3000
+START    ENN1  N         S1. Initialize. j ← 0.
+         JOV   OFLO      Ensure that overflow is off.
+1H       J1Z   DONE      Terminate if j = n.
+         ENTA  1         Set k ← 0.
+2H       ADD   U+N,1     S2. Subtract digits.
+         SUB   V+N,1     Compute uj − vj + k + b.
+         ADD   WM1
+         STA   W+N,1     (May be minus zero)
+         INC1  1         S3. Loop on j. j ← j + 1.
+         JOV   1B        If overflow, set k ← 0.
+         ENTA  0         Otherwise set k ← −1.
+         J1N   2B        Back to S2 if j < n.
+         HLT   5         (Error, v > u)
+DONE     HLT
+OFLO     HLT   1
+BYTE     EQU   1(4:4)
+1H       EQU   1(1:1)
+WM1      CON   1B-1,BYTE-1(1:1)  Word size minus one
+         END   START

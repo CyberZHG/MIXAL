@@ -50,6 +50,7 @@ void Computer::executeCON(ParsedResult* instruction) {
         }
     }
     memory[_lineOffset].set(instruction->address.result().value);
+    memory[_lineOffset].negative = instruction->address.result().negative;
     if (!instruction->rawLocation.empty()) {
         _constants[instruction->rawLocation] = AtomicValue(_lineOffset);
     }

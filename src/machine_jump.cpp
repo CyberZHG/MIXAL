@@ -154,6 +154,18 @@ void Computer::executeJNP(const InstructionWord& instruction, Register5* reg) {
     }
 }
 
+void Computer::executeJEven(const InstructionWord& instruction, Register5* reg) {
+    if (reg->value() % 2 == 0) {
+        this->executeJMP(instruction);
+    }
+}
+
+void Computer::executeJOdd(const InstructionWord& instruction, Register5* reg) {
+    if (reg->value() % 2 != 0) {
+        this->executeJMP(instruction);
+    }
+}
+
 /** Jump when rI is negative. */
 void Computer::executeJiN(const InstructionWord& instruction) {
     const int registerIndex = instruction.operation() - Instructions::J1N + 1;

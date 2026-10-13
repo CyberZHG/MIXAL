@@ -1,0 +1,35 @@
+N        EQU   16
+INPUT    EQU   1000
+         ORIG  3000
+START    ENT1  N/2         H1. Initialize. l ← ⌊N/2⌋ + 1.
+         ENT2  N-1         r ← N.
+1H       DEC1  1           l ← l − 1.
+         LDA   INPUT+1,1   R ← Rl, K ← Kl.
+3H       ENT4  1,1         H3. Prepare for siftup. j ← l.
+         ENT5  0,2
+         DEC5  0,1         rI5 ← r − j.
+         JMP   4F          To H4.
+5H       LDX   INPUT,4     H5. Find larger child.
+         CMPX  INPUT+1,4
+         JGE   6F          Jump if Kj ≥ Kj+1.
+         INC4  1           Otherwise set j ← j + 1.
+         DEC5  1
+9H       LDX   INPUT,4     rX ← Rj.
+6H       CMPA  INPUT,4     H6. Larger than K?
+         JGE   8F          To H8 if K ≥ Kj.
+7H       STX   INPUT,3     H7. Move it up. Ri ← Rj.
+4H       ENT3  0,4         H4. Advance downward. i ← j.
+         DEC5  0,4         rI5 ← rI5 − j.
+         INC4  0,4         j ← j + j.
+         J5P   5B          To H5 if j < r.
+         J5Z   9B          To H6 if j = r.
+8H       STA   INPUT,3     H8. Store R. Ri ← R.
+2H       J1P   1B          H2. Decrease l or r.
+         LDA   INPUT+1,2   If l = 1, set R ← Rr, K ← Kr.
+         LDX   INPUT+1
+         STX   INPUT+1,2   Rr ← R1.
+         DEC2  1           r ← r − 1.
+         J2P   3B          To H3 if r > 1.
+         STA   INPUT+1     R1 ← R.
+         HLT
+         END   START

@@ -1,0 +1,27 @@
+N        EQU   16
+KEY      EQU   1000
+K        EQU   1200
+         ORIG  3000
+START    ENT1  1           B1. Initialize. l ← 1.
+         ENT2  N           u ← N.
+         JMP   2F          To B2.
+5H       JE    SUCCESS     Jump if K = Ki.
+         ENT1  1,3         B5. Adjust l. l ← i + 1.
+2H       ENTA  0,1         B2. Get midpoint.
+         INCA  0,2         rA ← l + u.
+         SRB   1           rA ← ⌊rA/2⌋. (rX changes too.)
+         STA   TEMP
+         CMP1  TEMP
+         JG    FAILURE     Jump if u < l.
+         LD3   TEMP        i ← midpoint.
+3H       LDA   K           B3. Compare.
+         CMPA  KEY,3
+         JGE   5B          Jump if K ≥ Ki.
+         ENT2  -1,3        B4. Adjust u. u ← i − 1.
+         JMP   2B          To B2.
+FAILURE  ENTA  0
+         HLT
+SUCCESS  ENTA  0,3
+         HLT
+TEMP     CON   0
+         END   START

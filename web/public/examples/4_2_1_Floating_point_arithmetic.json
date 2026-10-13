@@ -1,0 +1,16 @@
+{
+  "outputs": {
+    "memory": [
+      {
+        "offset": 1000,
+        "length": 8,
+        "type": "float"
+      },
+      {
+        "offset": 1000,
+        "length": 8,
+        "type": "bytes"
+      }
+    ]
+  }
+}

@@ -1,0 +1,27 @@
+N        EQU   16
+INPUT    EQU   1000
+COUNT    EQU   1100
+         ORIG  3000
+START    ENT1  N           C1. Clear COUNTs.
+         STZ   COUNT,1     COUNT[i] ← 0.
+         DEC1  1
+         J1P   *-2         N ≥ i > 0.
+         ENT1  N           C2. Loop on i.
+         JMP   1F
+2H       LDA   INPUT,1
+         LDX   COUNT,1
+3H       CMPA  INPUT,2     C4. Compare Ki : Kj.
+         JGE   4F          Jump if Ki ≥ Kj.
+         LD3   COUNT,2     COUNT[j]
+         INC3  1             +1
+         ST3   COUNT,2       → COUNT[j].
+         JMP   5F
+4H       INCX  1           COUNT[i] ← COUNT[i] + 1.
+5H       DEC2  1           C3. Loop on j.
+         J2P   3B
+         STX   COUNT,1
+         DEC1  1
+1H       ENT2  -1,1        N ≥ i > j > 0.
+         J2P   2B
+         HLT
+         END   START

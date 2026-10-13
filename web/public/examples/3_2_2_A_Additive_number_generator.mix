@@ -1,0 +1,21 @@
+Y        EQU   1000
+OUT      EQU   1100
+         ORIG  3000
+START    ENT5  24
+         ENT6  55
+         ENT4  0
+1H       LDA   Y,6       A1. Add.
+         ADD   Y,5       Yk + Yj (overflow possible)
+         STA   Y,6       → Yk.
+         DEC5  1         A2. Advance. j ← j − 1.
+         DEC6  1         k ← k − 1.
+         J5P   *+2
+         ENT5  55        If j = 0, set j ← 55.
+         J6P   *+2
+         ENT6  55        If k = 0, set k ← 55.
+         STA   OUT,4
+         INC4  1
+         CMP4  =10=
+         JL    1B
+         HLT
+         END   START

@@ -1,0 +1,20 @@
+N        EQU   3
+U        EQU   1000
+V        EQU   1010
+W        EQU   1020
+         ORIG  3000
+START    ENN1  N         A1. Initialize. j ← 0.
+         JOV   OFLO      Ensure that overflow is off.
+1H       ENTA  0         k ← 0.
+         J1Z   3F        Exit the loop if j = n.
+2H       ADD   U+N,1     A2. Add digits.
+         ADD   V+N,1
+         STA   W+N,1
+         INC1  1         A3. Loop on j. j ← j + 1.
+         JNOV  1B        If no overflow, set k ← 0.
+         ENTA  1         Otherwise, set k ← 1.
+         J1N   2B        To A2 if j < n.
+3H       STA   W+N       Store final carry in wn.
+         HLT
+OFLO     HLT   1
+         END   START

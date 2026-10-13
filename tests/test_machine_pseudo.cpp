@@ -218,3 +218,73 @@ TEST(TestMachinePseudo, test_end) {
     machine.executeUntilHalt();
     EXPECT_EQ(100, machine.rA.value());
 }
+
+TEST(TestMachinePseudo, test_con_w_value_loadCodes) {
+    mixal::Computer machine;
+    machine.loadCodes({
+        "     ORIG 3000",
+        "     LDA  A",
+        "     LDX  =1(1:1),5(4:5)=",
+        "     HLT",
+        "A    CON  -1(0:3),B(4:5)",
+        "B    CON  -0(0:0)",
+    });
+    machine.executeUntilHalt();
+    EXPECT_EQ(-((1 << 12) + 3004), machine.rA.value());
+    EXPECT_EQ((1 << 24) + 5, machine.rX.value());
+    EXPECT_TRUE(machine.memory[3004].negative);
+    EXPECT_EQ(0, machine.memory[3004].value());
+}
+
+TEST(TestMachinePseudo, test_local_symbols_on_equ_and_con) {
+    mixal::Computer machine;
+    machine.loadCodes({
+        "BYTE EQU  1(4:4)",
+        "     ORIG 3000",
+        "     LDA  WM1",
+        "     LDX  2F",
+        "     LD1  3F",
+        "     HLT",
+        "1H   EQU  1(1:1)",
+        "WM1  CON  1B-1,BYTE-1(1:1)",
+        "2H   CON  1B+5",
+        "3H   CON  2B",
+        "1H   EQU  1B+7",
+        "4H   CON  1B",
+    });
+    machine.executeUntilHalt();
+    EXPECT_EQ((1 << 30) - 1, machine.rA.value());
+    EXPECT_EQ((1 << 24) + 5, machine.rX.value());
+    EXPECT_EQ(3005, machine.rI1.value());
+    EXPECT_EQ((1 << 24) + 7, machine.memory[3007].value());
+}
+
+TEST(TestMachinePseudo, test_local_symbol_refers_to_other_line) {
+    mixal::Computer machine;
+    machine.loadCodes({
+        "     ORIG 3000",
+        "     ENT1 0",
+        "2H   INC1 1",
+        "     CMP1 =3=",
+        "     JGE  3F",
+        "2H   JMP  2B",
+        "3H   HLT",
+    });
+    machine.executeUntilHalt();
+    EXPECT_EQ(3, machine.rI1.value());
+}
+
+TEST(TestMachinePseudo, test_equ_asterisk) {
+    mixal::Computer machine;
+    machine.loadCodes({
+        "         ORIG 3000",
+        "         JMP  FAILURE",
+        "         HLT",
+        "FAILURE  EQU  *",
+        "         ENT1 FAILURE",
+        "         HLT",
+        "NEXT     EQU  *+5",
+    });
+    machine.executeUntilHalt();
+    EXPECT_EQ(3002, machine.rI1.value());
+}

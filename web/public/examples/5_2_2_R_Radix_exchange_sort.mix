@@ -1,0 +1,54 @@
+N        EQU   16
+M        EQU   10
+INPUT    EQU   1000
+STACK    EQU   1100
+A        EQU   2:3
+B        EQU   4:5
+         ORIG  3000
+START    ENT6  0           R1. Initialize. Set stack empty.
+         ENT1  1-N         l ← 1.
+         ENT2  N           r ← N.
+         ENT5  M-1         b ← 1.
+         JMP   1F          To R2 (omit testing l = r).
+9H       INC6  1           R9. Put on stack.       [rI4 = j − l]
+         ST2   STACK,6(A)
+         ST5   STACK,6(B)  (r, b) ⇒ stack.
+         ENN1  0,4         rI1 ← l − j.
+         ENT2  -1,3        r ← j.
+1H       ENT3  0,1         R2. Begin new stage.    [rI3 = i − j]
+         ENT4  0,2         i ← l, j ← r.           [rI3 = i − j]
+3H       INC3  0,4         R3. Inspect Ki for 1.
+         LDA   INPUT,3
+         SRB   0,5         units bit of rA ← bit b of Ki.
+         JAE   4F          To R4 if it is 0.
+6H       DEC4  1,3         R6. Decrease j. j ← j − 1. [rI4 = j − i]
+         J4N   8F          To R8 if j < i.         [rI4 = j − i]
+5H       INC4  0,3         R5. Inspect Kj+1 for 0.
+         LDA   INPUT+1,4
+         SRB   0,5         units bit of rA ← bit b of Kj+1.
+         JAO   6B          To R6 if it is 1.
+7H       LDA   INPUT+1,4   R7. Exchange Ri, Rj+1.
+         LDX   INPUT,3
+         STX   INPUT+1,4
+         STA   INPUT,3
+4H       DEC3  -1,4        R4. Increase i. i ← i + 1. [rI3 = i − j]
+         J3NP  3B          To R3 if i ≤ j.         [rI3 = i − j]
+         INC3  0,4         rI3 ← i.
+8H       J5Z   0F          R8. Test special cases. [rI4 unknown]
+         DEC5  1           To R10 if b = m, else b ← b + 1.
+         ENT4  -1,3        rI4 ← j.
+         DEC4  0,2         rI4 ← j − r.
+         J4Z   1B          To R2 if j = r.
+         DEC4  0,1         rI4 ← j − l.
+         J4N   1B          To R2 if j < l.
+         J4NZ  9B          To R9 if j ≠ l.
+         INC1  1           l ← l + 1.
+2H       J1NZ  1B          Jump if l ≠ r.
+0H       ENT1  1,2         R10. Take off stack.
+         LD2   STACK,6(A)
+         DEC1  0,2
+         LD5   STACK,6(B)  stack ⇒ (r, b).
+         DEC6  1
+         J6NN  2B          To R2 if stack was nonempty.
+         HLT
+         END   START

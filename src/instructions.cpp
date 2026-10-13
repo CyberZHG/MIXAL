@@ -745,6 +745,12 @@ Instructions::Code Instructions::getInstructionCode(const std::string& name) {
             break;
         case 'A':
             switch (charAt(2)) {
+            case 'E':
+                switch (charAt(3)) {
+                case '#':
+                    return JAE;
+                }
+                break;
             case 'N':
                 switch (charAt(3)) {
                 case '#':
@@ -767,6 +773,12 @@ Instructions::Code Instructions::getInstructionCode(const std::string& name) {
                         return JANZ;
                     }
                     break;
+                }
+                break;
+            case 'O':
+                switch (charAt(3)) {
+                case '#':
+                    return JAO;
                 }
                 break;
             case 'P':
@@ -893,6 +905,12 @@ Instructions::Code Instructions::getInstructionCode(const std::string& name) {
             break;
         case 'X':
             switch (charAt(2)) {
+            case 'E':
+                switch (charAt(3)) {
+                case '#':
+                    return JXE;
+                }
+                break;
             case 'N':
                 switch (charAt(3)) {
                 case '#':
@@ -915,6 +933,12 @@ Instructions::Code Instructions::getInstructionCode(const std::string& name) {
                         return JXNZ;
                     }
                     break;
+                }
+                break;
+            case 'O':
+                switch (charAt(3)) {
+                case '#':
+                    return JXO;
                 }
                 break;
             case 'P':
@@ -1133,6 +1157,12 @@ Instructions::Code Instructions::getInstructionCode(const std::string& name) {
                     break;
                 }
                 break;
+            case 'B':
+                switch (charAt(3)) {
+                case '#':
+                    return SLB;
+                }
+                break;
             case 'C':
                 switch (charAt(3)) {
                 case '#':
@@ -1153,6 +1183,12 @@ Instructions::Code Instructions::getInstructionCode(const std::string& name) {
                         return SRAX;
                     }
                     break;
+                }
+                break;
+            case 'B':
+                switch (charAt(3)) {
+                case '#':
+                    return SRB;
                 }
                 break;
             case 'C':
@@ -1854,6 +1890,12 @@ int Instructions::getDefaultField(const std::string& name) {
             break;
         case 'A':
             switch (charAt(2)) {
+            case 'E':
+                switch (charAt(3)) {
+                case '#':
+                    return 6;
+                }
+                break;
             case 'N':
                 switch (charAt(3)) {
                 case '#':
@@ -1876,6 +1918,12 @@ int Instructions::getDefaultField(const std::string& name) {
                         return 4;
                     }
                     break;
+                }
+                break;
+            case 'O':
+                switch (charAt(3)) {
+                case '#':
+                    return 7;
                 }
                 break;
             case 'P':
@@ -1974,6 +2022,12 @@ int Instructions::getDefaultField(const std::string& name) {
             break;
         case 'X':
             switch (charAt(2)) {
+            case 'E':
+                switch (charAt(3)) {
+                case '#':
+                    return 6;
+                }
+                break;
             case 'N':
                 switch (charAt(3)) {
                 case '#':
@@ -1996,6 +2050,12 @@ int Instructions::getDefaultField(const std::string& name) {
                         return 4;
                     }
                     break;
+                }
+                break;
+            case 'O':
+                switch (charAt(3)) {
+                case '#':
+                    return 7;
                 }
                 break;
             case 'P':
@@ -2044,6 +2104,12 @@ int Instructions::getDefaultField(const std::string& name) {
                     break;
                 }
                 break;
+            case 'B':
+                switch (charAt(3)) {
+                case '#':
+                    return 6;
+                }
+                break;
             case 'C':
                 switch (charAt(3)) {
                 case '#':
@@ -2064,6 +2130,12 @@ int Instructions::getDefaultField(const std::string& name) {
                         return 3;
                     }
                     break;
+                }
+                break;
+            case 'B':
+                switch (charAt(3)) {
+                case '#':
+                    return 7;
                 }
                 break;
             case 'C':

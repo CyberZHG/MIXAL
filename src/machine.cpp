@@ -189,6 +189,8 @@ void Computer::executeSingle(const InstructionWord& instruction) {
         case 3: executeSRAX(instruction); break;
         case 4: executeSLC(instruction); break;
         case 5: executeSRC(instruction); break;
+        case 6: executeSLB(instruction); break;
+        case 7: executeSRB(instruction); break;
         }
         break;
     case Instructions::MOVE:
@@ -279,6 +281,8 @@ void Computer::executeSingle(const InstructionWord& instruction) {
         case 3: executeJNN(instruction, &rA); break;
         case 4: executeJNZ(instruction, &rA); break;
         case 5: executeJNP(instruction, &rA); break;
+        case 6: executeJEven(instruction, &rA); break;
+        case 7: executeJOdd(instruction, &rA); break;
         }
         break;
     case Instructions::J1N:
@@ -304,6 +308,8 @@ void Computer::executeSingle(const InstructionWord& instruction) {
         case 3: executeJNN(instruction, &rX); break;
         case 4: executeJNZ(instruction, &rX); break;
         case 5: executeJNP(instruction, &rX); break;
+        case 6: executeJEven(instruction, &rX); break;
+        case 7: executeJOdd(instruction, &rX); break;
         }
         break;
     case Instructions::INCA:
@@ -392,6 +398,7 @@ void Computer::loadCodes(const std::vector<std::string>& codes, bool addHalt) {
     std::string lineBase = getPseudoSymbolName();
     evaluated[lineBase] = AtomicValue(0);
     int32_t lineOffset = 0, endIndex = -1;
+    std::vector<std::pair<size_t, std::string>> constantLines;
     for (size_t codeIndex = 0; codeIndex < codes.size(); ++codeIndex) {
         const auto& code = codes[codeIndex];
         auto& result = results[codeIndex];
@@ -401,7 +408,13 @@ void Computer::loadCodes(const std::vector<std::string>& codes, bool addHalt) {
             int32_t operation = result.word.operation() + Instructions::PSEUDO;
             switch (operation) {
             case Instructions::EQU:
-                expressions[result.rawLocation] = &result.address;
+                if (!Atomic::isLocalSymbol(result.rawLocation)) {
+                    expressions[result.rawLocation] = &result.address;
+                }
+                if (result.address.depends().contains(lineSymbol)) {
+                    result.location = Expression::getConstOffsetExpression(lineBase, lineOffset);
+                    expressions[lineSymbol] = &result.location;
+                }
                 break;
             case Instructions::ORIG:
                 if (result.rawAddress.find('*') == std::string::npos) {
@@ -421,13 +434,12 @@ void Computer::loadCodes(const std::vector<std::string>& codes, bool addHalt) {
                 break;
             case Instructions::CON:
             case Instructions::ALF:
-                if (!result.rawLocation.empty()) {
+                result.location = Expression::getConstOffsetExpression(lineBase, lineOffset);
+                if (!result.rawLocation.empty() && !Atomic::isLocalSymbol(result.rawLocation)) {
                     lineSymbol = result.rawLocation;
                 }
-                constants.emplace_back(
-                    lineSymbol,
-                    Expression::getConstOffsetExpression(lineBase, lineOffset++),
-                    result.address);
+                ++lineOffset;
+                constantLines.emplace_back(codeIndex, lineSymbol);
                 break;
             case Instructions::END:
                 endIndex = codeIndex;
@@ -451,27 +463,35 @@ void Computer::loadCodes(const std::vector<std::string>& codes, bool addHalt) {
         }
     }
     // Replace local symbols
+    auto localSymbolTarget = [](ParsedResult& result) {
+        const bool isEQU = result.parsedType == ParsedType::PSEUDO &&
+                           result.word.operation() + Instructions::PSEUDO == Instructions::EQU;
+        return isEQU ? &result.address : &result.location;
+    };
     std::unordered_map<std::string, std::string> localSymbolMapping;
     for (auto& result : results) {
+        result.address.replaceSymbol(localSymbolMapping);
         if (!result.rawLocation.empty() && Atomic::isLocalSymbol(result.rawLocation) && result.rawLocation[1] == 'H') {
             auto lineSymbol = getPseudoSymbolName();
             result.rawLocation[1] = 'B';
             localSymbolMapping[result.rawLocation] = lineSymbol;
             result.rawLocation[1] = 'H';
-            expressions[lineSymbol] = &result.location;
+            expressions[lineSymbol] = localSymbolTarget(result);
         }
-        result.address.replaceSymbol(localSymbolMapping);
     }
     for (int i = static_cast<int>(results.size()) - 1; i >= 0; --i) {
         auto& result = results[i];
+        result.address.replaceSymbol(localSymbolMapping);
         if (!result.rawLocation.empty() && Atomic::isLocalSymbol(result.rawLocation) && result.rawLocation[1] == 'H') {
             auto lineSymbol = getPseudoSymbolName();
             result.rawLocation[1] = 'F';
             localSymbolMapping[result.rawLocation] = lineSymbol;
             result.rawLocation[1] = 'H';
-            expressions[lineSymbol] = &result.location;
+            expressions[lineSymbol] = localSymbolTarget(result);
         }
-        result.address.replaceSymbol(localSymbolMapping);
+    }
+    for (const auto& [codeIndex, lineSymbol] : constantLines) {
+        constants.emplace_back(lineSymbol, results[codeIndex].location, results[codeIndex].address);
     }
     // Add halt
     if (addHalt) {
@@ -551,6 +571,7 @@ void Computer::loadCodes(const std::vector<std::string>& codes, bool addHalt) {
             throw RuntimeError(location, "Location of the code is invalid: " + std::to_string(location));
         }
         memory[location].set(std::get<2>(it).result().value);
+        memory[location].negative = std::get<2>(it).result().negative;
     }
     // Load results to memory
     _lineOffset = -1;
