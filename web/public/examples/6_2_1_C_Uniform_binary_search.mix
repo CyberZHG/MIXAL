@@ -1,0 +1,24 @@
+N        EQU   16
+KEY      EQU   1000
+DELTA    EQU   1100
+K        EQU   1200
+         ORIG  3000
+START    ENT1  N+1/2       C1. Initialize. i ← ⌊(N + 1)/2⌋.
+         ENT2  2           j ← 2.
+         LDA   K
+         JMP   2F
+3H       JE    SUCCESS     Jump if K = Ki.
+         J3Z   FAILURE     Jump if DELTA[j] = 0.
+         DEC1  0,3         C3. Decrease i.
+5H       INC2  1           j ← j + 1.
+2H       LD3   DELTA,2     C2. Compare.
+         CMPA  KEY,1
+         JLE   3B          Jump if K ≤ Ki.
+         INC1  0,3         C4. Increase i.
+         J3NZ  5B          Jump if DELTA[j] ≠ 0.
+FAILURE  EQU   *           Exit if not in table.
+         ENTA  0
+         HLT
+SUCCESS  ENTA  0,1
+         HLT
+         END   START

@@ -1,0 +1,12 @@
+         ORIG 3000
+START    LDX   U         rX ← u.
+         JMP   2F
+1H       STX   V         v ← rX.
+         SRAX  5         rAX ← rA.
+         DIV   V         rX ← rAX mod v.
+2H       LDA   V         rA ← v.
+         JXNZ  1B        Done if rX = 0.
+         HLT
+U        CON   40902
+V        CON   24140
+         END   START

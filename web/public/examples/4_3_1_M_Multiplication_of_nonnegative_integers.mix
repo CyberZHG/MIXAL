@@ -1,0 +1,38 @@
+M        EQU   3
+N        EQU   2
+U        EQU   1000
+V        EQU   1010
+W        EQU   1020
+         ORIG  3000
+START    ENT1  M-1       M1. Initialize.
+         JOV   OFLO      Ensure that overflow is off.
+         STZ   W,1       wrI1 ← 0.
+         DEC1  1
+         J1NN  *-2       Repeat for m > rI1 ≥ 0.
+         ENN2  N         j ← 0.
+1H       LDX   V+N,2     M2. Zero multiplier?
+         JXZ   8F        If vj = 0, set wj+m ← 0 and go to M6.
+         ENN1  M         M3. Initialize i. i ← 0.
+         ENT3  N,2       (i + j) ← j.
+         ENTX  0         k ← 0.
+2H       STX   CARRY     M4. Multiply and add.
+         LDA   U+M,1
+         MUL   V+N,2     rAX ← ui × vj.
+         SLC   5         Interchange rA ↔ rX.
+         ADD   W,3       Add wi+j to lower half.
+         JNOV  *+2       Did overflow occur?
+         INCX  1         If so, carry 1 into upper half.
+         ADD   CARRY     Add k to lower half.
+         JNOV  *+2       Did overflow occur?
+         INCX  1         If so, carry 1 into upper half.
+         STA   W,3       wi+j ← t mod b.
+         INC1  1         M5. Loop on i. i ← i + 1.
+         INC3  1         (i + j) ← (i + j) + 1.
+         J1N   2B        Back to M4 with rX = ⌊t/b⌋ if i < m.
+8H       STX   W+M+N,2   Set wj+m ← rX.
+         INC2  1         M6. Loop on j. j ← j + 1.
+         J2N   1B        Repeat until j = n.
+         HLT
+OFLO     HLT   1
+CARRY    CON   0
+         END   START

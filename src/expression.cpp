@@ -1,4 +1,5 @@
 #include <cassert>
+#include <cstdlib>
 #include <limits>
 #include <iostream>
 #include "expression.h"
@@ -99,6 +100,10 @@ void Expression::parse(const std::string& expression, const std::string& lineSym
         _literalConstant = true;
         start = 1;
         --exprLen;
+    }
+    if (expression.find_first_of(",(", start) < static_cast<size_t>(exprLen)) {
+        parseWValue(expression.substr(start, exprLen - start), start, lineSymbol);
+        return;
     }
 
     // Parsing the expression.
@@ -211,8 +216,9 @@ void Expression::parse(const std::string& expression, const std::string& lineSym
                         _operations.emplace_back(Operation::FIELD);
                         break;
                     }
+                } else if (i - lastOperationStart == 2 && expression[lastOperationStart] == '/') {
+                    _operations.emplace_back(Operation::FLOAT_DIV);
                 } else {
-                    // TODO: Add float division.
                     throw ExpressionError(i, "Unknown binary operator found");
                 }
             }
@@ -228,7 +234,77 @@ void Expression::parse(const std::string& expression, const std::string& lineSym
     assert(_atomics.size() == _operations.size() + 1);
 }
 
+void Expression::parseWValue(const std::string& expression, const int offset, const std::string& lineSymbol) {
+    auto parsePart = [&](const std::string& part, const size_t partOffset) {
+        try {
+            return Expression(part, lineSymbol);
+        } catch (const ExpressionError& e) {
+            throw ExpressionError(offset + static_cast<int>(partOffset) + e.index(), e.what());
+        }
+    };
+    size_t partStart = 0;
+    while (partStart <= expression.size()) {
+        size_t partEnd = expression.find(',', partStart);
+        if (partEnd == std::string::npos) {
+            partEnd = expression.size();
+        }
+        const std::string part = expression.substr(partStart, partEnd - partStart);
+        const size_t open = part.find('(');
+        if (open == std::string::npos) {
+            _wValueExpressions.emplace_back(parsePart(part, partStart));
+            _wValueFields.emplace_back(getConstExpression(AtomicValue(5)));
+        } else {
+            if (part.back() != ')' || part.find(')') != part.size() - 1) {
+                throw ExpressionError(offset + static_cast<int>(partEnd), "Invalid field in W-value: " + part);
+            }
+            _wValueExpressions.emplace_back(parsePart(part.substr(0, open), partStart));
+            _wValueFields.emplace_back(parsePart(part.substr(open + 1, part.size() - open - 2), partStart + open + 1));
+        }
+        _depends.insert(_wValueExpressions.back().depends().begin(), _wValueExpressions.back().depends().end());
+        _depends.insert(_wValueFields.back().depends().begin(), _wValueFields.back().depends().end());
+        partStart = partEnd + 1;
+    }
+}
+
+bool Expression::evaluateWValue(const std::unordered_map<std::string, AtomicValue>& constants) {
+    bool negative = false;
+    int32_t bytes[6] = {};
+    for (size_t i = 0; i < _wValueExpressions.size(); ++i) {
+        auto& value = _wValueExpressions[i];
+        auto& field = _wValueFields[i];
+        if ((!value.evaluated() && !value.evaluate(constants)) || (!field.evaluated() && !field.evaluate(constants))) {
+            return false;
+        }
+        const int32_t fieldValue = field.result().value;
+        int32_t left = fieldValue / 8;
+        const int32_t right = fieldValue % 8;
+        if (fieldValue < 0 || left > right || right > 5) {
+            throw ExpressionError(0, "Invalid field in W-value: " + std::to_string(fieldValue));
+        }
+        if (left == 0) {
+            negative = value.result().negative;
+            left = 1;
+        }
+        int32_t magnitude = std::abs(value.result().value);
+        for (int32_t k = right; k >= left; --k) {
+            bytes[k] = magnitude % 64;
+            magnitude /= 64;
+        }
+    }
+    int32_t magnitude = 0;
+    for (int32_t k = 1; k <= 5; ++k) {
+        magnitude = magnitude * 64 + bytes[k];
+    }
+    _result.negative = negative;
+    _result.value = negative ? -magnitude : magnitude;
+    _evaluated = true;
+    return true;
+}
+
 bool Expression::evaluate(const std::unordered_map<std::string, AtomicValue>& constants) {
+    if (isWValue()) {
+        return evaluateWValue(constants);
+    }
     if (_atomics.empty()) {
         return false;
     }
@@ -273,6 +349,9 @@ bool Expression::evaluate(const std::unordered_map<std::string, AtomicValue>& co
         case Operation::FLOOR_DIV:
             first.value /= second.value;
             break;
+        case Operation::FLOAT_DIV:
+            first.value = static_cast<int32_t>((static_cast<int64_t>(first.value) << 30) / second.value);
+            break;
         case Operation::FIELD:
             first.value = first.value * 8 + second.value;
             break;
@@ -289,6 +368,16 @@ bool Expression::evaluate(const std::unordered_map<std::string, AtomicValue>& co
 }
 
 void Expression::replaceSymbol(const std::unordered_map<std::string, std::string>& mapping) {
+    if (isWValue()) {
+        _depends.clear();
+        for (auto* parts : {&_wValueExpressions, &_wValueFields}) {
+            for (auto& part : *parts) {
+                part.replaceSymbol(mapping);
+                _depends.insert(part.depends().begin(), part.depends().end());
+            }
+        }
+        return;
+    }
     for (auto& atomic : _atomics) {
         if (atomic.type == AtomicType::SYMBOL) {
             auto it = mapping.find(atomic.symbol);
@@ -307,9 +396,14 @@ void Expression::reset() {
     _depends.clear();
     _atomics.clear();
     _operations.clear();
+    _wValueExpressions.clear();
+    _wValueFields.clear();
 }
 
 bool Expression::operator==(const Expression& expression) const {
+    if (_wValueExpressions != expression._wValueExpressions || _wValueFields != expression._wValueFields) {
+        return false;
+    }
     if (_atomics.size() != expression._atomics.size()) {
         return false;
     }
@@ -336,12 +430,19 @@ std::ostream& operator<<(std::ostream& out, Operation operation) {
     case Operation::SUBTRACT: out << '-'; break;
     case Operation::MULTIPLY: out << '*'; break;
     case Operation::FLOOR_DIV: out << '/'; break;
+    case Operation::FLOAT_DIV: out << "//"; break;
     case Operation::FIELD: out << ':'; break;
     }
     return out;
 }
 
 std::ostream& operator<<(std::ostream& out, const Expression& expression) {
+    for (size_t i = 0; i < expression._wValueExpressions.size(); ++i) {
+        if (i > 0) {
+            out << ',';
+        }
+        out << expression._wValueExpressions[i] << '(' << expression._wValueFields[i] << ')';
+    }
     if (!expression._atomics.empty()) {
         out << expression._atomics[0];
     }

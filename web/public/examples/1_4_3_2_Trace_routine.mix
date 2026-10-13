@@ -1,0 +1,70 @@
+* TRACE ROUTINE
+ENTER   STX   TEST(0:2)     Set the exit location.
+        STX   LEAVEX(0:2)
+        STA   AREG          Save the contents of rA.
+        STJ   JREG          Save the contents of rJ.
+        LDA   JREG(0:2)     Get the start location for tracing.
+CYCLE   STA   PREG(0:2)     Store the location of the next instruction.
+TEST    DECA  *             Is it the exit location?
+        JAZ   LEAVE
+PREG    LDA   *             Get the next instruction.
+        STA   INST          Copy it.
+        SRA   2
+        STA   INST1(0:3)    Store the address and index parts.
+        LDA   INST(5:5)     Get the operation code, C.
+        DECA  38
+        JANN  1F            Is C ≥ 38 (JRED)?
+        INCA  6
+        JANZ  2F            Is C ≠ 32 (STJ)?
+        LDA   INST(0:4)
+        STA   *+2(0:4)      Change STJ to STA.
+JREG    ENTA  *             rA ← simulated rJ contents.
+        STA   *
+        JMP   INCP
+2H      DECA  2
+        JANZ  2F            Is C ≠ 34 (JBUS)?
+        JMP   3F
+1H      DECA  9             Test for jump instructions.
+        JAP   2F            Is C > 47 (JXNP)?
+3H      LDA   8F(0:3)       We detected a jump instruction;
+        STA   INST(0:3)       change its address to ‘JUMP’.
+2H      LDA   AREG          Restore register A.
+*                           All registers except J now have proper
+*                             values with respect to the external program.
+INST    NOP   *             The instruction is executed.
+        STA   AREG          Store register A again.
+INCP    LDA   PREG(0:2)     Move to the next instruction.
+        INCA  1
+        JMP   CYCLE
+8H      JSJ   JUMP          Constant for lines 29 and 40
+JUMP    LDA   8B(4:5)       A jump has occurred.
+        SUB   INST(4:5)     Was it JSJ?
+        JAZ   *+4
+        LDA   PREG(0:2)     If not, update the simulated
+        INCA  1               J-register.
+        STA   JREG(0:2)
+INST1   ENTA  *
+        JMP   CYCLE         Move to the address of the jump.
+LEAVE   LDA   AREG          Restore register A.
+LEAVEX  JMP   *             Stop tracing.
+AREG    CON   0             Simulated rA contents
+*
+X        EQU   1000
+         ORIG  3000
+MAXIMUM  STJ   EXIT          Subroutine linkage
+INIT     ENT3  0,1           M1. Initialize. k←n.
+         JMP   CHANGEM       j←n, m←X[n], k←n−1.
+LOOP     CMPA  X,3           M3. Compare.
+         JGE   *+3           To M5 if m≥X[k].
+CHANGEM  ENT2  0,3           M4. Change m. j ←k.
+         LDA   X,3           m←X[k].
+         DEC3  1             M5. Decrease k.
+         J3P   LOOP          M2. All tested? To M3 if k>0.
+EXIT     JMP   *
+*
+START    ENTX  DONE
+         JMP   ENTER
+         ENT1  5
+         JMP   MAXIMUM
+DONE     HLT
+         END   START

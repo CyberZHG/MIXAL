@@ -1,3 +1,4 @@
+#include <algorithm>
 #include <cassert>
 #include <iostream>
 #include "parser.h"
@@ -141,6 +142,12 @@ std::ostream& operator<<(std::ostream& out, const ParsedResult& result) {
     return out;
 }
 
+static bool acceptsWValue(const std::string& operation) {
+    const auto code = Instructions::getInstructionCode(operation);
+    return code == Instructions::CON || code == Instructions::EQU ||
+           code == Instructions::ORIG || code == Instructions::END;
+}
+
 ParsedResult Parser::parseLine(const std::string& line, const std::string& lineSymbol, const bool hasLocation) {
     constexpr static char END_CHAR = '#';
     constexpr int INIT_INDEX = -1;
@@ -278,6 +285,11 @@ ParsedResult Parser::parseLine(const std::string& line, const std::string& lineS
             break;
 
         case ParseState::ADDRESS:
+            if ((ch == ',' || ch == '(' || ch == ')') &&
+                (acceptsWValue(result.operation) ||
+                 (line[addressStart] == '=' && std::count(line.begin() + addressStart, line.begin() + i, '=') == 1))) {
+                continue;
+            }
             if (ch == ' ' || ch == ',' || ch == '(' || ch == END_CHAR) {
                 if (ch == ' ') {
                     state = ParseState::BEFORE_COMMENT;
@@ -292,10 +304,10 @@ ParsedResult Parser::parseLine(const std::string& line, const std::string& lineS
                 result.addressSpan = TokenSpan(addressStart, i);
                 try {
                     result.address.parse(result.rawAddress, lineSymbol);
+                    result.evaluateAddress(emptyDict);
                 } catch (const ExpressionError& e) {
                     throw ParseError(addressStart + e.index(), e.what());
                 }
-                result.evaluateAddress(emptyDict);
             } else if (!Expression::isValidChar(ch)) {
                 throw ParseError(i, "Unexpected character encountered while parsing address: " + std::string(1, ch));
             }

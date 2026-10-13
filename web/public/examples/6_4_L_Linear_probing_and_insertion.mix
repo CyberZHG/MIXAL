@@ -1,0 +1,35 @@
+N        EQU   16
+M        EQU   19
+KEYS     EQU   1000
+TABLE    EQU   1100
+VACANCIES EQU  1050
+K        EQU   1051
+         ORIG  3000
+BEGIN    ENT6  1
+LOOP     LDA   KEYS,6
+         STA   K
+START    LDX   K           L1. Hash.
+         ENTA  0
+         DIV   =M=
+         STX   *+1(0:2)
+         ENT1  *           i ← h(K).
+         LDA   K
+         JMP   2F
+8H       INC1  M+1         L3. Advance to next.
+3H       DEC1  1           i ← i − 1.
+2H       CMPA  TABLE,1     L2. Compare.
+         JE    SUCCESS     Exit if K = KEY[i].
+         LDX   TABLE,1
+         JXNZ  3B          To L3 if TABLE[i] nonempty.
+         J1N   8B          To L3 with i ← M if i = −1.
+4H       LDX   VACANCIES   L4. Insert.
+         JXZ   OVERFLOW    Exit with overflow if N = M − 1.
+         DECX  1
+         STX   VACANCIES   Increase N by 1.
+         STA   TABLE,1     TABLE[i] ← K.
+SUCCESS  INC6  1
+         CMP6  =N=
+         JLE   LOOP
+         HLT
+OVERFLOW HLT   1
+         END   BEGIN

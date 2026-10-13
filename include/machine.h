@@ -141,6 +141,8 @@ class Computer {
     void executeSRAX(const InstructionWord& instruction);
     void executeSLC(const InstructionWord& instruction);
     void executeSRC(const InstructionWord& instruction);
+    void executeSLB(const InstructionWord& instruction);
+    void executeSRB(const InstructionWord& instruction);
     void executeMOVE(const InstructionWord& instruction);
 
     void executeLD(const InstructionWord& instruction, Register5* reg);
@@ -174,6 +176,8 @@ class Computer {
     void executeJNN(const InstructionWord& instruction, Register5* reg);
     void executeJNZ(const InstructionWord& instruction, Register5* reg);
     void executeJNP(const InstructionWord& instruction, Register5* reg);
+    void executeJEven(const InstructionWord& instruction, Register5* reg);
+    void executeJOdd(const InstructionWord& instruction, Register5* reg);
     void executeJiN(const InstructionWord& instruction);
     void executeJiZ(const InstructionWord& instruction);
     void executeJiP(const InstructionWord& instruction);

@@ -34,6 +34,8 @@ class Instructions {
         SRAX = 6,   // shift right AX (3)
         SLC = 6,    // shift left AX circularly (4)
         SRC = 6,    // shift right AX circularly (5)
+        SLB = 6,    // shift left AX binary (6)
+        SRB = 6,    // shift right AX binary (7)
         MOVE = 7,   // move
         LDA = 8,    // load A
         LD1 = 9,    // load I1
@@ -82,6 +84,8 @@ class Instructions {
         JANN = 40,  // jump A nonnegative (3)
         JANZ = 40,  // jump A nonzero (4)
         JANP = 40,  // jump A nonpositive (5)
+        JAE = 40,   // jump A even (6)
+        JAO = 40,   // jump A odd (7)
         J1N = 41,   // jump I1 negative (0)
         J1Z = 41,   // jump I1 zero (1)
         J1P = 41,   // jump I1 positive (2)
@@ -124,6 +128,8 @@ class Instructions {
         JXNN = 47,  // jump X nonnegative (3)
         JXNZ = 47,  // jump X nonzero (4)
         JXNP = 47,  // jump X nonpositive (5)
+        JXE = 47,   // jump X even (6)
+        JXO = 47,   // jump X odd (7)
         INCA = 48,  // increase A (0)
         DECA = 48,  // decrease A (1)
         ENTA = 48,  // enter A (2)

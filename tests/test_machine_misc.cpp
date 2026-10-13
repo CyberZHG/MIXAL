@@ -345,3 +345,36 @@ TEST(TestMachineMISC, test_hlt) {
     machine.executeUntilHalt();
     EXPECT_EQ(23, machine.rA.value());
 }
+
+TEST(TestMachineMISC, test_slb) {
+    mixal::Computer machine;
+    machine.rA.set(true, 0, 0, 0, 0, 33);
+    machine.rX.set(false, 32, 0, 0, 0, 1);
+    auto result = mixal::Parser::parseLine("SLB 1", "", false);
+    machine.executeSingle(&result);
+    EXPECT_EQ(mixal::ComputerWord(true, 0, 0, 0, 1, 3), machine.rA);
+    EXPECT_EQ(mixal::ComputerWord(false, 0, 0, 0, 0, 2), machine.rX);
+    machine.rA.set(false, 63, 0, 0, 0, 0);
+    result = mixal::Parser::parseLine("SLB 3", "", false);
+    machine.executeSingle(&result);
+    EXPECT_EQ(mixal::ComputerWord(false, 56, 0, 0, 0, 0), machine.rA);
+    EXPECT_EQ(mixal::ComputerWord(false, 0, 0, 0, 0, 16), machine.rX);
+    result = mixal::Parser::parseLine("SLB 60", "", false);
+    machine.executeSingle(&result);
+    EXPECT_EQ(0, machine.rA.value());
+    EXPECT_EQ(0, machine.rX.value());
+}
+
+TEST(TestMachineMISC, test_srb) {
+    mixal::Computer machine;
+    machine.rA.set(true, 0, 0, 0, 1, 3);
+    machine.rX.set(false, 0, 0, 0, 0, 2);
+    auto result = mixal::Parser::parseLine("SRB 1", "", false);
+    machine.executeSingle(&result);
+    EXPECT_EQ(mixal::ComputerWord(true, 0, 0, 0, 0, 33), machine.rA);
+    EXPECT_EQ(mixal::ComputerWord(false, 32, 0, 0, 0, 1), machine.rX);
+    result = mixal::Parser::parseLine("SRB 59", "", false);
+    machine.executeSingle(&result);
+    EXPECT_EQ(0, machine.rA.value());
+    EXPECT_EQ(0, machine.rX.value());
+}

@@ -90,7 +90,7 @@ enum class Operation {
     SUBTRACT,       /**< `-` */
     MULTIPLY,       /**< `*` */
     FLOOR_DIV,      /**< `/` */
-    // FLOAT_DIV,   /**< `//` */
+    FLOAT_DIV,      /**< `//`, a * w / b. */
     FIELD,          /**< `a:b`, a * 8 + b. */
 };
 
@@ -145,6 +145,7 @@ class Expression {
 
     /** Whether this is a literal constant, which is surrounded by `=`. */
     [[nodiscard]] bool literalConstant() const { return _literalConstant; }
+    [[nodiscard]] bool isWValue() const { return !_wValueExpressions.empty(); }
 
     /** Get the symbols that should be evaluated before evaluating this expression. */
     [[nodiscard]] const std::unordered_set<std::string>& depends() const { return _depends; }
@@ -196,6 +197,12 @@ class Expression {
     std::unordered_set<std::string> _depends;  /**< The symbols in the expression. */
     std::vector<Atomic> _atomics;              /**< The atomics in the expression. */
     std::vector<Operation> _operations;        /**< The operations in the expression. */
+
+    std::vector<Expression> _wValueExpressions;
+    std::vector<Expression> _wValueFields;
+
+    void parseWValue(const std::string& expression, int offset, const std::string& lineSymbol);
+    bool evaluateWValue(const std::unordered_map<std::string, AtomicValue>& constants);
 };
 
 }  // namespace mixal

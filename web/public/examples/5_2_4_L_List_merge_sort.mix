@@ -1,0 +1,60 @@
+N        EQU   16
+INPUT    EQU   1000
+OUT      EQU   1100
+L        EQU   0:2         Definition of field names
+ABSL     EQU   1:2
+KEY      EQU   3:5
+         ORIG  3000
+START    ENT1  N-2         L1. Prepare two lists.
+         ENNA  2,1
+         STA   INPUT,1(L)  Li ← −(i + 2).
+         DEC1  1
+         J1P   *-3         N − 2 ≥ i > 0.
+         ENTA  1
+         STA   INPUT(L)    L0 ← 1.
+         ENTA  2
+         STA   INPUT+N+1(L)  LN+1 ← 2.
+         STZ   INPUT+N-1(L)  LN−1 ← 0.
+         STZ   INPUT+N(L)  LN ← 0.
+         JMP   L2          To L2.
+L3Q      LDA   INPUT,2     L3. Compare Kp : Kq.
+L3P      CMPA  INPUT,1(KEY)
+         JL    L6          To L6 if Kq < Kp.
+L4       ST1   INPUT,3(ABSL)  L4. Advance p. |Ls| ← p.
+         ENT3  0,1         s ← p.
+         LD1   INPUT,1(L)  p ← Lp.
+         J1P   L3P         To L3 if p > 0.
+L5       ST2   INPUT,3(L)  L5. Complete the sublist. Ls ← q.
+         ENT3  0,4         s ← t.
+         ENT4  0,2         t ← q.
+         LD2   INPUT,2(L)  q ← Lq.
+         J2P   *-2         Repeat if q > 0.
+         JMP   L8          To L8.
+L6       ST2   INPUT,3(ABSL)  L6. Advance q. |Ls| ← q.
+         ENT3  0,2         s ← q.
+         LD2   INPUT,2(L)  q ← Lq.
+         J2P   L3Q         To L3 if q > 0.
+L7       ST1   INPUT,3(L)  L7. Complete the sublist. Ls ← p.
+         ENT3  0,4         s ← t.
+         ENT4  0,1         t ← p.
+         LD1   INPUT,1(L)  p ← Lp.
+         J1P   *-2         Repeat if p > 0.
+L8       ENN1  0,1         L8. End of pass? p ← −p.
+         ENN2  0,2         q ← −q.
+         J2NZ  L3Q         To L3 if q ≠ 0.
+         ST1   INPUT,3(ABSL)  |Ls| ← p.
+         STZ   INPUT,4(ABSL)  |Lt| ← 0.
+L2       ENT3  0           L2. Begin new pass. s ← 0.
+         ENT4  N+1         t ← N + 1.
+         LD1   INPUT(L)    p ← L0.
+         LD2   INPUT+N+1(L)  q ← LN+1.
+         J2NZ  L3Q         To L3 if q ≠ 0.
+         ENT2  0
+         LD1   INPUT(ABSL)
+WALK     LDA   INPUT,1(KEY)
+         STA   OUT,2
+         INC2  1
+         LD1   INPUT,1(ABSL)
+         J1P   WALK
+         HLT
+         END   START

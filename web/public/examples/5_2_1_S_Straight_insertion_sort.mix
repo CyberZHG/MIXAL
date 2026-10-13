@@ -1,0 +1,17 @@
+N        EQU   16
+INPUT    EQU   1000
+         ORIG  3000
+START    ENT1  2-N         S1. Loop on j. j ← 2.
+2H       LDA   INPUT+N,1   S2. Set up i, K, R.
+         ENT2  N-1,1       i ← j − 1.
+3H       CMPA  INPUT,2     S3. Compare K : Ki.
+         JGE   5F          To S5 if K ≥ Ki.
+4H       LDX   INPUT,2     S4. Move Ri, decrease i.
+         STX   INPUT+1,2   Ri+1 ← Ri.
+         DEC2  1           i ← i − 1.
+         J2P   3B          To S3 if i > 0.
+5H       STA   INPUT+1,2   S5. R into Ri+1.
+         INC1  1
+         J1NP  2B          2 ≤ j ≤ N.
+         HLT
+         END   START

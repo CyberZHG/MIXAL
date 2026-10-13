@@ -270,3 +270,54 @@ TEST(TestExpression, test_expression_end_char) {
     EXPECT_EQ(-12, expression.result().value);
     EXPECT_EQ(true, expression.result().negative);
 }
+
+TEST(TestExpression, test_expression_w_value) {
+    const std::unordered_map<std::string, mixal::AtomicValue> environment = {{"B", mixal::AtomicValue(100)}};
+    auto expression = mixal::Expression("1,-1000(0:2)", "");
+    EXPECT_TRUE(expression.isWValue());
+    EXPECT_TRUE(expression.evaluate(environment));
+    EXPECT_EQ(-((1000 << 18) + 1), expression.result().value);
+    EXPECT_TRUE(expression.result().negative);
+
+    expression.parse("-1000(0:2),1", "");
+    EXPECT_TRUE(expression.evaluate(environment));
+    EXPECT_EQ(1, expression.result().value);
+    EXPECT_FALSE(expression.result().negative);
+
+    expression.parse("2(1:1),1(3:3),B(4:5)", "");
+    EXPECT_EQ(1u, expression.depends().size());
+    EXPECT_TRUE(expression.evaluate(environment));
+    EXPECT_EQ((2 << 24) + (1 << 12) + 100, expression.result().value);
+
+    expression.parse("-0(0:0)", "");
+    EXPECT_TRUE(expression.evaluate(environment));
+    EXPECT_EQ(0, expression.result().value);
+    EXPECT_TRUE(expression.result().negative);
+
+    expression.parse("=1(1:1)=", "");
+    EXPECT_TRUE(expression.literalConstant());
+    EXPECT_TRUE(expression.evaluate(environment));
+    EXPECT_EQ(1 << 24, expression.result().value);
+}
+
+TEST(TestExpression, test_expression_w_value_invalid) {
+    const std::unordered_map<std::string, mixal::AtomicValue> environment;
+    EXPECT_THROW(mixal::Expression("1,", ""), mixal::ExpressionError);
+    EXPECT_THROW(mixal::Expression("1(1:1", ""), mixal::ExpressionError);
+    auto expression = mixal::Expression("1(3:2)", "");
+    EXPECT_THROW(expression.evaluate(environment), mixal::ExpressionError);
+}
+
+TEST(TestExpression, test_expression_float_div) {
+    const std::unordered_map<std::string, mixal::AtomicValue> environment;
+    auto expression = mixal::Expression("1//2", "");
+    EXPECT_TRUE(expression.evaluate(environment));
+    EXPECT_EQ(1 << 29, expression.result().value);
+    expression.parse("1//3+1", "");
+    EXPECT_TRUE(expression.evaluate(environment));
+    EXPECT_EQ((1 << 30) / 3 + 1, expression.result().value);
+    expression.parse("-1//4", "");
+    EXPECT_TRUE(expression.evaluate(environment));
+    EXPECT_EQ(-(1 << 28), expression.result().value);
+    EXPECT_THROW(expression.parse("1///2", ""), mixal::ExpressionError);
+}

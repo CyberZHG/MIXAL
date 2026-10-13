@@ -104,6 +104,32 @@ void Computer::executeSRC(const InstructionWord& instruction) {
     }
 }
 
+void Computer::executeSLB(const InstructionWord& instruction) {
+    const int32_t shift = getIndexedAddress(instruction);
+    uint64_t value = 0;
+    for (int i = 1; i <= 10; ++i) {
+        value = (value << 6) | getAX(i);
+    }
+    value = shift >= 60 ? 0 : (value << shift) & ((1ULL << 60) - 1);
+    for (int i = 10; i >= 1; --i) {
+        setAX(i, static_cast<uint8_t>(value & 63));
+        value >>= 6;
+    }
+}
+
+void Computer::executeSRB(const InstructionWord& instruction) {
+    const int32_t shift = getIndexedAddress(instruction);
+    uint64_t value = 0;
+    for (int i = 1; i <= 10; ++i) {
+        value = (value << 6) | getAX(i);
+    }
+    value = shift >= 60 ? 0 : value >> shift;
+    for (int i = 10; i >= 1; --i) {
+        setAX(i, static_cast<uint8_t>(value & 63));
+        value >>= 6;
+    }
+}
+
 /** Move a batch of words based on address and rI1.
  *
  * The field value means the number of words to be moved.

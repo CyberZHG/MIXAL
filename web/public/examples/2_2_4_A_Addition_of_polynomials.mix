@@ -1,0 +1,77 @@
+LINK     EQU  4:5                 Definition of LINK field
+ABC      EQU  0:3                 Definition of ABC field
+START    ENT1 P
+         ENT2 Q
+         JMP  ADD
+         ENT5 0
+         ENT6 0,2
+1H       LD6  1,6(LINK)
+         LDA  1,6(ABC)
+         JAN  2F
+         STA  RESULT+10,5(ABC)
+         LDA  0,6
+         STA  RESULT,5
+         INC5 1
+         JMP  1B
+2H       HLT
+OVERFLOW HLT  999
+ADD      STJ  3F                  Entrance to subroutine
+1H       ENT3 0,2                 A1. Initialize. Set Q1 ← Q.
+         LD2  1,3(LINK)           Q ← LINK(Q1).
+0H       LD1  1,1(LINK)           P ← LINK(P).
+SW1      LDA  1,1                 rA(0:3) ← ABC(P).
+2H       CMPA 1,2(ABC)            A2. ABC(P):ABC(Q).
+         JE   3F                  If equal, go to A3.
+         JG   5F                  If greater, go to A5.
+         ENT3 0,2                 If less, set Q1 ← Q.
+         LD2  1,3(LINK)           Q ← LINK(Q1).
+         JMP  2B                  Repeat.
+3H       JAN  *                   A3. Add coefficients.
+SW2      LDA  0,1                 COEF(P)
+         ADD  0,2                   + COEF(Q)
+         STA  0,2                   → COEF(Q).
+         JANZ 1B                  Jump if nonzero.
+         ENT6 0,2                 A4. Delete zero term. Q2 ← Q.
+         LD2  1,2(LINK)           Q ← LINK(Q).
+         LDX  AVAIL
+         STX  1,6(LINK)           AVAIL ⇐ Q2.
+         ST6  AVAIL
+         ST2  1,3(LINK)           LINK(Q1) ← Q.
+         JMP  0B                  Go to advance P.
+5H       LD6  AVAIL               A5. Insert new term.
+         J6Z  OVERFLOW
+         LDX  1,6(LINK)           Q2 ⇐ AVAIL.
+         STX  AVAIL
+         STA  1,6                 ABC(Q2) ← ABC(P).
+SW3      LDA  0,1                 rA ← COEF(P).
+         STA  0,6                 COEF(Q2) ← rA.
+         ST2  1,6(LINK)           LINK(Q2) ← Q.
+         ST6  1,3(LINK)           LINK(Q1) ← Q2.
+         ENT3 0,6                 Q1 ← Q2.
+         JMP  0B                  Go to advance P.
+         ORIG 1000
+P        CON  0
+         CON  -1(0:3),P1(LINK)
+P1       CON  1
+         CON  1(1:1),P2(LINK)
+P2       CON  1
+         CON  1(2:2),P3(LINK)
+P3       CON  1
+         CON  1(3:3),P(LINK)
+Q        CON  0
+         CON  -1(0:3),Q1(LINK)
+Q1       CON  1
+         CON  2(1:1),Q2(LINK)
+Q2       CON  -2
+         CON  1(2:2),Q3(LINK)
+Q3       CON  -1
+         CON  1(3:3),Q(LINK)
+AVAIL    CON  POOL
+POOL     CON  0
+         CON  POOL+2(LINK)
+         CON  0
+         CON  POOL+4(LINK)
+         CON  0
+         CON  0
+RESULT   ORIG *+20
+         END  START

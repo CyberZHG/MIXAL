@@ -1,0 +1,75 @@
+* BUFFER AREA AND FIELD DEFINITIONS
+COUNT    EQU  2:3                 Definition of symbolic
+QLINK    EQU  2:3                   names of fields
+TOP      EQU  4:5
+SUC      EQU  2:3
+NEXT     EQU  4:5
+TAPEIN   EQU  1                   Input is on tape unit 1
+TAPEOUT  EQU  2                   Output is on tape unit 2
+BUFFER   ORIG *+100               Tape buffer area
+         CON  -1                  Sentinel at end of buffer
+* INPUT PHASE
+TOPSORT  IN   BUFFER(TAPEIN)      T1. Initialize. Read in the first
+         JBUS *(TAPEIN)             tape block; wait for completion.
+1H       LD6  BUFFER+1            N ← n.
+         ENT4 0,6
+         STZ  X,4                 Set COUNT[k] ← 0 and TOP[k] ← Λ,
+         DEC4 1                     for 0 ≤ k ≤ n.
+         J4NN *-2                 (Anticipate QLINK[0] ← 0 in step T4.)
+         ENT2 X,6                 Available storage starts after X[n].
+         ENT5 BUFFER+2            Prepare to read the first pair (j, k).
+2H       LD3  0,5                 T2. Next relation.
+         J3P  3F                  Is j > 0?
+         J3Z  4F                  Is input exhausted?
+         IN   BUFFER(TAPEIN)      Sentinel sensed; read another
+         JBUS *(TAPEIN)             tape block, wait for completion.
+         ENT5 BUFFER              Reset the buffer pointer.
+         JMP  2B
+3H       LD4  1,5                 T3. Record the relation.
+         LDA  X,4(COUNT)          COUNT[k]
+         INCA 1                     +1
+         STA  X,4(COUNT)            → COUNT[k].
+         INC2 1                   AVAIL ← AVAIL + 1.
+         LDA  X,3(TOP)            TOP[j]
+         STA  0,2(NEXT)             → NEXT(P).
+         ST4  0,2(SUC)            k → SUC(P).
+         ST2  X,3(TOP)            P → TOP[j].
+         INC5 2                   Increase buffer pointer.
+         JMP  2B
+4H       IOC  0(TAPEIN)           Rewind the input tape.
+         ENT4 0,6                 T4. Scan for zeros. k ← n.
+         ENT5 -100                Reset buffer pointer for output.
+         ENT3 0                   R ← 0.
+4H       LDA  X,4(COUNT)          Examine COUNT[k].
+         JAP  *+3                 Is it nonzero?
+         ST4  X,3(QLINK)          QLINK[R] ← k.
+         ENT3 0,4                 R ← k.
+         DEC4 1
+         J4P  4B                  n ≥ k ≥ 1.
+* SORTING PHASE
+         LD1  X(QLINK)            F ← QLINK[0].
+5H       JBUS *(TAPEOUT)          T5. Output front of queue.
+         ST1  BUFFER+100,5        Store F in buffer area.
+         J1Z  8F                  Is F zero?
+         INC5 1                   Advance buffer pointer.
+         J5N  *+3                 Test if buffer is full.
+         OUT  BUFFER(TAPEOUT)     If so, output a tape block.
+         ENT5 -100                Reset the buffer pointer.
+         DEC6 1                   N ← N − 1.
+         LD2  X,1(TOP)            P ← TOP[F].
+         J2Z  7F                  T6. Erase relations.
+6H       LD4  0,2(SUC)            rI4 ← SUC(P).
+         LDA  X,4(COUNT)          COUNT[rI4]
+         DECA 1                     −1
+         STA  X,4(COUNT)            → COUNT[rI4].
+         JAP  *+3                 Has zero been reached?
+         ST4  X,3(QLINK)          If so, set QLINK[R] ← rI4.
+         ENT3 0,4                 R ← rI4.
+         LD2  0,2(NEXT)           P ← NEXT(P).
+         J2P  6B                  If P ≠ Λ, repeat.
+7H       LD1  X,1(QLINK)          T7. Remove from queue.
+         JMP  5B                  F ← QLINK[F], go to T5.
+8H       OUT  BUFFER(TAPEOUT)     T8. End of process.
+         IOC  0(TAPEOUT)          Output last block and rewind.
+         HLT  0,6                 Stop, displaying N on console.
+X        END  TOPSORT             Beginning of table area

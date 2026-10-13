@@ -1,0 +1,72 @@
+N        EQU   16
+M        EQU   1
+INPUT    EQU   1000
+STACK    EQU   1100
+A        EQU   2:3         First component of stack entry.
+B        EQU   4:5         Second component of stack entry.
+         ORIG  3000
+START    ENT6  0           Q1. Initialize. Set stack empty.
+         ENT2  1           l ← 1.
+         ENT3  N           r ← N.
+2H       ENT5  1,3         Q2. Begin new stage. j ← r + 1.
+         LDA   INPUT,2     K ← Kl.
+         ENT4  1,2         i ← l + 1.
+         JMP   0F          To Q3 omitting “i ← i + 1”.
+6H       LDX   INPUT,4     Q6. Exchange.
+         ENT1  INPUT,4
+         MOVE  INPUT,5
+         STX   INPUT,5     Ri ↔ Rj.
+3H       INC4  1           Q3. Compare Ki : K. i ← i + 1.
+0H       CMPA  INPUT,4
+         JG    3B          Repeat if K > Ki.
+4H       DEC5  1           Q4. Compare K : Kj. j ← j − 1.
+         CMPA  INPUT,5
+         JL    4B          Repeat if K < Kj.
+5H       ENTX  0,5         Q5. Test i : j.
+         DECX  0,4
+         JXP   6B          To Q6 if j > i.
+         LDX   INPUT,5
+         STX   INPUT,2     Rl ← Rj.
+         STA   INPUT,5     Rj ← R.
+7H       ENT4  0,3         Q7. Put on stack.
+         DEC4  M,5         rI4 ← r − j − M.
+         ENT1  0,5
+         DEC1  M,2         rI1 ← j − l − M.
+         ENTA  0,4
+         DECA  0,1
+         JANN  1F          Jump if r − j ≥ j − l.
+         J1NP  8F          To Q8 if M ≥ j − l ≥ r − j.
+         J4NP  3F          Jump if j − l > M ≥ r − j.
+         INC6  1           (Now j − l > r − j > M.)
+         ST2   STACK,6(A)
+         ENTA  -1,5
+         STA   STACK,6(B)  (l, j − 1) ⇒ stack.
+4H       ENT2  1,5         l ← j + 1.
+         JMP   2B          To Q2.
+1H       J4NP  8F          To Q8 if M ≥ r − j ≥ j − l.
+         J1NP  4B          Jump if r − j > M ≥ j − l.
+         INC6  1           (Now r − j ≥ j − l > M.)
+         ST3   STACK,6(B)
+         ENTA  1,5
+         STA   STACK,6(A)  (j + 1, r) ⇒ stack.
+3H       ENT3  -1,5        r ← j − 1.
+         JMP   2B          To Q2.
+8H       LD2   STACK,6(A)  Q8. Take off stack.
+         LD3   STACK,6(B)
+         DEC6  1           (l, r) ⇐ stack.
+         J6NN  2B          To Q2 if stack wasn’t empty.
+9H       ENT5  2-N         Q9. Straight insertion sort. j ← 2.
+2H       LDA   INPUT+N,5   K ← Kj, R ← Rj.
+         CMPA  INPUT+N-1,5  (In this loop, rI5 ≡ j − N.)
+         JGE   6F          Jump if K ≥ Kj−1.
+3H       ENT4  N-1,5       i ← j − 1.
+4H       LDX   INPUT,4
+         STX   INPUT+1,4   Ri+1 ← Ri.
+         DEC4  1           i ← i − 1.
+         CMPA  INPUT,4
+         JL    4B          Repeat if K < Ki.
+5H       STA   INPUT+1,4   Ri+1 ← R.
+6H       INC5  1
+         J5NP  2B          2 ≤ j ≤ N.
+         HLT
+         END   START

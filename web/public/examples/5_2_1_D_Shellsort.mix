@@ -1,0 +1,28 @@
+N        EQU   16
+INPUT    EQU   1000
+H        EQU   1100
+T        EQU   4
+         ORIG  3000
+START    ENT3  T-1         D1. Loop on s. s ← t − 1.
+1H       LD4   H,3         D2. Loop on j. h ← hs.
+         ENT1  INPUT,4     Modify the addresses of three
+         ST1   5F(0:2)       instructions in the main loop.
+         ST1   6F(0:2)
+         ENN1  -N,4        rI1 ← N − h.
+         ST1   3F(0:2)
+         ENT1  1-N,4       j ← h + 1.
+2H       LDA   INPUT+N,1   D3. Set up i, K, R.
+3H       ENT2  N-H,1       i ← j − h.  [Instruction modified]
+4H       CMPA  INPUT,2     D4. Compare K : Ki.
+         JGE   6F          To D6 if K ≥ Ki.
+         LDX   INPUT,2     D5. Move Ri, decrease i.
+5H       STX   INPUT+H,2   Ri+h ← Ri.  [Instruction modified]
+         DEC2  0,4         i ← i − h.
+         J2P   4B          To D4 if i > 0.
+6H       STA   INPUT+H,2   D6. R into Ri+h. [Instruction modified]
+7H       INC1  1           j ← j + 1.
+         J1NP  2B          To D3 if j ≤ N.
+         DEC3  1
+         J3NN  1B          t > s ≥ 0.
+         HLT
+         END   START
