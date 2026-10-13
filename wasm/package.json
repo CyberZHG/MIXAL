@@ -15,7 +15,7 @@
     "chai": "^0.1.7",
     "eslint": "^9.39.1",
     "globals": "^16.5.0",
-    "mocha": "^11.7.5"
+    "mocha": "^12.0.3"
   },
   "scripts": {
     "build": "bash build.sh",
